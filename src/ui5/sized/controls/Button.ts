@@ -1,15 +1,17 @@
 import { ButtonType } from "sap/m/library";
 import { MetadataOptions } from "sap/ui/core/Element";
 import IconPool from "sap/ui/core/IconPool";
+import Icon from "sap/ui/core/Icon";
 import RenderManager from "sap/ui/core/RenderManager";
 import Parameters from "sap/ui/core/theming/Parameters";
 import Image from "sap/m/Image";
 import Control from "sap/ui/core/Control";
+import { SizeMode } from "./library";
 
 /**
  * @namespace ui5.sized.controls
  */
-export default class SizedButton extends Control {
+export default class Button extends Control {
 	private pressListener: (() => void) | null = null;
 	private releaseListener: (() => void) | null = null;
 
@@ -24,11 +26,6 @@ export default class SizedButton extends Control {
 			enabled: { type: "boolean", group: "Behavior", defaultValue: true },
 			icon: { type: "sap.ui.core.URI", group: "Appearance", defaultValue: "" },
 			iconFirst: { type: "boolean", group: "Appearance", defaultValue: true },
-			height: {
-				type: "sap.ui.core.CSSSize",
-				group: "Appearance",
-				defaultValue: "50px",
-			},
 			sidePadding: {
 				type: "sap.ui.core.CSSSize",
 				group: "Appearance",
@@ -39,10 +36,10 @@ export default class SizedButton extends Control {
 				group: "Appearance",
 				defaultValue: null,
 			},
-			iconSize: {
-				type: "sap.ui.core.CSSSize",
+			size: {
+				type: "ui5.sized.controls.SizeMode",
 				group: "Appearance",
-				defaultValue: "50px",
+				defaultValue: SizeMode.M,
 			},
 		},
 		events: {
@@ -53,28 +50,68 @@ export default class SizedButton extends Control {
 		},
 	};
 
-	constructor(idOrSettings?: string | $SizedButtonSettings);
-	constructor(id?: string, settings?: $SizedButtonSettings);
-	constructor(id?: string, settings?: $SizedButtonSettings) {
+	constructor(idOrSettings?: string | $ButtonSettings);
+	constructor(id?: string, settings?: $ButtonSettings);
+	constructor(id?: string, settings?: $ButtonSettings) {
 		super(id, settings);
 	}
 
 	static renderer = {
 		apiVersion: 2,
-		render(rm: RenderManager, control: SizedButton) {
+		render(rm: RenderManager, control: Button) {
 			const id = control.getId();
 			const text = control.getText();
 			const enabled = control.getEnabled();
 			const type = control.getType();
 			const icon = control.getIcon();
 
+			let fontSize, iconSize, sidePadding, height;
+
+			switch (control.getSize()) {
+				case SizeMode.S:
+					fontSize = "0.75rem";
+					iconSize = "0.875rem";
+					sidePadding = "16px";
+					height = "2rem";
+					break;
+				case SizeMode.M:
+					fontSize = "0.875rem";
+					iconSize = "1rem";
+					sidePadding = "10px";
+					height = "2.3rem";
+					break;
+				case SizeMode.L:
+					fontSize = "1rem";
+					iconSize = "1.25rem";
+					sidePadding = "24px";
+					height = "3rem";
+					break;
+				case SizeMode.XL:
+					fontSize = "1.125rem";
+					iconSize = "1.5rem";
+					sidePadding = "28px";
+					height = "3.5rem";
+					break;
+				case SizeMode.XXL:
+					fontSize = "1.25rem";
+					iconSize = "1.55rem";
+					sidePadding = "32px";
+					height = "4rem";
+					break;
+				case SizeMode.XXXL:
+					fontSize = "1.5rem";
+					iconSize = "1.65rem";
+					sidePadding = "36px";
+					height = "4.5rem";
+					break;
+			}
 			// START: BUTTON
 			rm.openStart("button", control);
 			rm.class(`sizedButton`);
 			rm.class(`sizedButton${type}`);
-			rm.style("height", control.getHeight());
-			rm.style("padding-left", control.getSidePadding());
-			rm.style("padding-right", control.getSidePadding());
+			rm.style("padding-left", sidePadding);
+			rm.style("padding-right", sidePadding);
+			rm.style("height", height);
 
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
@@ -88,7 +125,15 @@ export default class SizedButton extends Control {
 				},
 				Image,
 			);
-			//(iconControl as unknown as Image).setWidth("30px");
+
+			if (iconSize && iconControl) {
+				if (iconControl instanceof Icon) {
+					iconControl.setSize(iconSize);
+				} else if (iconControl instanceof Image) {
+					iconControl.setWidth(iconSize);
+					iconControl.setHeight(iconSize);
+				}
+			}
 
 			if (!enabled) {
 				rm.attr("disabled", "disabled");
@@ -126,8 +171,12 @@ export default class SizedButton extends Control {
 			// START: SPAN-CONTENT
 			rm.openStart("span", id + "-content");
 			rm.class("sizedButtonContent");
+			rm.style("font-size", fontSize);
 			rm.openEnd();
 			rm.text(text);
+
+			// END: SPAN-CONTENT
+			rm.close("span");
 
 			if (icon && control.getIconFirst() === false) {
 				rm.openStart("span", id + "-img");
@@ -141,9 +190,6 @@ export default class SizedButton extends Control {
 				rm.renderControl(iconControl);
 				rm.close("span");
 			}
-
-			// END: SPAN-CONTENT
-			rm.close("span");
 
 			// END: SPAN-INNER
 			rm.close("span");

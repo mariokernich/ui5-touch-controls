@@ -5,13 +5,13 @@ import { MetadataOptions } from "sap/ui/core/Element";
 /**
  * @namespace ui5.sized.controls
  */
-export default class SizedText extends Control {
+export default class Text extends Control {
 	static readonly metadata: MetadataOptions = {
 		properties: {},
 		events: {},
 	};
 
 	static renderer = {
-		render(rm: RenderManager, control: SizedText) {},
+		render(rm: RenderManager, control: Text) {},
 	};
 }

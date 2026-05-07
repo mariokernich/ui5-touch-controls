@@ -11,6 +11,21 @@ import "sap/ui/core/library";
  * Initialization Code and shared classes of library ui5.sized.controls.
  */
 
+/**
+ * Available modes for the Button control.
+ *
+ * @enum {string}
+ * @namespace ui5.sized.controls
+ */
+export enum SizeMode {
+	S = "S",
+	M = "M",
+	L = "L",
+	XL = "XL",
+	XXL = "XXL",
+	XXXL = "XXXL",
+}
+
 // delegate further initialization of this library to the Core
 const thisLib: { [key: string]: unknown } = Lib.init({
 	name: "ui5.sized.controls",
@@ -19,12 +34,14 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		// keep in sync with the ui5.yaml and .library files
 		"sap.ui.core",
 	],
-	types: [],
+	types: ["ui5.sized.controls.SizeMode"],
 	interfaces: [],
-	controls: ["ui5.sized.controls.SizedButton"],
+	controls: ["ui5.sized.controls.Button"],
 	elements: [],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 }) as { [key: string]: unknown };
+
+thisLib.SizeMode = SizeMode;
 
 // export the library namespace
 export default thisLib;

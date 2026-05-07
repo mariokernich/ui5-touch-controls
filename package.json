@@ -20,7 +20,7 @@
     "clean": "rimraf dist coverage",
     "build": "ui5 build --clean-dest",
     "build:ts-interfaces": "npx @ui5/ts-interface-generator",
-    "start": "ui5 serve -o test-resources/ui5/sized/controls/SizedButton.html",
+    "start": "ui5 serve -o test-resources/ui5/sized/controls/Button.html",
     "start:dist": "npm start -- --config ui5-dist.yaml",
     "ts-typecheck": "tsc --noEmit",
     "lint": "eslint src test",
@@ -31,19 +31,14 @@
   },
   "devDependencies": {
     "@openui5/types": "1.147.1",
-    "@ui5/cli": "^4.0.6",
-    "@ui5/ts-interface-generator": "^0.8.3",
-    "eslint": "^9.9.1",
-    "typescript-eslint": "^8.3.0",
-    "globals": "^15.9.0",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-coverage": "^2.2.1",
-    "karma-ui5": "^4.0.1",
-    "karma-ui5-transpile": "^3.4.8",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.5.4",
-    "ui5-middleware-livereload": "^3.0.3",
-    "ui5-tooling-transpile": "^3.4.8"
+    "@ui5/cli": "latest",
+    "@ui5/ts-interface-generator": "^0.10.5",
+    "eslint": "10.3.0",
+    "globals": "17.6.0",
+    "rimraf": "latest",
+    "typescript": "latest",
+    "typescript-eslint": "latest",
+    "ui5-middleware-livereload": "latest",
+    "ui5-tooling-transpile": "latest"
   }
 }

@@ -1,11 +1,14 @@
 import Button from "sap/m/Button";
 import CheckBox, { CheckBox$SelectEvent } from "sap/m/CheckBox";
 import HBox from "sap/m/HBox";
+import Input from "sap/m/Input";
 import { ButtonType, FlexJustifyContent } from "sap/m/library";
-import StepInput from "sap/m/StepInput";
+import Select from "sap/m/Select";
 import VBox from "sap/m/VBox";
+import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import SizedButton from "ui5/sized/controls/SizedButton";
+import SizedButton from "ui5/sized/controls/Button";
+import { SizeMode } from "ui5/sized/controls/library";
 
 const model = new JSONModel(
 	{
@@ -14,8 +17,7 @@ const model = new JSONModel(
 		showText: true,
 		text: "Button",
 		iconFirst: true,
-		height: "50px",
-		sidePadding: "20px",
+		size: SizeMode.M,
 	},
 	true,
 );
@@ -24,6 +26,18 @@ const page = new VBox();
 
 const options = new HBox({
 	items: [
+		new Input({
+			value: "{json>/text}",
+			placeholder: "Button Text",
+			valueLiveUpdate: true,
+			width: "200px",
+		}).addStyleClass("sapUiMediumMarginBegin"),
+		new Input({
+			value: "{json>/icon}",
+			placeholder: "Button Icon",
+			valueLiveUpdate: true,
+			width: "300px",
+		}).addStyleClass("sapUiMediumMarginBegin"),
 		new CheckBox({
 			selected: "{json>/showIcon}",
 			text: "Show Icon",
@@ -59,30 +73,21 @@ const options = new HBox({
 				model.setProperty("/iconFirst", selected);
 			},
 		}).addStyleClass("sapUiMediumMarginBegin"),
-		new StepInput({
-			value: 50,
-			min: 0,
-			step: 3,
-			width: "150px",
-			change: (event) => {
-				const value = event.getParameter("value");
-				model.setProperty("/height", value + "px");
-			},
-		}).addStyleClass("sapUiMediumMarginBegin"),
-		new StepInput({
-			value: 20,
-			min: 0,
-			step: 3,
-			width: "150px",
-			change: (event) => {
-				const value = event.getParameter("value");
-				model.setProperty("/sidePadding", value + "px");
-			},
+		new Select({
+			selectedKey: "{json>/size}",
+			items: [
+				new Item({ key: "S", text: "S" }),
+				new Item({ key: "M", text: "M" }),
+				new Item({ key: "L", text: "L" }),
+				new Item({ key: "XL", text: "XL" }),
+				new Item({ key: "XXL", text: "XXL" }),
+				new Item({ key: "XXXL", text: "XXXL" }),
+			],
 		}).addStyleClass("sapUiMediumMarginBegin"),
 	],
 }).addStyleClass("sapUiMediumMarginBottom");
 
-const sized = new HBox({
+const sized = new VBox({
 	justifyContent: FlexJustifyContent.SpaceBetween,
 	items: [
 		new SizedButton({
@@ -90,85 +95,77 @@ const sized = new HBox({
 			type: ButtonType.Default,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Ghost,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Accept,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Attention,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Reject,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Critical,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Emphasized,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Success,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Up,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 		new SizedButton({
 			text: "{json>/text}",
 			type: ButtonType.Negative,
 			icon: "{json>/icon}",
 			iconFirst: "{json>/iconFirst}",
-			height: "{json>/height}",
-			sidePadding: "{json>/sidePadding}",
+			size: "{json>/size}",
 		}),
 	],
-}).addStyleClass("sapUiMediumMarginBottom");
+})
+	.addStyleClass("sapUiLargeMarginBegin")
+	.addStyleClass("sapUiLargeMarginEnd");
 
-const sapM = new HBox({
+const sapM = new VBox({
 	justifyContent: FlexJustifyContent.SpaceBetween,
 	items: [
 		new Button({
@@ -235,8 +232,11 @@ const sapM = new HBox({
 });
 
 page.addItem(options);
-page.addItem(sized);
-page.addItem(sapM);
+page.addItem(
+	new HBox({
+		items: [sized, sapM],
+	}),
+);
 
 page.setModel(model, "json");
 

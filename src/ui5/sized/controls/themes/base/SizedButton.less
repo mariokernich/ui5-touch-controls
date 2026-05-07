@@ -2,7 +2,6 @@
 
 .sizedButton {
 	border: none;
-	*padding: 15px 20px;
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
@@ -11,7 +10,7 @@
 	background-color: @sapButton_Background;
 	border: 1px solid @sapButton_BorderColor;
 	border-radius: @sapButton_BorderCornerRadius;
-	
+	margin:5px 0;
 }
 
 .sizedButtonInner {
@@ -46,8 +45,8 @@
 	background-color: @sapButton_Accept_Active_Background;
 	border: 1px solid @sapButton_Accept_Active_BorderColor;
 	color: @sapButton_Accept_Active_TextColor;
-	-webkit-box-shadow:inset 0 0 0 1px  @sapButton_Accept_Active_BorderColor;
-    box-shadow:inset 0 0 0 1px  @sapButton_Accept_Active_BorderColor;
+	-webkit-box-shadow:inset 0 0 0 1px @sapButton_Accept_Active_BorderColor;
+    box-shadow:inset 0 0 0 1px @sapButton_Accept_Active_BorderColor;
 }
 
 .sizedButtonAccept:hover:not(.sizedButtonActive) {
@@ -60,6 +59,8 @@
 	background-color: @sapButton_Accept_Active_Background;
 	border: 1px solid @sapButton_Accept_Active_BorderColor;
 	color: @sapButton_Accept_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px  @sapButton_Accept_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px  @sapButton_Accept_Active_BorderColor;
 }
 
 .sizedButtonAttention {
@@ -75,6 +76,14 @@
 	color: @sapButton_Attention_Hover_TextColor;
 }
 
+.sizedButtonAttention.sizedButtonActive {
+	background-color: @sapButton_Attention_Active_Background;
+	border: 1px solid @sapButton_Attention_Active_BorderColor;
+	color: @sapButton_Attention_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px  @sapButton_Attention_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px  @sapButton_Attention_Active_BorderColor;
+}
+
 .sizedButtonReject {
 	background-color: @sapButton_Reject_Background;
 	border: 1px solid @sapButton_Reject_BorderColor;
@@ -86,6 +95,14 @@
 	background-color: @sapButton_Reject_Hover_Background;
 	border: 1px solid @sapButton_Reject_Hover_BorderColor;
 	color: @sapButton_Reject_Hover_TextColor;
+}
+
+.sizedButtonReject.sizedButtonActive {
+	background-color: @sapButton_Reject_Active_Background;
+	border: 1px solid @sapButton_Reject_Active_BorderColor;
+	color: @sapButton_Reject_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px  @sapButton_Reject_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px  @sapButton_Reject_Active_BorderColor;
 }
 
 .sizedButtonCritical {
@@ -101,6 +118,14 @@
 	color: @sapButton_Critical_Hover_TextColor;
 }
 
+.sizedButtonCritical.sizedButtonActive {
+	background-color: @sapButton_Critical_Active_Background;
+	border: 1px solid @sapButton_Critical_Active_BorderColor;
+	color: @sapButton_Critical_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px  @sapButton_Critical_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px  @sapButton_Critical_Active_BorderColor;
+}
+
 .sizedButtonEmphasized {
 	background-color: @sapButton_Emphasized_Background;
 	border: 1px solid @sapButton_Emphasized_BorderColor;
@@ -112,6 +137,14 @@
 	background-color: @sapButton_Emphasized_Hover_Background;
 	border: 1px solid @sapButton_Emphasized_Hover_BorderColor;
 	color: @sapButton_Emphasized_Hover_TextColor;
+}
+
+.sizedButtonEmphasized.sizedButtonActive {
+	background-color: @sapButton_Emphasized_Active_Background;
+	border: 1px solid @sapButton_Emphasized_Active_BorderColor;
+	color: @sapButton_Emphasized_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px  @sapButton_Emphasized_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px  @sapButton_Emphasized_Active_BorderColor;
 }
 
 .sizedButtonSuccess {
@@ -127,6 +160,14 @@
 	color: @sapButton_Success_Hover_TextColor;
 }
 
+.sizedButtonSuccess.sizedButtonActive {
+	background-color: @sapButton_Success_Active_Background;
+	border: 1px solid @sapButton_Success_Active_BorderColor;
+	color: @sapButton_Success_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px @sapButton_Success_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px  @sapButton_Success_Active_BorderColor;	
+}
+
 .sizedButtonNegative {
 	background-color: @sapButton_Negative_Background;
 	border: 1px solid @sapButton_Negative_BorderColor;
@@ -138,4 +179,12 @@
 	background-color: @sapButton_Negative_Hover_Background;
 	border: 1px solid @sapButton_Negative_Hover_BorderColor;
 	color: @sapButton_Negative_Hover_TextColor;
+}
+
+.sizedButtonNegative.sizedButtonActive {
+	background-color: @sapButton_Negative_Active_Background;
+	border: 1px solid @sapButton_Negative_Active_BorderColor;
+	color: @sapButton_Negative_Active_TextColor;
+	-webkit-box-shadow:inset 0 0 0 1px @sapButton_Negative_Active_BorderColor;
+	box-shadow:inset 0 0 0 1px @sapButton_Negative_Active_BorderColor;
 }
