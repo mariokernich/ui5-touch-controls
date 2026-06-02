@@ -36,5 +36,6 @@
     "typescript-eslint": "latest",
     "ui5-middleware-livereload": "latest",
     "ui5-tooling-transpile": "latest"
-  }
+  },
+  "packageManager": "pnpm@11.0.0"
 }
