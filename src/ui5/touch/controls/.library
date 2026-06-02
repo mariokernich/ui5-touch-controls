@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <library xmlns="http://www.sap.com/sap.ui.library.xsd">
-	<name>ui5.sized.controls</name>
+	<name>ui5.touch.controls</name>
 	<vendor>Mario Kernich</vendor>
 	<version>${version}</version>
 	<copyright>${copyright}</copyright>
-	<title>ui5.sized.controls</title>
-	<documentation>Some description about ui5.sized.controls</documentation>
+	<title>ui5.touch.controls</title>
+	<documentation>Some description about ui5.touch.controls</documentation>
 	<dependencies>
 		<dependency>
 			<libraryName>sap.ui.core</libraryName>

@@ -1,1 +1,1 @@
-# UI5 Library ui5.sized.controls
+# UI5 Library ui5.touch.controls

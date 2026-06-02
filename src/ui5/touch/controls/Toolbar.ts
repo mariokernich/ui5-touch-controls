@@ -3,7 +3,7 @@ import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 
 /**
- * @namespace ui5.sized.controls
+ * @namespace ui5.touch.controls
  */
 export default class Toolbar extends Control {
 	static readonly metadata: MetadataOptions = {

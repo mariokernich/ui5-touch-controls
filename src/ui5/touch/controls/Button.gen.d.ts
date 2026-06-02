@@ -2,7 +2,7 @@ import Event from "sap/ui/base/Event";
 import { ButtonType } from "sap/m/library";
 import { URI } from "sap/ui/core/library";
 import { CSSSize } from "sap/ui/core/library";
-import { SizeMode } from "ui5/sized/controls/library";
+import { SizeMode } from "./library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 

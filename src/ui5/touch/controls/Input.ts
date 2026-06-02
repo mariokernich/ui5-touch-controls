@@ -3,15 +3,16 @@ import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 
 /**
- * @namespace ui5.sized.controls
+ * @namespace ui5.touch.controls
  */
-export default class SizedInput extends Control {
+export default class Input extends Control {
 	static readonly metadata: MetadataOptions = {
 		properties: {},
 		events: {},
 	};
 
 	static renderer = {
-		render(rm: RenderManager, control: SizedInput) {},
+		apiVersion: 2,
+		render(rm: RenderManager, control: Input) {},
 	};
 }

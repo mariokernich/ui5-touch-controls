@@ -1,7 +1,7 @@
 {
-  "name": "ui5.sized.controls",
+  "name": "ui5.touch.controls",
   "version": "1.0.0",
-  "description": "UI5 Library: ui5.sized.controls",
+  "description": "UI5 Library: ui5.touch.controls",
   "author": "Mario Kernich",
   "license": "Apache-2.0",
   "types": "dist/index.d.ts",
@@ -20,14 +20,10 @@
     "clean": "rimraf dist coverage",
     "build": "ui5 build --clean-dest",
     "build:ts-interfaces": "npx @ui5/ts-interface-generator",
-    "start": "ui5 serve -o test-resources/ui5/sized/controls/Button.html",
+    "start": "ui5 serve -o test-resources/ui5/touch/controls/Button.html",
     "start:dist": "npm start -- --config ui5-dist.yaml",
     "ts-typecheck": "tsc --noEmit",
-    "lint": "eslint src test",
-    "karma": "karma start",
-    "karma-ci": "karma start karma-ci.conf.js",
-    "karma-ci-cov": "karma start karma-ci-cov.conf.js",
-    "test": "npm run lint && npm run karma-ci-cov"
+    "lint": "eslint src test"
   },
   "devDependencies": {
     "@openui5/types": "1.147.1",

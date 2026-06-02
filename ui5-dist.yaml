@@ -1,12 +1,12 @@
 specVersion: "4.0"
 metadata:
-  name: ui5.sized.controls
+  name: ui5.touch.controls
 type: library
 resources:
   configuration:
     paths:
-      src: dist/resources/ui5/sized/controls/
-      test: dist/test-resources/ui5/sized/controls/
+      src: dist/resources/ui5/touch/controls/
+      test: dist/test-resources/ui5/touch/controls/
 framework:
   name: OpenUI5
   version: 1.147.1

@@ -11,7 +11,7 @@
     "rootDir": "./",
     "types": ["@openui5/types"],
     "paths": {
-      "ui5/sized/controls/*": ["./src/ui5/sized/controls/*"]
+      "ui5/touch/controls/*": ["src/ui5/touch/controls/*"]
     }
   },
   "include": ["./src/**/*", "./test/**/*"]

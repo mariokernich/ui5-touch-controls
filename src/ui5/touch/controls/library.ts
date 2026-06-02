@@ -8,14 +8,14 @@ import Lib from "sap/ui/core/Lib";
 import "sap/ui/core/library";
 
 /**
- * Initialization Code and shared classes of library ui5.sized.controls.
+ * Initialization Code and shared classes of library ui5.touch.controls.
  */
 
 /**
  * Available modes for the Button control.
  *
  * @enum {string}
- * @namespace ui5.sized.controls
+ * @namespace ui5.touch.controls
  */
 export enum SizeMode {
 	S = "S",
@@ -28,15 +28,15 @@ export enum SizeMode {
 
 // delegate further initialization of this library to the Core
 const thisLib: { [key: string]: unknown } = Lib.init({
-	name: "ui5.sized.controls",
+	name: "ui5.touch.controls",
 	version: "${version}",
 	dependencies: [
 		// keep in sync with the ui5.yaml and .library files
 		"sap.ui.core",
 	],
-	types: ["ui5.sized.controls.SizeMode"],
+	types: ["ui5.touch.controls.SizeMode"],
 	interfaces: [],
-	controls: ["ui5.sized.controls.Button"],
+	controls: ["ui5.touch.controls.Button"],
 	elements: [],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 }) as { [key: string]: unknown };

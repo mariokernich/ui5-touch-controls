@@ -9,7 +9,7 @@ import Control from "sap/ui/core/Control";
 import { SizeMode } from "./library";
 
 /**
- * @namespace ui5.sized.controls
+ * @namespace ui5.touch.controls
  */
 export default class Button extends Control {
 	private pressListener: (() => void) | null = null;
@@ -37,7 +37,7 @@ export default class Button extends Control {
 				defaultValue: null,
 			},
 			size: {
-				type: "ui5.sized.controls.SizeMode",
+				type: "ui5.touch.controls.SizeMode",
 				group: "Appearance",
 				defaultValue: SizeMode.M,
 			},
@@ -227,6 +227,8 @@ export default class Button extends Control {
 			);
 		}
 	}
+
+	onBeforeRendering() {}
 
 	exit(): void | undefined {
 		const dom = this.getDomRef();
