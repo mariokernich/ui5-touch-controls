@@ -7,8 +7,8 @@ import Select from "sap/m/Select";
 import VBox from "sap/m/VBox";
 import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import SizedButton from "../../../../src/ui5/touch/controls/Button";
-import { SizeMode } from "../../../../src/ui5/touch/controls/library";
+import SizedButton from "ui5/touch/controls/Button";
+import { SizeMode } from "ui5/touch/controls/library";
 
 const model = new JSONModel(
 	{
