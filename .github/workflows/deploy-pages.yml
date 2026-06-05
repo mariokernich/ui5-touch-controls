@@ -36,13 +36,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build UI5 library
-        run: npm run build
-
-      - name: Stage index.html for GitHub Pages
-        run: |
-          cp test/index.html dist/index.html
-          touch dist/.nojekyll
-
+        run: npm run build:self-contained
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
