@@ -2,6 +2,7 @@ import Card from "sap/f/Card";
 import Header from "sap/f/cards/Header";
 import Button from "sap/m/Button";
 import CheckBox, { CheckBox$SelectEvent } from "sap/m/CheckBox";
+import FlexItemData from "sap/m/FlexItemData";
 import HBox from "sap/m/HBox";
 import Input from "sap/m/Input";
 import Label from "sap/m/Label";
@@ -33,6 +34,7 @@ const options = new Card({
 	header: new Header({
 		title: "Button Options",
 	}),
+	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: [
 		new VBox({
 			items: [
@@ -167,6 +169,7 @@ const sized = new Card({
 	header: new Header({
 		title: "ui5.touch.controls.Button",
 	}),
+	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: [
 		new VBox({
 			justifyContent: FlexJustifyContent.SpaceBetween,
@@ -243,9 +246,9 @@ const sized = new Card({
 				}),
 			],
 		})
-			.addStyleClass("sapUiLargeMarginBegin")
-			.addStyleClass("sapUiLargeMarginEnd")
-			.addStyleClass("sapUiLargeMarginBottom"),
+			.addStyleClass("sapUiSmallMarginBegin")
+			.addStyleClass("sapUiSmallMarginEnd")
+			.addStyleClass("sapUiSmallMarginBottom"),
 	],
 });
 
@@ -253,6 +256,7 @@ const sapM = new Card({
 	header: new Header({
 		title: "sap.m.Button",
 	}),
+	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: [
 		new VBox({
 			justifyContent: FlexJustifyContent.SpaceBetween,
@@ -318,15 +322,18 @@ const sapM = new Card({
 					iconFirst: "{json>/iconFirst}",
 				}),
 			],
-		}),
+		})
+			.addStyleClass("sapUiSmallMarginBegin")
+			.addStyleClass("sapUiSmallMarginEnd")
+			.addStyleClass("sapUiSmallMarginBottom"),
 	],
 });
 
-page.addItem(options);
 page.addItem(
 	new HBox({
-		items: [sized, sapM],
-	}),
+		width: "100%",
+		items: [options, sized, sapM],
+	}).addStyleClass("touchControlsCardRow"),
 );
 page.addStyleClass("sapUiSmallMargin");
 
