@@ -176,13 +176,6 @@ const sized = new Card({
 			items: [
 				new SizedButton({
 					text: "{json>/text}",
-					type: ButtonType.Default,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
 					type: ButtonType.Ghost,
 					icon: "{json>/icon}",
 					iconFirst: "{json>/iconFirst}",
@@ -226,13 +219,6 @@ const sized = new Card({
 				new SizedButton({
 					text: "{json>/text}",
 					type: ButtonType.Success,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Up,
 					icon: "{json>/icon}",
 					iconFirst: "{json>/iconFirst}",
 					size: "{json>/size}",
@@ -263,12 +249,6 @@ const sapM = new Card({
 			items: [
 				new Button({
 					text: "{json>/text}",
-					type: ButtonType.Default,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
 					type: ButtonType.Ghost,
 					icon: "{json>/icon}",
 					iconFirst: "{json>/iconFirst}",
@@ -306,12 +286,6 @@ const sapM = new Card({
 				new Button({
 					text: "{json>/text}",
 					type: ButtonType.Success,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Up,
 					icon: "{json>/icon}",
 					iconFirst: "{json>/iconFirst}",
 				}),

@@ -14,3 +14,4 @@ node_modules/
 
 .DS_Store
 .env
+.ui5-tooling-modules

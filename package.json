@@ -19,9 +19,9 @@
   "scripts": {
     "clean": "rimraf dist coverage",
     "build": "ui5 build --clean-dest",
+    "build:self-contained": "ui5 build self-contained --all --config ui5-self-contained.yaml --clean-dest",
     "build:ts-interfaces": "npx @ui5/ts-interface-generator",
-    "start": "ui5 serve -o test-resources/ui5/touch/controls/Button.html",
-    "start:dist": "npm start -- --config ui5-dist.yaml",
+    "start": "ui5 serve --config ui5-test.yaml -o test-resources/ui5/touch/controls/Button.html",
     "ts-typecheck": "tsc --noEmit",
     "lint": "eslint src test"
   },
@@ -35,9 +35,9 @@
     "typescript": "latest",
     "typescript-eslint": "latest",
     "ui5-middleware-livereload": "latest",
+    "ui5-tooling-modules": "^3.37.1",
     "ui5-tooling-transpile": "latest"
   },
-  "packageManager": "pnpm@11.0.0",
   "dependencies": {
     "simple-keyboard": "^3.8.151"
   }
