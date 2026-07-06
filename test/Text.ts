@@ -1,14 +1,22 @@
 import Card from "sap/f/Card";
 import Header from "sap/f/cards/Header";
+import Button from "sap/m/Button";
 import FlexItemData from "sap/m/FlexItemData";
 import HBox from "sap/m/HBox";
 import Input from "sap/m/Input";
-import { FlexAlignItems, FlexJustifyContent } from "sap/m/library";
+import {
+	FlexAlignItems,
+	FlexJustifyContent,
+	PlacementType,
+} from "sap/m/library";
+import ResponsivePopover from "sap/m/ResponsivePopover";
 import Select from "sap/m/Select";
 import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
 import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
+import ColorPicker from "sap/ui/unified/ColorPicker";
+import { ColorPickerMode } from "sap/ui/unified/library";
 import SizedText from "ui5/touch/controls/Text";
 import { SizeMode } from "ui5/touch/controls/library";
 
@@ -23,6 +31,20 @@ const model = new JSONModel(
 );
 
 const page = new VBox();
+
+const colorPicker = new ColorPicker({
+	colorString: "{json>/color}",
+	mode: ColorPickerMode.HSL,
+	change: (event) => {
+		model.setProperty("/color", event.getParameter("hex"));
+	},
+});
+
+const colorPickerPopover = new ResponsivePopover({
+	title: "Pick a Color",
+	placement: PlacementType.Bottom,
+	content: [colorPicker],
+});
 
 const options = new Card({
 	header: new Header({
@@ -70,6 +92,13 @@ const options = new Card({
 						valueLiveUpdate: true,
 						width: "200px",
 					}),
+					new Button({
+						icon: "sap-icon://color-fill",
+						tooltip: "Choose Color",
+						press: (event) => {
+							colorPickerPopover.openBy(event.getSource());
+						},
+					}).addStyleClass("sapUiTinyMarginBegin"),
 				],
 			}),
 			new HBox({
