@@ -36,7 +36,12 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 	],
 	types: ["ui5.touch.controls.SizeMode"],
 	interfaces: [],
-	controls: ["ui5.touch.controls.Button", "ui5.touch.controls.Keyboard"],
+	controls: [
+		"ui5.touch.controls.Button",
+		"ui5.touch.controls.Keyboard",
+		"ui5.touch.controls.Text",
+		"ui5.touch.controls.Toolbar",
+	],
 	elements: [],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 }) as { [key: string]: unknown };

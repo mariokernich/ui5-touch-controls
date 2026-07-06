@@ -16,7 +16,6 @@ export default class Text extends Control {
 				group: "Appearance",
 				defaultValue: SizeMode.M,
 			},
-			fontSize: { type: "sap.ui.core.CSSSize", defaultValue: null },
 		},
 		events: {
 			press: {},
@@ -57,8 +56,6 @@ export default class Text extends Control {
 
 			rm.openStart("div", control);
 			rm.style("color", control.getColor());
-			// An explicit fontSize property overrides the size-derived value.
-			rm.style("font-size", control.getFontSize() || fontSize);
 			rm.openEnd();
 			rm.text(control.getText());
 			rm.close("div");

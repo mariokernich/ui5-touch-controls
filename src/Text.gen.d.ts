@@ -1,7 +1,6 @@
 import Event from "sap/ui/base/Event";
 import { CSSColor } from "sap/ui/core/library";
 import { SizeMode } from "ui5/touch/controls/library";
-import { CSSSize } from "sap/ui/core/library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 
@@ -14,7 +13,6 @@ declare module "./Text" {
         text?: string | PropertyBindingInfo;
         color?: CSSColor | PropertyBindingInfo | `{${string}}`;
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
-        fontSize?: CSSSize | PropertyBindingInfo | `{${string}}`;
         press?: (event: Text$PressEvent) => void;
     }
 
@@ -31,10 +29,6 @@ declare module "./Text" {
         // property: size
         getSize(): SizeMode;
         setSize(size: SizeMode): this;
-
-        // property: fontSize
-        getFontSize(): CSSSize;
-        setFontSize(fontSize: CSSSize): this;
 
         // event: press
         attachPress(fn: (event: Text$PressEvent) => void, listener?: object): this;

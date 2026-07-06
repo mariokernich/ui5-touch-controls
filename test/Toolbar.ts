@@ -1,0 +1,59 @@
+import { ButtonType } from "sap/m/library";
+import ToolbarSpacer from "sap/m/ToolbarSpacer";
+import SizedButton from "ui5/touch/controls/Button";
+import { SizeMode } from "ui5/touch/controls/library";
+import Toolbar from "ui5/touch/controls/Toolbar";
+import OverflowToolbar from "sap/m/OverflowToolbar";
+import Button from "sap/m/Button";
+import Title from "sap/m/Title";
+import Page from "sap/m/Page";
+
+const toolbar = new Toolbar({
+	content: [
+		new SizedButton({
+			text: "Button 1",
+			type: ButtonType.Emphasized,
+			icon: "sap-icon://add",
+			size: SizeMode.XL,
+		}),
+		new SizedButton({
+			text: "Button 2",
+			type: ButtonType.Ghost,
+			icon: "sap-icon://edit",
+			size: SizeMode.XL,
+		}),
+		new ToolbarSpacer(),
+		new SizedButton({
+			text: "Button 3",
+			type: ButtonType.Reject,
+			icon: "sap-icon://delete",
+			size: SizeMode.XL,
+		}),
+	],
+});
+
+const overflowToolbar = new OverflowToolbar({
+	content: [
+		new Button({
+			text: "Overflow Button 1",
+			type: ButtonType.Emphasized,
+			icon: "sap-icon://add",
+		}),
+		new Button({
+			text: "Overflow Button 1",
+			type: ButtonType.Ghost,
+			icon: "sap-icon://edit",
+		}),
+		new ToolbarSpacer(),
+		new Button({
+			text: "Overflow Button 2",
+			type: ButtonType.Reject,
+			icon: "sap-icon://delete",
+		}),
+	],
+}).addStyleClass("sapUiLargeMarginTop");
+
+toolbar.placeAt("content");
+overflowToolbar.placeAt("content");
+
+page.placeAt("content");
