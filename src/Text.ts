@@ -1,6 +1,7 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
+import { SizeMode } from "./library";
 
 /**
  * @namespace ui5.touch.controls
@@ -10,6 +11,11 @@ export default class Text extends Control {
 		properties: {
 			text: { type: "string", defaultValue: "" },
 			color: { type: "sap.ui.core.CSSColor", defaultValue: null },
+			size: {
+				type: "ui5.touch.controls.SizeMode",
+				group: "Appearance",
+				defaultValue: SizeMode.M,
+			},
 			fontSize: { type: "sap.ui.core.CSSSize", defaultValue: null },
 		},
 		events: {
@@ -26,11 +32,33 @@ export default class Text extends Control {
 	static renderer = {
 		apiVersion: 2,
 		render(rm: RenderManager, control: Text) {
+			let fontSize: string;
+
+			switch (control.getSize()) {
+				case SizeMode.S:
+					fontSize = "0.75rem";
+					break;
+				case SizeMode.M:
+					fontSize = "0.875rem";
+					break;
+				case SizeMode.L:
+					fontSize = "1rem";
+					break;
+				case SizeMode.XL:
+					fontSize = "1.125rem";
+					break;
+				case SizeMode.XXL:
+					fontSize = "1.25rem";
+					break;
+				case SizeMode.XXXL:
+					fontSize = "1.5rem";
+					break;
+			}
+
 			rm.openStart("div", control);
 			rm.style("color", control.getColor());
-			if (control.getFontSize()) {
-				rm.style("font-size", control.getFontSize());
-			}
+			// An explicit fontSize property overrides the size-derived value.
+			rm.style("font-size", control.getFontSize() || fontSize);
 			rm.openEnd();
 			rm.text(control.getText());
 			rm.close("div");
