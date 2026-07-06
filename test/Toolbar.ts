@@ -5,8 +5,6 @@ import { SizeMode } from "ui5/touch/controls/library";
 import Toolbar from "ui5/touch/controls/Toolbar";
 import OverflowToolbar from "sap/m/OverflowToolbar";
 import Button from "sap/m/Button";
-import Title from "sap/m/Title";
-import Page from "sap/m/Page";
 
 const toolbar = new Toolbar({
 	content: [
@@ -55,5 +53,3 @@ const overflowToolbar = new OverflowToolbar({
 
 toolbar.placeAt("content");
 overflowToolbar.placeAt("content");
-
-page.placeAt("content");

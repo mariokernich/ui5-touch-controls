@@ -31,8 +31,6 @@ export default class Text extends Control {
 	static renderer = {
 		apiVersion: 2,
 		render(rm: RenderManager, control: Text) {
-			let fontSize: string;
-
 			switch (control.getSize()) {
 				case SizeMode.S:
 					fontSize = "0.75rem";

@@ -1,7 +1,6 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { default as OriginalToolbar } from "sap/m/Toolbar";
 
 /**
  * @namespace ui5.touch.controls
