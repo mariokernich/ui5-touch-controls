@@ -36,6 +36,7 @@ export default class Text extends Control {
 				case SizeMode.S:
 					fontSize = "0.75rem";
 					break;
+				default:
 				case SizeMode.M:
 					fontSize = "0.875rem";
 					break;
