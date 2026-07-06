@@ -18,6 +18,8 @@ builder:
         generateTsInterfaces: true # always generate the TS interfaces in build
     - name: ui5-tooling-modules-task
       afterTask: replaceVersion
+      configuration:
+        addToNamespace: true
 server:
   customMiddleware:
     - name: ui5-tooling-transpile-middleware
