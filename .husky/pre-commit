@@ -1,0 +1,1 @@
+pnpm run build && pnpm run ts-typecheck && pnpm run lint

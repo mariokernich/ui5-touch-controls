@@ -5,7 +5,6 @@ import CheckBox, { CheckBox$SelectEvent } from "sap/m/CheckBox";
 import FlexItemData from "sap/m/FlexItemData";
 import HBox from "sap/m/HBox";
 import Input from "sap/m/Input";
-import Label from "sap/m/Label";
 import { ButtonType, FlexJustifyContent } from "sap/m/library";
 import Select from "sap/m/Select";
 import Text from "sap/m/Text";
