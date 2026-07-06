@@ -2,17 +2,26 @@ import eslint from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(eslint.configs.recommended, ...tseslint.configs.recommended, ...tseslint.configs.recommendedTypeChecked, {
-	languageOptions: {
-		globals: {
-			...globals.browser,
-			sap: "readonly"
+export default tseslint.config(
+	eslint.configs.recommended,
+	...tseslint.configs.recommended,
+	...tseslint.configs.recommendedTypeChecked,
+	{
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				sap: "readonly",
+			},
+			ecmaVersion: 2023,
+			parserOptions: {
+				project: true,
+				tsconfigRootDir: import.meta.dirname,
+			},
 		},
-		ecmaVersion: 2023,
-		parserOptions: {
-			project: true,
-			tsconfigRootDir: import.meta.dirname
-		}
+		ignores: ["eslint.config.mjs"],
 	},
-	ignores: ["eslint.config.mjs"]
-});
+	{
+		// global ignores (standalone object applies to all configs)
+		ignores: ["**/*.gen.d.ts"],
+	},
+);

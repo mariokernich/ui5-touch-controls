@@ -34,134 +34,130 @@ const options = new Card({
 		title: "Button Options",
 	}),
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
-	content: [
-		new VBox({
-			items: [
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Button Size", width: "100px" }),
-						new Select({
-							selectedKey: "{json>/size}",
-							items: [
-								new Item({ key: "S", text: "S" }),
-								new Item({ key: "M", text: "M" }),
-								new Item({ key: "L", text: "L" }),
-								new Item({ key: "XL", text: "XL" }),
-								new Item({ key: "XXL", text: "XXL" }),
-								new Item({ key: "XXXL", text: "XXXL" }),
-							],
-						}),
-					],
-				}),
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Button Theme", width: "100px" }),
-						new Select({
-							selectedKey: "{json>/theme}",
-							items: [
-								new Item({ key: "sap_horizon", text: "Horizon" }),
-								new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
-								new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
-								new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
-								new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
-								new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
-							],
-							change: (event) => {
-								const selectedKey = event
-									.getParameter("selectedItem")
-									?.getKey();
-								if (selectedKey) {
-									sap.ui.getCore().applyTheme(selectedKey);
-								}
-							},
-						}),
-					],
-				}),
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Button Text", width: "100px" }),
-						new Input({
-							value: "{json>/text}",
-							placeholder: "Button Text",
-							valueLiveUpdate: true,
-							width: "200px",
-						}),
-					],
-				}),
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Button Icon", width: "100px" }),
-						new Input({
-							value: "{json>/icon}",
-							placeholder: "Button Icon",
-							valueLiveUpdate: true,
-							width: "300px",
-						}),
-					],
-				}),
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Button Size", width: "100px" }),
-						new CheckBox({
-							selected: "{json>/showIcon}",
-							text: "Show Icon",
-							select: (event: CheckBox$SelectEvent) => {
-								const selected = event.getParameters().selected;
-								if (selected) {
-									model.setProperty(
-										"/icon",
-										"sap-icon://accounting-document-verification",
-									);
-								} else {
-									model.setProperty("/icon", "");
-								}
-							},
-						}),
-					],
-				}),
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Button Theme", width: "100px" }),
-						new CheckBox({
-							selected: "{json>/showText}",
-							text: "Show Text",
-							select: (event: CheckBox$SelectEvent) => {
-								const selected = event.getParameters().selected;
-								if (selected) {
-									model.setProperty("/text", "Button");
-								} else {
-									model.setProperty("/text", "");
-								}
-							},
-						}),
-					],
-				}),
-				new HBox({
-					alignItems: FlexJustifyContent.Center,
-					items: [
-						new Text({ text: "Icon Position", width: "100px" }),
-						new CheckBox({
-							selected: "{json>/iconFirst}",
-							text: "Icon First",
-							select: (event: CheckBox$SelectEvent) => {
-								const selected = event.getParameters().selected;
-								model.setProperty("/iconFirst", selected);
-							},
-						}),
-					],
-				}),
-			],
-		})
-			.addStyleClass("sapUiSmallMarginBegin")
-			.addStyleClass("sapUiSmallMarginEnd")
-			.addStyleClass("sapUiSmallMarginBottom"),
-	],
+	content: new VBox({
+		items: [
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Button Size", width: "100px" }),
+					new Select({
+						selectedKey: "{json>/size}",
+						items: [
+							new Item({ key: "S", text: "S" }),
+							new Item({ key: "M", text: "M" }),
+							new Item({ key: "L", text: "L" }),
+							new Item({ key: "XL", text: "XL" }),
+							new Item({ key: "XXL", text: "XXL" }),
+							new Item({ key: "XXXL", text: "XXXL" }),
+						],
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Button Theme", width: "100px" }),
+					new Select({
+						selectedKey: "{json>/theme}",
+						items: [
+							new Item({ key: "sap_horizon", text: "Horizon" }),
+							new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
+							new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
+							new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
+							new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
+							new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
+						],
+						change: (event) => {
+							const selectedKey = event.getParameter("selectedItem")?.getKey();
+							if (selectedKey) {
+								sap.ui.getCore().applyTheme(selectedKey);
+							}
+						},
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Button Text", width: "100px" }),
+					new Input({
+						value: "{json>/text}",
+						placeholder: "Button Text",
+						valueLiveUpdate: true,
+						width: "200px",
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Button Icon", width: "100px" }),
+					new Input({
+						value: "{json>/icon}",
+						placeholder: "Button Icon",
+						valueLiveUpdate: true,
+						width: "300px",
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Button Size", width: "100px" }),
+					new CheckBox({
+						selected: "{json>/showIcon}",
+						text: "Show Icon",
+						select: (event: CheckBox$SelectEvent) => {
+							const selected = event.getParameters().selected;
+							if (selected) {
+								model.setProperty(
+									"/icon",
+									"sap-icon://accounting-document-verification",
+								);
+							} else {
+								model.setProperty("/icon", "");
+							}
+						},
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Button Theme", width: "100px" }),
+					new CheckBox({
+						selected: "{json>/showText}",
+						text: "Show Text",
+						select: (event: CheckBox$SelectEvent) => {
+							const selected = event.getParameters().selected;
+							if (selected) {
+								model.setProperty("/text", "Button");
+							} else {
+								model.setProperty("/text", "");
+							}
+						},
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Icon Position", width: "100px" }),
+					new CheckBox({
+						selected: "{json>/iconFirst}",
+						text: "Icon First",
+						select: (event: CheckBox$SelectEvent) => {
+							const selected = event.getParameters().selected;
+							model.setProperty("/iconFirst", selected);
+						},
+					}),
+				],
+			}),
+		],
+	})
+		.addStyleClass("sapUiSmallMarginBegin")
+		.addStyleClass("sapUiSmallMarginEnd")
+		.addStyleClass("sapUiSmallMarginBottom"),
 }).addStyleClass("sapUiMediumMarginBottom");
 
 const sized = new Card({
@@ -169,72 +165,70 @@ const sized = new Card({
 		title: "ui5.touch.controls.Button",
 	}),
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
-	content: [
-		new VBox({
-			justifyContent: FlexJustifyContent.SpaceBetween,
-			items: [
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Ghost,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Accept,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Attention,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Reject,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Critical,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Emphasized,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Success,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-				new SizedButton({
-					text: "{json>/text}",
-					type: ButtonType.Negative,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-					size: "{json>/size}",
-				}),
-			],
-		})
-			.addStyleClass("sapUiSmallMarginBegin")
-			.addStyleClass("sapUiSmallMarginEnd")
-			.addStyleClass("sapUiSmallMarginBottom"),
-	],
+	content: new VBox({
+		justifyContent: FlexJustifyContent.SpaceBetween,
+		items: [
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Ghost,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Accept,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Attention,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Reject,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Critical,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Emphasized,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Success,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+			new SizedButton({
+				text: "{json>/text}",
+				type: ButtonType.Negative,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+				size: "{json>/size}",
+			}),
+		],
+	})
+		.addStyleClass("sapUiSmallMarginBegin")
+		.addStyleClass("sapUiSmallMarginEnd")
+		.addStyleClass("sapUiSmallMarginBottom"),
 });
 
 const sapM = new Card({
@@ -242,64 +236,62 @@ const sapM = new Card({
 		title: "sap.m.Button",
 	}),
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
-	content: [
-		new VBox({
-			justifyContent: FlexJustifyContent.SpaceBetween,
-			items: [
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Ghost,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Accept,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Attention,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Reject,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Critical,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Emphasized,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Success,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-				new Button({
-					text: "{json>/text}",
-					type: ButtonType.Negative,
-					icon: "{json>/icon}",
-					iconFirst: "{json>/iconFirst}",
-				}),
-			],
-		})
-			.addStyleClass("sapUiSmallMarginBegin")
-			.addStyleClass("sapUiSmallMarginEnd")
-			.addStyleClass("sapUiSmallMarginBottom"),
-	],
+	content: new VBox({
+		justifyContent: FlexJustifyContent.SpaceBetween,
+		items: [
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Ghost,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Accept,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Attention,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Reject,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Critical,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Emphasized,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Success,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+			new Button({
+				text: "{json>/text}",
+				type: ButtonType.Negative,
+				icon: "{json>/icon}",
+				iconFirst: "{json>/iconFirst}",
+			}),
+		],
+	})
+		.addStyleClass("sapUiSmallMarginBegin")
+		.addStyleClass("sapUiSmallMarginEnd")
+		.addStyleClass("sapUiSmallMarginBottom"),
 });
 
 page.addItem(
