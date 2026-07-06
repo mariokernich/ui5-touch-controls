@@ -1,18 +1,25 @@
 {
-  "compilerOptions": {
-    "target": "es2023",
-    "module": "es2022",
-    "moduleResolution": "bundler",
-    "skipLibCheck": true,
-    "allowJs": true,
-    "strict": true,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
-    "rootDir": "./",
-    "types": ["@openui5/types"],
-    "paths": {
-      "ui5/touch/controls/*": ["src/ui5/touch/controls/*"]
-    }
-  },
-  "include": ["./src/**/*", "./test/**/*"]
+    "compilerOptions": {
+        "target": "es2022",
+        "module": "es2022",
+        "moduleResolution": "bundler",
+        "skipLibCheck": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "allowJs": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "rootDir": "./",
+        "types": [
+            "@openui5/types"
+        ],
+        "paths": {
+            "ui5/touch/controls/*": ["./src/*"]
+        }
+    },
+    "include": [
+        "./src/**/*",
+        "./test/**/*"
+    ]
 }

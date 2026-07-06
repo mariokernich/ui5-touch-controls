@@ -14,7 +14,7 @@ export default class Keyboard extends Control {
 	public onAfterRendering(): void {
 		this.keyboard = new SimpleKeyboard({
 			layout: {
-				default: ["7 8 9", "4 5 6", "1 2 3"],
+				default: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
 			},
 			physicalKeyboardHighlight: true,
 			mergeDisplay: true,
