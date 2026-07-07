@@ -14,7 +14,7 @@ A custom [OpenUI5](https://openui5.org/) control library focused on **touch-frie
 | `ui5.touch.controls.Text` | A text control with configurable size (`S`–`XXXL`) and color. Fires `press`. |
 | `ui5.touch.controls.TextArea` | A multi-line text input based on `sap.m.TextArea` with touch-friendly size modes (`S`–`XXXL`), rows, max length, value states, and `change` / `liveChange` events. |
 | `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
-| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout, size (`S`–`XXXL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
+| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}` special keys), optional real (hardware) keyboard input via `hardwareKeys`, size (`S`–`XXXL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
 
 ### `SizeMode`
 

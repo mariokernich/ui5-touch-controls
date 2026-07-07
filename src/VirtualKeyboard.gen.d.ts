@@ -19,7 +19,8 @@ declare module "./VirtualKeyboard" {
         /**
          * The keyboard layout rows. Each entry represents one row,
         keys are separated by spaces. Special keys are wrapped in
-        curly braces, e.g. <code>{bksp}</code> or <code>{enter}</code>.
+        curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
+        <code>{space}</code> or <code>{shift}</code>.
          */
         layout?: string[] | PropertyBindingInfo | `{${string}}`;
 
@@ -32,6 +33,14 @@ declare module "./VirtualKeyboard" {
          * Indicates whether the user can interact with the keyboard.
          */
         enabled?: boolean | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * Indicates whether input from a real (physical) keyboard is
+        accepted while the keyboard has the focus. Only keys that are
+        part of the layout are accepted; <code>Enter</code> and
+        <code>Backspace</code> are always handled.
+         */
+        hardwareKeys?: boolean | PropertyBindingInfo | `{${string}}`;
 
         /**
          * Touch size applied to all key buttons.
@@ -79,14 +88,16 @@ declare module "./VirtualKeyboard" {
         /**
          * The keyboard layout rows. Each entry represents one row,
         keys are separated by spaces. Special keys are wrapped in
-        curly braces, e.g. <code>{bksp}</code> or <code>{enter}</code>.
+        curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
+        <code>{space}</code> or <code>{shift}</code>.
          */
         getLayout(): string[];
 
         /**
          * The keyboard layout rows. Each entry represents one row,
         keys are separated by spaces. Special keys are wrapped in
-        curly braces, e.g. <code>{bksp}</code> or <code>{enter}</code>.
+        curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
+        <code>{space}</code> or <code>{shift}</code>.
          */
         setLayout(layout: string[]): this;
 
@@ -113,6 +124,24 @@ declare module "./VirtualKeyboard" {
          * Indicates whether the user can interact with the keyboard.
          */
         setEnabled(enabled: boolean): this;
+
+        // property: hardwareKeys
+
+        /**
+         * Indicates whether input from a real (physical) keyboard is
+        accepted while the keyboard has the focus. Only keys that are
+        part of the layout are accepted; <code>Enter</code> and
+        <code>Backspace</code> are always handled.
+         */
+        getHardwareKeys(): boolean;
+
+        /**
+         * Indicates whether input from a real (physical) keyboard is
+        accepted while the keyboard has the focus. Only keys that are
+        part of the layout are accepted; <code>Enter</code> and
+        <code>Backspace</code> are always handled.
+         */
+        setHardwareKeys(hardwareKeys: boolean): this;
 
         // property: size
 

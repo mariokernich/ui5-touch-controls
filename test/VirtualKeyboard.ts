@@ -18,6 +18,13 @@ const layouts: Record<string, string[]> = {
 	numeric: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
 	phone: ["1 2 3", "4 5 6", "7 8 9", "* 0 #", "{bksp} {enter}"],
 	calculator: ["7 8 9 /", "4 5 6 *", "1 2 3 -", "0 . = +", "{bksp} {enter}"],
+	qwerty: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"q w e r t y u i o p",
+		"a s d f g h j k l",
+		"{shift} z x c v b n m {bksp}",
+		"{space} {enter}",
+	],
 };
 
 const model = new JSONModel(
@@ -26,7 +33,8 @@ const model = new JSONModel(
 		layout: "numeric",
 		size: "XL",
 		enabled: true,
-		width: "400px",
+		hardwareKeys: true,
+		width: "700px",
 	},
 	true,
 );
@@ -75,6 +83,7 @@ const options = new Card({
 					new Select({
 						selectedKey: "{json>/layout}",
 						items: [
+							new Item({ key: "qwerty", text: "QWERTY (real keyboard)" }),
 							new Item({ key: "numeric", text: "Numeric" }),
 							new Item({ key: "phone", text: "Phone" }),
 							new Item({ key: "calculator", text: "Calculator" }),
@@ -102,6 +111,10 @@ const options = new Card({
 						text: "Enabled",
 						selected: "{json>/enabled}",
 					}),
+					new CheckBox({
+						text: "Hardware keys",
+						selected: "{json>/hardwareKeys}",
+					}),
 				],
 			}),
 		],
@@ -115,6 +128,7 @@ const keyboard = new VirtualKeyboard({
 	value: "{json>/value}",
 	size: "{json>/size}",
 	enabled: "{json>/enabled}",
+	hardwareKeys: "{json>/hardwareKeys}",
 	width: "{json>/width}",
 	change: (event) => {
 		const value = event.getParameter("value");
@@ -137,7 +151,12 @@ const sample = new Card({
 	layoutData: new FlexItemData({ growFactor: 2, baseSize: "0" }),
 	content: new VBox({
 		justifyContent: FlexJustifyContent.SpaceBetween,
-		items: [keyboard],
+		items: [
+			new Text({
+				text: "Tip: with 'Hardware keys' enabled, click the keyboard to focus it and type on your real keyboard.",
+			}).addStyleClass("sapUiTinyMarginBottom"),
+			keyboard,
+		],
 	})
 		.addStyleClass("sapUiSmallMarginBegin")
 		.addStyleClass("sapUiSmallMarginEnd")
@@ -158,8 +177,9 @@ page.addItem(
 	<tc:VirtualKeyboard
 		value="{/value}"
 		size="XL"
-		width="400px"
-		layout="7 8 9,4 5 6,1 2 3,{bksp} 0 {enter}"
+		width="700px"
+		hardwareKeys="true"
+		layout="1 2 3 4 5 6 7 8 9 0,q w e r t y u i o p,a s d f g h j k l,{shift} z x c v b n m {bksp},{space} {enter}"
 		change=".onChange"
 		enter=".onEnter" />
 </mvc:View>

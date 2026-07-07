@@ -26,6 +26,16 @@
 	margin: 0;
 }
 
+/* the space key takes more room than regular keys */
+.touchVirtualKeyboardRow > .touchVirtualKeyboardSpaceKey {
+	flex-grow: 5;
+}
+
+.touchVirtualKeyboard:focus {
+	outline: 0.125rem solid @sapContent_FocusColor;
+	outline-offset: 0.0625rem;
+}
+
 .touchVirtualKeyboardDisabled {
 	opacity: 0.4;
 	pointer-events: none;
