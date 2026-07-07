@@ -76,18 +76,6 @@ export default function initTestPage(
 					}),
 			),
 		}),
-		fixedItem: new NavigationList({
-			items: [
-				new NavigationListItem({
-					key: "index",
-					text: "Overview",
-					icon: "sap-icon://home",
-					select: () => {
-						navigateTo("index");
-					},
-				}),
-			],
-		}),
 	});
 	sideNavigation.setSelectedKey(currentKey);
 
