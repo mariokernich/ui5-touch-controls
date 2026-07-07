@@ -1,14 +1,16 @@
 import Event from "sap/ui/base/Event";
+import { SizeMode } from "ui5/touch/controls/library";
+import { ButtonType } from "sap/m/library";
 import { CSSSize } from "sap/ui/core/library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 
-declare module "./Keyboard" {
+declare module "./VirtualKeyboard" {
 
     /**
      * Interface defining the settings object used in constructor calls
      */
-    interface $KeyboardSettings extends $ControlSettings {
+    interface $VirtualKeyboardSettings extends $ControlSettings {
 
         /**
          * The current input value of the keyboard.
@@ -33,6 +35,16 @@ declare module "./Keyboard" {
         enabled?: boolean | PropertyBindingInfo | `{${string}}`;
 
         /**
+         * Touch size applied to all key buttons.
+         */
+        size?: SizeMode | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * Type applied to all key buttons.
+         */
+        buttonType?: ButtonType | PropertyBindingInfo | `{${string}}`;
+
+        /**
          * Width of the keyboard.
          */
         width?: CSSSize | PropertyBindingInfo | `{${string}}`;
@@ -41,20 +53,20 @@ declare module "./Keyboard" {
          * Fired whenever the keyboard input changes (key press,
         backspace, ...).
          */
-        change?: (event: Keyboard$ChangeEvent) => void;
+        change?: (event: VirtualKeyboard$ChangeEvent) => void;
 
         /**
          * Fired when any key is pressed.
          */
-        keyPress?: (event: Keyboard$KeyPressEvent) => void;
+        keyPress?: (event: VirtualKeyboard$KeyPressEvent) => void;
 
         /**
          * Fired when the Enter key is pressed.
          */
-        enter?: (event: Keyboard$EnterEvent) => void;
+        enter?: (event: VirtualKeyboard$EnterEvent) => void;
     }
 
-    export default interface Keyboard {
+    export default interface VirtualKeyboard {
 
         // property: value
 
@@ -108,6 +120,30 @@ declare module "./Keyboard" {
          */
         setEnabled(enabled: boolean): this;
 
+        // property: size
+
+        /**
+         * Touch size applied to all key buttons.
+         */
+        getSize(): SizeMode;
+
+        /**
+         * Touch size applied to all key buttons.
+         */
+        setSize(size: SizeMode): this;
+
+        // property: buttonType
+
+        /**
+         * Type applied to all key buttons.
+         */
+        getButtonType(): ButtonType;
+
+        /**
+         * Type applied to all key buttons.
+         */
+        setButtonType(buttonType: ButtonType): this;
+
         // property: width
 
         /**
@@ -126,112 +162,112 @@ declare module "./Keyboard" {
          * Fired whenever the keyboard input changes (key press,
         backspace, ...).
          */
-        attachChange(fn: (event: Keyboard$ChangeEvent) => void, listener?: object): this;
+        attachChange(fn: (event: VirtualKeyboard$ChangeEvent) => void, listener?: object): this;
 
         /**
          * Fired whenever the keyboard input changes (key press,
         backspace, ...).
          */
-        attachChange<CustomDataType extends object>(data: CustomDataType, fn: (event: Keyboard$ChangeEvent, data: CustomDataType) => void, listener?: object): this;
+        attachChange<CustomDataType extends object>(data: CustomDataType, fn: (event: VirtualKeyboard$ChangeEvent, data: CustomDataType) => void, listener?: object): this;
 
         /**
          * Fired whenever the keyboard input changes (key press,
         backspace, ...).
          */
-        detachChange(fn: (event: Keyboard$ChangeEvent) => void, listener?: object): this;
+        detachChange(fn: (event: VirtualKeyboard$ChangeEvent) => void, listener?: object): this;
 
         /**
          * Fired whenever the keyboard input changes (key press,
         backspace, ...).
          */
-        fireChange(parameters?: Keyboard$ChangeEventParameters): this;
+        fireChange(parameters?: VirtualKeyboard$ChangeEventParameters): this;
 
         // event: keyPress
 
         /**
          * Fired when any key is pressed.
          */
-        attachKeyPress(fn: (event: Keyboard$KeyPressEvent) => void, listener?: object): this;
+        attachKeyPress(fn: (event: VirtualKeyboard$KeyPressEvent) => void, listener?: object): this;
 
         /**
          * Fired when any key is pressed.
          */
-        attachKeyPress<CustomDataType extends object>(data: CustomDataType, fn: (event: Keyboard$KeyPressEvent, data: CustomDataType) => void, listener?: object): this;
+        attachKeyPress<CustomDataType extends object>(data: CustomDataType, fn: (event: VirtualKeyboard$KeyPressEvent, data: CustomDataType) => void, listener?: object): this;
 
         /**
          * Fired when any key is pressed.
          */
-        detachKeyPress(fn: (event: Keyboard$KeyPressEvent) => void, listener?: object): this;
+        detachKeyPress(fn: (event: VirtualKeyboard$KeyPressEvent) => void, listener?: object): this;
 
         /**
          * Fired when any key is pressed.
          */
-        fireKeyPress(parameters?: Keyboard$KeyPressEventParameters): this;
+        fireKeyPress(parameters?: VirtualKeyboard$KeyPressEventParameters): this;
 
         // event: enter
 
         /**
          * Fired when the Enter key is pressed.
          */
-        attachEnter(fn: (event: Keyboard$EnterEvent) => void, listener?: object): this;
+        attachEnter(fn: (event: VirtualKeyboard$EnterEvent) => void, listener?: object): this;
 
         /**
          * Fired when the Enter key is pressed.
          */
-        attachEnter<CustomDataType extends object>(data: CustomDataType, fn: (event: Keyboard$EnterEvent, data: CustomDataType) => void, listener?: object): this;
+        attachEnter<CustomDataType extends object>(data: CustomDataType, fn: (event: VirtualKeyboard$EnterEvent, data: CustomDataType) => void, listener?: object): this;
 
         /**
          * Fired when the Enter key is pressed.
          */
-        detachEnter(fn: (event: Keyboard$EnterEvent) => void, listener?: object): this;
+        detachEnter(fn: (event: VirtualKeyboard$EnterEvent) => void, listener?: object): this;
 
         /**
          * Fired when the Enter key is pressed.
          */
-        fireEnter(parameters?: Keyboard$EnterEventParameters): this;
+        fireEnter(parameters?: VirtualKeyboard$EnterEventParameters): this;
     }
 
     /**
-     * Interface describing the parameters of Keyboard's 'change' event.
+     * Interface describing the parameters of VirtualKeyboard's 'change' event.
      * Fired whenever the keyboard input changes (key press,
     backspace, ...).
      */
-    export interface Keyboard$ChangeEventParameters {
+    export interface VirtualKeyboard$ChangeEventParameters {
         value?: string;
     }
 
     /**
-     * Interface describing the parameters of Keyboard's 'keyPress' event.
+     * Interface describing the parameters of VirtualKeyboard's 'keyPress' event.
      * Fired when any key is pressed.
      */
-    export interface Keyboard$KeyPressEventParameters {
+    export interface VirtualKeyboard$KeyPressEventParameters {
         key?: string;
     }
 
     /**
-     * Interface describing the parameters of Keyboard's 'enter' event.
+     * Interface describing the parameters of VirtualKeyboard's 'enter' event.
      * Fired when the Enter key is pressed.
      */
-    export interface Keyboard$EnterEventParameters {
+    export interface VirtualKeyboard$EnterEventParameters {
         value?: string;
     }
 
     /**
-     * Type describing the Keyboard's 'change' event.
+     * Type describing the VirtualKeyboard's 'change' event.
      * Fired whenever the keyboard input changes (key press,
     backspace, ...).
      */
-    export type Keyboard$ChangeEvent = Event<Keyboard$ChangeEventParameters>;
+    export type VirtualKeyboard$ChangeEvent = Event<VirtualKeyboard$ChangeEventParameters>;
 
     /**
-     * Type describing the Keyboard's 'keyPress' event.
+     * Type describing the VirtualKeyboard's 'keyPress' event.
      * Fired when any key is pressed.
      */
-    export type Keyboard$KeyPressEvent = Event<Keyboard$KeyPressEventParameters>;
+    export type VirtualKeyboard$KeyPressEvent = Event<VirtualKeyboard$KeyPressEventParameters>;
 
     /**
-     * Type describing the Keyboard's 'enter' event.
+     * Type describing the VirtualKeyboard's 'enter' event.
      * Fired when the Enter key is pressed.
      */
-    export type Keyboard$EnterEvent = Event<Keyboard$EnterEventParameters>;
+    export type VirtualKeyboard$EnterEvent = Event<VirtualKeyboard$EnterEventParameters>;
 }

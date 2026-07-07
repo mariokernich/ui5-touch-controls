@@ -1,5 +1,4 @@
 allowBuilds:
+  ttf2woff2: false
   ui5-tooling-modules: true
   ui5-tooling-transpile: true
-minimumReleaseAgeExclude:
-  - simple-keyboard@3.8.158

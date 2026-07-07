@@ -13,7 +13,7 @@ A custom [OpenUI5](https://openui5.org/) control library focused on **touch-frie
 | `ui5.touch.controls.QuantityPicker` | A quantity picker composed of a minus button, an input, and a plus button. The `size` property (`S`–`XXXL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
 | `ui5.touch.controls.Text` | A text control with configurable size (`S`–`XXXL`) and color. Fires `press`. |
 | `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
-| `ui5.touch.controls.Keyboard` | An on-screen keyboard based on [simple-keyboard](https://github.com/hodgef/simple-keyboard) with configurable layout, value binding, max length, and `change` / `keyPress` / `enter` events. |
+| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout, size (`S`–`XXXL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
 
 ### `SizeMode`
 
@@ -53,7 +53,7 @@ pnpm install
 npm run start
 ```
 
-This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test page overview. Test pages for the individual controls live in `test/` (e.g. `Button.html`, `Text.html`, `Keyboard.html`).
+This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test page overview. Test pages for the individual controls live in `test/` (e.g. `Button.html`, `Text.html`, `VirtualKeyboard.html`).
 
 ### Scripts
 
@@ -65,7 +65,7 @@ This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
 | `npm run check:ts` | TypeScript type check (`tsc --noEmit`) |
 | `npm run check:lint` | ESLint check for `src` and `test` |
-| `npm run sync:keyboard-css` | Sync the simple-keyboard stylesheet into the library themes (runs automatically before start/build) |
+| `npm run build:icon-font` | Generate the library's icon font (TTF/WOFF/WOFF2 + metadata) from the SVGs in `src/icons` (runs automatically before start/build) |
 | `npm run clean` | Remove `dist` and `coverage` |
 
 ### Project structure
@@ -80,9 +80,9 @@ ui5-test.yaml         UI5 tooling config (dev server / test pages)
 ui5-self-contained.yaml  UI5 tooling config (self-contained build)
 ```
 
-### Third-party modules
+### Icon font
 
-The library consumes [simple-keyboard](https://github.com/hodgef/simple-keyboard) from npm via [`ui5-tooling-modules`](https://www.npmjs.com/package/ui5-tooling-modules). At build time the module is bundled into the library namespace (`ui5/touch/controls/thirdparty/`), so no manual vendoring is required. Its stylesheet is synced into the theme LESS files via `scripts/sync-keyboard-css.mjs`.
+The library ships its own icon font, generated from the SVG files in `src/icons` by `scripts/build-icon-font.mjs` (runs automatically before start/build). The font is registered with the UI5 `IconPool` in `library.ts` under the `touch` collection, so its glyphs can be used through `sap-icon://touch/<icon-name>` and — being real font glyphs — inherit the current text color (`currentColor`), following the theme-aware LESS colors.
 
 ## Deployment
 

@@ -11,7 +11,7 @@ import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
 import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import Keyboard from "ui5/touch/controls/Keyboard";
+import VirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
 
 const layouts: Record<string, string[]> = {
 	numeric: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
@@ -23,9 +23,10 @@ const model = new JSONModel(
 	{
 		value: "",
 		layout: "numeric",
-		maxLength: 0,
+		size: "XL",
+		buttonType: "Default",
 		enabled: true,
-		width: "500px",
+		width: "400px",
 		theme: "sap_horizon",
 	},
 	true,
@@ -35,7 +36,7 @@ const page = new VBox();
 
 const options = new Card({
 	header: new Header({
-		title: "Keyboard Options",
+		title: "VirtualKeyboard Options",
 	}),
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: new VBox({
@@ -68,12 +69,39 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexAlignItems.Center,
 				items: [
-					new Text({ text: "Max Length", width: "100px" }),
-					new Input({
-						value: "{json>/maxLength}",
-						type: "Number",
-						valueLiveUpdate: true,
-						width: "100px",
+					new Text({ text: "Size", width: "100px" }),
+					new Select({
+						selectedKey: "{json>/size}",
+						items: [
+							new Item({ key: "S", text: "S" }),
+							new Item({ key: "M", text: "M" }),
+							new Item({ key: "L", text: "L" }),
+							new Item({ key: "XL", text: "XL" }),
+							new Item({ key: "XXL", text: "XXL" }),
+							new Item({ key: "XXXL", text: "XXXL" }),
+						],
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexAlignItems.Center,
+				items: [
+					new Text({ text: "Button Type", width: "100px" }),
+					new Select({
+						selectedKey: "{json>/buttonType}",
+						items: [
+							new Item({ key: "Default", text: "Default" }),
+							new Item({ key: "Emphasized", text: "Emphasized" }),
+							new Item({ key: "Accept", text: "Accept" }),
+							new Item({ key: "Reject", text: "Reject" }),
+							new Item({ key: "Attention", text: "Attention" }),
+							new Item({ key: "Transparent", text: "Transparent" }),
+							new Item({ key: "Neutral", text: "Neutral" }),
+							new Item({ key: "Critical", text: "Critical" }),
+							new Item({ key: "Negative", text: "Negative" }),
+							new Item({ key: "Success", text: "Success" }),
+							new Item({ key: "Ghost", text: "Ghost" }),
+						],
 					}),
 				],
 			}),
@@ -129,9 +157,10 @@ const options = new Card({
 		.addStyleClass("sapUiSmallMarginBottom"),
 }).addStyleClass("sapUiMediumMarginBottom");
 
-const keyboard = new Keyboard({
+const keyboard = new VirtualKeyboard({
 	value: "{json>/value}",
-	maxLength: "{json>/maxLength}",
+	size: "{json>/size}",
+	buttonType: "{json>/buttonType}",
 	enabled: "{json>/enabled}",
 	width: "{json>/width}",
 	change: (event) => {
@@ -150,7 +179,7 @@ keyboard.setLayout(layouts[model.getProperty("/layout") as string]);
 
 const sample = new Card({
 	header: new Header({
-		title: "ui5.touch.controls.Keyboard",
+		title: "ui5.touch.controls.VirtualKeyboard",
 	}),
 	layoutData: new FlexItemData({ growFactor: 2, baseSize: "0" }),
 	content: new VBox({
