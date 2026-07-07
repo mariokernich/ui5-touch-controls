@@ -2,6 +2,7 @@ import Button from "sap/m/Button";
 import { ButtonType } from "sap/m/library";
 import Card from "sap/f/Card";
 import Header from "sap/f/cards/Header";
+import Link from "sap/m/Link";
 import Select from "sap/m/Select";
 import Title from "sap/m/Title";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
@@ -26,7 +27,7 @@ const testPages: TestPageInfo[] = [
 	{ key: "Button", icon: "sap-icon://cursor-arrow" },
 	{ key: "Input", icon: "sap-icon://edit" },
 	{ key: "VirtualKeyboard", icon: "sap-icon://keyboard-and-mouse" },
-	{ key: "QuantityPicker", icon: "sap-icon://number-sign" },
+	{ key: "StepInput", icon: "sap-icon://number-sign" },
 	{ key: "Text", icon: "sap-icon://text" },
 	{ key: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "Toolbar", icon: "sap-icon://menu2" },
@@ -167,6 +168,12 @@ export default function initTestPage(
 							navigateTo(nextPage.key);
 						}
 					},
+				}),
+				new Link({
+					text: "GitHub",
+					tooltip: "Visit the GitHub repository",
+					href: "https://github.com/mariokernich/ui5-touch-controls",
+					target: "_blank",
 				}),
 			],
 		}),

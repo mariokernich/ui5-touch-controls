@@ -7,7 +7,7 @@ import Input from "./Input";
 import { SizeMode } from "./library";
 
 /**
- * A quantity picker optimized for touch devices.
+ * A step input optimized for touch devices.
  *
  * Composite control consisting of a sized minus button (decrease), a sized
  * input and a sized plus button (increase). The <code>size</code> property
@@ -15,7 +15,7 @@ import { SizeMode } from "./library";
  *
  * @namespace ui5.touch.controls
  */
-export default class QuantityPicker extends Control {
+export default class StepInput extends Control {
 	static readonly metadata: MetadataOptions = {
 		properties: {
 			/**
@@ -93,7 +93,7 @@ export default class QuantityPicker extends Control {
 			change: {
 				parameters: {
 					/**
-					 * The new value of the quantity picker.
+					 * The new value of the step input.
 					 */
 					value: { type: "float" },
 				},
@@ -101,9 +101,9 @@ export default class QuantityPicker extends Control {
 		},
 	};
 
-	constructor(idOrSettings?: string | $QuantityPickerSettings);
-	constructor(id?: string, settings?: $QuantityPickerSettings);
-	constructor(id?: string, settings?: $QuantityPickerSettings) {
+	constructor(idOrSettings?: string | $StepInputSettings);
+	constructor(id?: string, settings?: $StepInputSettings);
+	constructor(id?: string, settings?: $StepInputSettings) {
 		super(id, settings);
 	}
 
@@ -292,9 +292,9 @@ export default class QuantityPicker extends Control {
 
 	static renderer = {
 		apiVersion: 2,
-		render(rm: RenderManager, control: QuantityPicker) {
+		render(rm: RenderManager, control: StepInput) {
 			rm.openStart("div", control);
-			rm.class("touchQuantityPicker");
+			rm.class("touchStepInput");
 			rm.openEnd();
 
 			rm.renderControl(control.getMinusButton());

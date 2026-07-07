@@ -7,12 +7,12 @@ import Input from "sap/m/Input";
 import { FlexAlignItems, FlexJustifyContent } from "sap/m/library";
 import MessageToast from "sap/m/MessageToast";
 import Select from "sap/m/Select";
-import StepInput from "sap/m/StepInput";
+import MStepInput from "sap/m/StepInput";
 import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
 import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import QuantityPicker from "ui5/touch/controls/QuantityPicker";
+import StepInput, { StepInput$ChangeEvent } from "ui5/touch/controls/StepInput";
 import { SizeMode } from "ui5/touch/controls/library";
 import initTestPage, { createExampleCard } from "./Menu";
 
@@ -33,7 +33,7 @@ const page = new VBox();
 
 const options = new Card({
 	header: new Header({
-		title: "QuantityPicker Options",
+		title: "StepInput Options",
 	}),
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: new VBox({
@@ -124,13 +124,13 @@ const options = new Card({
 
 const sized = new Card({
 	header: new Header({
-		title: "ui5.touch.controls.QuantityPicker",
+		title: "ui5.touch.controls.StepInput",
 	}),
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: new VBox({
 		justifyContent: FlexJustifyContent.SpaceBetween,
 		items: [
-			new QuantityPicker({
+			new StepInput({
 				value: "{json>/value}",
 				min: "{json>/min}",
 				max: "{json>/max}",
@@ -138,10 +138,10 @@ const sized = new Card({
 				buttonType: "{json>/buttonType}",
 				enabled: "{json>/enabled}",
 				editable: "{json>/editable}",
-				change: (event) => {
+				change: (event: StepInput$ChangeEvent) => {
 					const value = event.getParameter("value");
 					model.setProperty("/value", value);
-					MessageToast.show(`Quantity changed: ${value}`);
+					MessageToast.show(`Value changed: ${value}`);
 				},
 			}),
 		],
@@ -159,7 +159,7 @@ const sapM = new Card({
 	content: new VBox({
 		justifyContent: FlexJustifyContent.SpaceBetween,
 		items: [
-			new StepInput({
+			new MStepInput({
 				value: "{json>/value}",
 				min: "{json>/min}",
 				max: "{json>/max}",
@@ -185,7 +185,7 @@ page.addItem(
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:tc="ui5.touch.controls">
-	<tc:QuantityPicker
+	<tc:StepInput
 		value="{/quantity}"
 		min="0"
 		max="10"
@@ -199,4 +199,4 @@ page.addStyleClass("sapUiSmallMargin");
 
 page.setModel(model, "json");
 
-initTestPage("QuantityPicker", page);
+initTestPage("StepInput", page);

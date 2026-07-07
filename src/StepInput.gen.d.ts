@@ -4,12 +4,12 @@ import { ButtonType } from "sap/m/library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 
-declare module "./QuantityPicker" {
+declare module "./StepInput" {
 
     /**
      * Interface defining the settings object used in constructor calls
      */
-    interface $QuantityPickerSettings extends $ControlSettings {
+    interface $StepInputSettings extends $ControlSettings {
 
         /**
          * The current quantity value.
@@ -55,10 +55,10 @@ declare module "./QuantityPicker" {
          * Fired when the value has been changed by user interaction
         (button press or direct input).
          */
-        change?: (event: QuantityPicker$ChangeEvent) => void;
+        change?: (event: StepInput$ChangeEvent) => void;
     }
 
-    export default interface QuantityPicker {
+    export default interface StepInput {
 
         // property: value
 
@@ -162,40 +162,40 @@ declare module "./QuantityPicker" {
          * Fired when the value has been changed by user interaction
         (button press or direct input).
          */
-        attachChange(fn: (event: QuantityPicker$ChangeEvent) => void, listener?: object): this;
+        attachChange(fn: (event: StepInput$ChangeEvent) => void, listener?: object): this;
 
         /**
          * Fired when the value has been changed by user interaction
         (button press or direct input).
          */
-        attachChange<CustomDataType extends object>(data: CustomDataType, fn: (event: QuantityPicker$ChangeEvent, data: CustomDataType) => void, listener?: object): this;
+        attachChange<CustomDataType extends object>(data: CustomDataType, fn: (event: StepInput$ChangeEvent, data: CustomDataType) => void, listener?: object): this;
 
         /**
          * Fired when the value has been changed by user interaction
         (button press or direct input).
          */
-        detachChange(fn: (event: QuantityPicker$ChangeEvent) => void, listener?: object): this;
+        detachChange(fn: (event: StepInput$ChangeEvent) => void, listener?: object): this;
 
         /**
          * Fired when the value has been changed by user interaction
         (button press or direct input).
          */
-        fireChange(parameters?: QuantityPicker$ChangeEventParameters): this;
+        fireChange(parameters?: StepInput$ChangeEventParameters): this;
     }
 
     /**
-     * Interface describing the parameters of QuantityPicker's 'change' event.
+     * Interface describing the parameters of StepInput's 'change' event.
      * Fired when the value has been changed by user interaction
     (button press or direct input).
      */
-    export interface QuantityPicker$ChangeEventParameters {
+    export interface StepInput$ChangeEventParameters {
         value?: number;
     }
 
     /**
-     * Type describing the QuantityPicker's 'change' event.
+     * Type describing the StepInput's 'change' event.
      * Fired when the value has been changed by user interaction
     (button press or direct input).
      */
-    export type QuantityPicker$ChangeEvent = Event<QuantityPicker$ChangeEventParameters>;
+    export type StepInput$ChangeEvent = Event<StepInput$ChangeEventParameters>;
 }
