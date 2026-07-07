@@ -26,7 +26,7 @@ server:
       configuration:
           generateTsInterfaces: true
     - name: ui5-middleware-livereload
-      afterMiddleware: ui5-tooling-modules-middleware
+      afterMiddleware: compression
       configuration:
           port: 35732
           path:

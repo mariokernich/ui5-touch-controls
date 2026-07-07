@@ -16,23 +16,14 @@ builder:
       afterTask: replaceVersion
       configuration:
         generateTsInterfaces: true # always generate the TS interfaces in build
-    - name: ui5-tooling-modules-task
-      afterTask: ui5-tooling-transpile-task
-      configuration:
-        addToNamespace: true
 server:
   customMiddleware:
     - name: ui5-tooling-transpile-middleware
       afterMiddleware: compression
       configuration:
           generateTsInterfaces: true
-    - name: ui5-tooling-modules-middleware
-      afterMiddleware: ui5-tooling-transpile-middleware
-      configuration:
-          addToNamespace: true
-          prependPathMappings: true
     - name: ui5-middleware-livereload
-      afterMiddleware: ui5-tooling-modules-middleware
+      afterMiddleware: compression
       configuration:
           port: 35732
           path:
