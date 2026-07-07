@@ -1,6 +1,5 @@
 import Event from "sap/ui/base/Event";
 import { SizeMode } from "ui5/touch/controls/library";
-import { ButtonType } from "sap/m/library";
 import { CSSSize } from "sap/ui/core/library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
@@ -38,11 +37,6 @@ declare module "./VirtualKeyboard" {
          * Touch size applied to all key buttons.
          */
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
-
-        /**
-         * Type applied to all key buttons.
-         */
-        buttonType?: ButtonType | PropertyBindingInfo | `{${string}}`;
 
         /**
          * Width of the keyboard.
@@ -131,18 +125,6 @@ declare module "./VirtualKeyboard" {
          * Touch size applied to all key buttons.
          */
         setSize(size: SizeMode): this;
-
-        // property: buttonType
-
-        /**
-         * Type applied to all key buttons.
-         */
-        getButtonType(): ButtonType;
-
-        /**
-         * Type applied to all key buttons.
-         */
-        setButtonType(buttonType: ButtonType): this;
 
         // property: width
 

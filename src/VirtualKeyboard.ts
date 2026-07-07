@@ -1,4 +1,3 @@
-import { ButtonType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
@@ -60,14 +59,6 @@ export default class VirtualKeyboard extends Control {
 				type: "ui5.touch.controls.SizeMode",
 				group: "Appearance",
 				defaultValue: SizeMode.M,
-			},
-			/**
-			 * Type applied to all key buttons.
-			 */
-			buttonType: {
-				type: "sap.m.ButtonType",
-				group: "Appearance",
-				defaultValue: ButtonType.Default,
 			},
 			/**
 			 * Width of the keyboard.
@@ -225,12 +216,10 @@ export default class VirtualKeyboard extends Control {
 		this.buildButtons();
 
 		const size = this.getSize();
-		const buttonType = this.getButtonType();
 		const enabled = this.getEnabled();
 
 		for (const button of this.getButtons()) {
 			button.setSize(size);
-			button.setType(buttonType);
 			button.setEnabled(enabled);
 			button.setSidePadding("0px");
 		}

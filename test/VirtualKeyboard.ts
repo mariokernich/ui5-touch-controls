@@ -24,7 +24,6 @@ const model = new JSONModel(
 		value: "",
 		layout: "numeric",
 		size: "XL",
-		buttonType: "Default",
 		enabled: true,
 		width: "400px",
 		theme: "sap_horizon",
@@ -86,28 +85,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexAlignItems.Center,
 				items: [
-					new Text({ text: "Button Type", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/buttonType}",
-						items: [
-							new Item({ key: "Default", text: "Default" }),
-							new Item({ key: "Emphasized", text: "Emphasized" }),
-							new Item({ key: "Accept", text: "Accept" }),
-							new Item({ key: "Reject", text: "Reject" }),
-							new Item({ key: "Attention", text: "Attention" }),
-							new Item({ key: "Transparent", text: "Transparent" }),
-							new Item({ key: "Neutral", text: "Neutral" }),
-							new Item({ key: "Critical", text: "Critical" }),
-							new Item({ key: "Negative", text: "Negative" }),
-							new Item({ key: "Success", text: "Success" }),
-							new Item({ key: "Ghost", text: "Ghost" }),
-						],
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
 					new Text({ text: "Width", width: "100px" }),
 					new Input({
 						value: "{json>/width}",
@@ -160,7 +137,6 @@ const options = new Card({
 const keyboard = new VirtualKeyboard({
 	value: "{json>/value}",
 	size: "{json>/size}",
-	buttonType: "{json>/buttonType}",
 	enabled: "{json>/enabled}",
 	width: "{json>/width}",
 	change: (event) => {
