@@ -10,6 +10,7 @@ import {
 	PlacementType,
 } from "sap/m/library";
 import ResponsivePopover from "sap/m/ResponsivePopover";
+import MessageToast from "sap/m/MessageToast";
 import Select from "sap/m/Select";
 import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
@@ -120,6 +121,9 @@ const sized = new Card({
 				text: "{json>/text}",
 				color: "{json>/color}",
 				size: "{json>/size}",
+				press: () => {
+					MessageToast.show("Text pressed");
+				},
 			}),
 		],
 	})

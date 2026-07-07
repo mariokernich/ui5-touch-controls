@@ -28,6 +28,10 @@ export default class Text extends Control {
 		super(id, settings);
 	}
 
+	ontap(): void {
+		this.firePress();
+	}
+
 	static renderer = {
 		apiVersion: 2,
 		render(rm: RenderManager, control: Text) {
