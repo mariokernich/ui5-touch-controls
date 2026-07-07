@@ -114,6 +114,11 @@ export default class Button extends Control {
 			rm.style("padding-right", sidePadding);
 			rm.style("height", height);
 
+			if (!control.getEnabled()) {
+				rm.attr("disabled", "disabled");
+				rm.class("sapMBtnDisabled");
+			}
+
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
 			}

@@ -21,6 +21,7 @@ const model = new JSONModel(
 		showText: true,
 		text: "Button",
 		iconFirst: true,
+		enabled: true,
 		size: SizeMode.M,
 		theme: "sap_horizon",
 	},
@@ -153,6 +154,16 @@ const options = new Card({
 					}),
 				],
 			}),
+			new HBox({
+				alignItems: FlexJustifyContent.Center,
+				items: [
+					new Text({ text: "Behavior", width: "100px" }),
+					new CheckBox({
+						selected: "{json>/enabled}",
+						text: "Enabled",
+					}),
+				],
+			}),
 		],
 	})
 		.addStyleClass("sapUiSmallMarginBegin")
@@ -173,6 +184,7 @@ const sized = new Card({
 				type: ButtonType.Ghost,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -180,6 +192,7 @@ const sized = new Card({
 				type: ButtonType.Accept,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -187,6 +200,7 @@ const sized = new Card({
 				type: ButtonType.Attention,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -194,6 +208,7 @@ const sized = new Card({
 				type: ButtonType.Reject,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -201,6 +216,7 @@ const sized = new Card({
 				type: ButtonType.Critical,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -208,6 +224,7 @@ const sized = new Card({
 				type: ButtonType.Emphasized,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -215,6 +232,7 @@ const sized = new Card({
 				type: ButtonType.Success,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 			new SizedButton({
@@ -222,6 +240,7 @@ const sized = new Card({
 				type: ButtonType.Negative,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 				size: "{json>/size}",
 			}),
 		],
@@ -244,48 +263,56 @@ const sapM = new Card({
 				type: ButtonType.Ghost,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Accept,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Attention,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Reject,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Critical,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Emphasized,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Success,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 			new Button({
 				text: "{json>/text}",
 				type: ButtonType.Negative,
 				icon: "{json>/icon}",
 				iconFirst: "{json>/iconFirst}",
+				enabled: "{json>/enabled}",
 			}),
 		],
 	})
