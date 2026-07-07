@@ -14,6 +14,7 @@ import { SizeMode } from "./library";
 export default class Button extends Control {
 	private pressListener: (() => void) | null = null;
 	private releaseListener: (() => void) | null = null;
+	private cancelListener: (() => void) | null = null;
 
 	static readonly metadata: MetadataOptions = {
 		properties: {
@@ -207,6 +208,11 @@ export default class Button extends Control {
 		const dom = this.getDomRef() as HTMLButtonElement | null;
 
 		if (dom) {
+			// With renderer apiVersion 2 the DOM element is patched and reused
+			// on re-rendering, so previously attached listeners must be removed
+			// first - otherwise they accumulate and press fires multiple times.
+			this.detachDomListeners(dom);
+
 			this.pressListener = () => {
 				dom.classList.add("sizedButtonActive");
 			};
@@ -214,18 +220,35 @@ export default class Button extends Control {
 				dom.classList.remove("sizedButtonActive");
 				this.firePress();
 			};
+			this.cancelListener = () => {
+				dom.classList.remove("sizedButtonActive");
+			};
 
 			dom.addEventListener("mousedown", this.pressListener);
 			dom.addEventListener("mouseup", this.releaseListener);
-			dom.addEventListener("mouseleave", () =>
-				dom.classList.remove("sizedButtonActive"),
-			);
+			dom.addEventListener("mouseleave", this.cancelListener);
 			dom.addEventListener("touchstart", this.pressListener);
 			dom.addEventListener("touchend", this.releaseListener);
-			dom.addEventListener("touchcancel", () =>
-				dom.classList.remove("sizedButtonActive"),
-			);
+			dom.addEventListener("touchcancel", this.cancelListener);
 		}
+	}
+
+	private detachDomListeners(dom: HTMLElement): void {
+		if (this.pressListener) {
+			dom.removeEventListener("mousedown", this.pressListener);
+			dom.removeEventListener("touchstart", this.pressListener);
+		}
+		if (this.releaseListener) {
+			dom.removeEventListener("mouseup", this.releaseListener);
+			dom.removeEventListener("touchend", this.releaseListener);
+		}
+		if (this.cancelListener) {
+			dom.removeEventListener("mouseleave", this.cancelListener);
+			dom.removeEventListener("touchcancel", this.cancelListener);
+		}
+		this.pressListener = null;
+		this.releaseListener = null;
+		this.cancelListener = null;
 	}
 
 	onBeforeRendering() {}
@@ -233,16 +256,10 @@ export default class Button extends Control {
 	exit(): void | undefined {
 		const dom = this.getDomRef();
 		if (dom) {
-			if (this.pressListener) {
-				dom.removeEventListener("mousedown", this.pressListener);
-				dom.removeEventListener("touchstart", this.pressListener);
-			}
-			if (this.releaseListener) {
-				dom.removeEventListener("mouseup", this.releaseListener);
-				dom.removeEventListener("touchend", this.releaseListener);
-			}
-			this.pressListener = null;
-			this.releaseListener = null;
+			this.detachDomListeners(dom as HTMLElement);
 		}
+		this.pressListener = null;
+		this.releaseListener = null;
+		this.cancelListener = null;
 	}
 }

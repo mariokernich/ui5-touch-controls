@@ -236,6 +236,11 @@ export default class Input extends Control {
 		const input = this.getInnerInput();
 
 		if (input) {
+			// With renderer apiVersion 2 the DOM element is patched and reused
+			// on re-rendering, so previously attached listeners must be removed
+			// first - otherwise they accumulate and events fire multiple times.
+			this.detachDomListeners(input);
+
 			this.inputListener = () => {
 				this.setProperty("value", input.value, true);
 				this.fireLiveChange({ value: input.value });
@@ -257,18 +262,25 @@ export default class Input extends Control {
 		}
 	}
 
+	private detachDomListeners(input: HTMLInputElement): void {
+		if (this.inputListener) {
+			input.removeEventListener("input", this.inputListener);
+		}
+		if (this.changeListener) {
+			input.removeEventListener("change", this.changeListener);
+		}
+		if (this.keydownListener) {
+			input.removeEventListener("keydown", this.keydownListener);
+		}
+		this.inputListener = null;
+		this.changeListener = null;
+		this.keydownListener = null;
+	}
+
 	exit(): void | undefined {
 		const input = this.getInnerInput();
 		if (input) {
-			if (this.inputListener) {
-				input.removeEventListener("input", this.inputListener);
-			}
-			if (this.changeListener) {
-				input.removeEventListener("change", this.changeListener);
-			}
-			if (this.keydownListener) {
-				input.removeEventListener("keydown", this.keydownListener);
-			}
+			this.detachDomListeners(input);
 		}
 		this.inputListener = null;
 		this.changeListener = null;
