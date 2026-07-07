@@ -19,7 +19,3 @@ builder:
           afterTask: replaceVersion
           configuration:
               generateTsInterfaces: true # always generate the TS interfaces in build
-        - name: ui5-tooling-modules-task
-          afterTask: ui5-tooling-transpile-task
-          configuration:
-              addToNamespace: true
