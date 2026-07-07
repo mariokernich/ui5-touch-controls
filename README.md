@@ -13,7 +13,7 @@ A custom [OpenUI5](https://openui5.org/) control library focused on **touch-frie
 | `ui5.touch.controls.QuantityPicker` | A quantity picker composed of a minus button, an input, and a plus button. The `size` property (`S`–`XXXL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
 | `ui5.touch.controls.Text` | A text control with configurable size (`S`–`XXXL`) and color. Fires `press`. |
 | `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
-| `ui5.touch.controls.Keyboard` | A numeric on-screen keyboard based on [simple-keyboard](https://github.com/hodgef/simple-keyboard). |
+| `ui5.touch.controls.Keyboard` | An on-screen keyboard based on [simple-keyboard](https://github.com/hodgef/simple-keyboard) with configurable layout, value binding, max length, and `change` / `keyPress` / `enter` events. |
 
 ### `SizeMode`
 
