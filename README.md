@@ -21,21 +21,20 @@ Shared enum for control sizing: `S`, `M`, `L`, `XL`, `XXL`, `XXXL`.
 
 Example with the touch `Button` and `Toolbar`:
 
-```ts
-import Toolbar from "ui5/touch/controls/Toolbar";
-import Button from "ui5/touch/controls/Button";
-import { SizeMode } from "ui5/touch/controls/library";
-
-const toolbar = new Toolbar({
-	content: [
-		new Button({
-			text: "Confirm",
-			icon: "sap-icon://accept",
-			size: SizeMode.XL,
-			press: () => console.log("pressed"),
-		}),
-	],
-});
+```xml
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tc="ui5.touch.controls">
+	<tc:Toolbar>
+		<tc:content>
+			<tc:Button
+				text="Confirm"
+				icon="sap-icon://accept"
+				size="XL"
+				press=".onPress" />
+		</tc:content>
+	</tc:Toolbar>
+</mvc:View>
 ```
 
 ## Development
