@@ -19,6 +19,7 @@ import ColorPicker from "sap/ui/unified/ColorPicker";
 import { ColorPickerMode } from "sap/ui/unified/library";
 import SizedText from "ui5/touch/controls/Text";
 import { SizeMode } from "ui5/touch/controls/library";
+import initTestPage from "./Menu";
 
 const model = new JSONModel(
 	{
@@ -179,4 +180,4 @@ page.addStyleClass("sapUiSmallMargin");
 
 page.setModel(model, "json");
 
-page.placeAt("content");
+initTestPage("Text", page);

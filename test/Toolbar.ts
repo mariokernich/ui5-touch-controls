@@ -1,10 +1,12 @@
 import { ButtonType } from "sap/m/library";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
+import VBox from "sap/m/VBox";
 import SizedButton from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
 import Toolbar from "ui5/touch/controls/Toolbar";
 import OverflowToolbar from "sap/m/OverflowToolbar";
 import Button from "sap/m/Button";
+import initTestPage from "./Menu";
 
 const toolbar = new Toolbar({
 	content: [
@@ -51,5 +53,8 @@ const overflowToolbar = new OverflowToolbar({
 	],
 }).addStyleClass("sapUiLargeMarginTop");
 
-toolbar.placeAt("content");
-overflowToolbar.placeAt("content");
+const page = new VBox({
+	items: [toolbar, overflowToolbar],
+}).addStyleClass("sapUiSmallMargin");
+
+initTestPage("Toolbar", page);

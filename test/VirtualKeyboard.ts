@@ -12,6 +12,7 @@ import VBox from "sap/m/VBox";
 import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import VirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
+import initTestPage from "./Menu";
 
 const layouts: Record<string, string[]> = {
 	numeric: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
@@ -177,4 +178,4 @@ page.addStyleClass("sapUiSmallMargin");
 
 page.setModel(model, "json");
 
-page.placeAt("content");
+initTestPage("VirtualKeyboard", page);

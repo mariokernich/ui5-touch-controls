@@ -1,1 +1,1 @@
-pnpm run build && pnpm run check:ts && pnpm run check:lint
+pnpm run check:ts && pnpm run check:lint

@@ -13,6 +13,7 @@ import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import SizedButton from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
+import initTestPage from "./Menu";
 
 const model = new JSONModel(
 	{
@@ -331,4 +332,4 @@ page.addStyleClass("sapUiSmallMargin");
 
 page.setModel(model, "json");
 
-page.placeAt("content");
+initTestPage("Button", page);
