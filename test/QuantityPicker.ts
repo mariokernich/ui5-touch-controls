@@ -14,7 +14,7 @@ import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import QuantityPicker from "ui5/touch/controls/QuantityPicker";
 import { SizeMode } from "ui5/touch/controls/library";
-import initTestPage from "./Menu";
+import initTestPage, { createExampleCard } from "./Menu";
 
 const model = new JSONModel(
 	{
@@ -41,6 +41,23 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexAlignItems.Center,
 				items: [
+					new Text({ text: "Size", width: "100px" }),
+					new Select({
+						selectedKey: "{json>/size}",
+						items: [
+							new Item({ key: "S", text: "S" }),
+							new Item({ key: "M", text: "M" }),
+							new Item({ key: "L", text: "L" }),
+							new Item({ key: "XL", text: "XL" }),
+							new Item({ key: "XXL", text: "XXL" }),
+							new Item({ key: "XXXL", text: "XXXL" }),
+						],
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexAlignItems.Center,
+				items: [
 					new Text({ text: "Min", width: "100px" }),
 					new Input({
 						value: "{json>/min}",
@@ -59,23 +76,6 @@ const options = new Card({
 						type: "Number",
 						valueLiveUpdate: true,
 						width: "100px",
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
-					new Text({ text: "Size", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/size}",
-						items: [
-							new Item({ key: "S", text: "S" }),
-							new Item({ key: "M", text: "M" }),
-							new Item({ key: "L", text: "L" }),
-							new Item({ key: "XL", text: "XL" }),
-							new Item({ key: "XXL", text: "XXL" }),
-							new Item({ key: "XXXL", text: "XXXL" }),
-						],
 					}),
 				],
 			}),
@@ -179,6 +179,21 @@ page.addItem(
 		width: "100%",
 		items: [options, sized, sapM],
 	}).addStyleClass("touchControlsCardRow"),
+);
+page.addItem(
+	createExampleCard(`
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tc="ui5.touch.controls">
+	<tc:QuantityPicker
+		value="{/quantity}"
+		min="0"
+		max="10"
+		size="XL"
+		buttonType="Emphasized"
+		change=".onQuantityChange" />
+</mvc:View>
+`),
 );
 page.addStyleClass("sapUiSmallMargin");
 

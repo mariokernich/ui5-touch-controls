@@ -13,7 +13,7 @@ import Item from "sap/ui/core/Item";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import SizedButton from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
-import initTestPage from "./Menu";
+import initTestPage, { createExampleCard } from "./Menu";
 
 const model = new JSONModel(
 	{
@@ -299,6 +299,20 @@ page.addItem(
 		width: "100%",
 		items: [options, sized, sapM],
 	}).addStyleClass("touchControlsCardRow"),
+);
+page.addItem(
+	createExampleCard(`
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tc="ui5.touch.controls">
+	<tc:Button
+		text="Add to Cart"
+		icon="sap-icon://cart"
+		type="Emphasized"
+		size="XL"
+		press=".onAddToCart" />
+</mvc:View>
+`),
 );
 page.addStyleClass("sapUiSmallMargin");
 

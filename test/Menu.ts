@@ -1,5 +1,7 @@
 import Button from "sap/m/Button";
 import { ButtonType } from "sap/m/library";
+import Card from "sap/f/Card";
+import Header from "sap/f/cards/Header";
 import Select from "sap/m/Select";
 import Title from "sap/m/Title";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
@@ -8,6 +10,7 @@ import NavigationListItem from "sap/tnt/NavigationListItem";
 import SideNavigation from "sap/tnt/SideNavigation";
 import ToolHeader from "sap/tnt/ToolHeader";
 import ToolPage from "sap/tnt/ToolPage";
+import CodeEditor from "sap/ui/codeeditor/CodeEditor";
 import type Control from "sap/ui/core/Control";
 import Item from "sap/ui/core/Item";
 
@@ -35,6 +38,34 @@ function navigateTo(page: string): void {
 	// page's directory instead
 	const directory = window.location.pathname.replace(/[^/]*$/, "");
 	window.location.href = `${directory}${page}.html`;
+}
+
+/**
+ * Creates a card containing a read-only code editor that shows example
+ * XML view usage of the control demonstrated on the test page.
+ *
+ * @param code the example XML snippet to display
+ * @returns the created Card
+ */
+export function createExampleCard(code: string): Card {
+	const trimmed = code.trim();
+	const lines = trimmed.split("\n").length;
+	return new Card({
+		header: new Header({
+			title: "Example Usage (XML View)",
+		}),
+		content: new CodeEditor({
+			value: trimmed,
+			type: "xml",
+			editable: false,
+			lineNumbers: true,
+			height: `${lines + 2}rem`,
+			width: "100%",
+		})
+			.addStyleClass("sapUiSmallMarginBegin")
+			.addStyleClass("sapUiSmallMarginEnd")
+			.addStyleClass("sapUiSmallMarginBottom"),
+	}).addStyleClass("sapUiMediumMarginTop");
 }
 
 /**

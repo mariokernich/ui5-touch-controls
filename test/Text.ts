@@ -20,7 +20,7 @@ import ColorPicker from "sap/ui/unified/ColorPicker";
 import { ColorPickerMode } from "sap/ui/unified/library";
 import SizedText from "ui5/touch/controls/Text";
 import { SizeMode } from "ui5/touch/controls/library";
-import initTestPage from "./Menu";
+import initTestPage, { createExampleCard } from "./Menu";
 
 const model = new JSONModel(
 	{
@@ -155,6 +155,19 @@ page.addItem(
 		width: "100%",
 		items: [options, sized, sapM],
 	}).addStyleClass("touchControlsCardRow"),
+);
+page.addItem(
+	createExampleCard(`
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tc="ui5.touch.controls">
+	<tc:Text
+		text="The quick brown fox jumps over the lazy dog"
+		color="#0057d2"
+		size="XL"
+		press=".onTextPress" />
+</mvc:View>
+`),
 );
 page.addStyleClass("sapUiSmallMargin");
 

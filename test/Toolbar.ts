@@ -6,7 +6,7 @@ import { SizeMode } from "ui5/touch/controls/library";
 import Toolbar from "ui5/touch/controls/Toolbar";
 import OverflowToolbar from "sap/m/OverflowToolbar";
 import Button from "sap/m/Button";
-import initTestPage from "./Menu";
+import initTestPage, { createExampleCard } from "./Menu";
 
 const toolbar = new Toolbar({
 	content: [
@@ -54,7 +54,32 @@ const overflowToolbar = new OverflowToolbar({
 }).addStyleClass("sapUiLargeMarginTop");
 
 const page = new VBox({
-	items: [toolbar, overflowToolbar],
+	items: [
+		toolbar,
+		overflowToolbar,
+		createExampleCard(`
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:m="sap.m"
+	xmlns:tc="ui5.touch.controls">
+	<tc:Toolbar>
+		<tc:Button
+			text="Add"
+			type="Emphasized"
+			icon="sap-icon://add"
+			size="XL"
+			press=".onAdd" />
+		<m:ToolbarSpacer />
+		<tc:Button
+			text="Delete"
+			type="Reject"
+			icon="sap-icon://delete"
+			size="XL"
+			press=".onDelete" />
+	</tc:Toolbar>
+</mvc:View>
+`),
+	],
 }).addStyleClass("sapUiSmallMargin");
 
 initTestPage("Toolbar", page);
