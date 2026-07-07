@@ -89,6 +89,20 @@ export default class Keyboard extends Control {
 		super(id, settings);
 	}
 
+	/**
+	 * Builds the simple-keyboard display map, replacing special keys
+	 * with SVG icons from the library's icons folder (rendered via
+	 * CSS mask so they follow the theme-aware button text color).
+	 */
+	private getDisplayMap(): Record<string, string> {
+		return {
+			"{bksp}":
+				'<span class="touchKeyboardKeyIcon touchKeyboardKeyIconBackspace"></span>',
+			"{enter}":
+				'<span class="touchKeyboardKeyIcon touchKeyboardKeyIconEnter"></span>',
+		};
+	}
+
 	public onAfterRendering(): void {
 		// The keyboard DOM is (re)created by simple-keyboard inside the
 		// control's div. UI5 re-rendering replaces those children, so any
@@ -104,6 +118,7 @@ export default class Keyboard extends Control {
 			layout: {
 				default: this.getLayout(),
 			},
+			display: this.getDisplayMap(),
 			maxLength: this.getMaxLength() > 0 ? this.getMaxLength() : undefined,
 			physicalKeyboardHighlight: true,
 			mergeDisplay: true,
