@@ -16,8 +16,9 @@
 	vertical-align: middle;
 	width: 100%;
 	background-color: @sapField_Background;
-	border: 1px solid @sapField_BorderColor;
+	border: var(--sapField_BorderWidth) var(--sapField_BorderStyle) var(--sapField_BorderColor);
 	border-radius: @sapField_BorderCornerRadius;
+	box-shadow: var(--sapField_Shadow);
 }
 
 .sizedInputContentWrapper:hover:not(.sizedInputState) {

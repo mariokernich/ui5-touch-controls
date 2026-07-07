@@ -25,7 +25,6 @@ const model = new JSONModel(
 		buttonType: "Default",
 		enabled: true,
 		editable: true,
-		theme: "sap_horizon",
 	},
 	true,
 );
@@ -113,29 +112,6 @@ const options = new Card({
 					new CheckBox({
 						text: "Editable",
 						selected: "{json>/editable}",
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
-					new Text({ text: "Theme", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/theme}",
-						items: [
-							new Item({ key: "sap_horizon", text: "Horizon" }),
-							new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
-							new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
-							new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
-							new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
-							new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
-						],
-						change: (event) => {
-							const selectedKey = event.getParameter("selectedItem")?.getKey();
-							if (selectedKey) {
-								sap.ui.getCore().applyTheme(selectedKey);
-							}
-						},
 					}),
 				],
 			}),

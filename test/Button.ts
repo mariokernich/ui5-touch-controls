@@ -24,7 +24,6 @@ const model = new JSONModel(
 		iconFirst: true,
 		enabled: true,
 		size: SizeMode.M,
-		theme: "sap_horizon",
 	},
 	true,
 );
@@ -41,7 +40,7 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Button Size", width: "100px" }),
+					new Text({ text: "Size", width: "60px" }),
 					new Select({
 						selectedKey: "{json>/size}",
 						items: [
@@ -58,30 +57,7 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Button Theme", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/theme}",
-						items: [
-							new Item({ key: "sap_horizon", text: "Horizon" }),
-							new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
-							new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
-							new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
-							new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
-							new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
-						],
-						change: (event) => {
-							const selectedKey = event.getParameter("selectedItem")?.getKey();
-							if (selectedKey) {
-								sap.ui.getCore().applyTheme(selectedKey);
-							}
-						},
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexJustifyContent.Center,
-				items: [
-					new Text({ text: "Button Text", width: "100px" }),
+					new Text({ text: "Text", width: "60px" }),
 					new Input({
 						value: "{json>/text}",
 						placeholder: "Button Text",
@@ -93,7 +69,7 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Button Icon", width: "100px" }),
+					new Text({ text: "Icon", width: "60px" }),
 					new Input({
 						value: "{json>/icon}",
 						placeholder: "Button Icon",
@@ -105,7 +81,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Button Size", width: "100px" }),
 					new CheckBox({
 						selected: "{json>/showIcon}",
 						text: "Show Icon",
@@ -126,7 +101,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Button Theme", width: "100px" }),
 					new CheckBox({
 						selected: "{json>/showText}",
 						text: "Show Text",
@@ -144,7 +118,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Icon Position", width: "100px" }),
 					new CheckBox({
 						selected: "{json>/iconFirst}",
 						text: "Icon First",
@@ -158,7 +131,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexJustifyContent.Center,
 				items: [
-					new Text({ text: "Behavior", width: "100px" }),
 					new CheckBox({
 						selected: "{json>/enabled}",
 						text: "Enabled",

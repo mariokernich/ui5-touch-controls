@@ -1,5 +1,6 @@
 import Button from "sap/m/Button";
 import { ButtonType } from "sap/m/library";
+import Select from "sap/m/Select";
 import Title from "sap/m/Title";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import NavigationList from "sap/tnt/NavigationList";
@@ -8,6 +9,7 @@ import SideNavigation from "sap/tnt/SideNavigation";
 import ToolHeader from "sap/tnt/ToolHeader";
 import ToolPage from "sap/tnt/ToolPage";
 import type Control from "sap/ui/core/Control";
+import Item from "sap/ui/core/Item";
 
 interface TestPageInfo {
 	key: string;
@@ -95,6 +97,24 @@ export default function initTestPage(
 					text: `ui5.touch.controls — ${currentKey}`,
 				}),
 				new ToolbarSpacer(),
+				new Select({
+					tooltip: "Theme",
+					selectedKey: sap.ui.getCore().getConfiguration().getTheme(),
+					items: [
+						new Item({ key: "sap_horizon", text: "Horizon" }),
+						new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
+						new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
+						new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
+						new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
+						new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
+					],
+					change: (event) => {
+						const selectedKey = event.getParameter("selectedItem")?.getKey();
+						if (selectedKey) {
+							sap.ui.getCore().applyTheme(selectedKey);
+						}
+					},
+				}),
 				new Button({
 					icon: "sap-icon://navigation-left-arrow",
 					type: ButtonType.Transparent,

@@ -26,7 +26,6 @@ const model = new JSONModel(
 		text: "The quick brown fox jumps over the lazy dog",
 		color: "#333333",
 		size: SizeMode.M,
-		theme: "sap_horizon",
 	},
 	true,
 );
@@ -57,18 +56,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexAlignItems.Center,
 				items: [
-					new Text({ text: "Text", width: "100px" }),
-					new Input({
-						value: "{json>/text}",
-						placeholder: "Text",
-						valueLiveUpdate: true,
-						width: "300px",
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
 					new Text({ text: "Size", width: "100px" }),
 					new Select({
 						selectedKey: "{json>/size}",
@@ -80,6 +67,18 @@ const options = new Card({
 							new Item({ key: "XXL", text: "XXL" }),
 							new Item({ key: "XXXL", text: "XXXL" }),
 						],
+					}),
+				],
+			}),
+			new HBox({
+				alignItems: FlexAlignItems.Center,
+				items: [
+					new Text({ text: "Text", width: "100px" }),
+					new Input({
+						value: "{json>/text}",
+						placeholder: "Text",
+						valueLiveUpdate: true,
+						width: "300px",
 					}),
 				],
 			}),
@@ -100,29 +99,6 @@ const options = new Card({
 							colorPickerPopover.openBy(event.getSource());
 						},
 					}).addStyleClass("sapUiTinyMarginBegin"),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
-					new Text({ text: "Theme", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/theme}",
-						items: [
-							new Item({ key: "sap_horizon", text: "Horizon" }),
-							new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
-							new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
-							new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
-							new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
-							new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
-						],
-						change: (event) => {
-							const selectedKey = event.getParameter("selectedItem")?.getKey();
-							if (selectedKey) {
-								sap.ui.getCore().applyTheme(selectedKey);
-							}
-						},
-					}),
 				],
 			}),
 		],

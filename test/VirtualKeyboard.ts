@@ -27,7 +27,6 @@ const model = new JSONModel(
 		size: "XL",
 		enabled: true,
 		width: "400px",
-		theme: "sap_horizon",
 	},
 	true,
 );
@@ -41,6 +40,23 @@ const options = new Card({
 	layoutData: new FlexItemData({ growFactor: 1, baseSize: "0" }),
 	content: new VBox({
 		items: [
+			new HBox({
+				alignItems: FlexAlignItems.Center,
+				items: [
+					new Text({ text: "Size", width: "100px" }),
+					new Select({
+						selectedKey: "{json>/size}",
+						items: [
+							new Item({ key: "S", text: "S" }),
+							new Item({ key: "M", text: "M" }),
+							new Item({ key: "L", text: "L" }),
+							new Item({ key: "XL", text: "XL" }),
+							new Item({ key: "XXL", text: "XXL" }),
+							new Item({ key: "XXXL", text: "XXXL" }),
+						],
+					}),
+				],
+			}),
 			new HBox({
 				alignItems: FlexAlignItems.Center,
 				items: [
@@ -69,23 +85,6 @@ const options = new Card({
 			new HBox({
 				alignItems: FlexAlignItems.Center,
 				items: [
-					new Text({ text: "Size", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/size}",
-						items: [
-							new Item({ key: "S", text: "S" }),
-							new Item({ key: "M", text: "M" }),
-							new Item({ key: "L", text: "L" }),
-							new Item({ key: "XL", text: "XL" }),
-							new Item({ key: "XXL", text: "XXL" }),
-							new Item({ key: "XXXL", text: "XXXL" }),
-						],
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
 					new Text({ text: "Width", width: "100px" }),
 					new Input({
 						value: "{json>/width}",
@@ -102,29 +101,6 @@ const options = new Card({
 					new CheckBox({
 						text: "Enabled",
 						selected: "{json>/enabled}",
-					}),
-				],
-			}),
-			new HBox({
-				alignItems: FlexAlignItems.Center,
-				items: [
-					new Text({ text: "Theme", width: "100px" }),
-					new Select({
-						selectedKey: "{json>/theme}",
-						items: [
-							new Item({ key: "sap_horizon", text: "Horizon" }),
-							new Item({ key: "sap_horizon_dark", text: "Horizon Dark" }),
-							new Item({ key: "sap_horizon_hcb", text: "Horizon HCB" }),
-							new Item({ key: "sap_horizon_hcw", text: "Horizon HCW" }),
-							new Item({ key: "sap_fiori_3", text: "Fiori 3" }),
-							new Item({ key: "sap_fiori_3_dark", text: "Fiori 3 Dark" }),
-						],
-						change: (event) => {
-							const selectedKey = event.getParameter("selectedItem")?.getKey();
-							if (selectedKey) {
-								sap.ui.getCore().applyTheme(selectedKey);
-							}
-						},
 					}),
 				],
 			}),
