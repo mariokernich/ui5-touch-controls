@@ -9,6 +9,7 @@ A custom [OpenUI5](https://openui5.org/) control library focused on **touch-frie
 | Control | Description |
 | --- | --- |
 | `ui5.touch.controls.Button` | A button with configurable size (`S`–`XXXL`), icon, icon position, type (all `sap.m.ButtonType` values), side padding, and width. Fires `press`. |
+| `ui5.touch.controls.Input` | An input field with configurable size (`S`–`XXXL`), value state, placeholder, max length, enabled/editable behavior, and width. Fires `change`, `liveChange`, and `submit`. |
 | `ui5.touch.controls.Text` | A text control with configurable size (`S`–`XXXL`) and color. Fires `press`. |
 | `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
 | `ui5.touch.controls.Keyboard` | A numeric on-screen keyboard based on [simple-keyboard](https://github.com/hodgef/simple-keyboard). |

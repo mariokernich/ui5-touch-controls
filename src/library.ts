@@ -38,6 +38,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 	interfaces: [],
 	controls: [
 		"ui5.touch.controls.Button",
+		"ui5.touch.controls.Input",
 		"ui5.touch.controls.Keyboard",
 		"ui5.touch.controls.Text",
 		"ui5.touch.controls.Toolbar",

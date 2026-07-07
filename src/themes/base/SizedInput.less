@@ -1,0 +1,85 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+.sizedInput {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	line-height: 0;
+	margin: 5px 0;
+}
+
+.sizedInputContentWrapper {
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 100%;
+	background-color: @sapField_Background;
+	border: 1px solid @sapField_BorderColor;
+	border-radius: @sapField_BorderCornerRadius;
+}
+
+.sizedInputContentWrapper:hover:not(.sizedInputState) {
+	background-color: @sapField_Hover_Background;
+	border-color: @sapField_Hover_BorderColor;
+}
+
+.sizedInputContentWrapper:focus-within {
+	border-color: @sapField_Focus_BorderColor;
+	outline: none;
+}
+
+.sizedInputInner {
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sizedInputInner::placeholder {
+	color: @sapField_PlaceholderTextColor;
+	font-style: italic;
+}
+
+/* read-only */
+.sizedInputReadonly .sizedInputContentWrapper {
+	background-color: @sapField_ReadOnly_Background;
+	border-color: @sapField_ReadOnly_BorderColor;
+}
+
+/* disabled */
+.sizedInputDisabled {
+	opacity: 0.5;
+}
+.sizedInputDisabled .sizedInputContentWrapper {
+	pointer-events: none;
+}
+
+/* value states */
+.sizedInputError {
+	background-color: @sapField_InvalidBackground;
+	border: 2px solid @sapField_InvalidColor;
+}
+
+.sizedInputWarning {
+	background-color: @sapField_WarningBackground;
+	border: 2px solid @sapField_WarningColor;
+}
+
+.sizedInputSuccess {
+	background-color: @sapField_SuccessBackground;
+	border: 1px solid @sapField_SuccessColor;
+}
+
+.sizedInputInformation {
+	background-color: @sapField_InformationBackground;
+	border: 2px solid @sapField_InformationColor;
+}
