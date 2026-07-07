@@ -3,7 +3,7 @@ import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import { InputType } from "sap/m/library";
-import { SizeMode } from "./library";
+import { ISized, SizeMode } from "./library";
 
 /**
  * A sized input control optimized for touch devices.
@@ -15,12 +15,13 @@ import { SizeMode } from "./library";
  *
  * @namespace ui5.touch.controls
  */
-export default class Input extends Control {
+export default class Input extends Control implements ISized {
 	private inputListener: ((event: globalThis.Event) => void) | null = null;
 	private changeListener: ((event: globalThis.Event) => void) | null = null;
 	private keydownListener: ((event: KeyboardEvent) => void) | null = null;
 
 	static readonly metadata: MetadataOptions = {
+		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
 			/**
 			 * The value of the input.

@@ -3,7 +3,7 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
 import Button from "./Button";
-import { SizeMode } from "./library";
+import { ISized, SizeMode } from "./library";
 
 /**
  * An on-screen keyboard optimized for touch devices, built natively from
@@ -20,7 +20,7 @@ import { SizeMode } from "./library";
  *
  * @namespace ui5.touch.controls
  */
-export default class VirtualKeyboard extends Control {
+export default class VirtualKeyboard extends Control implements ISized {
 	/**
 	 * Signature of the currently built button set, used to rebuild the
 	 * buttons only when the layout changes.
@@ -50,6 +50,7 @@ export default class VirtualKeyboard extends Control {
 	private shiftActive = false;
 
 	static readonly metadata: MetadataOptions = {
+		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
 			/**
 			 * The current input value of the keyboard.

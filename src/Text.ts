@@ -1,13 +1,14 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { SizeMode } from "./library";
+import { ISized, SizeMode } from "./library";
 
 /**
  * @namespace ui5.touch.controls
  */
-export default class Text extends Control {
+export default class Text extends Control implements ISized {
 	static readonly metadata: MetadataOptions = {
+		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
 			text: { type: "string", defaultValue: "" },
 			color: { type: "sap.ui.core.CSSColor", defaultValue: null },

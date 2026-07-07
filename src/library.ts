@@ -27,6 +27,31 @@ export enum SizeMode {
 	XXXL = "XXXL",
 }
 
+/**
+ * Interface for controls that provide the library's central
+ * <code>size</code> property ({@link ui5.touch.controls.SizeMode}).
+ *
+ * Allows generic handling of sized controls, e.g.
+ * <code>control.isA("ui5.touch.controls.ISized")</code> at runtime or
+ * typed access to <code>getSize</code> / <code>setSize</code> in
+ * TypeScript.
+ *
+ * @interface
+ * @name ui5.touch.controls.ISized
+ * @public
+ */
+export interface ISized {
+	/**
+	 * Returns the current size of the control.
+	 */
+	getSize(): SizeMode;
+
+	/**
+	 * Sets the size of the control.
+	 */
+	setSize(size: SizeMode): this;
+}
+
 // delegate further initialization of this library to the Core
 const thisLib: { [key: string]: unknown } = Lib.init({
 	name: "ui5.touch.controls",
@@ -36,7 +61,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"sap.ui.core",
 	],
 	types: ["ui5.touch.controls.SizeMode"],
-	interfaces: [],
+	interfaces: ["ui5.touch.controls.ISized"],
 	controls: [
 		"ui5.touch.controls.Button",
 		"ui5.touch.controls.Input",

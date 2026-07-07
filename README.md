@@ -2,7 +2,13 @@
 
 A custom [OpenUI5](https://openui5.org/) control library focused on **touch-friendly controls** — buttons, texts, toolbars, and an on-screen keyboard with generous hit areas and configurable sizes, built with TypeScript.
 
+The main advantage: the original `sap.m` controls are rebuilt on their original structure and opened up for resizing — for example via a central, easy-to-use `size` property (`S`–`XXXL`) that works consistently across all controls of the library.
+
 **Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
+
+## Requirements
+
+- UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
 
 ## Controls
 
@@ -19,6 +25,16 @@ A custom [OpenUI5](https://openui5.org/) control library focused on **touch-frie
 ### `SizeMode`
 
 Shared enum for control sizing: `S`, `M`, `L`, `XL`, `XXL`, `XXXL`.
+
+### `ISized`
+
+Marker interface (`ui5.touch.controls.ISized`) implemented by every control with a `size` property (`Button`, `Input`, `StepInput`, `Text`, `TextArea`, `VirtualKeyboard`). It allows generic size handling, e.g.:
+
+```ts
+if (control.isA<ISized>("ui5.touch.controls.ISized")) {
+	control.setSize(SizeMode.XL);
+}
+```
 
 ## Usage
 

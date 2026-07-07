@@ -25,7 +25,8 @@
     "build:self-contained": "ui5 build self-contained --all --config ui5-self-contained.yaml --clean-dest",
     "build:ts-interfaces": "npx @ui5/ts-interface-generator",
     "prestart": "npm run build:icon-font",
-    "start": "ui5 serve --config ui5-test.yaml -o test-resources/ui5/touch/controls/Button.html",
+    "start": "ui5 serve --config ui5-test.yaml --port 8080 -o test-resources/ui5/touch/controls/Button.html",
+    "start:1.120": "ui5 serve --config ui5-test.yaml --framework-version 1.120.46 --port 8120 -o test-resources/ui5/touch/controls/Button.html",
     "check:ts": "tsc --noEmit",
     "check:lint": "eslint src test",
     "prepare": "husky"

@@ -29,7 +29,6 @@ server:
     - name: ui5-middleware-livereload
       afterMiddleware: compression
       configuration:
-          port: 35732
           path:
               - "test/"
               - "src/"

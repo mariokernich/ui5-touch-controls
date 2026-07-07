@@ -4,7 +4,7 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import { ButtonType, InputType } from "sap/m/library";
 import Button from "./Button";
 import Input from "./Input";
-import { SizeMode } from "./library";
+import { ISized, SizeMode } from "./library";
 
 /**
  * A step input optimized for touch devices.
@@ -15,8 +15,9 @@ import { SizeMode } from "./library";
  *
  * @namespace ui5.touch.controls
  */
-export default class StepInput extends Control {
+export default class StepInput extends Control implements ISized {
 	static readonly metadata: MetadataOptions = {
+		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
 			/**
 			 * The current quantity value.

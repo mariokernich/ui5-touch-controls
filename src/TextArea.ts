@@ -2,7 +2,7 @@ import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
-import { SizeMode } from "./library";
+import { ISized, SizeMode } from "./library";
 
 /**
  * A sized multi-line text input control optimized for touch devices.
@@ -14,11 +14,14 @@ import { SizeMode } from "./library";
  *
  * @namespace ui5.touch.controls
  */
-export default class TextArea extends Control {
+export default class TextArea extends Control implements ISized {
+	__implements__ui5_touch_controls_ISized: boolean = true;
+
 	private inputListener: ((event: globalThis.Event) => void) | null = null;
 	private changeListener: ((event: globalThis.Event) => void) | null = null;
 
 	static readonly metadata: MetadataOptions = {
+		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
 			/**
 			 * The value of the text area.
