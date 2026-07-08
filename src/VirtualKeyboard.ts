@@ -49,6 +49,11 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 */
 	private shiftActive = false;
 
+	/**
+	 * Pending hardware key press animation timers, keyed by button index.
+	 */
+	private keyAnimationTimers = new Map<number, ReturnType<typeof setTimeout>>();
+
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
@@ -259,6 +264,50 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
+	 * Briefly applies the pressed (active) state to the key button that
+	 * corresponds to the given layout key, so hardware key presses are
+	 * visually reflected on the on-screen keyboard.
+	 */
+	private animateKeyButton(key: string): void {
+		const lowerKey = key.toLowerCase();
+		const index = this.layoutKeys.findIndex(
+			(layoutKey) => layoutKey.toLowerCase() === lowerKey,
+		);
+		if (index < 0) {
+			return;
+		}
+
+		const dom = this.getButtons()[index]?.getDomRef();
+		if (!dom) {
+			return;
+		}
+
+		const pendingTimer = this.keyAnimationTimers.get(index);
+		if (pendingTimer !== undefined) {
+			clearTimeout(pendingTimer);
+		}
+
+		dom.classList.add("sizedButtonActive");
+		this.keyAnimationTimers.set(
+			index,
+			setTimeout(() => {
+				dom.classList.remove("sizedButtonActive");
+				this.keyAnimationTimers.delete(index);
+			}, 120),
+		);
+	}
+
+	/**
+	 * Cancels all pending hardware key press animations.
+	 */
+	private clearKeyAnimations(): void {
+		for (const timer of this.keyAnimationTimers.values()) {
+			clearTimeout(timer);
+		}
+		this.keyAnimationTimers.clear();
+	}
+
+	/**
 	 * Handles input from a real (physical) keyboard while the control
 	 * has the focus.
 	 */
@@ -273,12 +322,14 @@ export default class VirtualKeyboard extends Control implements ISized {
 		const key = event.key;
 
 		if (key === "Enter") {
+			this.animateKeyButton("{enter}");
 			this.fireKeyPress({ key: "{enter}" });
 			this.fireEnter({ value: this.getValue() });
 			event.preventDefault();
 			return;
 		}
 		if (key === "Backspace") {
+			this.animateKeyButton("{bksp}");
 			this.fireKeyPress({ key: "{bksp}" });
 			this.removeLastChar();
 			event.preventDefault();
@@ -286,6 +337,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 		}
 		if (key === " ") {
 			if (this.layoutKeySet.has("{space}")) {
+				this.animateKeyButton("{space}");
 				this.fireKeyPress({ key: "{space}" });
 				this.insertChar(" ");
 				event.preventDefault();
@@ -293,6 +345,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 			return;
 		}
 		if (key.length === 1 && this.layoutKeySet.has(key.toLowerCase())) {
+			this.animateKeyButton(key);
 			this.fireKeyPress({ key });
 			this.insertChar(key);
 			this.setShiftActive(false);
@@ -342,6 +395,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 			return;
 		}
 
+		this.clearKeyAnimations();
 		this.destroyAggregation("_buttons", true);
 		this.rowLengths = [];
 		this.layoutKeys = [];
@@ -388,6 +442,10 @@ export default class VirtualKeyboard extends Control implements ISized {
 			offset += length;
 		}
 		return rows;
+	}
+
+	exit(): void {
+		this.clearKeyAnimations();
 	}
 
 	static renderer = {
