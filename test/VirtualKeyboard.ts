@@ -34,7 +34,7 @@ const model = new JSONModel(
 		size: "XL",
 		enabled: true,
 		hardwareKeys: true,
-		width: "700px",
+		width: "",
 	},
 	true,
 );
