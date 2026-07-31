@@ -10,6 +10,82 @@ The main advantage: the original `sap.m` controls are rebuilt on their original 
 
 - UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
 
+## Installation
+
+The library is published on npm as [`ui5.touch.controls`](https://www.npmjs.com/package/ui5.touch.controls) and can be consumed in any UI5 application that is built with the [UI5 Tooling](https://sap.github.io/ui5-tooling/) (v3 or higher).
+
+### 1. Install the package
+
+Install the library as a **regular dependency** (not a `devDependency`) so the UI5 Tooling picks it up as a project dependency:
+
+```sh
+npm install ui5.touch.controls
+```
+
+```json
+{
+	"dependencies": {
+		"ui5.touch.controls": "^1.0.0"
+	}
+}
+```
+
+The package ships a `ui5.yaml`, so the UI5 Tooling automatically resolves it as a library dependency.
+
+### 2. Add the types to `tsconfig.json`
+
+For TypeScript projects, add the package to the `types` entry in your `tsconfig.json` — otherwise the UI5 Tooling will not load the library automatically:
+
+```json
+{
+	"compilerOptions": {
+		"types": [
+			"@sapui5/types",
+			"ui5.touch.controls"
+		]
+	}
+}
+```
+
+### 3. Declare the library in `manifest.json`
+
+Add the library to the dependencies of your app:
+
+```json
+{
+	"sap.ui5": {
+		"dependencies": {
+			"libs": {
+				"ui5.touch.controls": {}
+			}
+		}
+	}
+}
+```
+
+### 4. Use the controls
+
+Add the namespace to your XML views and start using the controls (see [Usage](#usage)):
+
+```xml
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tc="ui5.touch.controls">
+	<tc:Button text="Hello" size="XL" />
+</mvc:View>
+```
+
+### TypeScript support
+
+The package includes TypeScript type definitions (`dist/index.d.ts`), so in a TypeScript UI5 app you get full typing out of the box:
+
+```ts
+import Button from "ui5/touch/controls/Button";
+import { SizeMode } from "ui5/touch/controls/library";
+
+const button = new Button({ text: "Confirm", size: SizeMode.XL });
+```
+
 ## Controls
 
 | Control | Description |
