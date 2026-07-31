@@ -153,15 +153,30 @@ export default class Input extends Control implements ISized {
 					sidePadding = "14px";
 					height = "3.5rem";
 					break;
-				case SizeMode.XXL:
+				case SizeMode["2XL"]:
 					fontSize = "1.25rem";
 					sidePadding = "16px";
 					height = "4rem";
 					break;
-				case SizeMode.XXXL:
+				case SizeMode["3XL"]:
 					fontSize = "1.5rem";
 					sidePadding = "18px";
 					height = "4.5rem";
+					break;
+				case SizeMode["4XL"]:
+					fontSize = "1.75rem";
+					sidePadding = "20px";
+					height = "5rem";
+					break;
+				case SizeMode["5XL"]:
+					fontSize = "2rem";
+					sidePadding = "22px";
+					height = "5.5rem";
+					break;
+				case SizeMode["6XL"]:
+					fontSize = "2.25rem";
+					sidePadding = "24px";
+					height = "6rem";
 					break;
 			}
 

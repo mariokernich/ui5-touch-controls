@@ -94,17 +94,35 @@ export default class Button extends Control implements ISized {
 					sidePadding = "28px";
 					height = "3.5rem";
 					break;
-				case SizeMode.XXL:
+				case SizeMode["2XL"]:
 					fontSize = "1.25rem";
 					iconSize = "1.55rem";
 					sidePadding = "32px";
 					height = "4rem";
 					break;
-				case SizeMode.XXXL:
+				case SizeMode["3XL"]:
 					fontSize = "1.5rem";
 					iconSize = "1.65rem";
 					sidePadding = "36px";
 					height = "4.5rem";
+					break;
+				case SizeMode["4XL"]:
+					fontSize = "1.75rem";
+					iconSize = "1.85rem";
+					sidePadding = "40px";
+					height = "5rem";
+					break;
+				case SizeMode["5XL"]:
+					fontSize = "2rem";
+					iconSize = "2.05rem";
+					sidePadding = "44px";
+					height = "5.5rem";
+					break;
+				case SizeMode["6XL"]:
+					fontSize = "2.25rem";
+					iconSize = "2.25rem";
+					sidePadding = "48px";
+					height = "6rem";
 					break;
 			}
 			// START: BUTTON

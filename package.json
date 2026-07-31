@@ -1,33 +1,48 @@
 {
   "name": "ui5.touch.controls",
   "version": "1.0.0",
-  "description": "UI5 Library: ui5.touch.controls",
+  "description": "UI5 Library: ui5.touch.controls — touch-friendly OpenUI5 controls with configurable sizes",
   "author": "Mario Kernich",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariokernich/ui5-touch-controls.git"
+  },
+  "homepage": "https://github.com/mariokernich/ui5-touch-controls#readme",
+  "bugs": {
+    "url": "https://github.com/mariokernich/ui5-touch-controls/issues"
+  },
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5",
+    "ui5-library",
+    "touch",
+    "controls",
+    "typescript"
+  ],
   "types": "dist/index.d.ts",
   "files": [
-    ".eslintrc.js",
-    "LICENCE",
     "README.md",
-    "tsconfig.json",
     "ui5.yaml",
+    "tsconfig.json",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "src",
-    "test"
+    "src"
   ],
   "scripts": {
     "clean": "rimraf dist coverage",
     "build:icon-font": "node scripts/build-icon-font.mjs",
-    "prebuild": "npm run build:icon-font",
+    "prebuild": "npm run clean && npm run build:icon-font",
     "build": "ui5 build --clean-dest",
-    "prebuild:self-contained": "npm run build:icon-font",
+    "prebuild:self-contained": "npm run clean && npm run build:icon-font",
     "build:self-contained": "ui5 build self-contained --all --config ui5-self-contained.yaml --clean-dest",
     "build:ts-interfaces": "npx @ui5/ts-interface-generator",
     "start": "ui5 serve --config ui5-test.yaml --port 8080 -o test-resources/ui5/touch/controls/Button.html",
     "start:1.120": "ui5 serve --config ui5-test.yaml --framework-version 1.120.46 --port 8120 -o test-resources/ui5/touch/controls/Button.html",
     "check:ts": "tsc --noEmit",
     "check:lint": "eslint src test",
+    "prepack": "npm run build",
     "prepare": "husky"
   },
   "devDependencies": {

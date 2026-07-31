@@ -233,10 +233,16 @@ export default class StepInput extends Control implements ISized {
 				return "4rem";
 			case SizeMode.XL:
 				return "4.5rem";
-			case SizeMode.XXL:
+			case SizeMode["2XL"]:
 				return "5rem";
-			case SizeMode.XXXL:
+			case SizeMode["3XL"]:
 				return "5.5rem";
+			case SizeMode["4XL"]:
+				return "6rem";
+			case SizeMode["5XL"]:
+				return "6.5rem";
+			case SizeMode["6XL"]:
+				return "7rem";
 		}
 	}
 
@@ -255,10 +261,16 @@ export default class StepInput extends Control implements ISized {
 				return "3rem";
 			case SizeMode.XL:
 				return "3.5rem";
-			case SizeMode.XXL:
+			case SizeMode["2XL"]:
 				return "4rem";
-			case SizeMode.XXXL:
+			case SizeMode["3XL"]:
 				return "4.5rem";
+			case SizeMode["4XL"]:
+				return "5rem";
+			case SizeMode["5XL"]:
+				return "5.5rem";
+			case SizeMode["6XL"]:
+				return "6rem";
 		}
 	}
 

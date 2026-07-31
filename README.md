@@ -2,7 +2,7 @@
 
 A custom [OpenUI5](https://openui5.org/) control library focused on **touch-friendly controls** — buttons, texts, toolbars, and an on-screen keyboard with generous hit areas and configurable sizes, built with TypeScript.
 
-The main advantage: the original `sap.m` controls are rebuilt on their original structure and opened up for resizing — for example via a central, easy-to-use `size` property (`S`–`XXXL`) that works consistently across all controls of the library.
+The main advantage: the original `sap.m` controls are rebuilt on their original structure and opened up for resizing — for example via a central, easy-to-use `size` property (`S`–`6XL`) that works consistently across all controls of the library.
 
 **Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
 
@@ -14,17 +14,17 @@ The main advantage: the original `sap.m` controls are rebuilt on their original 
 
 | Control | Description |
 | --- | --- |
-| `ui5.touch.controls.Button` | A button with configurable size (`S`–`XXXL`), icon, icon position, type (all `sap.m.ButtonType` values), side padding, and width. Fires `press`. |
+| `ui5.touch.controls.Button` | A button with configurable size (`S`–`6XL`), icon, icon position, type (all `sap.m.ButtonType` values), side padding, and width. Fires `press`. |
 | `ui5.touch.controls.Input` | A wrapper around `sap.m.Input` that supports `size` property. |
-| `ui5.touch.controls.StepInput` | A step input composed of a minus button, an input, and a plus button. The `size` property (`S`–`XXXL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
-| `ui5.touch.controls.Text` | A text control with configurable size (`S`–`XXXL`) and color. Fires `press`. |
-| `ui5.touch.controls.TextArea` | A multi-line text input based on `sap.m.TextArea` with touch-friendly size modes (`S`–`XXXL`), rows, max length, value states, and `change` / `liveChange` events. |
+| `ui5.touch.controls.StepInput` | A step input composed of a minus button, an input, and a plus button. The `size` property (`S`–`6XL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
+| `ui5.touch.controls.Text` | A text control with configurable size (`S`–`6XL`) and color. Fires `press`. |
+| `ui5.touch.controls.TextArea` | A multi-line text input based on `sap.m.TextArea` with touch-friendly size modes (`S`–`6XL`), rows, max length, value states, and `change` / `liveChange` events. |
 | `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
-| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}` special keys), optional real (hardware) keyboard input via `hardwareKeys`, size (`S`–`XXXL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
+| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}` special keys), optional real (hardware) keyboard input via `hardwareKeys`, size (`S`–`6XL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
 
 ### `SizeMode`
 
-Shared enum for control sizing: `S`, `M`, `L`, `XL`, `XXL`, `XXXL`.
+Shared enum for control sizing: `S`, `M`, `L`, `XL`, `2XL`, `3XL`, `4XL`, `5XL`, `6XL`.
 
 ### `ISized`
 

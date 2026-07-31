@@ -147,15 +147,30 @@ export default class TextArea extends Control implements ISized {
 					sidePadding = "14px";
 					verticalPadding = "10px";
 					break;
-				case SizeMode.XXL:
+				case SizeMode["2XL"]:
 					fontSize = "1.25rem";
 					sidePadding = "16px";
 					verticalPadding = "12px";
 					break;
-				case SizeMode.XXXL:
+				case SizeMode["3XL"]:
 					fontSize = "1.5rem";
 					sidePadding = "18px";
 					verticalPadding = "14px";
+					break;
+				case SizeMode["4XL"]:
+					fontSize = "1.75rem";
+					sidePadding = "20px";
+					verticalPadding = "16px";
+					break;
+				case SizeMode["5XL"]:
+					fontSize = "2rem";
+					sidePadding = "22px";
+					verticalPadding = "18px";
+					break;
+				case SizeMode["6XL"]:
+					fontSize = "2.25rem";
+					sidePadding = "24px";
+					verticalPadding = "20px";
 					break;
 			}
 
