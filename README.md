@@ -4,7 +4,7 @@ A custom [OpenUI5](https://openui5.org/) control library focused on **touch-frie
 
 The main advantage: the original `sap.m` controls are rebuilt on their original structure and opened up for resizing — for example via a central, easy-to-use `size` property (`S`–`6XL`) that works consistently across all controls of the library.
 
-**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
+**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/Button.html
 
 ## Requirements
 
