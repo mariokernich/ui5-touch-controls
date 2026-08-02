@@ -6,6 +6,14 @@ The main advantage: the original `sap.m` controls are rebuilt on their original 
 
 **Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/Button.html
 
+**npm package:** https://www.npmjs.com/package/ui5.touch.controls
+
+![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
+
+The controls integrate seamlessly with existing standard controls and aggregations — for example, `Button` and `Text` inside a `sap.m.Table`:
+
+![sap.m.Table using ui5.touch.controls Button and Text controls](docs/table.png)
+
 ## Requirements
 
 - UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
