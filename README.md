@@ -32,6 +32,26 @@ npm install ui5.touch.controls
 
 The package ships a `ui5.yaml`, so the UI5 Tooling automatically resolves it as a library dependency.
 
+#### With UI5 middleware (alternative setup)
+
+Instead of consuming the library as a UI5 Tooling project dependency, you can serve it statically with [`ui5-middleware-servestatic`](https://www.npmjs.com/package/ui5-middleware-servestatic):
+
+```sh
+npm i ui5.touch.controls && npm i -D ui5-middleware-servestatic
+```
+
+Add the following configuration to your `ui5.yaml`:
+
+```yaml
+server:
+  customMiddleware:
+    - name: ui5-middleware-servestatic
+      afterMiddleware: compression
+      mountPath: /resources/ui5/touch/controls/
+      configuration:
+        npmPackagePath: 'ui5.touch.controls/dist/resources/ui5/touch/controls'
+```
+
 ### 2. Add the types to `tsconfig.json`
 
 For TypeScript projects, add the package to the `types` entry in your `tsconfig.json` — otherwise the UI5 Tooling will not load the library automatically:
