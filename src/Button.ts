@@ -248,27 +248,28 @@ export default class Button extends Control implements ISized {
 				dom.classList.remove("sizedButtonActive");
 			};
 
-			dom.addEventListener("mousedown", this.pressListener);
-			dom.addEventListener("mouseup", this.releaseListener);
-			dom.addEventListener("mouseleave", this.cancelListener);
-			dom.addEventListener("touchstart", this.pressListener);
-			dom.addEventListener("touchend", this.releaseListener);
-			dom.addEventListener("touchcancel", this.cancelListener);
+			// Pointer events unify mouse, touch and pen input, so each
+			// tap/click produces exactly one pointerdown/pointerup pair.
+			// Using mouse + touch listeners in parallel would fire press
+			// twice on mobile (touchend followed by the synthesized
+			// compatibility mouseup).
+			dom.addEventListener("pointerdown", this.pressListener);
+			dom.addEventListener("pointerup", this.releaseListener);
+			dom.addEventListener("pointerleave", this.cancelListener);
+			dom.addEventListener("pointercancel", this.cancelListener);
 		}
 	}
 
 	private detachDomListeners(dom: HTMLElement): void {
 		if (this.pressListener) {
-			dom.removeEventListener("mousedown", this.pressListener);
-			dom.removeEventListener("touchstart", this.pressListener);
+			dom.removeEventListener("pointerdown", this.pressListener);
 		}
 		if (this.releaseListener) {
-			dom.removeEventListener("mouseup", this.releaseListener);
-			dom.removeEventListener("touchend", this.releaseListener);
+			dom.removeEventListener("pointerup", this.releaseListener);
 		}
 		if (this.cancelListener) {
-			dom.removeEventListener("mouseleave", this.cancelListener);
-			dom.removeEventListener("touchcancel", this.cancelListener);
+			dom.removeEventListener("pointerleave", this.cancelListener);
+			dom.removeEventListener("pointercancel", this.cancelListener);
 		}
 		this.pressListener = null;
 		this.releaseListener = null;
