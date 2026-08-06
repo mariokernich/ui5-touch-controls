@@ -5,7 +5,7 @@
         "moduleResolution": "bundler",
         "skipLibCheck": true,
         "preserveConstEnums": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "allowJs": true,
         "strict": true,
         "strictNullChecks": true,
