@@ -13,29 +13,29 @@ import initTestPage, { createExampleCard } from "./Menu";
 import Dialog from "sap/m/Dialog";
 import Page from "sap/m/Page";
 import MessageToast from "sap/m/MessageToast";
+
 const model = new JSONModel({
 	size: SizeMode.XL,
 });
 
+const select = new Select({
+	selectedKey: "{json>/size}",
+	items: [
+		new Item({ key: "S", text: "S" }),
+		new Item({ key: "M", text: "M" }),
+		new Item({ key: "L", text: "L" }),
+		new Item({ key: "XL", text: "XL" }),
+		new Item({ key: "2XL", text: "2XL" }),
+		new Item({ key: "3XL", text: "3XL" }),
+		new Item({ key: "4XL", text: "4XL" }),
+		new Item({ key: "5XL", text: "5XL" }),
+		new Item({ key: "6XL", text: "6XL" }),
+	],
+});
+
 const sizeSelect = new HBox({
 	alignItems: FlexAlignItems.Center,
-	items: [
-		new Text({ text: "Button size", width: "100px" }),
-		new Select({
-			selectedKey: "{json>/size}",
-			items: [
-				new Item({ key: "S", text: "S" }),
-				new Item({ key: "M", text: "M" }),
-				new Item({ key: "L", text: "L" }),
-				new Item({ key: "XL", text: "XL" }),
-				new Item({ key: "2XL", text: "2XL" }),
-				new Item({ key: "3XL", text: "3XL" }),
-				new Item({ key: "4XL", text: "4XL" }),
-				new Item({ key: "5XL", text: "5XL" }),
-				new Item({ key: "6XL", text: "6XL" }),
-			],
-		}),
-	],
+	items: [new Text({ text: "Button size", width: "100px" }), select],
 }).addStyleClass("sapUiSmallMarginBottom");
 
 const toolbar = new Toolbar({
@@ -51,7 +51,14 @@ const toolbar = new Toolbar({
 					contentWidth: "600px",
 					contentHeight: "200px",
 				});
-				dialog.addContent(new Text({ text: "Button 1 pressed" }));
+				dialog.addContent(
+					new VBox({
+						alignItems: FlexAlignItems.Center,
+						justifyContent: "Center",
+						height: "100%",
+						items: [new Text({ text: "Change Button Size" }), select],
+					}),
+				);
 				dialog.setFooter(
 					new Toolbar({
 						content: [

@@ -14,6 +14,10 @@ The controls integrate seamlessly with existing standard controls and aggregatio
 
 ![sap.m.Table using ui5.touch.controls Button and Text controls](docs/table.png)
 
+Use the toolbar as replacement for existing toolbar in `Page` or `Dialog`.
+
+![Screenshot of Toolbar in Dialog](docs/dialog.png)
+
 ## Requirements
 
 - UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
