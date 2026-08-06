@@ -1,24 +1,14 @@
-import Control from "sap/ui/core/Control";
+import ToolbarBase from "sap/m/Toolbar";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 
 /**
  * @namespace ui5.touch.controls
  */
-export default class Toolbar extends Control {
+export default class Toolbar extends ToolbarBase {
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["sap.ui.core.Toolbar", "sap.m.IBar"],
 		defaultAggregation: "content",
-		associations: {
-			/**
-			 * Association to controls / ids which label this control (see WAI-ARIA attribute aria-labelledby).
-			 */
-			ariaLabelledBy: {
-				type: "sap.ui.core.Control",
-				multiple: true,
-				singularName: "ariaLabelledBy",
-			},
-		},
 		aggregations: {
 			/**
 			 * The content of the toolbar.
@@ -31,9 +21,9 @@ export default class Toolbar extends Control {
 		},
 	};
 
-	constructor(idOrSettings?: string | $ToolbarSettings);
-	constructor(id?: string, settings?: $ToolbarSettings);
-	constructor(id?: string, settings?: $ToolbarSettings) {
+	constructor(idOrSettings?: string | $ToolbarSettings_1);
+	constructor(id?: string, settings?: $ToolbarSettings_1);
+	constructor(id?: string, settings?: $ToolbarSettings_1) {
 		super(id, settings);
 	}
 
