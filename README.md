@@ -37,7 +37,7 @@ npm install ui5.touch.controls
 ```json
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.0.2"
+		"ui5.touch.controls": "^1.0.3"
 	}
 }
 ```
