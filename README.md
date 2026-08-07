@@ -17,7 +17,7 @@ The library does two things about that:
 
 ![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
 
-**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/Button.html
+**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/GettingStarted.html
 
 **npm package:** https://www.npmjs.com/package/ui5.touch.controls
 
@@ -319,7 +319,7 @@ pnpm install
 npm run start
 ```
 
-This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test pages. There is one HTML/TS pair per control in `test/` (e.g. `Button.html`, `OverflowToolbar.html`, `VirtualKeyboard.html`).
+This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test pages. There is one HTML/TS pair per control in `test/` (e.g. `Button.html`, `OverflowToolbar.html`, `VirtualKeyboard.html`), plus the introductory pages `GettingStarted.html`, `Setup.html` and `Documentation.html`. The shared shell (side navigation, theme switcher, example cards) lives in `test/Menu.ts`.
 
 ### Scripts
 
