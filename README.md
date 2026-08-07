@@ -2,11 +2,15 @@
 <img src="docs/logo.jpg" width="500"/>
 </p>
 
-**Standard OpenUI5 controls, rebuilt for touch — and finally resizable.**
+**Standard OpenUI5 controls, rebuilt for touch — plus the ones `sap.m` is missing.**
 
-`sap.m` controls are made for mouse and keyboard. On a tablet, a shop floor terminal or a device operated with gloves they are simply too small — and the cozy content density only gets you one step further. This library rebuilds the most important `sap.m` controls on their original structure and opens them up for sizing through one central `size` property (`S`–`6XL`) that works the same way on every control.
+`sap.m` controls are made for mouse and keyboard. On a tablet, a shop floor terminal or a device operated with gloves they are simply too small — and the cozy content density only gets you one step further.
 
-**You do not have to rebuild your app.** The controls keep the familiar properties, aggregations and events of their `sap.m` originals for the common cases, so you can use them as a drop-in replacement — add the namespace, put `tc:` in front of the control, set a size. Everything else stays the way it is.
+The library does two things about that:
+
+1. **It rebuilds the most important `sap.m` controls** on their original structure and opens them up for sizing through one central `size` property (`S`–`6XL`) that works the same way on every control. You do not have to rebuild your app: the controls keep the familiar properties, aggregations and events of their originals for the common cases, so you can use them as a drop-in replacement — add the namespace, put `tc:` in front of the control, set a size. Everything else stays the way it is.
+
+2. **It adds controls that `sap.m` does not have at all**, for situations that only come up on touch devices. The prime example is [`tc:VirtualKeyboard`](#new-controls-for-touch) — a terminal without a hardware keyboard needs an on-screen keyboard, and OpenUI5 does not ship one.
 
 ![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
 
@@ -70,6 +74,30 @@ Bind `size` to a model to switch the size of the whole app at runtime:
 ```xml
 <tc:Button text="Save" size="{settings>/touchSize}" press=".onSave" />
 ```
+
+## New controls for touch
+
+Not everything a touch app needs exists in `sap.m`. Where that is the case, the library adds a control of its own — built from the same sized building blocks, themed through the same theme parameters, so it fits in with the rest.
+
+### `tc:VirtualKeyboard`
+
+On a shop floor terminal, a kiosk or a device operated with gloves there is often no hardware keyboard, and the on-screen keyboard of the operating system is either unavailable or covers half the screen. OpenUI5 has no control for this. `tc:VirtualKeyboard` is an on-screen keyboard rendered from the library's own buttons — no third-party dependency, and sized through the same `size` property as everything else.
+
+![The VirtualKeyboard with a QWERTY layout](docs/virtualkeyboard.png)
+
+The layout is simply a list of rows, so a numeric pad, a full QWERTY keyboard or a domain-specific key set are all a matter of one property:
+
+```xml
+<tc:VirtualKeyboard
+	value="{/quantity}"
+	size="XL"
+	width="700px"
+	layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
+	change=".onChange"
+	enter=".onEnter" />
+```
+
+`{shift}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
 
 ## Requirements
 
@@ -170,6 +198,8 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 
 ## Controls
 
+The **Replaces** column names the `sap.m` control each one steps in for. Where it says *new*, there is no `sap.m` equivalent — the control exists only in this library.
+
 | Control | Replaces | Description |
 | --- | --- | --- |
 | `tc:Button` | `sap.m.Button` | Button with configurable size, icon, icon position, type (all `sap.m.ButtonType` values), side padding and width. Fires `press`. |
@@ -180,7 +210,7 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 | `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
 | `tc:OverflowToolbar` | `sap.m.OverflowToolbar` | Like `tc:Toolbar`, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of `sap.m.OverflowToolbarLayoutData`. |
 | `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
-| `tc:VirtualKeyboard` | – | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `tc:VirtualKeyboard` | **nothing — new** | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
 | `QuickDialog` | `sap.m.MessageBox` | Helper class for touch-ready dialogs, used from the controller instead of a view: `show`, `confirm`, `information`, `error`, `input`, `select`, `details`. Every method returns a `Promise`. |
 
 ### Sizes
