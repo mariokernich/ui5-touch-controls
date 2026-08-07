@@ -15,28 +15,55 @@ import initTestPage, { createExampleCard } from "./Menu";
 
 const model = new JSONModel({
 	size: SizeMode.XL,
+	buttonType: "Default",
 	view: "list",
 	enabled: true,
 });
 
-const sizeSelect = new HBox({
-	alignItems: FlexAlignItems.Center,
+const settings = new VBox({
 	items: [
-		new Text({ text: "Size", width: "100px" }),
-		new Select({
-			selectedKey: "{json>/size}",
+		new HBox({
+			alignItems: FlexAlignItems.Center,
 			items: [
-				new Item({ key: "S", text: "S" }),
-				new Item({ key: "M", text: "M" }),
-				new Item({ key: "L", text: "L" }),
-				new Item({ key: "XL", text: "XL" }),
-				new Item({ key: "2XL", text: "2XL" }),
-				new Item({ key: "3XL", text: "3XL" }),
-				new Item({ key: "4XL", text: "4XL" }),
-				new Item({ key: "5XL", text: "5XL" }),
-				new Item({ key: "6XL", text: "6XL" }),
+				new Text({ text: "Size", width: "100px" }),
+				new Select({
+					selectedKey: "{json>/size}",
+					items: [
+						new Item({ key: "S", text: "S" }),
+						new Item({ key: "M", text: "M" }),
+						new Item({ key: "L", text: "L" }),
+						new Item({ key: "XL", text: "XL" }),
+						new Item({ key: "2XL", text: "2XL" }),
+						new Item({ key: "3XL", text: "3XL" }),
+						new Item({ key: "4XL", text: "4XL" }),
+						new Item({ key: "5XL", text: "5XL" }),
+						new Item({ key: "6XL", text: "6XL" }),
+					],
+				}),
 			],
 		}),
+		new HBox({
+			alignItems: FlexAlignItems.Center,
+			items: [
+				new Text({ text: "Button Type", width: "100px" }),
+				new Select({
+					selectedKey: "{json>/buttonType}",
+					items: [
+						new Item({ key: "Default", text: "Default" }),
+						new Item({ key: "Emphasized", text: "Emphasized" }),
+						new Item({ key: "Accept", text: "Accept" }),
+						new Item({ key: "Reject", text: "Reject" }),
+						new Item({ key: "Attention", text: "Attention" }),
+						new Item({ key: "Transparent", text: "Transparent" }),
+						new Item({ key: "Neutral", text: "Neutral" }),
+						new Item({ key: "Critical", text: "Critical" }),
+						new Item({ key: "Negative", text: "Negative" }),
+						new Item({ key: "Success", text: "Success" }),
+						new Item({ key: "Ghost", text: "Ghost" }),
+					],
+				}),
+			],
+		}).addStyleClass("sapUiTinyMarginTop"),
 	],
 }).addStyleClass("sapUiSmallMarginBottom");
 
@@ -53,6 +80,7 @@ function createHint(text: string): Text {
 // text only, the selected key is bound two-way to the model
 const textOnly = new SegmentedButton({
 	size: "{json>/size}",
+	buttonType: "{json>/buttonType}",
 	selectedKey: "{json>/view}",
 	items: [
 		new SegmentedButtonItem({ key: "list", text: "List" }),
@@ -66,6 +94,7 @@ const textOnly = new SegmentedButton({
 
 const iconAndText = new SegmentedButton({
 	size: "{json>/size}",
+	buttonType: "{json>/buttonType}",
 	items: [
 		new SegmentedButtonItem({
 			key: "line",
@@ -87,6 +116,7 @@ const iconAndText = new SegmentedButton({
 
 const iconOnly = new SegmentedButton({
 	size: "{json>/size}",
+	buttonType: "{json>/buttonType}",
 	selectedKey: "grid",
 	items: [
 		new SegmentedButtonItem({ key: "list", icon: "sap-icon://list" }),
@@ -98,6 +128,7 @@ const iconOnly = new SegmentedButton({
 // an explicit width spreads the segments evenly
 const fullWidth = new SegmentedButton({
 	size: "{json>/size}",
+	buttonType: "{json>/buttonType}",
 	width: "100%",
 	selectedKey: "email",
 	items: [
@@ -121,6 +152,7 @@ const fullWidth = new SegmentedButton({
 
 const withDisabledItem = new SegmentedButton({
 	size: "{json>/size}",
+	buttonType: "{json>/buttonType}",
 	enabled: "{json>/enabled}",
 	selectedKey: "day",
 	items: [
@@ -132,7 +164,7 @@ const withDisabledItem = new SegmentedButton({
 
 const page = new VBox({
 	items: [
-		sizeSelect,
+		settings,
 
 		createSectionTitle("Text only"),
 		textOnly,

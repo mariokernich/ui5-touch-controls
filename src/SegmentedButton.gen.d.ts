@@ -2,6 +2,7 @@ import SegmentedButtonItem from "ui5/touch/controls/SegmentedButtonItem";
 import Event from "sap/ui/base/Event";
 import { CSSSize } from "sap/ui/core/library";
 import { SizeMode } from "ui5/touch/controls/library";
+import { ButtonType } from "sap/m/library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { AggregationBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
@@ -32,6 +33,14 @@ declare module "./SegmentedButton" {
          * Touch size applied to all segments together.
          */
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * Type used for the selected segment. The other segments stay
+        neutral, so the selection stays visible with every type - with
+        the default type the selected segment uses the theme's selected
+        colours instead.
+         */
+        buttonType?: ButtonType | PropertyBindingInfo | `{${string}}`;
 
         /**
          * The segments of the control.
@@ -93,6 +102,24 @@ declare module "./SegmentedButton" {
          * Touch size applied to all segments together.
          */
         setSize(size: SizeMode): this;
+
+        // property: buttonType
+
+        /**
+         * Type used for the selected segment. The other segments stay
+        neutral, so the selection stays visible with every type - with
+        the default type the selected segment uses the theme's selected
+        colours instead.
+         */
+        getButtonType(): ButtonType;
+
+        /**
+         * Type used for the selected segment. The other segments stay
+        neutral, so the selection stays visible with every type - with
+        the default type the selected segment uses the theme's selected
+        colours instead.
+         */
+        setButtonType(buttonType: ButtonType): this;
 
         // aggregation: items
 
