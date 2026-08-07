@@ -208,6 +208,67 @@ Use `tc:Toolbar` or `tc:OverflowToolbar` as a replacement for the toolbar in a `
 
 ![Screenshot of Toolbar in Dialog](docs/dialog.png)
 
+### ⚠️ Aggregations that only accept `sap.m.Button`
+
+Some standard aggregations are typed to `sap.m.Button` and therefore cannot take a `tc:Button` at all — the most common ones are `buttons`, `beginButton` and `endButton` of `sap.m.Dialog`:
+
+```xml
+<!-- does NOT work — these aggregations only accept sap.m.Button -->
+<Dialog title="Delete order">
+	<buttons>
+		<tc:Button text="Delete" type="Reject" size="XL" press=".onDelete" />
+		<tc:Button text="Cancel" size="XL" press=".onCancel" />
+	</buttons>
+</Dialog>
+```
+
+UI5 rejects the control at runtime:
+
+```
+"Element ui5.touch.controls.Button#__button0" is not valid
+for aggregation "buttons" of Element sap.m.Dialog#__dialog0
+```
+
+And these button slots are not meant to be resized either — they are laid out for the standard button height.
+
+**The way around it is the `footer` aggregation.** It is typed to `sap.m.Toolbar` (available since UI5 1.110), and because `tc:Toolbar` and `tc:OverflowToolbar` extend `sap.m.Toolbar`, they fit straight in. The dialog then sizes its footer to the toolbar, so touch-sized buttons are rendered properly:
+
+```xml
+<!-- works — the footer takes any sap.m.Toolbar, so also the touch ones -->
+<Dialog title="Delete order">
+	<footer>
+		<tc:OverflowToolbar size="XL">
+			<tc:Button text="Delete" type="Reject" icon="sap-icon://delete" size="XL" press=".onDelete" />
+			<ToolbarSpacer />
+			<tc:Button text="Cancel" icon="sap-icon://decline" size="XL" press=".onCancel" />
+		</tc:OverflowToolbar>
+	</footer>
+</Dialog>
+```
+
+Use `tc:OverflowToolbar` rather than `tc:Toolbar` whenever the dialog can get narrow — actions that no longer fit then move into the overflow popover instead of being cut off.
+
+The same applies in a controller:
+
+```ts
+import Button from "ui5/touch/controls/Button";
+import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
+import { SizeMode } from "ui5/touch/controls/library";
+
+dialog.setFooter(
+	new OverflowToolbar({
+		size: SizeMode.XL,
+		content: [
+			new Button({ text: "Delete", type: ButtonType.Reject, size: SizeMode.XL, press: onDelete }),
+			new ToolbarSpacer(),
+			new Button({ text: "Cancel", size: SizeMode.XL, press: onCancel }),
+		],
+	}),
+);
+```
+
+For plain message-box style dialogs you do not have to build this yourself — `QuickDialog` already creates its footer this way, sized through its `size` option.
+
 ## Development
 
 ### Prerequisites
