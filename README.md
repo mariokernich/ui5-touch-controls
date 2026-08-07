@@ -1,22 +1,73 @@
 # UI5 Library `ui5.touch.controls`
 
-A custom [OpenUI5](https://openui5.org/) control library focused on **touch-friendly controls** — buttons, texts, toolbars, and an on-screen keyboard with generous hit areas and configurable sizes, built with TypeScript.
+**Standard OpenUI5 controls, rebuilt for touch — and finally resizable.**
 
-The main advantage: the original `sap.m` controls are rebuilt on their original structure and opened up for resizing — for example via a central, easy-to-use `size` property (`S`–`6XL`) that works consistently across all controls of the library.
+`sap.m` controls are made for mouse and keyboard. On a tablet, a shop floor terminal or a device operated with gloves they are simply too small — and the cozy content density only gets you one step further. This library rebuilds the most important `sap.m` controls on their original structure and opens them up for sizing through one central `size` property (`S`–`6XL`) that works the same way on every control.
+
+**You do not have to rebuild your app.** The controls keep the familiar properties, aggregations and events of their `sap.m` originals for the common cases, so you can use them as a drop-in replacement — add the namespace, put `tc:` in front of the control, set a size. Everything else stays the way it is.
+
+![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
 
 **Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/Button.html
 
 **npm package:** https://www.npmjs.com/package/ui5.touch.controls
 
-![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
+## Drop-in replacement — before and after
 
-The controls integrate seamlessly with existing standard controls and aggregations — for example, `Button` and `Text` inside a `sap.m.Table`:
+A `sap.m.Page` with an `OverflowToolbar` as footer. This is the standard version:
 
-![sap.m.Table using ui5.touch.controls Button and Text controls](docs/table.png)
+```xml
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<Page title="Order">
+		<footer>
+			<OverflowToolbar>
+				<Button text="Save" type="Emphasized" icon="sap-icon://save" press=".onSave" />
+				<Button text="Cancel" icon="sap-icon://decline" press=".onCancel" />
+				<ToolbarSpacer />
+				<Button text="Approve" type="Accept" icon="sap-icon://accept" press=".onApprove" />
+				<Button text="Reject" type="Reject" icon="sap-icon://decline" press=".onReject" />
+				<Button text="History" icon="sap-icon://history" press=".onHistory" />
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>
+```
 
-Use the toolbar as replacement for existing toolbar in `Page` or `Dialog`.
+And the touch version — the namespace `tc`, a `tc:` in front of the controls and a `size`:
 
-![Screenshot of Toolbar in Dialog](docs/dialog.png)
+```xml
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:tc="ui5.touch.controls">
+	<Page title="Order">
+		<footer>
+			<tc:OverflowToolbar size="XL">
+				<tc:Button text="Save" type="Emphasized" icon="sap-icon://save" size="XL" press=".onSave" />
+				<tc:Button text="Cancel" icon="sap-icon://decline" size="XL" press=".onCancel" />
+				<ToolbarSpacer />
+				<tc:Button text="Approve" type="Accept" icon="sap-icon://accept" size="XL" press=".onApprove" />
+				<tc:Button text="Reject" type="Reject" icon="sap-icon://decline" size="XL" press=".onReject" />
+				<tc:Button text="History" icon="sap-icon://history" size="XL" press=".onHistory" />
+			</tc:OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>
+```
+
+Same aggregations, same properties, same event handlers — `press=".onSave"` still calls the same method in your controller. `sap.m` controls such as `ToolbarSpacer` can stay exactly where they are.
+
+The result: buttons big enough to hit with a finger, and a toolbar that moves everything that does not fit behind a button with three dots.
+
+![Screenshot of the OverflowToolbar with the overflow popover](docs/overflowtoolbar.png)
+
+Bind `size` to a model to switch the size of the whole app at runtime:
+
+```xml
+<tc:Button text="Save" size="{settings>/touchSize}" press=".onSave" />
+```
 
 ## Requirements
 
@@ -37,7 +88,7 @@ npm install ui5.touch.controls
 ```json
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.0.3"
+		"ui5.touch.controls": "^1.1.0"
 	}
 }
 ```
@@ -64,22 +115,7 @@ server:
         npmPackagePath: 'ui5.touch.controls/dist/resources/ui5/touch/controls'
 ```
 
-### 2. Add the types to `tsconfig.json`
-
-For TypeScript projects, add the package to the `types` entry in your `tsconfig.json` — otherwise the UI5 Tooling will not load the library automatically:
-
-```json
-{
-	"compilerOptions": {
-		"types": [
-			"@sapui5/types",
-			"ui5.touch.controls"
-		]
-	}
-}
-```
-
-### 3. Declare the library in `manifest.json`
+### 2. Declare the library in `manifest.json`
 
 Add the library to the dependencies of your app:
 
@@ -95,13 +131,12 @@ Add the library to the dependencies of your app:
 }
 ```
 
-### 4. Use the controls
-
-Add the namespace to your XML views and start using the controls (see [Usage](#usage)):
+### 3. Add the namespace to your views
 
 ```xml
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
 	xmlns:tc="ui5.touch.controls">
 	<tc:Button text="Hello" size="XL" />
 </mvc:View>
@@ -109,7 +144,20 @@ Add the namespace to your XML views and start using the controls (see [Usage](#u
 
 ### TypeScript support
 
-The package includes TypeScript type definitions (`dist/index.d.ts`), so in a TypeScript UI5 app you get full typing out of the box:
+For TypeScript projects, add the package to the `types` entry in your `tsconfig.json` — otherwise the UI5 Tooling will not load the library automatically:
+
+```json
+{
+	"compilerOptions": {
+		"types": [
+			"@sapui5/types",
+			"ui5.touch.controls"
+		]
+	}
+}
+```
+
+The package includes TypeScript type definitions (`dist/index.d.ts`), so you get full typing out of the box:
 
 ```ts
 import Button from "ui5/touch/controls/Button";
@@ -120,24 +168,29 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 
 ## Controls
 
-| Control | Description |
-| --- | --- |
-| `ui5.touch.controls.Button` | A button with configurable size (`S`–`6XL`), icon, icon position, type (all `sap.m.ButtonType` values), side padding, and width. Fires `press`. |
-| `ui5.touch.controls.Input` | A wrapper around `sap.m.Input` that supports `size` property. |
-| `ui5.touch.controls.OverflowToolbar` | A simplified `sap.m.OverflowToolbar`: content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Supports the priorities of `sap.m.OverflowToolbarLayoutData` and the `size` property (`S`–`6XL`) for the overflow button. |
-| `ui5.touch.controls.StepInput` | A step input composed of a minus button, an input, and a plus button. The `size` property (`S`–`6XL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
-| `ui5.touch.controls.Text` | A text control with configurable size (`S`–`6XL`) and color. Fires `press`. |
-| `ui5.touch.controls.TextArea` | A multi-line text input based on `sap.m.TextArea` with touch-friendly size modes (`S`–`6XL`), rows, max length, value states, and `change` / `liveChange` events. |
-| `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
-| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}` special keys), optional real (hardware) keyboard input via `hardwareKeys`, size (`S`–`6XL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
+| Control | Replaces | Description |
+| --- | --- | --- |
+| `tc:Button` | `sap.m.Button` | Button with configurable size, icon, icon position, type (all `sap.m.ButtonType` values), side padding and width. Fires `press`. |
+| `tc:Input` | `sap.m.Input` | Single-line input with configurable size. |
+| `tc:TextArea` | `sap.m.TextArea` | Multi-line input with configurable size, rows, max length and value states. Fires `change` / `liveChange`. |
+| `tc:Text` | `sap.m.Text` | Text with configurable size and color. Fires `press`. |
+| `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
+| `tc:OverflowToolbar` | `sap.m.OverflowToolbar` | Like `tc:Toolbar`, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of `sap.m.OverflowToolbarLayoutData`. |
+| `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
+| `tc:VirtualKeyboard` | – | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `QuickDialog` | `sap.m.MessageBox` | Helper class for touch-ready dialogs, used from the controller instead of a view: `show`, `confirm`, `information`, `error`, `input`, `select`, `details`. Every method returns a `Promise`. |
 
-### `SizeMode`
+### Sizes
 
-Shared enum for control sizing: `S`, `M`, `L`, `XL`, `2XL`, `3XL`, `4XL`, `5XL`, `6XL`.
+Every control has the same `size` property. Available values:
+
+`S` · `M` (default) · `L` · `XL` · `2XL` · `3XL` · `4XL` · `5XL` · `6XL`
+
+The size scales font size, icon size, padding and height together, so the controls stay proportional at every step.
 
 ### `ISized`
 
-Marker interface (`ui5.touch.controls.ISized`) implemented by every control with a `size` property (`Button`, `Input`, `StepInput`, `Text`, `TextArea`, `VirtualKeyboard`). It allows generic size handling, e.g.:
+All controls with a `size` property implement the marker interface `ui5.touch.controls.ISized`. This allows generic size handling, e.g. to apply a user setting to a whole view:
 
 ```ts
 if (control.isA<ISized>("ui5.touch.controls.ISized")) {
@@ -145,25 +198,15 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 }
 ```
 
-## Usage
+## More examples
 
-Example with the touch `Button` and `Toolbar`:
+The controls integrate seamlessly with existing standard controls and aggregations — for example `tc:Button` and `tc:Text` inside a `sap.m.Table`:
 
-```xml
-<mvc:View
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:tc="ui5.touch.controls">
-	<tc:Toolbar>
-		<tc:content>
-			<tc:Button
-				text="Confirm"
-				icon="sap-icon://accept"
-				size="XL"
-				press=".onPress" />
-		</tc:content>
-	</tc:Toolbar>
-</mvc:View>
-```
+![sap.m.Table using ui5.touch.controls Button and Text controls](docs/table.png)
+
+Use `tc:Toolbar` or `tc:OverflowToolbar` as a replacement for the toolbar in a `Page` or `Dialog`:
+
+![Screenshot of Toolbar in Dialog](docs/dialog.png)
 
 ## Development
 
@@ -179,7 +222,7 @@ pnpm install
 npm run start
 ```
 
-This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test page overview. Test pages for the individual controls live in `test/` (e.g. `Button.html`, `Text.html`, `VirtualKeyboard.html`).
+This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test pages. There is one HTML/TS pair per control in `test/` (e.g. `Button.html`, `OverflowToolbar.html`, `VirtualKeyboard.html`).
 
 ### Scripts
 
