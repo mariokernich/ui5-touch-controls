@@ -171,6 +171,7 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 | Control | Replaces | Description |
 | --- | --- | --- |
 | `tc:Button` | `sap.m.Button` | Button with configurable size, icon, icon position, type (all `sap.m.ButtonType` values), side padding and width. Fires `press`. |
+| `tc:SegmentedButton` | `sap.m.SegmentedButton` | A row of joined buttons of which exactly one is selected, filled through `tc:SegmentedButtonItem` (`key`, `text`, `icon`, `enabled`). Supports `selectedKey`, `width` for evenly spread segments and fires `selectionChange`. |
 | `tc:Input` | `sap.m.Input` | Single-line input with configurable size. |
 | `tc:TextArea` | `sap.m.TextArea` | Multi-line input with configurable size, rows, max length and value states. Fires `change` / `liveChange`. |
 | `tc:Text` | `sap.m.Text` | Text with configurable size and color. Fires `press`. |

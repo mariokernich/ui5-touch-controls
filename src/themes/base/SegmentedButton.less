@@ -1,0 +1,50 @@
+.sizedSegmentedButton {
+	display: inline-flex;
+	align-items: center;
+}
+
+/* the segments are joined into one group, so only the outer corners are
+   rounded and the borders in between are collapsed into a single line */
+.sizedSegmentedButton > .sizedButton {
+	border-radius: 0;
+	flex-shrink: 0;
+}
+
+.sizedSegmentedButton > .sizedButton + .sizedButton {
+	margin-left: -1px;
+}
+
+.sizedSegmentedButton > .sizedButton:first-child {
+	border-top-left-radius: @sapButton_BorderCornerRadius;
+	border-bottom-left-radius: @sapButton_BorderCornerRadius;
+}
+
+.sizedSegmentedButton > .sizedButton:last-child {
+	border-top-right-radius: @sapButton_BorderCornerRadius;
+	border-bottom-right-radius: @sapButton_BorderCornerRadius;
+}
+
+.sizedButton.sizedSegmentedButtonSelected {
+	background-color: @sapButton_Selected_Background;
+	border-color: @sapButton_Selected_BorderColor;
+	color: @sapButton_Selected_TextColor;
+	/* lift the selected segment so its border wins over its neighbours */
+	position: relative;
+	z-index: 1;
+}
+
+.sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive) {
+	background-color: @sapButton_Selected_Hover_Background;
+	border-color: @sapButton_Selected_Hover_BorderColor;
+	color: @sapButton_Selected_TextColor;
+}
+
+/* an explicit width on the control spreads the segments evenly */
+.sizedSegmentedButtonEqual {
+	display: flex;
+}
+
+.sizedSegmentedButtonEqual > .sizedButton {
+	flex: 1 1 0;
+	min-width: 0;
+}

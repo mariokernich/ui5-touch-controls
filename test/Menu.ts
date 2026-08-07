@@ -25,6 +25,7 @@ interface TestPageInfo {
  */
 const testPages: TestPageInfo[] = [
 	{ key: "Button", icon: "sap-icon://cursor-arrow" },
+	{ key: "SegmentedButton", icon: "sap-icon://switch-views" },
 	{ key: "Input", icon: "sap-icon://edit" },
 	{ key: "VirtualKeyboard", icon: "sap-icon://keyboard-and-mouse" },
 	{ key: "StepInput", icon: "sap-icon://number-sign" },

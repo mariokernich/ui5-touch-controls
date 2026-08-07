@@ -69,13 +69,14 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"ui5.touch.controls.Button",
 		"ui5.touch.controls.Input",
 		"ui5.touch.controls.OverflowToolbar",
+		"ui5.touch.controls.SegmentedButton",
 		"ui5.touch.controls.StepInput",
 		"ui5.touch.controls.Text",
 		"ui5.touch.controls.TextArea",
 		"ui5.touch.controls.Toolbar",
 		"ui5.touch.controls.VirtualKeyboard",
 	],
-	elements: [],
+	elements: ["ui5.touch.controls.SegmentedButtonItem"],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 }) as { [key: string]: unknown };
 
