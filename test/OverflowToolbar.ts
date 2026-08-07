@@ -135,7 +135,7 @@ const resizableContainer = new VBox({
 		createSectionTitle("With overflow priorities"),
 		priorityToolbar,
 		createHint(
-			'"Print" has priority Low and therefore overflows first. "Save" has NeverOverflow and always stays in the toolbar. "About" has AlwaysOverflow and is always in the popover — that is why this toolbar shows the button with the three dots even when there is plenty of space.',
+			'"Print" has priority Low and therefore overflows first. "Save" has NeverOverflow and stays in the toolbar as long as there is room for it at all — at the smallest width it moves into the popover too, so the overflow button stays reachable. "About" has AlwaysOverflow and is always in the popover — that is why this toolbar shows the button with the three dots even when there is plenty of space.',
 		),
 	],
 });

@@ -27,6 +27,9 @@ import { ISized, SizeMode } from "./library";
  * apply:
  * <ul>
  * <li>content is never shrunk, it either fits or it overflows</li>
+ * <li>because of that, content with priority <code>NeverOverflow</code> is
+ * moved to the overflow area as a last resort when it does not fit at all -
+ * the standard control shrinks it instead</li>
  * <li><code>sap.m.ToolbarSpacer</code> always stays in the toolbar and is not
  * taken into account when calculating the required width</li>
  * <li>only the priorities of <code>sap.m.OverflowToolbarLayoutData</code> are
@@ -408,7 +411,10 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 	 *
 	 * Content is moved to the overflow area from the lowest to the highest
 	 * priority and, within the same priority, from right to left - the same
-	 * order the standard control uses.
+	 * order the standard control uses. If it still does not fit afterwards,
+	 * even content marked as <code>NeverOverflow</code> is moved, because it
+	 * would otherwise cover the overflow button and make the content behind it
+	 * unreachable.
 	 *
 	 * @param content the visible content of the toolbar
 	 * @param available the inner width of the toolbar in pixels
@@ -456,15 +462,49 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 				return content.indexOf(b) - content.indexOf(a);
 			});
 
-		for (const control of candidates) {
-			if (required <= limit) {
-				break;
-			}
-			overflow.push(control);
-			required -= this.getContentWidth(control);
+		required = this.moveUntilItFits(candidates, overflow, required, limit);
+
+		if (required > limit) {
+			// Last resort: what is left over now is the content that should
+			// never overflow. It does not fit either, and keeping it would push
+			// the overflow button out of the toolbar - so move it as well,
+			// again from right to left.
+			const toolbarOnly = content
+				.filter(
+					(control) =>
+						!OverflowToolbar.isSpacer(control) && !overflow.includes(control),
+				)
+				.sort((a, b) => content.indexOf(b) - content.indexOf(a));
+
+			this.moveUntilItFits(toolbarOnly, overflow, required, limit);
 		}
 
 		return content.filter((control) => overflow.includes(control));
+	}
+
+	/**
+	 * Moves controls from the given candidates to the overflow area until the
+	 * remaining content fits into the limit.
+	 *
+	 * @returns the width the remaining content still requires
+	 */
+	private moveUntilItFits(
+		candidates: Control[],
+		overflow: Control[],
+		required: number,
+		limit: number,
+	): number {
+		let remaining = required;
+
+		for (const control of candidates) {
+			if (remaining <= limit) {
+				break;
+			}
+			overflow.push(control);
+			remaining -= this.getContentWidth(control);
+		}
+
+		return remaining;
 	}
 
 	/**
