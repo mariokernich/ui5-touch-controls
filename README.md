@@ -1,7 +1,6 @@
-<center>
+<p align="center">
 <img src="docs/logo.jpg" width="400"/>
-</center>
-<br>
+</p>
 
 **Standard OpenUI5 controls, rebuilt for touch — and finally resizable.**
 
