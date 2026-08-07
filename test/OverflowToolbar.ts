@@ -90,6 +90,7 @@ const plainToolbar = new OverflowToolbar({
 		createButton("Edit", "sap-icon://edit", ButtonType.Default),
 		createButton("Copy", "sap-icon://copy", ButtonType.Default),
 		createButton("Share", "sap-icon://share", ButtonType.Default),
+		new ToolbarSpacer(),
 		createButton("Delete", "sap-icon://delete", ButtonType.Reject),
 	],
 });
