@@ -1,3 +1,5 @@
+<img src="docs/logo.svg" alt="" width="104" align="right" />
+
 # UI5 Library `ui5.touch.controls`
 
 **Standard OpenUI5 controls, rebuilt for touch — and finally resizable.**
