@@ -1,7 +1,6 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { ButtonType } from "sap/m/library";
 import Button from "./Button";
 import SegmentedButtonItem from "./SegmentedButtonItem";
 import { ISized, SizeMode } from "./library";
@@ -29,17 +28,6 @@ import { ISized, SizeMode } from "./library";
  * @namespace ui5.touch.controls
  */
 export default class SegmentedButton extends Control implements ISized {
-	/**
-	 * Button types without a strong background of their own. For those the
-	 * selected segment is marked with the theme's selected colours, because
-	 * the type alone would not tell it apart from the other segments.
-	 */
-	private static readonly NEUTRAL_TYPES: string[] = [
-		ButtonType.Default,
-		ButtonType.Ghost,
-		ButtonType.Transparent,
-	];
-
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
 		defaultAggregation: "items",
@@ -67,17 +55,6 @@ export default class SegmentedButton extends Control implements ISized {
 				type: "ui5.touch.controls.SizeMode",
 				group: "Appearance",
 				defaultValue: SizeMode.M,
-			},
-			/**
-			 * Type used for the selected segment. The other segments stay
-			 * neutral, so the selection stays visible with every type - with
-			 * the default type the selected segment uses the theme's selected
-			 * colours instead.
-			 */
-			buttonType: {
-				type: "sap.m.ButtonType",
-				group: "Appearance",
-				defaultValue: ButtonType.Default,
 			},
 		},
 		aggregations: {
@@ -188,7 +165,6 @@ export default class SegmentedButton extends Control implements ISized {
 		const selectedKey = this.resolveSelectedKey(items);
 		const enabled = this.getEnabled();
 		const size = this.getSize();
-		const buttonType = this.getButtonType();
 		const buttons = this.getButtons();
 
 		while (buttons.length > items.length) {
@@ -216,16 +192,8 @@ export default class SegmentedButton extends Control implements ISized {
 			button.setIcon(item.getIcon());
 			button.setEnabled(enabled && item.getEnabled());
 			button.setSize(size);
-			// only the selected segment carries the button type - if every
-			// segment used it, a strong type such as Emphasized would make the
-			// unselected segments stand out more than the selected one
-			button.setType(selected ? buttonType : ButtonType.Default);
 			button.setWidth(item.getWidth());
 			button.toggleStyleClass("sizedSegmentedButtonSelected", selected);
-			button.toggleStyleClass(
-				"sizedSegmentedButtonSelectedNeutral",
-				selected && SegmentedButton.NEUTRAL_TYPES.includes(buttonType),
-			);
 		});
 	}
 

@@ -24,22 +24,16 @@
 	border-bottom-right-radius: @sapButton_BorderCornerRadius;
 }
 
-/* lift the selected segment so its border wins over its neighbours */
 .sizedButton.sizedSegmentedButtonSelected {
+	background-color: @sapButton_Selected_Background;
+	border-color: @sapButton_Selected_BorderColor;
+	color: @sapButton_Selected_TextColor;
+	/* lift the selected segment so its border wins over its neighbours */
 	position: relative;
 	z-index: 1;
 }
 
-/* with a neutral button type the selected segment gets the theme's selected
-   colours; a type that brings its own strong background marks the selection
-   by itself and is left alone */
-.sizedButton.sizedSegmentedButtonSelectedNeutral {
-	background-color: @sapButton_Selected_Background;
-	border-color: @sapButton_Selected_BorderColor;
-	color: @sapButton_Selected_TextColor;
-}
-
-.sizedButton.sizedSegmentedButtonSelectedNeutral:hover:not(.sizedButtonActive) {
+.sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive) {
 	background-color: @sapButton_Selected_Hover_Background;
 	border-color: @sapButton_Selected_Hover_BorderColor;
 	color: @sapButton_Selected_TextColor;
