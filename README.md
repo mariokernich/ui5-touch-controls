@@ -1,5 +1,5 @@
 <p align="center">
-<img src="docs/logo.jpg" width="400"/>
+<img src="docs/logo.jpg" width="500"/>
 </p>
 
 **Standard OpenUI5 controls, rebuilt for touch — and finally resizable.**
