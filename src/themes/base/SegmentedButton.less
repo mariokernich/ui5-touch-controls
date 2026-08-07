@@ -24,7 +24,7 @@
 	border-bottom-right-radius: @sapButton_BorderCornerRadius;
 }
 
-.sizedButton.sizedSegmentedButtonSelected {
+.sizedSegmentedButton > .sizedButton.sizedSegmentedButtonSelected {
 	background-color: @sapButton_Selected_Background;
 	border-color: @sapButton_Selected_BorderColor;
 	color: @sapButton_Selected_TextColor;
@@ -33,11 +33,51 @@
 	z-index: 1;
 }
 
-.sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive) {
+.sizedSegmentedButton
+	> .sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive) {
 	background-color: @sapButton_Selected_Hover_Background;
 	border-color: @sapButton_Selected_Hover_BorderColor;
 	color: @sapButton_Selected_TextColor;
 }
+
+/*
+ * Themes differ in how a segmented button marks its selection, and
+ * @sapButton_Segment_BorderCornerRadius is what tells them apart:
+ *
+ *   - Horizon (0.5rem): the selection is a rounded pill inside the group and
+ *     there are no dividers between the segments, only one outline around the
+ *     whole group.
+ *   - Fiori 3 and the base theme (0): the classic joined look with a divider
+ *     between every segment and no extra rounding on the selected one.
+ *
+ * The guard therefore falls back to the classic look for any theme that does
+ * not define a segment radius.
+ */
+.touchSegmentedButtonPill() when (@sapButton_Segment_BorderCornerRadius > 0) {
+	.sizedSegmentedButton > .sizedButton {
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+
+	.sizedSegmentedButton > .sizedButton:first-child {
+		border-left-color: @sapButton_BorderColor;
+	}
+
+	.sizedSegmentedButton > .sizedButton:last-child {
+		border-right-color: @sapButton_BorderColor;
+	}
+
+	.sizedSegmentedButton > .sizedButton:hover:not(.sizedButtonActive) {
+		border-radius: @sapButton_Segment_BorderCornerRadius;
+	}
+
+	.sizedSegmentedButton > .sizedButton.sizedSegmentedButtonSelected {
+		border-radius: @sapButton_Segment_BorderCornerRadius;
+		border-color: @sapButton_Selected_BorderColor;
+	}
+}
+
+.touchSegmentedButtonPill();
 
 /* an explicit width on the control spreads the segments evenly */
 .sizedSegmentedButtonEqual {
