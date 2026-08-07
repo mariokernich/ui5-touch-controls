@@ -502,9 +502,19 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 		const overflow = this.calculateOverflow(content, available);
 		const overflowIds = overflow.map((control) => control.getId());
 
-		this.getOverflowButton().toggleStyleClass(
+		const button = this.getOverflowButton();
+		button.toggleStyleClass(
 			"sizedOverflowToolbarButtonHidden",
 			overflow.length === 0,
+		);
+		// without a spacer the content is packed to the left and the overflow
+		// button would sit right behind the last visible control - push it to
+		// the end instead, so it always stays in the same place. With a spacer
+		// the app decides where the content sits, and an auto margin would
+		// swallow the space the spacer needs to grow.
+		button.toggleStyleClass(
+			"sizedOverflowToolbarButtonEnd",
+			!content.some((control) => OverflowToolbar.isSpacer(control)),
 		);
 
 		if (overflowIds.join(",") === this.overflowIds.join(",")) {
