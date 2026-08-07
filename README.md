@@ -346,10 +346,6 @@ ui5-test.yaml         UI5 tooling config (dev server / test pages)
 ui5-self-contained.yaml  UI5 tooling config (self-contained build)
 ```
 
-### Icon font
-
-The library ships its own icon font, generated from the SVG files in `src/icons` by `scripts/build-icon-font.mjs` (runs automatically before start/build). The font is registered with the UI5 `IconPool` in `library.ts` under the `touch` collection, so its glyphs can be used through `sap-icon://touch/<icon-name>` and — being real font glyphs — inherit the current text color (`currentColor`), following the theme-aware LESS colors.
-
 ## Deployment
 
 Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which runs the self-contained build and deploys the test pages to GitHub Pages.

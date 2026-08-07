@@ -308,26 +308,6 @@ For plain message-box style dialogs you do not have to build this yourself —
 	),
 );
 
-// ---------------------------------------------------------------------------
-// icon font
-// ---------------------------------------------------------------------------
-
-page.addItem(
-	createInfoCard(
-		"Icon font",
-		"sap-icon://touch/<icon-name>",
-		createText(`
-The library ships its own icon font, generated from the SVG files in
-<code>src/icons</code> by <code>scripts/build-icon-font.mjs</code>. The font is
-registered with the UI5 <code>IconPool</code> in <code>library.ts</code> under
-the <code>touch</code> collection, so its glyphs can be used through
-<code>sap-icon://touch/&lt;icon-name&gt;</code> and — being real font glyphs —
-inherit the current text color (<code>currentColor</code>), following the
-theme-aware LESS colors.
-`),
-	),
-);
-
 page.addItem(
 	new HBox({
 		wrap: FlexWrap.Wrap,
