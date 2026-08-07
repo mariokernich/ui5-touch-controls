@@ -10,7 +10,7 @@ import { ValueState } from "sap/ui/core/library";
 import ListItem from "sap/ui/core/ListItem";
 import { SizeMode } from "ui5/touch/controls/library";
 import Button from "ui5/touch/controls/Button";
-import Toolbar from "ui5/touch/controls/Toolbar";
+import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
 import Link from "sap/m/Link";
 
 export interface IQuickDialogOptions {
@@ -61,7 +61,9 @@ export default class QuickDialog extends ManagedObject {
 		const actions = options.actions ?? [MessageAction.Ok];
 
 		return new Promise<MessageAction | string>((resolve, reject) => {
-			const toolbar = new Toolbar();
+			const toolbar = new OverflowToolbar({
+				size: options.size,
+			});
 
 			actions.forEach((action) => {
 				const btn = new Button({
@@ -118,7 +120,9 @@ export default class QuickDialog extends ManagedObject {
 
 				vbox.addItem(input);
 				const actions = options.actions ?? [MessageAction.Ok];
-				const toolbar = new Toolbar();
+				const toolbar = new OverflowToolbar({
+					size: options.size,
+				});
 
 				actions.forEach((action) => {
 					const btn = new Button({
@@ -200,7 +204,9 @@ export default class QuickDialog extends ManagedObject {
 
 			vbox.addItem(combobox);
 			const actions = options.actions ?? [MessageAction.Ok];
-			const toolbar = new Toolbar();
+			const toolbar = new OverflowToolbar({
+				size: options.size,
+			});
 
 			actions.forEach((action) => {
 				const btn = new Button({
@@ -322,7 +328,9 @@ export default class QuickDialog extends ManagedObject {
 		const actions = options.actions ?? [MessageAction.Ok];
 
 		return new Promise<MessageAction | string>((resolve, reject) => {
-			const toolbar = new Toolbar();
+			const toolbar = new OverflowToolbar({
+				size: options.size,
+			});
 
 			actions.forEach((action) => {
 				const btn = new Button({
