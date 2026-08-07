@@ -14,6 +14,7 @@ import ToolPage from "sap/tnt/ToolPage";
 import CodeEditor from "sap/ui/codeeditor/CodeEditor";
 import type Control from "sap/ui/core/Control";
 import Item from "sap/ui/core/Item";
+import Device from "sap/ui/Device";
 
 interface TestPageInfo {
 	key: string;
@@ -128,7 +129,8 @@ export default function initTestPage(
 	sideNavigation.setSelectedKey(currentKey);
 
 	const toolPage = new ToolPage({
-		sideExpanded: true,
+		// on phones and tablets the side navigation should be collapsed by default
+		sideExpanded: Device.system.desktop,
 		header: new ToolHeader({
 			content: [
 				new Button({
