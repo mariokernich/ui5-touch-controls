@@ -1,6 +1,6 @@
 {
   "name": "ui5.touch.controls",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "UI5 Library: ui5.touch.controls — touch-friendly OpenUI5 controls with configurable sizes",
   "author": "Mario Kernich",
   "license": "Apache-2.0",

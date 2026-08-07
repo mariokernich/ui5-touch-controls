@@ -31,6 +31,7 @@ const testPages: TestPageInfo[] = [
 	{ key: "Text", icon: "sap-icon://text" },
 	{ key: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "Toolbar", icon: "sap-icon://menu2" },
+	{ key: "QuickDialog", icon: "sap-icon://message-popup" },
 ];
 
 function navigateTo(page: string): void {
@@ -43,29 +44,40 @@ function navigateTo(page: string): void {
 
 /**
  * Creates a card containing a read-only code editor that shows example
- * XML view usage of the control demonstrated on the test page.
+ * usage of the control demonstrated on the test page.
  *
- * @param code the example XML snippet to display
+ * @param code the example snippet to display
+ * @param language the CodeEditor language type (defaults to "xml");
+ *   e.g. use "typescript" for controller-code examples
  * @returns the created Card
  */
-export function createExampleCard(code: string): Card {
+export function createExampleCard(code: string, language = "xml"): Card {
 	const trimmed = code.trim();
 	const lines = trimmed.split("\n").length;
+	// Note: the value is set via setter instead of constructor settings,
+	// because strings containing curly braces (e.g. binding examples like
+	// "{/workstation}") would otherwise be parsed as binding syntax and
+	// the editor would stay empty.
+	const editor = new CodeEditor({
+		type: language,
+		editable: false,
+		lineNumbers: true,
+		height: `${lines + 2}rem`,
+		width: "100%",
+	})
+		.addStyleClass("sapUiSmallMarginBegin")
+		.addStyleClass("sapUiSmallMarginEnd")
+		.addStyleClass("sapUiSmallMarginBottom");
+	editor.setValue(trimmed);
+	const title =
+		language === "xml"
+			? "Example Usage (XML View)"
+			: "Example Usage (Controller Code)";
 	return new Card({
 		header: new Header({
-			title: "Example Usage (XML View)",
+			title: title,
 		}),
-		content: new CodeEditor({
-			value: trimmed,
-			type: "xml",
-			editable: false,
-			lineNumbers: true,
-			height: `${lines + 2}rem`,
-			width: "100%",
-		})
-			.addStyleClass("sapUiSmallMarginBegin")
-			.addStyleClass("sapUiSmallMarginEnd")
-			.addStyleClass("sapUiSmallMarginBottom"),
+		content: editor,
 	}).addStyleClass("sapUiMediumMarginTop");
 }
 

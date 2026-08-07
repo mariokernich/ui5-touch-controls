@@ -130,7 +130,7 @@ const page = new VBox({
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
-	xmlns:tc="swan.liebherr.lib.ui.touch">
+	xmlns:tc="ui5.touch.controls.touch">
 	<Page showFooter="true">
 		<footer>
 			<tc:Toolbar>
