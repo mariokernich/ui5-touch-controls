@@ -54,26 +54,32 @@
  * not define a segment radius.
  */
 .touchSegmentedButtonPill() when (@sapButton_Segment_BorderCornerRadius > 0) {
+	/*
+	 * The outline belongs to the group, not to the single segments: only then
+	 * the line runs through behind the selected segment instead of being
+	 * interrupted by its rounded corners. The standard control does the same
+	 * with its per-segment wrapper element, which carries the top and bottom
+	 * border while the inner element floats inside it as the pill.
+	 */
+	.sizedSegmentedButton {
+		border: 1px solid @sapButton_BorderColor;
+		border-radius: @sapButton_BorderCornerRadius;
+		background-color: @sapButton_Background;
+	}
+
+	/* the segments themselves are transparent and overlap the group border by
+	   1px, so a pill lines up exactly with the group outline */
 	.sizedSegmentedButton > .sizedButton {
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-
-	.sizedSegmentedButton > .sizedButton:first-child {
-		border-left-color: @sapButton_BorderColor;
-	}
-
-	.sizedSegmentedButton > .sizedButton:last-child {
-		border-right-color: @sapButton_BorderColor;
-	}
-
-	.sizedSegmentedButton > .sizedButton:hover:not(.sizedButtonActive) {
+		margin-top: -1px;
+		margin-bottom: -1px;
+		border-color: transparent;
+		background-color: transparent;
 		border-radius: @sapButton_Segment_BorderCornerRadius;
 	}
 
 	.sizedSegmentedButton > .sizedButton.sizedSegmentedButtonSelected {
-		border-radius: @sapButton_Segment_BorderCornerRadius;
 		border-color: @sapButton_Selected_BorderColor;
+		background-color: @sapButton_Selected_Background;
 	}
 }
 
