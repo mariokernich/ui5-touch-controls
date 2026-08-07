@@ -48,8 +48,8 @@ const toolbar = new Toolbar({
 			press: () => {
 				const dialog = new Dialog({
 					title: "Sample Dialog",
-					contentWidth: "600px",
-					contentHeight: "200px",
+					contentWidth: "700px",
+					contentHeight: "250px",
 				});
 				dialog.addContent(
 					new VBox({
