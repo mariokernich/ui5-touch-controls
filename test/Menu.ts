@@ -2,6 +2,7 @@ import Button from "sap/m/Button";
 import { ButtonType } from "sap/m/library";
 import Card from "sap/f/Card";
 import Header from "sap/f/cards/Header";
+import Image from "sap/m/Image";
 import Link from "sap/m/Link";
 import Select from "sap/m/Select";
 import Title from "sap/m/Title";
@@ -36,6 +37,24 @@ const testPages: TestPageInfo[] = [
 	{ key: "OverflowToolbar", icon: "sap-icon://overflow" },
 	{ key: "QuickDialog", icon: "sap-icon://message-popup" },
 ];
+
+/**
+ * Themes that render on a dark background and therefore need the logo
+ * variant with the light wordmark.
+ */
+function isDarkTheme(theme: string): boolean {
+	return theme.endsWith("_dark") || theme.endsWith("_hcb");
+}
+
+/**
+ * Returns the logo matching the given theme. The test pages use
+ * <code>&lt;base href="../../../../"&gt;</code>, so the URL is built from the
+ * current page's directory instead of a relative one.
+ */
+function getLogoUrl(theme: string): string {
+	const directory = window.location.pathname.replace(/[^/]*$/, "");
+	return `${directory}logo${isDarkTheme(theme) ? "-dark" : ""}.svg`;
+}
 
 function navigateTo(page: string): void {
 	// test pages use <base href="../../../../">, so relative URLs would
@@ -100,9 +119,23 @@ export default function initTestPage(
 	const style = document.createElement("style");
 	style.textContent =
 		"html, body, #content { height: 100%; margin: 0; overflow: hidden; } " +
-		".sapTntToolPageMain, .sapTntToolPageMainContent { overflow: auto; }";
+		".sapTntToolPageMain, .sapTntToolPageMainContent { overflow: auto; } " +
+		".touchControlsHeaderLogo { margin-right: 0.75rem; }";
 	document.head.appendChild(style);
 	document.title = `ui5.touch.controls — ${currentKey}`;
+
+	// the logo replaces the library name in the header and follows the theme
+	const logo = new Image({
+		src: getLogoUrl(sap.ui.getCore().getConfiguration().getTheme()),
+		height: "1.75rem",
+		alt: "ui5-touch-controls",
+		// otherwise sap.m.Image would look for a logo@2.svg on retina screens
+		densityAware: false,
+	}).addStyleClass("touchControlsHeaderLogo");
+
+	sap.ui.getCore().attachThemeChanged(() => {
+		logo.setSrc(getLogoUrl(sap.ui.getCore().getConfiguration().getTheme()));
+	});
 
 	const currentIndex = testPages.findIndex((page) => page.key === currentKey);
 	const previousPage = currentIndex > 0 ? testPages[currentIndex - 1] : null;
@@ -141,8 +174,9 @@ export default function initTestPage(
 						toolPage.setSideExpanded(!toolPage.getSideExpanded());
 					},
 				}),
+				logo,
 				new Title({
-					text: `ui5.touch.controls — ${currentKey}`,
+					text: currentKey,
 				}),
 				new ToolbarSpacer(),
 				new Select({
