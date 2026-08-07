@@ -124,6 +124,7 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 | --- | --- |
 | `ui5.touch.controls.Button` | A button with configurable size (`S`–`6XL`), icon, icon position, type (all `sap.m.ButtonType` values), side padding, and width. Fires `press`. |
 | `ui5.touch.controls.Input` | A wrapper around `sap.m.Input` that supports `size` property. |
+| `ui5.touch.controls.OverflowToolbar` | A simplified `sap.m.OverflowToolbar`: content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Supports the priorities of `sap.m.OverflowToolbarLayoutData` and the `size` property (`S`–`6XL`) for the overflow button. |
 | `ui5.touch.controls.StepInput` | A step input composed of a minus button, an input, and a plus button. The `size` property (`S`–`6XL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
 | `ui5.touch.controls.Text` | A text control with configurable size (`S`–`6XL`) and color. Fires `press`. |
 | `ui5.touch.controls.TextArea` | A multi-line text input based on `sap.m.TextArea` with touch-friendly size modes (`S`–`6XL`), rows, max length, value states, and `change` / `liveChange` events. |

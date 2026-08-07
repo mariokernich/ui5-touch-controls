@@ -31,6 +31,7 @@ const testPages: TestPageInfo[] = [
 	{ key: "Text", icon: "sap-icon://text" },
 	{ key: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "Toolbar", icon: "sap-icon://menu2" },
+	{ key: "OverflowToolbar", icon: "sap-icon://overflow" },
 	{ key: "QuickDialog", icon: "sap-icon://message-popup" },
 ];
 
