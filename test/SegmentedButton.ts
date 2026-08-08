@@ -20,7 +20,7 @@ import initTestPage, { createExampleCard } from "./Menu";
 
 const model = new JSONModel(
 	{
-		size: SizeMode.XL,
+		size: SizeMode.L,
 		enabled: true,
 		width: "",
 		view: "list",

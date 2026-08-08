@@ -35,7 +35,7 @@ function getBaseOptions() {
 	return {
 		title: model.getProperty("/title") as string,
 		state: model.getProperty("/state") as ValueState,
-		size: model.getProperty("/size") as SizeMode,
+		buttonSize: model.getProperty("/size") as SizeMode,
 		toolbarSpacer: model.getProperty("/toolbarSpacer") as boolean,
 	};
 }

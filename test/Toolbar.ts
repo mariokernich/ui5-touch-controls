@@ -15,7 +15,7 @@ import Page from "sap/m/Page";
 import MessageToast from "sap/m/MessageToast";
 
 const model = new JSONModel({
-	size: SizeMode.XL,
+	size: SizeMode.L,
 });
 
 const select = new Select({

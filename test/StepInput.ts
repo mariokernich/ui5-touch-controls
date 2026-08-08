@@ -21,7 +21,7 @@ const model = new JSONModel(
 		value: 1,
 		min: 0,
 		max: 10,
-		size: SizeMode.M,
+		size: SizeMode.L,
 		buttonType: "Default",
 		enabled: true,
 		editable: true,

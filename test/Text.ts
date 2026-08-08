@@ -26,7 +26,7 @@ const model = new JSONModel(
 	{
 		text: "The quick brown fox jumps over the lazy dog",
 		color: "#333333",
-		size: SizeMode.M,
+		size: SizeMode.L,
 	},
 	true,
 );

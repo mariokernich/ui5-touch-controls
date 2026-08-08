@@ -23,7 +23,7 @@ const LONG_TEXT =
 
 const model = new JSONModel(
 	{
-		size: SizeMode.XL,
+		size: SizeMode.L,
 		text: "Open the repository",
 		enabled: true,
 		wrapping: false,

@@ -18,7 +18,7 @@ const model = new JSONModel(
 	{
 		value: "Hello World",
 		placeholder: "Enter text...",
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		valueState: "None",

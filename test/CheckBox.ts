@@ -4,7 +4,7 @@ import CheckBox from "sap/m/CheckBox";
 import FlexItemData from "sap/m/FlexItemData";
 import HBox from "sap/m/HBox";
 import Input from "sap/m/Input";
-import { FlexAlignItems, FlexDirection } from "sap/m/library";
+import { FlexAlignItems } from "sap/m/library";
 import Select from "sap/m/Select";
 import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
@@ -19,7 +19,7 @@ const model = new JSONModel(
 		text: "Send me a copy",
 		selected: true,
 		partiallySelected: false,
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		wrapping: false,
@@ -190,29 +190,6 @@ page.addItem(
 		items: [options, sized, sapM],
 	}).addStyleClass("touchControlsCardRow"),
 );
-
-const sizes = new Card({
-	header: new Header({
-		title: "All sizes",
-		subtitle: "The box, the check mark, the label and the hit area scale together",
-	}),
-	content: new VBox({
-		direction: FlexDirection.Column,
-		items: Object.values(SizeMode).map(
-			(size) =>
-				new SizedCheckBox({
-					text: `Size ${size}`,
-					selected: true,
-					size: size,
-				}),
-		),
-	})
-		.addStyleClass("sapUiSmallMarginBegin")
-		.addStyleClass("sapUiSmallMarginEnd")
-		.addStyleClass("sapUiSmallMarginBottom"),
-}).addStyleClass("sapUiMediumMarginBottom");
-
-page.addItem(sizes);
 
 page.addItem(
 	createExampleCard(`

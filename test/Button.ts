@@ -23,7 +23,7 @@ const model = new JSONModel(
 		text: "Button",
 		iconFirst: true,
 		enabled: true,
-		size: SizeMode.XL,
+		size: SizeMode.L,
 	},
 	true,
 );

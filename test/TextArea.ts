@@ -22,7 +22,7 @@ const model = new JSONModel(
 		placeholder: "Enter text...",
 		rows: 4,
 		maxLength: 0,
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		valueState: "None",

@@ -21,7 +21,7 @@ import { SizeMode } from "ui5/touch/controls/library";
 import initTestPage, { createExampleCard } from "./Menu";
 
 const model = new JSONModel({
-	size: SizeMode.XL,
+	size: SizeMode.L,
 });
 
 const sizeSelect = new HBox({
