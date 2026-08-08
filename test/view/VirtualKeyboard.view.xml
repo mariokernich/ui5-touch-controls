@@ -84,6 +84,48 @@
 			</f:Card>
 		</HBox>
 
+		<!-- what the layouts of the playground are made of -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>keyboardLayoutsTitle}"
+					subtitle="{i18n>keyboardLayoutsSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>keyboardLayoutsText}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<Table items="{json>/layouts}">
+						<columns>
+							<Column width="10rem">
+								<Label text="Layout" />
+							</Column>
+							<Column width="6rem">
+								<Label text="Keys" />
+							</Column>
+							<Column>
+								<Label text="layout property" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Link
+									text="{json>text}"
+									tooltip="Try this layout"
+									press=".onLayoutPress" />
+								<Text text="{json>keys}" />
+								<Text text="{json>sample}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</VBox>
+			</f:content>
+		</f:Card>
+
 		<core:Fragment
 			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
 			type="XML" />

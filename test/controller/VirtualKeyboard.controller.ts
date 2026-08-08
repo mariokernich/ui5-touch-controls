@@ -1,3 +1,4 @@
+import type { Link$PressEvent } from "sap/m/Link";
 import MessageToast from "sap/m/MessageToast";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type SizedVirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
@@ -5,7 +6,11 @@ import type {
 	VirtualKeyboard$ChangeEvent,
 	VirtualKeyboard$EnterEvent,
 } from "ui5/touch/controls/VirtualKeyboard";
-import { keyboardLayouts } from "../model/keyboardLayouts";
+import type { KeyboardLayoutDoc } from "../model/keyboardLayouts";
+import {
+	keyboardLayoutDocs,
+	keyboardLayouts,
+} from "../model/keyboardLayouts";
 import BaseController from "./BaseController";
 
 /**
@@ -25,6 +30,7 @@ export default class VirtualKeyboard extends BaseController {
 				enabled: true,
 				hardwareKeys: true,
 				width: "",
+				layouts: keyboardLayoutDocs,
 			},
 			true,
 		);
@@ -58,6 +64,18 @@ export default class VirtualKeyboard extends BaseController {
 		keyboard.setLayout(
 			keyboardLayouts[this.model.getProperty("/layout") as string],
 		);
+	}
+
+	/**
+	 * Switches the playground to the layout that was clicked in the table.
+	 */
+	public onLayoutPress(event: Link$PressEvent): void {
+		const layout = event.getSource().getBindingContext("json")
+			?.getObject() as KeyboardLayoutDoc;
+		this.model.setProperty("/layout", layout.key);
+		// setProperty does not fire propertyChange - that only happens for
+		// changes coming from a two-way binding, e.g. from the select above
+		this.applyLayout();
 	}
 
 	public onChange(event: VirtualKeyboard$ChangeEvent): void {
