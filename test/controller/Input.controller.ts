@@ -20,6 +20,14 @@ export default class Input extends BaseController {
 				enabled: true,
 				editable: true,
 				valueState: "None",
+				showVirtualKeyboard: false,
+				layout: [
+					"1 2 3 4 5 6 7 8 9 0",
+					"q w e r t y u i o p",
+					"a s d f g h j k l",
+					"{shift} z x c v b n m {bksp}",
+					"{space} {enter}",
+				],
 			},
 			true,
 		);
@@ -34,6 +42,17 @@ export default class Input extends BaseController {
 		placeholder="Enter text..."
 		size="XL"
 		liveChange=".onLiveChange" />
+
+	<!-- with an on-screen keyboard for terminals without a hardware one:
+	     it opens below the field as long as the field has the focus -->
+	<tc:Input
+		value="{/quantity}"
+		size="XL"
+		showVirtualKeyboard="true">
+		<tc:virtualKeyboard>
+			<tc:VirtualKeyboard size="XL" />
+		</tc:virtualKeyboard>
+	</tc:Input>
 </mvc:View>
 `);
 	}

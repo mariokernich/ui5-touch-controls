@@ -37,11 +37,15 @@
 								width="300px" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
-						<HBox alignItems="Center">
+						<HBox alignItems="Center" wrap="Wrap">
 							<Text text="Behavior" width="100px" />
 							<CheckBox text="Enabled" selected="{json>/enabled}" />
 							<CheckBox text="Editable" selected="{json>/editable}" />
+							<CheckBox
+								text="Virtual keyboard"
+								selected="{json>/showVirtualKeyboard}" />
 						</HBox>
+						<Text text="{i18n>inputKeyboardHint}" class="sapUiTinyMarginTop" />
 					</VBox>
 				</f:content>
 			</f:Card>
@@ -65,8 +69,15 @@
 							enabled="{json>/enabled}"
 							editable="{json>/editable}"
 							valueState="{json>/valueState}"
+							showVirtualKeyboard="{json>/showVirtualKeyboard}"
 							width="100%"
-							liveChange=".onLiveChange" />
+							liveChange=".onLiveChange">
+							<tc:virtualKeyboard>
+								<tc:VirtualKeyboard
+									size="{json>/size}"
+									layout="{json>/layout}" />
+							</tc:virtualKeyboard>
+						</tc:Input>
 					</VBox>
 				</f:content>
 			</f:Card>

@@ -82,7 +82,8 @@ const controls: ControlDoc[] = [
 	{
 		name: "Input",
 		replaces: "sap.m.Input",
-		description: "Single-line input with configurable size.",
+		description:
+			"Single-line input with configurable size. A tc:VirtualKeyboard can be put into its virtualKeyboard aggregation; with showVirtualKeyboard it then opens in a popover below the field while the field has the focus and types into it.",
 	},
 	{
 		name: "TextArea",
