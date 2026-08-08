@@ -373,6 +373,6 @@ export default class QuickDialog extends ManagedObject {
 			icon: options.icon,
 			draggable: options.draggable,
 			state: options.state,
-		}).addStyleClass("sapUiResponsivePadding");
+		}).addStyleClass("sapUiContentPadding");
 	}
 }

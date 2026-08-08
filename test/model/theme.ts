@@ -12,6 +12,6 @@ export function isDarkTheme(theme: string): boolean {
  */
 export function getLogoUrl(theme: string): string {
 	return sap.ui.require.toUrl(
-		`ui5/touch/controls/demo/logo${isDarkTheme(theme) ? "-dark" : ""}.svg`,
+		`ui5/touch/controls/demo/logo${isDarkTheme(theme) || theme === "sap_fiori_3" ? "-dark" : ""}.svg`,
 	);
 }
