@@ -9,8 +9,6 @@ import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
 import { ButtonType, FlexAlignItems, FlexWrap } from "sap/m/library";
 import { MessageType } from "sap/ui/core/library";
-import Button from "ui5/touch/controls/Button";
-import { SizeMode } from "ui5/touch/controls/library";
 import initTestPage, {
 	createExampleCard,
 	createInfoCard,
@@ -18,6 +16,7 @@ import initTestPage, {
 	createText,
 	navigateTo,
 } from "./Menu";
+import StandardButton from "sap/m/Button";
 
 interface ControlDoc {
 	/** name of the control, also the key of its test page */
@@ -67,7 +66,7 @@ const controls: ControlDoc[] = [
 		name: "Link",
 		replaces: "sap.m.Link",
 		description:
-			"Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports href, target, wrapping, subtle, emphasized and width; a target=\"_blank\" link automatically gets rel=\"noopener noreferrer\". Fires press.",
+			'Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports href, target, wrapping, subtle, emphasized and width; a target="_blank" link automatically gets rel="noopener noreferrer". Fires press.',
 		hasPage: true,
 	},
 	{
@@ -320,25 +319,24 @@ page.addItem(
 		wrap: FlexWrap.Wrap,
 		alignItems: FlexAlignItems.Center,
 		items: [
-			new Button({
+			new StandardButton({
 				text: "Setup",
 				icon: "sap-icon://navigation-left-arrow",
-				size: SizeMode.L,
 				press: () => {
 					navigateTo("Setup");
 				},
 			}),
-			new Button({
+			new StandardButton({
 				text: "Explore the Button",
 				icon: "sap-icon://navigation-right-arrow",
 				type: ButtonType.Emphasized,
-				size: SizeMode.L,
+				iconFirst: false,
 				press: () => {
 					navigateTo("Button");
 				},
 			}),
 		],
-	}).addStyleClass("touchControlsCardRow"),
+	}).addStyleClass("touchControlsCardRow sapUiSmallMarginBottom"),
 );
 
 page.addStyleClass("sapUiSmallMargin");

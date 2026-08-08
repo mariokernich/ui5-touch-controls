@@ -15,6 +15,7 @@ import initTestPage, {
 	createText,
 	navigateTo,
 } from "./Menu";
+import StandardButton from "sap/m/Button";
 
 const page = new VBox();
 
@@ -214,27 +215,25 @@ page.addItem(
 			wrap: FlexWrap.Wrap,
 			alignItems: FlexAlignItems.Center,
 			items: [
-				new Button({
+				new StandardButton({
 					text: "Setup",
 					icon: "sap-icon://wrench",
 					type: ButtonType.Emphasized,
-					size: SizeMode.L,
 					press: () => {
 						navigateTo("Setup");
 					},
 				}),
-				new Button({
+				new StandardButton({
 					text: "Documentation",
 					icon: "sap-icon://documents",
-					size: SizeMode.L,
 					press: () => {
 						navigateTo("Documentation");
 					},
 				}),
-				new Button({
+				new StandardButton({
 					text: "Explore the Button",
 					icon: "sap-icon://navigation-right-arrow",
-					size: SizeMode.L,
+					iconFirst: false,
 					press: () => {
 						navigateTo("Button");
 					},

@@ -12,6 +12,7 @@ import initTestPage, {
 	createText,
 	navigateTo,
 } from "./Menu";
+import StandardButton from "sap/m/Button";
 
 const page = new VBox();
 
@@ -205,25 +206,24 @@ page.addItem(
 		wrap: FlexWrap.Wrap,
 		alignItems: FlexAlignItems.Center,
 		items: [
-			new Button({
+			new StandardButton({
 				text: "Getting Started",
 				icon: "sap-icon://navigation-left-arrow",
-				size: SizeMode.L,
 				press: () => {
 					navigateTo("GettingStarted");
 				},
 			}),
-			new Button({
+			new StandardButton({
 				text: "Documentation",
-				icon: "sap-icon://documents",
+				icon: "sap-icon://navigation-right-arrow",
+				iconFirst: false,
 				type: ButtonType.Emphasized,
-				size: SizeMode.L,
 				press: () => {
 					navigateTo("Documentation");
 				},
 			}),
 		],
-	}).addStyleClass("touchControlsCardRow"),
+	}).addStyleClass("touchControlsCardRow sapUiSmallMarginBottom"),
 );
 
 page.addStyleClass("sapUiSmallMargin");
