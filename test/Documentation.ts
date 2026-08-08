@@ -219,42 +219,89 @@ page.addItem(
 // control reference
 // ---------------------------------------------------------------------------
 
-const controlTable = new Table({
+/** marker of the controls that have no sap.m equivalent */
+const NEW_CONTROL = "nothing — new";
+
+/**
+ * Creates the first cell of a row: a link to the control's page, or plain text
+ * when there is none.
+ */
+function createControlCell(control: ControlDoc): Link | Text {
+	if (!control.hasPage) {
+		return new Text({ text: `tc:${control.name}` });
+	}
+
+	return new Link({
+		text: `tc:${control.name}`,
+		tooltip: `Open the ${control.name} page`,
+		press: () => {
+			navigateTo(control.name);
+		},
+	});
+}
+
+const portedTable = new Table({
 	columns: [
 		new Column({ header: new Label({ text: "Control" }), width: "12rem" }),
 		new Column({ header: new Label({ text: "Replaces" }), width: "14rem" }),
 		new Column({ header: new Label({ text: "Description" }) }),
 	],
-	items: controls.map(
-		(control) =>
-			new ColumnListItem({
-				cells: [
-					control.hasPage
-						? new Link({
-								text: `tc:${control.name}`,
-								tooltip: `Open the ${control.name} page`,
-								press: () => {
-									navigateTo(control.name);
-								},
-							})
-						: new Text({ text: `tc:${control.name}` }),
-					new Text({ text: control.replaces }),
-					new Text({ text: control.description }),
-				],
-			}),
-	),
+	items: controls
+		.filter((control) => control.replaces !== NEW_CONTROL)
+		.map(
+			(control) =>
+				new ColumnListItem({
+					cells: [
+						createControlCell(control),
+						new Text({ text: control.replaces }),
+						new Text({ text: control.description }),
+					],
+				}),
+		),
+});
+
+// the Replaces column would say the same thing in every row, so it is left out
+const newTable = new Table({
+	columns: [
+		new Column({ header: new Label({ text: "Control" }), width: "12rem" }),
+		new Column({ header: new Label({ text: "Description" }) }),
+	],
+	items: controls
+		.filter((control) => control.replaces === NEW_CONTROL)
+		.map(
+			(control) =>
+				new ColumnListItem({
+					cells: [
+						createControlCell(control),
+						new Text({ text: control.description }),
+					],
+				}),
+		),
 });
 
 page.addItem(
 	createInfoCard(
-		"Controls",
+		"Touch versions of sap.m controls",
 		"The Replaces column names the sap.m control each one steps in for",
 		createText(`
-Where it says <strong>new</strong>, there is no <code>sap.m</code> equivalent — the
-control exists only in this library. Click a control to open its interactive
-page.
+These are rebuilds of standard controls. They keep the properties, aggregations
+and events of their originals for the common cases, so they can be used as a
+drop-in replacement. Click a control to open its interactive page.
 `),
-		controlTable,
+		portedTable,
+	),
+);
+
+page.addItem(
+	createInfoCard(
+		"Controls without a sap.m equivalent",
+		"They exist only in this library",
+		createText(`
+These cover situations that only come up on a touch device: a terminal without a
+hardware keyboard, a barcode scanner instead of typing, a signature on the
+screen. Click a control to open its interactive page.
+`),
+		newTable,
 	),
 );
 

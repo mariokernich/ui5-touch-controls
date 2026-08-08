@@ -234,7 +234,9 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 
 ## Controls
 
-The **Replaces** column names the `sap.m` control each one steps in for. Where it says *new*, there is no `sap.m` equivalent — the control exists only in this library.
+### Touch versions of `sap.m` controls
+
+These are rebuilds of standard controls. They keep the properties, aggregations and events of their originals for the common cases, so they can be used as a drop-in replacement — the **Replaces** column names the control each one steps in for.
 
 | Control | Replaces | Description |
 | --- | --- | --- |
@@ -252,10 +254,17 @@ The **Replaces** column names the `sap.m` control each one steps in for. Where i
 | `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
 | `tc:OverflowToolbar` | `sap.m.OverflowToolbar` | Like `tc:Toolbar`, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of `sap.m.OverflowToolbarLayoutData`. |
 | `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
-| `tc:BarcodeInput` | **nothing — new** | Input field that tells a barcode scanner from a person typing: a run of at least `minLength` characters whose gaps stay below `scanTimeout` and that is closed by Enter fires `scan`, everything else fires `change`. `prefix` and `suffix` are cut off the code, `clearOnScan` empties the field for the next one. |
-| `tc:VirtualKeyboard` | **nothing — new** | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
-| `tc:SignaturePad` | **nothing — new** | A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in `value`. Stroke width, placeholder and clear button follow `size`; the strokes survive a resize. Fires `change`. |
 | `QuickDialog` | `sap.m.MessageBox` | Helper class for touch-ready dialogs, used from the controller instead of a view: `show`, `confirm`, `information`, `error`, `input`, `select`, `details`. Every method returns a `Promise`. |
+
+### Controls without a `sap.m` equivalent
+
+These exist only in this library, for situations that only come up on a touch device — see [New controls for touch](#new-controls-for-touch) above for what they are good for.
+
+| Control | Description |
+| --- | --- |
+| `tc:BarcodeInput` | Input field that tells a barcode scanner from a person typing: a run of at least `minLength` characters whose gaps stay below `scanTimeout` and that is closed by Enter fires `scan`, everything else fires `change`. `prefix` and `suffix` are cut off the code, `clearOnScan` empties the field for the next one. |
+| `tc:VirtualKeyboard` | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `tc:SignaturePad` | A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in `value`. Stroke width, placeholder and clear button follow `size`; the strokes survive a resize. Fires `change`. |
 
 ### Sizes
 
