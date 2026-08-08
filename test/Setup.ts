@@ -3,8 +3,6 @@ import MessageStrip from "sap/m/MessageStrip";
 import VBox from "sap/m/VBox";
 import { ButtonType, FlexAlignItems, FlexWrap } from "sap/m/library";
 import { MessageType } from "sap/ui/core/library";
-import Button from "ui5/touch/controls/Button";
-import { SizeMode } from "ui5/touch/controls/library";
 import initTestPage, {
 	createExampleCard,
 	createInfoCard,
