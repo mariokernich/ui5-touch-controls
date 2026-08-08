@@ -1,0 +1,148 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/* the field frame, see Field.less */
+.touchField(sizedDatePicker);
+
+.sizedDatePickerInner {
+	flex: 1 1 auto;
+	min-width: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sizedDatePickerInner::placeholder {
+	color: @sapField_PlaceholderTextColor;
+	font-style: italic;
+}
+
+/* the calendar icon sits in a square at the end of the field */
+.sizedDatePickerIcon {
+	flex: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: @sapContent_IconColor;
+}
+
+.sizedDatePickerIcon::before {
+	/* sap-icon://appointment-2 */
+	font-family: var(--sapContent_IconFontFamily);
+	content: "\e0ae";
+	pointer-events: none;
+}
+
+.sizedDatePickerDisabled {
+	cursor: default;
+}
+.sizedDatePickerDisabled .sizedDatePickerInner {
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------------------------ */
+/* the calendar in the popover                                               */
+/* ------------------------------------------------------------------------ */
+
+.sizedDatePickerCalendar {
+	display: block;
+	padding: 0.5rem;
+	background-color: @sapList_Background;
+}
+
+.sizedDatePickerHeader {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+/* the month keeps the middle, the arrows stay square at the sides. The header
+   buttons are quiet, like the ones of the sap.m calendar */
+.sizedDatePickerHeader > .sizedButton.sizedDatePickerTitle {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.sizedDatePickerHeader > .sizedButton.sizedDatePickerNav {
+	flex: none;
+}
+
+.sizedDatePickerHeader > .sizedButton,
+.sizedDatePickerHeader > .sizedButton:hover:not(.sizedButtonActive) {
+	margin: 0;
+	border: none;
+	background-color: transparent;
+	color: @sapGroup_TitleTextColor;
+	border-radius: @sapElement_BorderCornerRadius;
+}
+
+.sizedDatePickerHeader > .sizedButton:hover:not(.sizedButtonActive) {
+	background-color: @sapList_Hover_Background;
+}
+
+.sizedDatePickerGrid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	align-items: center;
+	justify-items: stretch;
+}
+
+.sizedDatePickerMonthGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.sizedDatePickerWeekday {
+	display: block;
+	padding: 0.25rem 0;
+	text-align: center;
+	font-family: @sapFontFamily;
+	color: @sapContent_LabelColor;
+}
+
+/* the days are the library's buttons, so they carry the size of the control -
+   what is left to do is to turn a stand-alone button into a calendar cell */
+.sizedDatePickerGrid > .sizedButton,
+.sizedDatePickerMonthGrid > .sizedButton {
+	margin: 1px;
+	border: none;
+	background-color: transparent;
+	font-family: @sapFontFamily;
+	color: @sapList_TextColor;
+	border-radius: @sapElement_BorderCornerRadius;
+}
+
+.sizedDatePickerGrid > .sizedButton:hover:not(.sizedButtonActive),
+.sizedDatePickerMonthGrid > .sizedButton:hover:not(.sizedButtonActive) {
+	border: none;
+	background-color: @sapList_Hover_Background;
+	color: @sapList_TextColor;
+}
+
+/* a day of the neighbouring month is still selectable, only quieter */
+.sizedDatePickerGrid > .sizedButton.sizedDatePickerDayOther {
+	color: @sapContent_LabelColor;
+}
+
+/* today is marked with a ring in the highlight color, the selection with a
+   fill in @sapSelectedColor - the same pair the sap.m calendar uses */
+.sizedDatePickerGrid > .sizedButton.sizedDatePickerDayToday {
+	border: 0.125rem solid @sapHighlightColor;
+	color: @sapHighlightColor;
+}
+
+.sizedDatePickerGrid > .sizedButton.sizedDatePickerDaySelected,
+.sizedDatePickerGrid > .sizedButton.sizedDatePickerDaySelected:hover,
+.sizedDatePickerMonthGrid > .sizedButton.sizedDatePickerDaySelected,
+.sizedDatePickerMonthGrid > .sizedButton.sizedDatePickerDaySelected:hover {
+	background-color: @sapSelectedColor;
+	/* @sapContent_Selected_TextColor is the selection color itself in Horizon,
+	   so the contrast color is the one that stays readable on the fill */
+	color: @sapContent_ContrastTextColor;
+}

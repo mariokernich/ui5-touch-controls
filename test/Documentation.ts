@@ -84,6 +84,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "DatePicker",
+		replaces: "sap.m.DatePicker",
+		description:
+			"Field with a calendar that is built from the library's own buttons, so a day is a square that grows with the size property instead of the fixed grid of sap.ui.unified.Calendar. Days and months view, minDate/maxDate, valueFormat and displayFormat (style or pattern). Fires change with value, dateValue and valid.",
+		hasPage: true,
+	},
+	{
 		name: "Input",
 		replaces: "sap.m.Input",
 		description: "Single-line input with configurable size.",
