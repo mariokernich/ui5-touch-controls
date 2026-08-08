@@ -5,21 +5,8 @@ import type {
 	VirtualKeyboard$ChangeEvent,
 	VirtualKeyboard$EnterEvent,
 } from "ui5/touch/controls/VirtualKeyboard";
+import { keyboardLayouts } from "../model/keyboardLayouts";
 import BaseController from "./BaseController";
-
-/** the key rows of the layouts that can be picked in the playground */
-const layouts: Record<string, string[]> = {
-	numeric: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
-	phone: ["1 2 3", "4 5 6", "7 8 9", "* 0 #", "{bksp} {enter}"],
-	calculator: ["7 8 9 /", "4 5 6 *", "1 2 3 -", "0 . = +", "{bksp} {enter}"],
-	qwerty: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"q w e r t y u i o p",
-		"a s d f g h j k l",
-		"{shift} z x c v b n m {bksp}",
-		"{space} {enter}",
-	],
-};
 
 /**
  * Controller of the VirtualKeyboard page.
@@ -68,7 +55,9 @@ export default class VirtualKeyboard extends BaseController {
 
 	private applyLayout(): void {
 		const keyboard = this.byId("keyboard") as SizedVirtualKeyboard;
-		keyboard.setLayout(layouts[this.model.getProperty("/layout") as string]);
+		keyboard.setLayout(
+			keyboardLayouts[this.model.getProperty("/layout") as string],
+		);
 	}
 
 	public onChange(event: VirtualKeyboard$ChangeEvent): void {

@@ -45,6 +45,18 @@
 								text="Virtual keyboard"
 								selected="{json>/showVirtualKeyboard}" />
 						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Layout" width="100px" />
+							<Select
+								selectedKey="{json>/layoutKey}"
+								enabled="{json>/showVirtualKeyboard}"
+								change=".onLayoutChange">
+								<core:Item key="qwerty" text="QWERTY" />
+								<core:Item key="numeric" text="Numeric" />
+								<core:Item key="phone" text="Phone" />
+								<core:Item key="calculator" text="Calculator" />
+							</Select>
+						</HBox>
 						<Text text="{i18n>inputKeyboardHint}" class="sapUiTinyMarginTop" />
 					</VBox>
 				</f:content>

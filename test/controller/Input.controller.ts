@@ -1,6 +1,8 @@
+import type { Select$ChangeEvent } from "sap/m/Select";
 import type { Input$LiveChangeEvent } from "ui5/touch/controls/Input";
 import { SizeMode } from "ui5/touch/controls/library";
 import JSONModel from "sap/ui/model/json/JSONModel";
+import { keyboardLayouts } from "../model/keyboardLayouts";
 import BaseController from "./BaseController";
 
 /**
@@ -21,13 +23,8 @@ export default class Input extends BaseController {
 				editable: true,
 				valueState: "None",
 				showVirtualKeyboard: false,
-				layout: [
-					"1 2 3 4 5 6 7 8 9 0",
-					"q w e r t y u i o p",
-					"a s d f g h j k l",
-					"{shift} z x c v b n m {bksp}",
-					"{space} {enter}",
-				],
+				layoutKey: "qwerty",
+				layout: keyboardLayouts.qwerty,
 			},
 			true,
 		);
@@ -55,6 +52,18 @@ export default class Input extends BaseController {
 	</tc:Input>
 </mvc:View>
 `);
+	}
+
+	/**
+	 * Hands the picked layout to the keyboard in the virtualKeyboard
+	 * aggregation. The layout is an array of rows, so it goes through the
+	 * model instead of being written in the view.
+	 */
+	public onLayoutChange(event: Select$ChangeEvent): void {
+		const key = event.getParameter("selectedItem")?.getKey();
+		if (key) {
+			this.model.setProperty("/layout", keyboardLayouts[key]);
+		}
 	}
 
 	public onLiveChange(event: Input$LiveChangeEvent): void {
