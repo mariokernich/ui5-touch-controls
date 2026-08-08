@@ -6,9 +6,11 @@
 	box-sizing: border-box;
 	line-height: 0;
 	margin: 5px 0;
-	
 }
 
+/* see Input.less: the field outline of a theme such as Horizon is painted
+   through @sapField_BackgroundStyle, so the shorthand has to be applied
+   before the background color in every state */
 .sizedTextAreaContentWrapper {
 	box-sizing: border-box;
 	display: inline-block;
@@ -17,20 +19,40 @@
 	vertical-align: middle;
 	width: 100%;
 	height: 100%;
+	background: var(--sapField_BackgroundStyle);
 	background-color: @sapField_Background;
-	box-shadow: var(--sapField_Shadow);
 	border: var(--sapField_BorderWidth) var(--sapField_BorderStyle) var(--sapField_BorderColor);
 	border-radius: @sapField_BorderCornerRadius;
 }
 
-.sizedTextAreaContentWrapper:hover:not(.sizedTextAreaState) {
+.sizedTextAreaContentWrapper:not(.sizedTextAreaState) {
+	box-shadow: var(--sapField_Shadow);
+}
+
+.sizedTextArea:not(.sizedTextAreaReadonly):not(.sizedTextAreaDisabled)
+	.sizedTextAreaContentWrapper:hover:not(.sizedTextAreaState) {
+	background: var(--sapField_Hover_BackgroundStyle);
 	background-color: @sapField_Hover_Background;
 	border-color: @sapField_Hover_BorderColor;
+	box-shadow: var(--sapField_Hover_Shadow);
 }
 
 .sizedTextAreaContentWrapper:focus-within {
 	border-color: @sapField_Focus_BorderColor;
 	outline: none;
+}
+
+.sizedTextAreaContentWrapper:focus-within::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) var(--sapField_Active_BorderColor);
+	border-radius: @sapField_BorderCornerRadius;
+	pointer-events: none;
+	z-index: 2;
 }
 
 .sizedTextAreaInner {
@@ -54,8 +76,10 @@
 
 /* read-only */
 .sizedTextAreaReadonly .sizedTextAreaContentWrapper {
+	background: var(--sapField_ReadOnly_BackgroundStyle);
 	background-color: @sapField_ReadOnly_Background;
 	border-color: @sapField_ReadOnly_BorderColor;
+	box-shadow: none;
 }
 .sizedTextAreaReadonly .sizedTextAreaInner {
 	resize: none;
@@ -71,21 +95,45 @@
 
 /* value states */
 .sizedTextAreaError {
+	background: var(--sapField_InvalidBackgroundStyle);
 	background-color: @sapField_InvalidBackground;
-	border: 2px solid @sapField_InvalidColor;
+	border: var(--sapField_InvalidBorderWidth) var(--sapField_InvalidBorderStyle) @sapField_InvalidColor;
+	box-shadow: var(--sapField_InvalidShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaError:focus-within::before {
+	border-color: @sapField_InvalidColor;
 }
 
 .sizedTextAreaWarning {
+	background: var(--sapField_WarningBackgroundStyle);
 	background-color: @sapField_WarningBackground;
-	border: 2px solid @sapField_WarningColor;
+	border: var(--sapField_WarningBorderWidth) var(--sapField_WarningBorderStyle) @sapField_WarningColor;
+	box-shadow: var(--sapField_WarningShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaWarning:focus-within::before {
+	border-color: @sapField_WarningColor;
 }
 
 .sizedTextAreaSuccess {
+	background: var(--sapField_SuccessBackgroundStyle);
 	background-color: @sapField_SuccessBackground;
-	border: 1px solid @sapField_SuccessColor;
+	border: var(--sapField_SuccessBorderWidth) var(--sapField_SuccessBorderStyle) @sapField_SuccessColor;
+	box-shadow: var(--sapField_SuccessShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaSuccess:focus-within::before {
+	border-color: @sapField_SuccessColor;
 }
 
 .sizedTextAreaInformation {
+	background: var(--sapField_InformationBackgroundStyle);
 	background-color: @sapField_InformationBackground;
-	border: 2px solid @sapField_InformationColor;
+	border: var(--sapField_InformationBorderWidth) var(--sapField_InformationBorderStyle) @sapField_InformationColor;
+	box-shadow: var(--sapField_InformationShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaInformation:focus-within::before {
+	border-color: @sapField_InformationColor;
 }
