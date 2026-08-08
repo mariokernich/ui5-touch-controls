@@ -1,4 +1,4 @@
-import ComboBox from "sap/m/ComboBox";
+import ComboBox from "ui5/touch/controls/ComboBox";
 import Dialog from "sap/m/Dialog";
 import Input from "ui5/touch/controls/Input";
 import { ButtonType } from "sap/m/library";
@@ -173,6 +173,7 @@ export default class QuickDialog extends ManagedObject {
 			placeholder?: string;
 			selectedKey?: string;
 			items: { key: string; text: string; additionalText?: string }[];
+			selectSize?: SizeMode;
 		} & IQuickDialogOptions,
 	): Promise<{
 		selectedKey: string;
@@ -202,7 +203,8 @@ export default class QuickDialog extends ManagedObject {
 						}),
 				),
 				width: "100%",
-				showSecondaryValues: true,
+				//showSecondaryValues: true,
+				size: options.selectSize,
 			});
 
 			vbox.addItem(combobox);
