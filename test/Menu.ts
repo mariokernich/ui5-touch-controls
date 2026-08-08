@@ -70,6 +70,7 @@ const controlPages: PageInfo[] = [
 		icon: "sap-icon://keyboard-and-mouse",
 	},
 	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
+	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },
 	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
 	{ key: "Text", text: "Text", icon: "sap-icon://text" },
 	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },

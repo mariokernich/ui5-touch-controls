@@ -102,6 +102,39 @@ The layout is simply a list of rows, so a numeric pad, a full QWERTY keyboard or
 
 `{shift}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
 
+### `tc:BarcodeInput`
+
+On a shop floor or in a warehouse most input does not come from a keyboard but from a barcode scanner in keyboard wedge mode: it types the code into the focused field within a few milliseconds and closes it with <kbd>Enter</kbd>. A plain input cannot tell that apart from a person, so an application ends up reacting either to every <kbd>Enter</kbd> or to none.
+
+`tc:BarcodeInput` measures the time between the keystrokes. A run of at least `minLength` characters whose gaps all stay below `scanTimeout` and that is closed by <kbd>Enter</kbd> fires `scan`; everything else is manual input and fires `change`:
+
+```xml
+<tc:BarcodeInput
+	value="{/code}"
+	placeholder="Scan a pallet..."
+	size="XL"
+	clearOnScan="true"
+	scan=".onScan"
+	change=".onManualEntry" />
+```
+
+So a scanned code can go straight to the backend while a typed one gets a confirmation first. `prefix` and `suffix` cut off the characters scanners put around the code.
+
+### `tc:SignaturePad`
+
+Handing over goods, confirming a repair or acknowledging a safety briefing all end with a signature, and on a tablet the natural place for it is the screen. `tc:SignaturePad` draws on a canvas and hands the result over as a PNG data URL in `value`, so it can be bound to a model and sent to the backend like any other value:
+
+```xml
+<tc:SignaturePad
+	value="{/signature}"
+	placeholder="Sign here"
+	height="12rem"
+	size="XL"
+	change=".onSigned" />
+```
+
+Stroke width, placeholder and clear button follow the `size` property, and the pad keeps its strokes when it is resized.
+
 ## Requirements
 
 - UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
@@ -221,6 +254,7 @@ The **Replaces** column names the `sap.m` control each one steps in for. Where i
 | `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
 | `tc:BarcodeInput` | **nothing — new** | Input field that tells a barcode scanner from a person typing: a run of at least `minLength` characters whose gaps stay below `scanTimeout` and that is closed by Enter fires `scan`, everything else fires `change`. `prefix` and `suffix` are cut off the code, `clearOnScan` empties the field for the next one. |
 | `tc:VirtualKeyboard` | **nothing — new** | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `tc:SignaturePad` | **nothing — new** | A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in `value`. Stroke width, placeholder and clear button follow `size`; the strokes survive a resize. Fires `change`. |
 | `QuickDialog` | `sap.m.MessageBox` | Helper class for touch-ready dialogs, used from the controller instead of a view: `show`, `confirm`, `information`, `error`, `input`, `select`, `details`. Every method returns a `Promise`. |
 
 ### Sizes

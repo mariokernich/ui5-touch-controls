@@ -152,6 +152,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "SignaturePad",
+		replaces: "nothing — new",
+		description:
+			"A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in value, so it can be bound to a model. Stroke width, placeholder and clear button follow the size property; the strokes survive a resize. Fires change.",
+		hasPage: true,
+	},
+	{
 		name: "QuickDialog",
 		replaces: "sap.m.MessageBox",
 		description:
