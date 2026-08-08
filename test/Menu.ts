@@ -62,6 +62,7 @@ const controlPages: PageInfo[] = [
 	},
 	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
 	{ key: "Text", text: "Text", icon: "sap-icon://text" },
+	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },
 	{ key: "TextArea", text: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "Toolbar", text: "Toolbar", icon: "sap-icon://menu2" },
 	{

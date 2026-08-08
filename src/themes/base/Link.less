@@ -1,0 +1,63 @@
+.sizedLink {
+	/* inline-block so the vertical padding actually enlarges the area that
+	   can be hit with a finger */
+	display: inline-block;
+	max-width: 100%;
+	padding: 0.25rem 0;
+	vertical-align: middle;
+	font-family: @sapFontFamily;
+	color: @sapLinkColor;
+	text-decoration: @sapLink_TextDecoration;
+	cursor: pointer;
+	/* without wrapping a long text is truncated instead of breaking */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sizedLinkWrapping {
+	white-space: normal;
+	overflow: visible;
+	text-overflow: clip;
+}
+
+.sizedLink:visited {
+	color: @sapLink_Visited_Color;
+}
+
+.sizedLink:hover {
+	color: @sapLink_Hover_Color;
+	text-decoration: @sapLink_Hover_TextDecoration;
+}
+
+.sizedLink:active {
+	color: @sapLink_Active_Color;
+	text-decoration: @sapLink_Active_TextDecoration;
+}
+
+.sizedLink:focus-visible {
+	outline: 1px dotted @sapContent_FocusColor;
+	outline-offset: 1px;
+}
+
+.sizedLinkSubtle,
+.sizedLinkSubtle:visited {
+	color: @sapLink_SubtleColor;
+}
+
+/* the bold font family rather than font-weight, exactly like sap.m.Link -
+   the themes ship a bold face, so a font-weight on top would embolden it a
+   second time */
+.sizedLinkEmphasized {
+	font-family: @sapFontBoldFamily;
+}
+
+.sizedLinkDisabled,
+.sizedLinkDisabled:hover,
+.sizedLinkDisabled:visited {
+	color: @sapContent_DisabledTextColor;
+	opacity: @sapContent_DisabledOpacity;
+	text-decoration: none;
+	cursor: default;
+	pointer-events: none;
+}

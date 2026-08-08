@@ -210,6 +210,7 @@ The **Replaces** column names the `sap.m` control each one steps in for. Where i
 | `tc:Input` | `sap.m.Input` | Single-line input with configurable size. |
 | `tc:TextArea` | `sap.m.TextArea` | Multi-line input with configurable size, rows, max length and value states. Fires `change` / `liveChange`. |
 | `tc:Text` | `sap.m.Text` | Text with configurable size and color. Fires `press`. |
+| `tc:Link` | `sap.m.Link` | Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports `href`, `target`, `wrapping`, `subtle`, `emphasized` and `width`; a `target="_blank"` link automatically gets `rel="noopener noreferrer"`. Fires `press`. |
 | `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
 | `tc:OverflowToolbar` | `sap.m.OverflowToolbar` | Like `tc:Toolbar`, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of `sap.m.OverflowToolbarLayoutData`. |
 | `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
