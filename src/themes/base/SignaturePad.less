@@ -34,7 +34,9 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: calc(25% + 0.375rem);
+	/* escaped: the LESS compiler of the dev server (less-openui5 0.11.6) tries
+	   to evaluate the expression and cannot mix % with rem */
+	bottom: ~"calc(25% + 0.375rem)";
 	text-align: center;
 	font-family: @sapFontFamily;
 	font-style: italic;
