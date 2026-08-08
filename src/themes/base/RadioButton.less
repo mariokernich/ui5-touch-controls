@@ -1,0 +1,143 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/*
+ * Laid out like the check box: the renderer only writes the size of the
+ * circle, height, side padding, gap and focus inset follow from it. sap.m
+ * draws the circle as an SVG, here a rounded div does the same job - the
+ * dashed read-only ring included.
+ */
+.sizedRadioButton {
+	display: inline-flex;
+	align-items: center;
+	position: relative;
+	box-sizing: border-box;
+	vertical-align: top;
+	max-width: 100%;
+	outline: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.sizedRadioButtonCircle {
+	flex: none;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background-color: @sapField_Background;
+	border: var(--sapField_BorderWidth) solid @sapField_BorderColor;
+	/* the dot takes the color from the circle, so a value state only has to
+	   set it once */
+	color: @sapContent_Selected_ForegroundColor;
+}
+
+/* the dot of the selected button, sized like the one of sap.m (r = 27.5% of
+   the circle) */
+.sizedRadioButtonSelected::before {
+	content: "";
+	width: 55%;
+	height: 55%;
+	border-radius: 50%;
+	background-color: currentColor;
+}
+
+.sizedRadioButtonLabel {
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sizedRadioButtonWrapping .sizedRadioButtonLabel {
+	white-space: normal;
+	overflow: visible;
+	line-height: @sapContent_LineHeight;
+}
+
+/* hover */
+.sizedRadioButton:not(.sizedRadioButtonDisabled):not(.sizedRadioButtonReadonly):not(.sizedRadioButtonState):hover
+	.sizedRadioButtonCircle {
+	background-color: @sapField_Selector_Hover_Background;
+	border-color: @sapField_Hover_BorderColor;
+}
+
+/* focus: a ring around the whole hit area, kept at a quarter of the circle
+   from the edge so it grows with the size mode */
+.sizedRadioButton:focus::before {
+	content: "";
+	position: absolute;
+	inset: var(--sized-radio-button-focus-inset);
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) @sapContent_FocusColor;
+	border-radius: 0.5rem;
+	pointer-events: none;
+}
+
+/* read-only: sap.m draws the ring with a stroke-dasharray */
+.sizedRadioButtonReadonly {
+	cursor: default;
+}
+.sizedRadioButtonReadonly .sizedRadioButtonCircle {
+	background-color: @sapField_ReadOnly_Background;
+	border-color: @sapField_ReadOnly_BorderColor;
+	border-style: dashed;
+	color: @sapField_TextColor;
+}
+
+/* disabled */
+.sizedRadioButtonDisabled {
+	opacity: @sapContent_DisabledOpacity;
+	cursor: default;
+}
+
+/* value states */
+.sizedRadioButtonError .sizedRadioButtonCircle {
+	background-color: @sapField_InvalidBackground;
+	border: var(--sapField_InvalidBorderWidth) solid @sapField_InvalidColor;
+	color: @sapField_InvalidColor;
+}
+.sizedRadioButtonError:hover .sizedRadioButtonCircle {
+	background-color: @sapField_Selector_Hover_InvalidBackground;
+}
+
+.sizedRadioButtonWarning .sizedRadioButtonCircle {
+	background-color: @sapField_WarningBackground;
+	border: var(--sapField_WarningBorderWidth) solid @sapField_WarningColor;
+	color: @sapField_WarningColor;
+}
+.sizedRadioButtonWarning:hover .sizedRadioButtonCircle {
+	background-color: @sapField_Selector_Hover_WarningBackground;
+}
+
+.sizedRadioButtonSuccess .sizedRadioButtonCircle {
+	background-color: @sapField_SuccessBackground;
+	border: var(--sapField_SuccessBorderWidth) solid @sapField_SuccessColor;
+	color: @sapField_SuccessColor;
+}
+.sizedRadioButtonSuccess:hover .sizedRadioButtonCircle {
+	background-color: @sapField_Selector_Hover_SuccessBackground;
+}
+
+.sizedRadioButtonInformation .sizedRadioButtonCircle {
+	background-color: @sapField_InformationBackground;
+	border: var(--sapField_InformationBorderWidth) solid @sapField_InformationColor;
+	color: @sapField_InformationColor;
+}
+.sizedRadioButtonInformation:hover .sizedRadioButtonCircle {
+	background-color: @sapField_Selector_Hover_InformationBackground;
+}
+
+/* ------------------------------------------------------------------------ */
+/* RadioButtonGroup                                                          */
+/* ------------------------------------------------------------------------ */
+
+.sizedRadioButtonGroup {
+	display: grid;
+	box-sizing: border-box;
+	max-width: 100%;
+}
+
+.sizedRadioButtonGroup > .sizedRadioButton {
+	min-width: 0;
+}

@@ -71,6 +71,8 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"ui5.touch.controls.Input",
 		"ui5.touch.controls.Link",
 		"ui5.touch.controls.OverflowToolbar",
+		"ui5.touch.controls.RadioButton",
+		"ui5.touch.controls.RadioButtonGroup",
 		"ui5.touch.controls.SegmentedButton",
 		"ui5.touch.controls.Select",
 		"ui5.touch.controls.StepInput",

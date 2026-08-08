@@ -63,6 +63,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "RadioButton",
+		replaces: "sap.m.RadioButton / sap.m.RadioButtonGroup",
+		description:
+			"Circle, dot, label and hit area scale together — at size M the geometry matches sap.m.RadioButton. Buttons sharing a groupName are mutually exclusive; tc:RadioButtonGroup arranges them in columns and hands its size, enabled, editable and value state down to them. Fires select.",
+		hasPage: true,
+	},
+	{
 		name: "Select",
 		replaces: "sap.m.Select",
 		description:
