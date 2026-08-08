@@ -1,0 +1,23 @@
+/* the ToolPage needs a container that spans the whole viewport */
+html,
+body,
+#container,
+#container > .sapUiComponentContainer {
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+.touchControlsHeaderLogo {
+	margin-right: 0.75rem;
+}
+
+/* the three cards of a playground row sit next to each other with a gap */
+.touchControlsCardRow {
+	gap: 1rem;
+}
+
+/* every page scrolls on its own, the shell around it stays put */
+.touchControlsPage .sapMPageEnableScrolling {
+	padding: 1rem;
+}

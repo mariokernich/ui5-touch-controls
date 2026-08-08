@@ -1,0 +1,18 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.NotFound"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page showHeader="false" class="touchControlsPage">
+		<IllustratedMessage
+			illustrationType="sapIllus-PageNotFound"
+			title="{i18n>notFoundTitle}"
+			description="{i18n>notFoundText}">
+			<additionalContent>
+				<Button
+					text="{i18n>notFoundButton}"
+					type="Emphasized"
+					press=".onHomePress" />
+			</additionalContent>
+		</IllustratedMessage>
+	</Page>
+</mvc:View>

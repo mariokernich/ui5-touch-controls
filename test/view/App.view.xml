@@ -1,0 +1,103 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:tnt="sap.tnt"
+	displayBlock="true"
+	height="100%">
+	<tnt:ToolPage id="toolPage" sideExpanded="{device>/system/desktop}">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Button
+					icon="sap-icon://menu2"
+					type="Transparent"
+					tooltip="{i18n>toggleNavigation}"
+					press=".onMenuPress" />
+				<Image
+					src="{app>/logo}"
+					height="2rem"
+					alt="ui5-touch-controls"
+					tooltip="{i18n>home}"
+					densityAware="false"
+					press=".onLogoPress"
+					class="touchControlsHeaderLogo" />
+				<ToolbarSpacer />
+				<Select
+					tooltip="{i18n>theme}"
+					selectedKey="{app>/theme}"
+					change=".onThemeChange">
+					<core:Item key="sap_horizon" text="Horizon" />
+					<core:Item key="sap_horizon_dark" text="Horizon Dark" />
+					<core:Item key="sap_horizon_hcb" text="Horizon HCB" />
+					<core:Item key="sap_horizon_hcw" text="Horizon HCW" />
+					<core:Item key="sap_fiori_3" text="Fiori 3" />
+					<core:Item key="sap_fiori_3_dark" text="Fiori 3 Dark" />
+				</Select>
+				<Button
+					icon="sap-icon://navigation-left-arrow"
+					type="Transparent"
+					enabled="{= !!${app>/previousKey} }"
+					tooltip="{app>/previousTooltip}"
+					press=".onPreviousPress" />
+				<Button
+					icon="sap-icon://navigation-right-arrow"
+					type="Transparent"
+					enabled="{= !!${app>/nextKey} }"
+					tooltip="{app>/nextTooltip}"
+					press=".onNextPress" />
+				<Link
+					text="{i18n>github}"
+					tooltip="{i18n>githubTooltip}"
+					href="https://github.com/mariokernich/ui5-touch-controls"
+					target="_blank" />
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:sideContent>
+			<tnt:SideNavigation
+				id="sideNavigation"
+				selectedKey="{app>/currentKey}"
+				itemSelect=".onNavigationSelect">
+				<tnt:NavigationList>
+					<tnt:NavigationListItem
+						key="GettingStarted"
+						text="Getting Started"
+						icon="sap-icon://home" />
+					<tnt:NavigationListItem
+						key="Setup"
+						text="Setup"
+						icon="sap-icon://wrench" />
+					<tnt:NavigationListItem
+						key="Documentation"
+						text="Documentation"
+						icon="sap-icon://documents" />
+					<!-- A NavigationListGroup is used instead of nested
+					     NavigationListItems on purpose: sap.tnt does not render icons
+					     on second-level items by design, whereas the items of a group
+					     stay on the first level and keep their icons. -->
+					<tnt:NavigationListGroup
+						text="{i18n>groupPorted}"
+						expanded="true"
+						items="{pages>/ported}">
+						<tnt:NavigationListItem
+							key="{pages>key}"
+							text="{pages>text}"
+							icon="{pages>icon}" />
+					</tnt:NavigationListGroup>
+					<tnt:NavigationListGroup
+						text="{i18n>groupAdditional}"
+						expanded="true"
+						items="{pages>/additional}">
+						<tnt:NavigationListItem
+							key="{pages>key}"
+							text="{pages>text}"
+							icon="{pages>icon}" />
+					</tnt:NavigationListGroup>
+				</tnt:NavigationList>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<NavContainer id="pages" height="100%" autoFocus="false" />
+		</tnt:mainContents>
+	</tnt:ToolPage>
+</mvc:View>

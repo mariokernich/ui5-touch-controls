@@ -1,0 +1,343 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.Documentation"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:editor="sap.ui.codeeditor">
+	<Page showHeader="false" class="touchControlsPage">
+		<VBox class="sapUiSmallMarginBottom">
+			<Title text="{i18n>docTitle}" level="H1" wrapping="true" />
+			<Text text="{i18n>docSubtitle}" class="sapUiTinyMarginTop" />
+		</VBox>
+
+		<!-- touch versions of sap.m controls -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docPortedTitle}"
+					subtitle="{i18n>docPortedSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docPortedText}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<Table items="{docs>/ported}">
+						<columns>
+							<Column width="12rem">
+								<Label text="Control" />
+							</Column>
+							<Column width="14rem">
+								<Label text="Replaces" />
+							</Column>
+							<Column>
+								<Label text="Description" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Link
+									text="tc:{docs>name}"
+									tooltip="Open the {docs>name} page"
+									press=".onControlPress" />
+								<Text text="{docs>replaces}" />
+								<Text text="{docs>description}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<!-- controls without a sap.m equivalent -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docNewTitle}"
+					subtitle="{i18n>docNewSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docNewText}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<!-- the Replaces column would say the same thing in every row,
+					     so it is left out here -->
+					<Table items="{docs>/new}">
+						<columns>
+							<Column width="12rem">
+								<Label text="Control" />
+							</Column>
+							<Column>
+								<Label text="Description" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Link
+									text="tc:{docs>name}"
+									tooltip="Open the {docs>name} page"
+									press=".onControlPress" />
+								<Text text="{docs>description}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<!-- theme compatibility -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docThemesTitle}"
+					subtitle="{i18n>docThemesSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docThemesText1}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<Table items="{docs>/themes}">
+						<columns>
+							<Column width="18rem">
+								<Label text="Theme" />
+							</Column>
+							<Column width="14rem">
+								<Label text="Theme ID" />
+							</Column>
+							<Column width="10rem">
+								<Label text="Supported" />
+							</Column>
+							<Column>
+								<Label text="Remark" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Text text="{docs>name}" />
+								<Text text="{docs>id}" />
+								<ObjectStatus
+									text="{= ${docs>supported} ? 'Yes' : 'No' }"
+									state="{= ${docs>supported} ? 'Success' : 'Error' }"
+									icon="{= ${docs>supported} ? 'sap-icon://accept' : 'sap-icon://decline' }" />
+								<Text text="{docs>note}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+					<FormattedText
+						htmlText="{i18n>docThemesText2}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<!-- sizes -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docSizesTitle}"
+					subtitle="{i18n>docSizesSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docSizesText1}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<FormattedText
+						htmlText="{i18n>docSizesText2}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<VBox width="100%" items="{example>/sizes}">
+						<f:Card class="sapUiMediumMarginTop">
+							<f:header>
+								<cards:Header title="{example>title}" />
+							</f:header>
+							<f:content>
+								<editor:CodeEditor
+									value="{example>code}"
+									type="{example>language}"
+									height="{example>height}"
+									width="100%"
+									editable="false"
+									lineNumbers="true"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+							</f:content>
+						</f:Card>
+					</VBox>
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<!-- ISized -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docISizedTitle}"
+					subtitle="{i18n>docISizedSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docISizedText}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<VBox width="100%" items="{example>/isized}">
+						<f:Card class="sapUiMediumMarginTop">
+							<f:header>
+								<cards:Header title="{example>title}" />
+							</f:header>
+							<f:content>
+								<editor:CodeEditor
+									value="{example>code}"
+									type="{example>language}"
+									height="{example>height}"
+									width="100%"
+									editable="false"
+									lineNumbers="true"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+							</f:content>
+						</f:Card>
+					</VBox>
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<!-- VirtualKeyboard -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docKeyboardTitle}"
+					subtitle="{i18n>docKeyboardSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docKeyboardText1}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<FormattedText
+						htmlText="{i18n>docKeyboardText2}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<VBox width="100%" items="{example>/keyboard}">
+						<f:Card class="sapUiMediumMarginTop">
+							<f:header>
+								<cards:Header title="{example>title}" />
+							</f:header>
+							<f:content>
+								<editor:CodeEditor
+									value="{example>code}"
+									type="{example>language}"
+									height="{example>height}"
+									width="100%"
+									editable="false"
+									lineNumbers="true"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+							</f:content>
+						</f:Card>
+					</VBox>
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<!-- pitfall: aggregations that only accept sap.m.Button -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docPitfallTitle}"
+					subtitle="{i18n>docPitfallSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<MessageStrip
+						text="{i18n>docPitfallStrip}"
+						type="Warning"
+						showIcon="true" />
+					<FormattedText
+						htmlText="{i18n>docPitfallText1}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<VBox width="100%" items="{example>/pitfallBroken}">
+						<f:Card class="sapUiMediumMarginTop">
+							<f:header>
+								<cards:Header title="{example>title}" />
+							</f:header>
+							<f:content>
+								<editor:CodeEditor
+									value="{example>code}"
+									type="{example>language}"
+									height="{example>height}"
+									width="100%"
+									editable="false"
+									lineNumbers="true"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+							</f:content>
+						</f:Card>
+					</VBox>
+					<FormattedText
+						htmlText="{i18n>docPitfallText2}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<VBox width="100%" items="{example>/pitfallWorks}">
+						<f:Card class="sapUiMediumMarginTop">
+							<f:header>
+								<cards:Header title="{example>title}" />
+							</f:header>
+							<f:content>
+								<editor:CodeEditor
+									value="{example>code}"
+									type="{example>language}"
+									height="{example>height}"
+									width="100%"
+									editable="false"
+									lineNumbers="true"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+							</f:content>
+						</f:Card>
+					</VBox>
+					<FormattedText
+						htmlText="{i18n>docPitfallText3}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<HBox
+			wrap="Wrap"
+			alignItems="Center"
+			class="touchControlsCardRow sapUiSmallMarginBottom">
+			<Button
+				text="Setup"
+				icon="sap-icon://navigation-left-arrow"
+				press=".onSetupPress" />
+			<Button
+				text="Explore the Button"
+				icon="sap-icon://navigation-right-arrow"
+				iconFirst="false"
+				type="Emphasized"
+				press=".onButtonPress" />
+		</HBox>
+	</Page>
+</mvc:View>

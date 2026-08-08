@@ -1,0 +1,334 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "ui5.touch.controls.demo",
+    "type": "application",
+    "i18n": {
+      "bundleUrl": "i18n/i18n.properties",
+      "supportedLocales": [
+        ""
+      ],
+      "fallbackLocale": ""
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "applicationVersion": {
+      "version": "1.1.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.f": {},
+        "sap.tnt": {},
+        "sap.ui.codeeditor": {},
+        "ui5.touch.controls": {}
+      }
+    },
+    "rootView": {
+      "viewName": "ui5.touch.controls.demo.view.App",
+      "type": "XML",
+      "id": "app",
+      "async": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "ui5.touch.controls.demo.i18n.i18n",
+          "supportedLocales": [
+            ""
+          ],
+          "fallbackLocale": ""
+        }
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "type": "View",
+        "viewType": "XML",
+        "path": "ui5.touch.controls.demo.view",
+        "controlId": "pages",
+        "controlAggregation": "pages",
+        "transition": "show",
+        "async": true,
+        "bypassed": {
+          "target": "NotFound"
+        }
+      },
+      "routes": [
+        {
+          "name": "GettingStarted",
+          "pattern": "",
+          "target": "GettingStarted"
+        },
+        {
+          "name": "Setup",
+          "pattern": "setup",
+          "target": "Setup"
+        },
+        {
+          "name": "Documentation",
+          "pattern": "documentation",
+          "target": "Documentation"
+        },
+        {
+          "name": "Button",
+          "pattern": "control/Button",
+          "target": "Button"
+        },
+        {
+          "name": "SegmentedButton",
+          "pattern": "control/SegmentedButton",
+          "target": "SegmentedButton"
+        },
+        {
+          "name": "CheckBox",
+          "pattern": "control/CheckBox",
+          "target": "CheckBox"
+        },
+        {
+          "name": "RadioButton",
+          "pattern": "control/RadioButton",
+          "target": "RadioButton"
+        },
+        {
+          "name": "Switch",
+          "pattern": "control/Switch",
+          "target": "Switch"
+        },
+        {
+          "name": "Select",
+          "pattern": "control/Select",
+          "target": "Select"
+        },
+        {
+          "name": "ComboBox",
+          "pattern": "control/ComboBox",
+          "target": "ComboBox"
+        },
+        {
+          "name": "DatePicker",
+          "pattern": "control/DatePicker",
+          "target": "DatePicker"
+        },
+        {
+          "name": "TimePicker",
+          "pattern": "control/TimePicker",
+          "target": "TimePicker"
+        },
+        {
+          "name": "Input",
+          "pattern": "control/Input",
+          "target": "Input"
+        },
+        {
+          "name": "TextArea",
+          "pattern": "control/TextArea",
+          "target": "TextArea"
+        },
+        {
+          "name": "StepInput",
+          "pattern": "control/StepInput",
+          "target": "StepInput"
+        },
+        {
+          "name": "Slider",
+          "pattern": "control/Slider",
+          "target": "Slider"
+        },
+        {
+          "name": "Text",
+          "pattern": "control/Text",
+          "target": "Text"
+        },
+        {
+          "name": "Link",
+          "pattern": "control/Link",
+          "target": "Link"
+        },
+        {
+          "name": "Toolbar",
+          "pattern": "control/Toolbar",
+          "target": "Toolbar"
+        },
+        {
+          "name": "OverflowToolbar",
+          "pattern": "control/OverflowToolbar",
+          "target": "OverflowToolbar"
+        },
+        {
+          "name": "QuickDialog",
+          "pattern": "control/QuickDialog",
+          "target": "QuickDialog"
+        },
+        {
+          "name": "VirtualKeyboard",
+          "pattern": "control/VirtualKeyboard",
+          "target": "VirtualKeyboard"
+        },
+        {
+          "name": "BarcodeInput",
+          "pattern": "control/BarcodeInput",
+          "target": "BarcodeInput"
+        },
+        {
+          "name": "SignaturePad",
+          "pattern": "control/SignaturePad",
+          "target": "SignaturePad"
+        }
+      ],
+      "targets": {
+        "GettingStarted": {
+          "id": "GettingStarted",
+          "viewId": "GettingStarted",
+          "name": "GettingStarted"
+        },
+        "Setup": {
+          "id": "Setup",
+          "viewId": "Setup",
+          "name": "Setup"
+        },
+        "Documentation": {
+          "id": "Documentation",
+          "viewId": "Documentation",
+          "name": "Documentation"
+        },
+        "Button": {
+          "id": "Button",
+          "viewId": "Button",
+          "name": "Button"
+        },
+        "SegmentedButton": {
+          "id": "SegmentedButton",
+          "viewId": "SegmentedButton",
+          "name": "SegmentedButton"
+        },
+        "CheckBox": {
+          "id": "CheckBox",
+          "viewId": "CheckBox",
+          "name": "CheckBox"
+        },
+        "RadioButton": {
+          "id": "RadioButton",
+          "viewId": "RadioButton",
+          "name": "RadioButton"
+        },
+        "Switch": {
+          "id": "Switch",
+          "viewId": "Switch",
+          "name": "Switch"
+        },
+        "Select": {
+          "id": "Select",
+          "viewId": "Select",
+          "name": "Select"
+        },
+        "ComboBox": {
+          "id": "ComboBox",
+          "viewId": "ComboBox",
+          "name": "ComboBox"
+        },
+        "DatePicker": {
+          "id": "DatePicker",
+          "viewId": "DatePicker",
+          "name": "DatePicker"
+        },
+        "TimePicker": {
+          "id": "TimePicker",
+          "viewId": "TimePicker",
+          "name": "TimePicker"
+        },
+        "Input": {
+          "id": "Input",
+          "viewId": "Input",
+          "name": "Input"
+        },
+        "TextArea": {
+          "id": "TextArea",
+          "viewId": "TextArea",
+          "name": "TextArea"
+        },
+        "StepInput": {
+          "id": "StepInput",
+          "viewId": "StepInput",
+          "name": "StepInput"
+        },
+        "Slider": {
+          "id": "Slider",
+          "viewId": "Slider",
+          "name": "Slider"
+        },
+        "Text": {
+          "id": "Text",
+          "viewId": "Text",
+          "name": "Text"
+        },
+        "Link": {
+          "id": "Link",
+          "viewId": "Link",
+          "name": "Link"
+        },
+        "Toolbar": {
+          "id": "Toolbar",
+          "viewId": "Toolbar",
+          "name": "Toolbar"
+        },
+        "OverflowToolbar": {
+          "id": "OverflowToolbar",
+          "viewId": "OverflowToolbar",
+          "name": "OverflowToolbar"
+        },
+        "QuickDialog": {
+          "id": "QuickDialog",
+          "viewId": "QuickDialog",
+          "name": "QuickDialog"
+        },
+        "VirtualKeyboard": {
+          "id": "VirtualKeyboard",
+          "viewId": "VirtualKeyboard",
+          "name": "VirtualKeyboard"
+        },
+        "BarcodeInput": {
+          "id": "BarcodeInput",
+          "viewId": "BarcodeInput",
+          "name": "BarcodeInput"
+        },
+        "SignaturePad": {
+          "id": "SignaturePad",
+          "viewId": "SignaturePad",
+          "name": "SignaturePad"
+        },
+        "NotFound": {
+          "id": "NotFound",
+          "viewId": "NotFound",
+          "name": "NotFound",
+          "transition": "show"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "contentDensities": {
+      "compact": false,
+      "cozy": true
+    }
+  }
+}
