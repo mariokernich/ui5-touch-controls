@@ -1,0 +1,196 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/*
+ * The field is styled exactly like the one of Input.less - see the comment
+ * there on why the background shorthand has to be applied before the
+ * background color: in a theme such as Horizon the outline of a field is a
+ * background image rather than a border.
+ */
+.sizedSelect {
+	display: inline-flex;
+	align-items: stretch;
+	box-sizing: border-box;
+	position: relative;
+	vertical-align: top;
+	max-width: 100%;
+	margin: 5px 0;
+	outline: none;
+	cursor: pointer;
+	overflow: hidden;
+	background: var(--sapField_BackgroundStyle);
+	background-color: @sapField_Background;
+	border: var(--sapField_BorderWidth) var(--sapField_BorderStyle) var(--sapField_BorderColor);
+	border-radius: @sapField_BorderCornerRadius;
+}
+
+/* the shadow belongs to the plain field only, a value state brings its own */
+.sizedSelect:not(.sizedSelectState) {
+	box-shadow: var(--sapField_Shadow);
+}
+
+.sizedSelect:not(.sizedSelectReadonly):not(.sizedSelectDisabled):not(.sizedSelectState):hover {
+	background: var(--sapField_Hover_BackgroundStyle);
+	background-color: @sapField_Hover_Background;
+	border-color: @sapField_Hover_BorderColor;
+	box-shadow: var(--sapField_Hover_Shadow);
+}
+
+/* the focus ring is an overlay, so it also shows in themes that draw the
+   field without a border */
+.sizedSelect:focus::before,
+.sizedSelectExpanded::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) var(--sapField_Active_BorderColor);
+	border-radius: @sapField_BorderCornerRadius;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.sizedSelectLabel {
+	flex: 1 1 auto;
+	min-width: 0;
+	align-self: center;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+/* the arrow sits in a square at the end of the field, like in sap.m */
+.sizedSelectArrow {
+	flex: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: @sapContent_IconColor;
+}
+
+.sizedSelectArrow::before {
+	font-family: var(--sapContent_IconFontFamily);
+	content: "\e1ef";
+}
+
+/* read-only: no arrow, because there is nothing to open */
+.sizedSelectReadonly {
+	cursor: default;
+	background: var(--sapField_ReadOnly_BackgroundStyle);
+	background-color: @sapField_ReadOnly_Background;
+	border-color: @sapField_ReadOnly_BorderColor;
+	box-shadow: none;
+}
+
+/* disabled */
+.sizedSelectDisabled {
+	cursor: default;
+	opacity: @sapContent_DisabledOpacity;
+}
+
+/* value states */
+.sizedSelectError {
+	background: var(--sapField_InvalidBackgroundStyle);
+	background-color: @sapField_InvalidBackground;
+	border: var(--sapField_InvalidBorderWidth) var(--sapField_InvalidBorderStyle) @sapField_InvalidColor;
+	box-shadow: var(--sapField_InvalidShadow);
+}
+
+.sizedSelectError:focus::before,
+.sizedSelectError.sizedSelectExpanded::before {
+	border-color: @sapField_InvalidColor;
+}
+
+.sizedSelectWarning {
+	background: var(--sapField_WarningBackgroundStyle);
+	background-color: @sapField_WarningBackground;
+	border: var(--sapField_WarningBorderWidth) var(--sapField_WarningBorderStyle) @sapField_WarningColor;
+	box-shadow: var(--sapField_WarningShadow);
+}
+
+.sizedSelectWarning:focus::before,
+.sizedSelectWarning.sizedSelectExpanded::before {
+	border-color: @sapField_WarningColor;
+}
+
+.sizedSelectSuccess {
+	background: var(--sapField_SuccessBackgroundStyle);
+	background-color: @sapField_SuccessBackground;
+	border: var(--sapField_SuccessBorderWidth) var(--sapField_SuccessBorderStyle) @sapField_SuccessColor;
+	box-shadow: var(--sapField_SuccessShadow);
+}
+
+.sizedSelectSuccess:focus::before,
+.sizedSelectSuccess.sizedSelectExpanded::before {
+	border-color: @sapField_SuccessColor;
+}
+
+.sizedSelectInformation {
+	background: var(--sapField_InformationBackgroundStyle);
+	background-color: @sapField_InformationBackground;
+	border: var(--sapField_InformationBorderWidth) var(--sapField_InformationBorderStyle) @sapField_InformationColor;
+	box-shadow: var(--sapField_InformationShadow);
+}
+
+.sizedSelectInformation:focus::before,
+.sizedSelectInformation.sizedSelectExpanded::before {
+	border-color: @sapField_InformationColor;
+}
+
+/* ------------------------------------------------------------------------ */
+/* the list in the popover                                                   */
+/* ------------------------------------------------------------------------ */
+
+.sizedSelectList {
+	width: 100%;
+}
+
+/* the rows are the library's buttons, but a list reads better left aligned,
+   in the regular font and without the gaps, borders and rounded corners of a
+   stand-alone button */
+.sizedSelectList > .sizedButton.sizedSelectItem,
+.sizedSelectList > .sizedButton.sizedSelectItem:hover {
+	display: block;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	font-family: @sapFontFamily;
+	background-color: @sapList_Background;
+	color: @sapList_TextColor;
+}
+
+/* the first and the last row have to follow the rounded corners of the
+   popover, otherwise a selected or hovered row would square them off */
+.sizedSelectList > .sizedButton.sizedSelectItem:first-child {
+	border-top-left-radius: @sapPopover_BorderCornerRadius;
+	border-top-right-radius: @sapPopover_BorderCornerRadius;
+}
+
+.sizedSelectList > .sizedButton.sizedSelectItem:last-child {
+	border-bottom-left-radius: @sapPopover_BorderCornerRadius;
+	border-bottom-right-radius: @sapPopover_BorderCornerRadius;
+}
+
+.sizedSelectList > .sizedButton.sizedSelectItem > .sizedButtonInner {
+	justify-content: flex-start;
+}
+
+.sizedSelectList > .sizedButton.sizedSelectItem:hover {
+	background-color: @sapList_Hover_Background;
+}
+
+.sizedSelectList > .sizedButton.sizedSelectItemSelected,
+.sizedSelectList > .sizedButton.sizedSelectItemSelected:hover {
+	background-color: @sapList_SelectionBackgroundColor;
+	color: @sapList_TextColor;
+}
+
+.sizedSelectList > .sizedButton.sizedSelectItemSelected:hover {
+	background-color: @sapList_Hover_SelectionBackground;
+}

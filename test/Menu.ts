@@ -55,6 +55,7 @@ const controlPages: PageInfo[] = [
 		icon: "sap-icon://switch-views",
 	},
 	{ key: "CheckBox", text: "CheckBox", icon: "sap-icon://complete" },
+	{ key: "Select", text: "Select", icon: "sap-icon://slim-arrow-down" },
 	{ key: "Input", text: "Input", icon: "sap-icon://edit" },
 	{
 		key: "VirtualKeyboard",

@@ -63,6 +63,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "Select",
+		replaces: "sap.m.Select",
+		description:
+			"Drop-down filled with plain sap.ui.core.Item elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of sap.m.Select keeps its standard row height however large the field is. Supports selectedKey, editable, forceSelection, value states and width. Fires change.",
+		hasPage: true,
+	},
+	{
 		name: "Input",
 		replaces: "sap.m.Input",
 		description: "Single-line input with configurable size.",
