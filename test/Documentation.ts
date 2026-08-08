@@ -64,6 +64,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "Link",
+		replaces: "sap.m.Link",
+		description:
+			"Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports href, target, wrapping, subtle, emphasized and width; a target=\"_blank\" link automatically gets rel=\"noopener noreferrer\". Fires press.",
+		hasPage: true,
+	},
+	{
 		name: "Toolbar",
 		replaces: "sap.m.Toolbar",
 		description:
