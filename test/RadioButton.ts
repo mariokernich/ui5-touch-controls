@@ -168,39 +168,6 @@ page.addItem(
 	}).addStyleClass("touchControlsCardRow"),
 );
 
-const standalone = new Card({
-	header: new Header({
-		title: "Standalone buttons",
-		subtitle:
-			"Buttons that share a groupName are mutually exclusive, even without a group",
-	}),
-	content: new VBox({
-		items: [
-			new SizedRadioButton({
-				text: "Pallet",
-				groupName: "unit",
-				selected: true,
-				size: SizeMode.XL,
-			}),
-			new SizedRadioButton({
-				text: "Box",
-				groupName: "unit",
-				size: SizeMode.XL,
-			}),
-			new SizedRadioButton({
-				text: "Single item",
-				groupName: "unit",
-				size: SizeMode.XL,
-			}),
-		],
-	})
-		.addStyleClass("sapUiSmallMarginBegin")
-		.addStyleClass("sapUiSmallMarginEnd")
-		.addStyleClass("sapUiSmallMarginBottom"),
-}).addStyleClass("sapUiMediumMarginBottom");
-
-page.addItem(standalone);
-
 page.addItem(
 	createExampleCard(`
 <mvc:View

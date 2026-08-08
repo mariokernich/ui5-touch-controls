@@ -45,9 +45,11 @@ const introPages: PageInfo[] = [
 ];
 
 /**
- * One test page per control. The key matches the HTML/TS file name.
+ * One test page per control, split the same way the documentation page is:
+ * rebuilds of sap.m controls first, then the ones that exist only here. The
+ * key matches the HTML/TS file name.
  */
-const controlPages: PageInfo[] = [
+const portedPages: PageInfo[] = [
 	{ key: "Button", text: "Button", icon: "sap-icon://cursor-arrow" },
 	{
 		key: "SegmentedButton",
@@ -55,12 +57,8 @@ const controlPages: PageInfo[] = [
 		icon: "sap-icon://switch-views",
 	},
 	{ key: "CheckBox", text: "CheckBox", icon: "sap-icon://complete" },
+	{ key: "RadioButton", text: "RadioButton", icon: "sap-icon://record" },
 	{ key: "Switch", text: "Switch", icon: "sap-icon://sys-enter-2" },
-	{
-		key: "RadioButton",
-		text: "RadioButton",
-		icon: "sap-icon://record",
-	},
 	{ key: "Select", text: "Select", icon: "sap-icon://slim-arrow-down" },
 	{ key: "ComboBox", text: "ComboBox", icon: "sap-icon://value-help" },
 	{ key: "DatePicker", text: "DatePicker", icon: "sap-icon://appointment-2" },
@@ -70,18 +68,11 @@ const controlPages: PageInfo[] = [
 		icon: "sap-icon://time-entry-request",
 	},
 	{ key: "Input", text: "Input", icon: "sap-icon://edit" },
-	{
-		key: "VirtualKeyboard",
-		text: "VirtualKeyboard",
-		icon: "sap-icon://keyboard-and-mouse",
-	},
-	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
-	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },
+	{ key: "TextArea", text: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
 	{ key: "Slider", text: "Slider", icon: "sap-icon://horizontal-bar-chart" },
 	{ key: "Text", text: "Text", icon: "sap-icon://text" },
 	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },
-	{ key: "TextArea", text: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "Toolbar", text: "Toolbar", icon: "sap-icon://menu2" },
 	{
 		key: "OverflowToolbar",
@@ -91,8 +82,23 @@ const controlPages: PageInfo[] = [
 	{ key: "QuickDialog", text: "QuickDialog", icon: "sap-icon://message-popup" },
 ];
 
+/** the controls that have no sap.m equivalent */
+const additionalPages: PageInfo[] = [
+	{
+		key: "VirtualKeyboard",
+		text: "VirtualKeyboard",
+		icon: "sap-icon://keyboard-and-mouse",
+	},
+	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
+	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },
+];
+
 /** the order used by the previous/next buttons in the header */
-const allPages: PageInfo[] = [...introPages, ...controlPages];
+const allPages: PageInfo[] = [
+	...introPages,
+	...portedPages,
+	...additionalPages,
+];
 
 /**
  * Themes that render on a dark background and therefore need the logo
@@ -330,9 +336,14 @@ export default function initTestPage(
 				// second-level items by design, whereas the items of a group stay
 				// on the first level and keep their icons.
 				new NavigationListGroup({
-					text: "Controls",
+					text: "Ported from sap.m",
 					expanded: true,
-					items: controlPages.map(createNavigationItem),
+					items: portedPages.map(createNavigationItem),
+				}),
+				new NavigationListGroup({
+					text: "Additional controls",
+					expanded: true,
+					items: additionalPages.map(createNavigationItem),
 				}),
 			],
 		}),
