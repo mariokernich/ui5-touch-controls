@@ -16,12 +16,23 @@
 		<!-- the demo is served from test-resources/ui5/touch/controls/, so the
 		     framework is four levels up -->
 		<base href="../../../../" />
+		<script>
+			// Start in the dark variant when the visitor's system is set to dark
+			// mode. This goes through the global configuration object instead of
+			// data-sap-ui-theme, because the bootstrap attributes would take
+			// precedence over it - and it keeps the sap-ui-theme URL parameter
+			// working, which ranks above both.
+			window["sap-ui-config"] = {
+				theme: window.matchMedia("(prefers-color-scheme: dark)").matches
+					? "sap_horizon_dark"
+					: "sap_horizon",
+			};
+		</script>
 		<script
 			id="sap-ui-bootstrap"
 			src="resources/sap-ui-core.js"
 			data-sap-ui-async="true"
 			data-sap-ui-compat-version="edge"
-			data-sap-ui-theme="sap_horizon"
 			data-sap-ui-on-init="module:sap/ui/core/ComponentSupport"
 			data-sap-ui-resource-roots='{"ui5.touch.controls.demo": "./test-resources/ui5/touch/controls/", "ui5.touch.controls": "./resources/ui5/touch/controls/"}'
 		></script>
