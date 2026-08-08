@@ -235,6 +235,21 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 }
 ```
 
+### Theme compatibility
+
+The library ships its own theme library for the following themes, so the controls take their colours, borders and shadows from the theme parameters of the active theme and blend in with the surrounding `sap.m` controls. Set the theme as usual through `data-sap-ui-theme` in the bootstrap or at runtime through `Theming.setTheme()`.
+
+| Theme | Theme ID | Supported | Remark |
+| --- | --- | --- | --- |
+| Horizon | `sap_horizon` | ✅ | Default theme of the test pages |
+| Horizon Dark | `sap_horizon_dark` | ✅ | Dark variant of Horizon |
+| Horizon High Contrast Black | `sap_horizon_hcb` | ✅ | High contrast, dark background |
+| Horizon High Contrast White | `sap_horizon_hcw` | ✅ | High contrast, light background |
+| Fiori 3 (Quartz Light) | `sap_fiori_3` | ✅ | Previous default theme of SAPUI5 / OpenUI5 |
+| Fiori 3 Dark (Quartz Dark) | `sap_fiori_3_dark` | ✅ | Dark variant of Fiori 3 |
+
+Themes that are not listed here are not shipped with the library. UI5 then falls back to the base theme for `ui5.touch.controls`, so the controls stay usable, but they will not match the colours of the rest of the application.
+
 ## More examples
 
 The controls integrate seamlessly with existing standard controls and aggregations — for example `tc:Button` and `tc:Text` inside a `sap.m.Table`:

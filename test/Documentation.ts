@@ -4,11 +4,12 @@ import HBox from "sap/m/HBox";
 import Label from "sap/m/Label";
 import Link from "sap/m/Link";
 import MessageStrip from "sap/m/MessageStrip";
+import ObjectStatus from "sap/m/ObjectStatus";
 import Table from "sap/m/Table";
 import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
 import { ButtonType, FlexAlignItems, FlexWrap } from "sap/m/library";
-import { MessageType } from "sap/ui/core/library";
+import { MessageType, ValueState } from "sap/ui/core/library";
 import initTestPage, {
 	createExampleCard,
 	createInfoCard,
@@ -26,6 +27,17 @@ interface ControlDoc {
 	description: string;
 	/** whether a test page exists for the control */
 	hasPage: boolean;
+}
+
+interface ThemeDoc {
+	/** display name of the theme */
+	name: string;
+	/** the theme id used in data-sap-ui-theme */
+	id: string;
+	/** whether the library ships a theme library for it */
+	supported: boolean;
+	/** short remark shown in the last column */
+	note: string;
 }
 
 const controls: ControlDoc[] = [
@@ -106,6 +118,45 @@ const controls: ControlDoc[] = [
 	},
 ];
 
+const themes: ThemeDoc[] = [
+	{
+		name: "Horizon",
+		id: "sap_horizon",
+		supported: true,
+		note: "Default theme of the test pages",
+	},
+	{
+		name: "Horizon Dark",
+		id: "sap_horizon_dark",
+		supported: true,
+		note: "Dark variant of Horizon",
+	},
+	{
+		name: "Horizon High Contrast Black",
+		id: "sap_horizon_hcb",
+		supported: true,
+		note: "High contrast, dark background",
+	},
+	{
+		name: "Horizon High Contrast White",
+		id: "sap_horizon_hcw",
+		supported: true,
+		note: "High contrast, light background",
+	},
+	{
+		name: "Fiori 3 (Quartz Light)",
+		id: "sap_fiori_3",
+		supported: true,
+		note: "Previous default theme of SAPUI5 / OpenUI5",
+	},
+	{
+		name: "Fiori 3 Dark (Quartz Dark)",
+		id: "sap_fiori_3_dark",
+		supported: true,
+		note: "Dark variant of Fiori 3",
+	},
+];
+
 const page = new VBox();
 
 page.addItem(
@@ -155,6 +206,54 @@ control exists only in this library. Click a control to open its interactive
 page.
 `),
 		controlTable,
+	),
+);
+
+// ---------------------------------------------------------------------------
+// theme compatibility
+// ---------------------------------------------------------------------------
+
+const themeTable = new Table({
+	columns: [
+		new Column({ header: new Label({ text: "Theme" }), width: "18rem" }),
+		new Column({ header: new Label({ text: "Theme ID" }), width: "14rem" }),
+		new Column({ header: new Label({ text: "Supported" }), width: "10rem" }),
+		new Column({ header: new Label({ text: "Remark" }) }),
+	],
+	items: themes.map(
+		(theme) =>
+			new ColumnListItem({
+				cells: [
+					new Text({ text: theme.name }),
+					new Text({ text: theme.id }),
+					new ObjectStatus({
+						text: theme.supported ? "Yes" : "No",
+						state: theme.supported ? ValueState.Success : ValueState.Error,
+						icon: theme.supported ? "sap-icon://accept" : "sap-icon://decline",
+					}),
+					new Text({ text: theme.note }),
+				],
+			}),
+	),
+});
+
+page.addItem(
+	createInfoCard(
+		"Theme compatibility",
+		"All controls ship their own theme library for these themes",
+		createText(`
+The controls take their colours, borders and shadows from the theme parameters
+of the active theme, so they blend in with the surrounding
+<code>sap.m</code> controls. Set the theme as usual through
+<code>data-sap-ui-theme</code> in the bootstrap or at runtime through
+<code>Theming.setTheme()</code>.
+`),
+		themeTable,
+		createText(`
+Themes that are not listed here are not shipped with the library. UI5 then falls
+back to the base theme for <code>ui5.touch.controls</code>, so the controls stay
+usable, but they will not match the colours of the rest of the application.
+`),
 	),
 );
 
