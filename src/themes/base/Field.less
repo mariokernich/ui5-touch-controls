@@ -1,0 +1,149 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/*
+ * The field frame shared by the controls that render as a single box with the
+ * content inside - Select, ComboBox and DatePicker. Input and TextArea are not
+ * on it, they split the frame off into a content wrapper because they carry a
+ * native input element.
+ *
+ * The mixin expects the following class names, all derived from @base:
+ * @{base}, @{base}State, @{base}Readonly, @{base}Disabled, @{base}Expanded and
+ * one class per value state, e.g. @{base}Error.
+ *
+ * Horizon draws the outline of a field as a background image rather than as a
+ * border - @sapField_BorderStyle is "none" there and the line at the bottom
+ * comes from @sapField_BackgroundStyle - so every state applies the background
+ * shorthand before the background color. The shorthand has to come first
+ * because it resets the color.
+ */
+.touchField(@base) {
+	.@{base} {
+		display: inline-flex;
+		align-items: stretch;
+		box-sizing: border-box;
+		position: relative;
+		vertical-align: top;
+		max-width: 100%;
+		margin: 5px 0;
+		outline: none;
+		overflow: hidden;
+		background: var(--sapField_BackgroundStyle);
+		background-color: @sapField_Background;
+		border: var(--sapField_BorderWidth) var(--sapField_BorderStyle) var(--sapField_BorderColor);
+		border-radius: @sapField_BorderCornerRadius;
+	}
+
+	/* the shadow belongs to the plain field only, a value state brings its own */
+	.@{base}:not(.@{base}State) {
+		box-shadow: var(--sapField_Shadow);
+	}
+
+	.@{base}:not(.@{base}Readonly):not(.@{base}Disabled):not(.@{base}State):hover {
+		background: var(--sapField_Hover_BackgroundStyle);
+		background-color: @sapField_Hover_Background;
+		border-color: @sapField_Hover_BorderColor;
+		box-shadow: var(--sapField_Hover_Shadow);
+	}
+
+	/* the focus ring is an overlay, so it also shows in themes that draw the
+	   field without a border */
+	.@{base}:focus::before,
+	.@{base}:focus-within::before,
+	.@{base}Expanded::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) var(--sapField_Active_BorderColor);
+		border-radius: @sapField_BorderCornerRadius;
+		pointer-events: none;
+		z-index: 2;
+	}
+
+	/* read-only */
+	.@{base}Readonly {
+		background: var(--sapField_ReadOnly_BackgroundStyle);
+		background-color: @sapField_ReadOnly_Background;
+		border-color: @sapField_ReadOnly_BorderColor;
+		box-shadow: none;
+	}
+
+	/* disabled */
+	.@{base}Disabled {
+		opacity: @sapContent_DisabledOpacity;
+	}
+
+	/* value states */
+	.@{base}Error {
+		background: var(--sapField_InvalidBackgroundStyle);
+		background-color: @sapField_InvalidBackground;
+		border: var(--sapField_InvalidBorderWidth) var(--sapField_InvalidBorderStyle) @sapField_InvalidColor;
+		box-shadow: var(--sapField_InvalidShadow);
+	}
+
+	.@{base}Error:focus::before,
+	.@{base}Error:focus-within::before,
+	.@{base}Error.@{base}Expanded::before {
+		border-color: @sapField_InvalidColor;
+	}
+
+	.@{base}Warning {
+		background: var(--sapField_WarningBackgroundStyle);
+		background-color: @sapField_WarningBackground;
+		border: var(--sapField_WarningBorderWidth) var(--sapField_WarningBorderStyle) @sapField_WarningColor;
+		box-shadow: var(--sapField_WarningShadow);
+	}
+
+	.@{base}Warning:focus::before,
+	.@{base}Warning:focus-within::before,
+	.@{base}Warning.@{base}Expanded::before {
+		border-color: @sapField_WarningColor;
+	}
+
+	.@{base}Success {
+		background: var(--sapField_SuccessBackgroundStyle);
+		background-color: @sapField_SuccessBackground;
+		border: var(--sapField_SuccessBorderWidth) var(--sapField_SuccessBorderStyle) @sapField_SuccessColor;
+		box-shadow: var(--sapField_SuccessShadow);
+	}
+
+	.@{base}Success:focus::before,
+	.@{base}Success:focus-within::before,
+	.@{base}Success.@{base}Expanded::before {
+		border-color: @sapField_SuccessColor;
+	}
+
+	.@{base}Information {
+		background: var(--sapField_InformationBackgroundStyle);
+		background-color: @sapField_InformationBackground;
+		border: var(--sapField_InformationBorderWidth) var(--sapField_InformationBorderStyle) @sapField_InformationColor;
+		box-shadow: var(--sapField_InformationShadow);
+	}
+
+	.@{base}Information:focus::before,
+	.@{base}Information:focus-within::before,
+	.@{base}Information.@{base}Expanded::before {
+		border-color: @sapField_InformationColor;
+	}
+}
+
+/*
+ * The arrow at the end of such a field: a square, so it grows with the height
+ * the renderer writes.
+ */
+.touchFieldArrow(@base) {
+	.@{base}Arrow {
+		flex: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: @sapContent_IconColor;
+	}
+
+	.@{base}Arrow::before {
+		font-family: var(--sapContent_IconFontFamily);
+		content: "\e1ef";
+	}
+}

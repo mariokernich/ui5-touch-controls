@@ -239,14 +239,14 @@ export default class Select extends Control implements ISized {
 					},
 				});
 
-				button.addStyleClass("sizedSelectItem");
+				button.addStyleClass("sizedPickerItem");
 				if (item === selectedItem) {
-					button.addStyleClass("sizedSelectItemSelected");
+					button.addStyleClass("sizedPickerItemSelected");
 				}
 
 				return button;
 			}),
-		}).addStyleClass("sizedSelectList");
+		}).addStyleClass("sizedPickerList");
 	}
 
 	private selectItem(item: Item): void {

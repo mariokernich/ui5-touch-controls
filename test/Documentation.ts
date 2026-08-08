@@ -77,6 +77,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "ComboBox",
+		replaces: "sap.m.ComboBox",
+		description:
+			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states and width. Fires change and selectionChange.",
+		hasPage: true,
+	},
+	{
 		name: "Input",
 		replaces: "sap.m.Input",
 		description: "Single-line input with configurable size.",

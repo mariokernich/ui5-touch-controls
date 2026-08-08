@@ -61,6 +61,7 @@ const controlPages: PageInfo[] = [
 		icon: "sap-icon://record",
 	},
 	{ key: "Select", text: "Select", icon: "sap-icon://slim-arrow-down" },
+	{ key: "ComboBox", text: "ComboBox", icon: "sap-icon://value-help" },
 	{ key: "Input", text: "Input", icon: "sap-icon://edit" },
 	{
 		key: "VirtualKeyboard",

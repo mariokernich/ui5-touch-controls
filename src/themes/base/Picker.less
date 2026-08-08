@@ -1,0 +1,60 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/*
+ * The list shared by the controls that open a popover with a choice - Select,
+ * ComboBox and the year list of the DatePicker. The rows are the library's own
+ * buttons, so they carry the size of the control they belong to; what is left
+ * to do here is to make a stand-alone button look like a list row.
+ */
+.sizedPickerList {
+	width: 100%;
+}
+
+.sizedPickerList > .sizedButton.sizedPickerItem,
+.sizedPickerList > .sizedButton.sizedPickerItem:hover {
+	display: block;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	font-family: @sapFontFamily;
+	background-color: @sapList_Background;
+	color: @sapList_TextColor;
+}
+
+.sizedPickerList > .sizedButton.sizedPickerItem > .sizedButtonInner {
+	justify-content: flex-start;
+}
+
+/* the first and the last row have to follow the rounded corners of the
+   popover, otherwise a selected or hovered row would square them off */
+.sizedPickerList > .sizedButton.sizedPickerItem:first-child {
+	border-top-left-radius: @sapPopover_BorderCornerRadius;
+	border-top-right-radius: @sapPopover_BorderCornerRadius;
+}
+
+.sizedPickerList > .sizedButton.sizedPickerItem:last-child {
+	border-bottom-left-radius: @sapPopover_BorderCornerRadius;
+	border-bottom-right-radius: @sapPopover_BorderCornerRadius;
+}
+
+.sizedPickerList > .sizedButton.sizedPickerItem:hover {
+	background-color: @sapList_Hover_Background;
+}
+
+.sizedPickerList > .sizedButton.sizedPickerItemSelected,
+.sizedPickerList > .sizedButton.sizedPickerItemSelected:hover {
+	background-color: @sapList_SelectionBackgroundColor;
+	color: @sapList_TextColor;
+}
+
+.sizedPickerList > .sizedButton.sizedPickerItemSelected:hover {
+	background-color: @sapList_Hover_SelectionBackground;
+}
+
+/* shown instead of the list when a filter matches nothing */
+.sizedPickerNoData {
+	display: block;
+	font-family: @sapFontFamily;
+	color: @sapContent_LabelColor;
+	text-align: center;
+}
