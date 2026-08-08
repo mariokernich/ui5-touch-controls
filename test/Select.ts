@@ -177,32 +177,6 @@ page.addItem(
 	}).addStyleClass("touchControlsCardRow"),
 );
 
-const sizes = new Card({
-	header: new Header({
-		title: "All sizes",
-		subtitle: "The field and the rows of the list scale together",
-	}),
-	content: new VBox({
-		items: Object.values(SizeMode).map(
-			(size) =>
-				new SizedSelect({
-					size: size,
-					selectedKey: "P1",
-					width: "20rem",
-					items: workstations.map(
-						(workstation) =>
-							new Item({ key: workstation.key, text: workstation.text }),
-					),
-				}),
-		),
-	})
-		.addStyleClass("sapUiSmallMarginBegin")
-		.addStyleClass("sapUiSmallMarginEnd")
-		.addStyleClass("sapUiSmallMarginBottom"),
-}).addStyleClass("sapUiMediumMarginBottom");
-
-page.addItem(sizes);
-
 page.addItem(
 	createExampleCard(`
 <mvc:View
