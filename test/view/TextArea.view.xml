@@ -1,0 +1,107 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.TextArea"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="TextArea Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Placeholder" width="100px" />
+							<Input
+								value="{json>/placeholder}"
+								placeholder="Placeholder"
+								valueLiveUpdate="true"
+								width="300px" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Rows" width="100px" />
+							<StepInput value="{json>/rows}" min="1" max="20" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Max Length" width="100px" />
+							<StepInput value="{json>/maxLength}" min="0" max="500" step="10" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Editable" selected="{json>/editable}" />
+						</HBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.TextArea" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:TextArea
+							value="{json>/value}"
+							placeholder="{json>/placeholder}"
+							rows="{json>/rows}"
+							maxLength="{json>/maxLength}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							width="100%"
+							liveChange=".onLiveChange" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.TextArea" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<TextArea
+							value="{json>/value}"
+							placeholder="{json>/placeholder}"
+							rows="{json>/rows}"
+							maxLength="{json>/maxLength}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							valueLiveUpdate="true"
+							width="100%" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

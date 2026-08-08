@@ -21,6 +21,12 @@ export default class App extends BaseController {
 		this.getRouter().attachRouteMatched((event) => {
 			this.onRouteMatched(event);
 		});
+
+		// an unknown hash lands on the NotFound target, which is no page of the
+		// navigation - so nothing is selected and there is nowhere to go next
+		this.getRouter().attachBypassed(() => {
+			this.select(-1, "");
+		});
 	}
 
 	/**
@@ -29,12 +35,25 @@ export default class App extends BaseController {
 	 */
 	private onRouteMatched(event: Router$RouteMatchedEvent): void {
 		const name = event.getParameter("name") ?? "";
-		const index = allPages.findIndex((page) => page.key === name);
+		this.select(
+			allPages.findIndex((page) => page.key === name),
+			name,
+		);
+	}
+
+	/**
+	 * Marks the page at the given index as the current one.
+	 *
+	 * @param index position in {@link allPages}, -1 when the page is none of
+	 *   them
+	 * @param key the route name, used as the key of the navigation item
+	 */
+	private select(index: number, key: string): void {
 		const previous = index > 0 ? allPages[index - 1] : null;
 		const next =
 			index >= 0 && index < allPages.length - 1 ? allPages[index + 1] : null;
 
-		this.model.setProperty("/currentKey", index >= 0 ? name : "");
+		this.model.setProperty("/currentKey", index >= 0 ? key : "");
 		this.model.setProperty("/previousKey", previous?.key ?? "");
 		this.model.setProperty(
 			"/previousTooltip",

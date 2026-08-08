@@ -1,0 +1,95 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.Select"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="Select Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Editable" selected="{json>/editable}" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Selected key" width="100px" />
+							<Text text="{json>/selectedKey}" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.Select" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:Select
+							selectedKey="{json>/selectedKey}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							width="20rem"
+							items="{json>/workstations}"
+							change=".onChange">
+							<core:Item key="{json>key}" text="{json>text}" />
+						</tc:Select>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.Select" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Select
+							selectedKey="{json>/selectedKey}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							width="20rem"
+							items="{json>/workstations}">
+							<core:Item key="{json>key}" text="{json>text}" />
+						</Select>
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

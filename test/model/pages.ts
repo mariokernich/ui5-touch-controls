@@ -16,6 +16,10 @@ export interface PageInfo {
 /**
  * Introductory pages. They explain what the library is, how to install it and
  * how to use it.
+ *
+ * Unlike the two lists below, these are not bound in the side navigation -
+ * App.view.xml lists them statically, because they sit above the two groups.
+ * They are only used for the previous/next buttons and the page title.
  */
 export const introPages: PageInfo[] = [
 	{ key: "GettingStarted", text: "Getting Started", icon: "sap-icon://home" },

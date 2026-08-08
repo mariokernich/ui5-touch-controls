@@ -1,0 +1,11 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:unified="sap.ui.unified">
+	<ResponsivePopover title="Pick a Color" placement="Bottom">
+		<unified:ColorPicker
+			colorString="{json>/color}"
+			mode="HSL"
+			change=".onColorChange" />
+	</ResponsivePopover>
+</core:FragmentDefinition>

@@ -21,3 +21,9 @@ body,
 .touchControlsPage .sapMPageEnableScrolling {
 	padding: 1rem;
 }
+
+/* the demo pages of the Toolbar pages need an explicit height, otherwise they
+   collapse inside the flow of the surrounding page */
+.touchControlsDemoPage {
+	height: 20rem;
+}

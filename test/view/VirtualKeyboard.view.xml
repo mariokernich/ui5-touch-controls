@@ -1,0 +1,91 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.VirtualKeyboard"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="VirtualKeyboard Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment
+							fragmentName="ui5.touch.controls.demo.view.SizeOption"
+							type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Value" width="100px" />
+							<Input
+								value="{json>/value}"
+								valueLiveUpdate="true"
+								width="150px" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Layout" width="100px" />
+							<Select selectedKey="{json>/layout}">
+								<core:Item key="qwerty" text="QWERTY (real keyboard)" />
+								<core:Item key="numeric" text="Numeric" />
+								<core:Item key="phone" text="Phone" />
+								<core:Item key="calculator" text="Calculator" />
+							</Select>
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Width" width="100px" />
+							<Input
+								value="{json>/width}"
+								placeholder="e.g. 20rem"
+								valueLiveUpdate="true"
+								width="150px" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Hardware keys" selected="{json>/hardwareKeys}" />
+						</HBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="2" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.VirtualKeyboard" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Text
+							text="Tip: with 'Hardware keys' enabled, click the keyboard to focus it and type on your real keyboard."
+							class="sapUiTinyMarginBottom" />
+						<tc:VirtualKeyboard
+							id="keyboard"
+							value="{json>/value}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							hardwareKeys="{json>/hardwareKeys}"
+							width="{json>/width}"
+							change=".onChange"
+							enter=".onEnter" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

@@ -1,0 +1,99 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.CheckBox"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="CheckBox Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Text" width="100px" />
+							<Input value="{json>/text}" valueLiveUpdate="true" width="300px" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="State" width="100px" />
+							<CheckBox text="Selected" selected="{json>/selected}" />
+							<CheckBox text="Partially selected" selected="{json>/partiallySelected}" />
+						</HBox>
+						<HBox alignItems="Center" wrap="Wrap">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Editable" selected="{json>/editable}" />
+							<CheckBox text="Wrapping" selected="{json>/wrapping}" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.CheckBox" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:CheckBox
+							text="{json>/text}"
+							selected="{json>/selected}"
+							partiallySelected="{json>/partiallySelected}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							wrapping="{json>/wrapping}"
+							valueState="{json>/valueState}"
+							select=".onSelect" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.CheckBox" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<CheckBox
+							text="{json>/text}"
+							selected="{json>/selected}"
+							partiallySelected="{json>/partiallySelected}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							wrapping="{json>/wrapping}"
+							valueState="{json>/valueState}" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

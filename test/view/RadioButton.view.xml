@@ -1,0 +1,97 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.RadioButton"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="RadioButton Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Columns" width="100px" />
+							<StepInput value="{json>/columns}" min="1" max="3" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Editable" selected="{json>/editable}" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.RadioButtonGroup" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:RadioButtonGroup
+							selectedIndex="{json>/selectedIndex}"
+							columns="{json>/columns}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							select=".onSelect">
+							<tc:RadioButton text="Early shift" />
+							<tc:RadioButton text="Late shift" />
+							<tc:RadioButton text="Night shift" />
+						</tc:RadioButtonGroup>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.RadioButtonGroup" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<RadioButtonGroup
+							selectedIndex="{json>/selectedIndex}"
+							columns="{json>/columns}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}">
+							<RadioButton text="Early shift" />
+							<RadioButton text="Late shift" />
+							<RadioButton text="Night shift" />
+						</RadioButtonGroup>
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

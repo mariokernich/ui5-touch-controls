@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<!-- the value state switch of a playground -->
+	<HBox alignItems="Center">
+		<Text text="Value State" width="100px" />
+		<Select selectedKey="{json>/valueState}">
+			<core:Item key="None" text="None" />
+			<core:Item key="Error" text="Error" />
+			<core:Item key="Warning" text="Warning" />
+			<core:Item key="Success" text="Success" />
+			<core:Item key="Information" text="Information" />
+		</Select>
+	</HBox>
+</core:FragmentDefinition>

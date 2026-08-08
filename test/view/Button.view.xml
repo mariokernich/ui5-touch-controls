@@ -1,0 +1,110 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.Button"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="Button Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment
+							fragmentName="ui5.touch.controls.demo.view.SizeOption"
+							type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Text" width="100px" />
+							<Input
+								value="{json>/text}"
+								placeholder="Button Text"
+								valueLiveUpdate="true"
+								width="200px" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Icon" width="100px" />
+							<Input
+								value="{json>/icon}"
+								placeholder="Button Icon"
+								valueLiveUpdate="true"
+								width="300px" />
+						</HBox>
+						<HBox alignItems="Center" wrap="Wrap">
+							<Text text="Behavior" width="100px" />
+							<CheckBox
+								text="Show Icon"
+								selected="{json>/showIcon}"
+								select=".onShowIconSelect" />
+							<CheckBox
+								text="Show Text"
+								selected="{json>/showText}"
+								select=".onShowTextSelect" />
+							<CheckBox text="Icon First" selected="{json>/iconFirst}" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+						</HBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.Button" />
+				</f:header>
+				<f:content>
+					<VBox
+						justifyContent="SpaceBetween"
+						items="{json>/types}"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:Button
+							text="{json>/text}"
+							type="{json>type}"
+							icon="{json>/icon}"
+							iconFirst="{json>/iconFirst}"
+							enabled="{json>/enabled}"
+							size="{json>/size}" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.Button" />
+				</f:header>
+				<f:content>
+					<VBox
+						justifyContent="SpaceBetween"
+						items="{json>/types}"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Button
+							text="{json>/text}"
+							type="{json>type}"
+							icon="{json>/icon}"
+							iconFirst="{json>/iconFirst}"
+							enabled="{json>/enabled}" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

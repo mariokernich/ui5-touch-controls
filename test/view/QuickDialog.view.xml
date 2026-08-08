@@ -1,0 +1,135 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.QuickDialog"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<!-- playground: the options every dialog below is opened with -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header title="QuickDialog Options" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<core:Fragment
+						fragmentName="ui5.touch.controls.demo.view.SizeOption"
+						type="XML" />
+					<HBox alignItems="Center">
+						<Text text="Title" width="100px" />
+						<Input
+							value="{json>/title}"
+							placeholder="Dialog Title"
+							valueLiveUpdate="true"
+							width="200px" />
+					</HBox>
+					<HBox alignItems="Center">
+						<Text text="Message" width="100px" />
+						<Input
+							value="{json>/message}"
+							placeholder="Dialog Message"
+							valueLiveUpdate="true"
+							width="300px" />
+					</HBox>
+					<HBox alignItems="Center">
+						<Text text="State" width="100px" />
+						<Select selectedKey="{json>/state}">
+							<core:Item key="None" text="None" />
+							<core:Item key="Information" text="Information" />
+							<core:Item key="Success" text="Success" />
+							<core:Item key="Warning" text="Warning" />
+							<core:Item key="Error" text="Error" />
+						</Select>
+					</HBox>
+					<CheckBox
+						selected="{json>/toolbarSpacer}"
+						text="Toolbar Spacer (adds space between the buttons in the dialog footer)"
+						tooltip="When enabled, a ToolbarSpacer is inserted between the action buttons, spreading them apart instead of grouping them together." />
+					<HBox alignItems="Center" class="sapUiSmallMarginTop">
+						<Text text="Last result" width="100px" />
+						<MessageStrip text="{json>/lastResult}" showIcon="true" />
+					</HBox>
+				</VBox>
+			</f:content>
+		</f:Card>
+
+		<HBox width="100%" class="touchControlsCardRow">
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="QuickDialog.show" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						items="{json>/showButtons}"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<VBox class="sapUiTinyMarginBottom">
+							<Text text="{json>description}" class="sapUiTinyMarginBottom" />
+							<tc:Button
+								text="{json>text}"
+								size="{json>/size}"
+								press=".onDemoPress" />
+						</VBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="Other QuickDialog Methods" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						items="{json>/otherButtons}"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<VBox class="sapUiTinyMarginBottom">
+							<Text text="{json>description}" class="sapUiTinyMarginBottom" />
+							<tc:Button
+								text="{json>text}"
+								size="{json>/size}"
+								press=".onDemoPress" />
+						</VBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="Custom Actions" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						items="{json>/customButtons}"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<VBox class="sapUiTinyMarginBottom">
+							<Text text="{json>description}" class="sapUiTinyMarginBottom" />
+							<tc:Button
+								text="{json>text}"
+								size="{json>/size}"
+								press=".onDemoPress" />
+						</VBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

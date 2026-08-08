@@ -1,0 +1,151 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.Link"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="Link Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="Text" width="100px" />
+							<Input value="{json>/text}" valueLiveUpdate="true" width="260px" />
+						</HBox>
+						<HBox alignItems="Center" wrap="Wrap">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Wrapping" selected="{json>/wrapping}" />
+							<CheckBox text="Subtle" selected="{json>/subtle}" />
+							<CheckBox text="Emphasized" selected="{json>/emphasized}" />
+						</HBox>
+						<Text
+							text="size only exists on the touch control — sap.m.Link stays at its fixed font size."
+							class="sapUiTinyMarginTop" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.Link" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Title
+							text="With a press handler"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:Link
+							text="{json>/text}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							wrapping="{json>/wrapping}"
+							subtle="{json>/subtle}"
+							emphasized="{json>/emphasized}"
+							press=".onSizedPress" />
+
+						<Title
+							text="With a href, opening a new tab"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:Link
+							text="{json>/text}"
+							href="{json>/repository}"
+							target="_blank"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							wrapping="{json>/wrapping}"
+							subtle="{json>/subtle}"
+							emphasized="{json>/emphasized}" />
+
+						<Title
+							text="Truncated at a fixed width"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:Link
+							text="{json>/longText}"
+							href="{json>/repository}"
+							width="240px"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							wrapping="{json>/wrapping}" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.Link" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Title
+							text="With a press handler"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<Link
+							text="{json>/text}"
+							enabled="{json>/enabled}"
+							wrapping="{json>/wrapping}"
+							subtle="{json>/subtle}"
+							emphasized="{json>/emphasized}"
+							press=".onStandardPress" />
+
+						<Title
+							text="With a href, opening a new tab"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<Link
+							text="{json>/text}"
+							href="{json>/repository}"
+							target="_blank"
+							enabled="{json>/enabled}"
+							wrapping="{json>/wrapping}"
+							subtle="{json>/subtle}"
+							emphasized="{json>/emphasized}" />
+
+						<Title
+							text="Truncated at a fixed width"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<Link
+							text="{json>/longText}"
+							href="{json>/repository}"
+							width="240px"
+							enabled="{json>/enabled}"
+							wrapping="{json>/wrapping}" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

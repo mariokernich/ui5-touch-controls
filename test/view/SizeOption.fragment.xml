@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<!-- the size switch of a playground, used by every control page -->
+	<HBox alignItems="Center">
+		<Text text="Size" width="100px" />
+		<Select selectedKey="{json>/size}">
+			<core:Item key="S" text="S" />
+			<core:Item key="M" text="M" />
+			<core:Item key="L" text="L" />
+			<core:Item key="XL" text="XL" />
+			<core:Item key="2XL" text="2XL" />
+			<core:Item key="3XL" text="3XL" />
+			<core:Item key="4XL" text="4XL" />
+			<core:Item key="5XL" text="5XL" />
+			<core:Item key="6XL" text="6XL" />
+		</Select>
+	</HBox>
+</core:FragmentDefinition>

@@ -1,0 +1,81 @@
+import MessageToast from "sap/m/MessageToast";
+import JSONModel from "sap/ui/model/json/JSONModel";
+import type SizedVirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
+import type {
+	VirtualKeyboard$ChangeEvent,
+	VirtualKeyboard$EnterEvent,
+} from "ui5/touch/controls/VirtualKeyboard";
+import BaseController from "./BaseController";
+
+/** the key rows of the layouts that can be picked in the playground */
+const layouts: Record<string, string[]> = {
+	numeric: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
+	phone: ["1 2 3", "4 5 6", "7 8 9", "* 0 #", "{bksp} {enter}"],
+	calculator: ["7 8 9 /", "4 5 6 *", "1 2 3 -", "0 . = +", "{bksp} {enter}"],
+	qwerty: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"q w e r t y u i o p",
+		"a s d f g h j k l",
+		"{shift} z x c v b n m {bksp}",
+		"{space} {enter}",
+	],
+};
+
+/**
+ * Controller of the VirtualKeyboard page.
+ *
+ * @namespace ui5.touch.controls.demo.controller
+ */
+export default class VirtualKeyboard extends BaseController {
+	private model!: JSONModel;
+
+	public onInit(): void {
+		this.model = new JSONModel(
+			{
+				value: "",
+				layout: "numeric",
+				size: "L",
+				enabled: true,
+				hardwareKeys: true,
+				width: "",
+			},
+			true,
+		);
+		this.getView()?.setModel(this.model, "json");
+
+		// the layout is an array of rows, so it is set from the controller
+		// instead of through a binding
+		this.model.attachPropertyChange(() => {
+			this.applyLayout();
+		});
+		this.applyLayout();
+
+		this.setExample(`
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tc="ui5.touch.controls">
+	<tc:VirtualKeyboard
+		value="{/value}"
+		size="XL"
+		width="700px"
+		hardwareKeys="true"
+		layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
+		change=".onChange"
+		enter=".onEnter" />
+</mvc:View>
+`);
+	}
+
+	private applyLayout(): void {
+		const keyboard = this.byId("keyboard") as SizedVirtualKeyboard;
+		keyboard.setLayout(layouts[this.model.getProperty("/layout") as string]);
+	}
+
+	public onChange(event: VirtualKeyboard$ChangeEvent): void {
+		this.model.setProperty("/value", event.getParameter("value"));
+	}
+
+	public onEnter(event: VirtualKeyboard$EnterEvent): void {
+		MessageToast.show(`Enter pressed: ${event.getParameter("value")}`);
+	}
+}

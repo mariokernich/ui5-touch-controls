@@ -17,7 +17,7 @@ The library does two things about that:
 
 ![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
 
-**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/GettingStarted.html
+**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
 
 **npm package:** https://www.npmjs.com/package/ui5.touch.controls
 
@@ -293,7 +293,7 @@ The library ships its own theme library for the following themes, so the control
 
 | Theme | Theme ID | Supported | Remark |
 | --- | --- | --- | --- |
-| Horizon | `sap_horizon` | ✅ | Default theme of the test pages |
+| Horizon | `sap_horizon` | ✅ | Default theme of the demo |
 | Horizon Dark | `sap_horizon_dark` | ✅ | Dark variant of Horizon |
 | Horizon High Contrast Black | `sap_horizon_hcb` | ✅ | High contrast, dark background |
 | Horizon High Contrast White | `sap_horizon_hcw` | ✅ | High contrast, light background |
@@ -387,13 +387,13 @@ pnpm install
 npm run start
 ```
 
-This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test pages. There is one HTML/TS pair per control in `test/` (e.g. `Button.html`, `OverflowToolbar.html`, `VirtualKeyboard.html`), plus the introductory pages `GettingStarted.html`, `Setup.html` and `Documentation.html`. The shared shell (side navigation, theme switcher, example cards) lives in `test/Menu.ts`.
+This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the demo application. The demo is a standalone UI5 app in `test/`: `Component.ts` and `manifest.json` wire the router, `view/` holds one XML view per page and `controller/` the matching controllers. The shell (side navigation, theme switcher, previous/next) lives in `view/App.view.xml`, the page list in `model/pages.ts`.
 
 ### Scripts
 
 | Script | Description |
 | --- | --- |
-| `npm run start` | Start the local dev server with livereload and open the test pages |
+| `npm run start` | Start the local dev server with livereload and open the demo application |
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:self-contained` | Self-contained build (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
@@ -407,16 +407,16 @@ This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test
 ```
 src/                  Library sources (controls, library.ts, themes)
 src/themes/           Base + theme-specific LESS files
-test/                 Test pages (one HTML + TS pair per control)
+test/                 Demo application (Component, manifest, views, controllers)
 scripts/              Build helper scripts
 ui5.yaml              UI5 tooling config (library build)
-ui5-test.yaml         UI5 tooling config (dev server / test pages)
+ui5-test.yaml         UI5 tooling config (dev server / demo application)
 ui5-self-contained.yaml  UI5 tooling config (self-contained build)
 ```
 
 ## Deployment
 
-Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which runs the self-contained build and deploys the test pages to GitHub Pages.
+Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which runs the self-contained build and deploys the demo application to GitHub Pages.
 
 ## License
 

@@ -1,0 +1,191 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.SegmentedButton"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="SegmentedButton Options" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<Text
+							text="size only exists on the touch control — sap.m.SegmentedButton stays at its fixed height."
+							class="sapUiTinyMarginTop" />
+						<HBox alignItems="Center">
+							<Text text="Behavior" width="100px" />
+							<CheckBox text="Enabled" selected="{json>/enabled}" />
+							<CheckBox text="Full width" select=".onFullWidthSelect" />
+						</HBox>
+						<Text
+							text="Both controls share the same model, so selecting a segment on one side moves the other one as well."
+							class="sapUiTinyMarginTop" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="ui5.touch.controls.SegmentedButton" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Title
+							text="Text only"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:SegmentedButton
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/view}"
+							selectionChange=".onSizedSelectionChange">
+							<tc:SegmentedButtonItem key="list" text="List" />
+							<tc:SegmentedButtonItem key="grid" text="Grid" />
+							<tc:SegmentedButtonItem key="table" text="Table" />
+						</tc:SegmentedButton>
+
+						<Title
+							text="Icon and text"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:SegmentedButton
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/chart}">
+							<tc:SegmentedButtonItem key="line" text="Line" icon="sap-icon://line-chart" />
+							<tc:SegmentedButtonItem key="bar" text="Bar" icon="sap-icon://bar-chart" />
+							<tc:SegmentedButtonItem key="pie" text="Pie" icon="sap-icon://pie-chart" />
+						</tc:SegmentedButton>
+
+						<Title
+							text="Icon only"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:SegmentedButton
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/density}">
+							<tc:SegmentedButtonItem key="list" icon="sap-icon://list" />
+							<tc:SegmentedButtonItem key="grid" icon="sap-icon://grid" />
+							<tc:SegmentedButtonItem key="table" icon="sap-icon://table-view" />
+						</tc:SegmentedButton>
+
+						<Title
+							text="With a disabled item"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<tc:SegmentedButton
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/mode}">
+							<tc:SegmentedButtonItem key="day" text="Day" />
+							<tc:SegmentedButtonItem key="week" text="Week" />
+							<tc:SegmentedButtonItem key="month" text="Month" enabled="false" />
+						</tc:SegmentedButton>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="sap.m.SegmentedButton" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Title
+							text="Text only"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<SegmentedButton
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/view}"
+							selectionChange=".onStandardSelectionChange">
+							<items>
+								<SegmentedButtonItem key="list" text="List" />
+								<SegmentedButtonItem key="grid" text="Grid" />
+								<SegmentedButtonItem key="table" text="Table" />
+							</items>
+						</SegmentedButton>
+
+						<Title
+							text="Icon and text"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<SegmentedButton
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/chart}">
+							<items>
+								<SegmentedButtonItem key="line" text="Line" icon="sap-icon://line-chart" />
+								<SegmentedButtonItem key="bar" text="Bar" icon="sap-icon://bar-chart" />
+								<SegmentedButtonItem key="pie" text="Pie" icon="sap-icon://pie-chart" />
+							</items>
+						</SegmentedButton>
+
+						<Title
+							text="Icon only"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<SegmentedButton
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/density}">
+							<items>
+								<SegmentedButtonItem key="list" icon="sap-icon://list" />
+								<SegmentedButtonItem key="grid" icon="sap-icon://grid" />
+								<SegmentedButtonItem key="table" icon="sap-icon://table-view" />
+							</items>
+						</SegmentedButton>
+
+						<Title
+							text="With a disabled item"
+							level="H6"
+							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+						<SegmentedButton
+							enabled="{json>/enabled}"
+							width="{json>/width}"
+							selectedKey="{json>/mode}">
+							<items>
+								<SegmentedButtonItem key="day" text="Day" />
+								<SegmentedButtonItem key="week" text="Week" />
+								<SegmentedButtonItem key="month" text="Month" enabled="false" />
+							</items>
+						</SegmentedButton>
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>
