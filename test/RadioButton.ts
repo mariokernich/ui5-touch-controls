@@ -201,29 +201,6 @@ const standalone = new Card({
 
 page.addItem(standalone);
 
-const sizes = new Card({
-	header: new Header({
-		title: "All sizes",
-		subtitle: "Circle, dot, label and hit area scale together",
-	}),
-	content: new VBox({
-		items: Object.values(SizeMode).map(
-			(size) =>
-				new SizedRadioButton({
-					text: `Size ${size}`,
-					groupName: `size-${size}`,
-					selected: true,
-					size: size,
-				}),
-		),
-	})
-		.addStyleClass("sapUiSmallMarginBegin")
-		.addStyleClass("sapUiSmallMarginEnd")
-		.addStyleClass("sapUiSmallMarginBottom"),
-}).addStyleClass("sapUiMediumMarginBottom");
-
-page.addItem(sizes);
-
 page.addItem(
 	createExampleCard(`
 <mvc:View

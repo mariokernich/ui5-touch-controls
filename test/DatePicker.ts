@@ -30,8 +30,16 @@ const model = new JSONModel(
 
 /** a range of +/- 10 days around today, to try minDate / maxDate */
 const today = new Date();
-const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 10);
-const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 10);
+const minDate = new Date(
+	today.getFullYear(),
+	today.getMonth(),
+	today.getDate() - 10,
+);
+const maxDate = new Date(
+	today.getFullYear(),
+	today.getMonth(),
+	today.getDate() + 10,
+);
 
 const page = new VBox();
 
@@ -197,28 +205,6 @@ page.addItem(
 		items: [options, sized, sapM],
 	}).addStyleClass("touchControlsCardRow"),
 );
-
-const sizes = new Card({
-	header: new Header({
-		title: "All sizes",
-		subtitle: "The field and the days of the calendar scale together",
-	}),
-	content: new VBox({
-		items: Object.values(SizeMode).map(
-			(size) =>
-				new SizedDatePicker({
-					size: size,
-					value: "2026-08-14",
-					width: "18rem",
-				}),
-		),
-	})
-		.addStyleClass("sapUiSmallMarginBegin")
-		.addStyleClass("sapUiSmallMarginEnd")
-		.addStyleClass("sapUiSmallMarginBottom"),
-}).addStyleClass("sapUiMediumMarginBottom");
-
-page.addItem(sizes);
 
 page.addItem(
 	createExampleCard(`

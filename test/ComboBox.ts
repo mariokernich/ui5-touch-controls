@@ -191,32 +191,6 @@ page.addItem(
 	}).addStyleClass("touchControlsCardRow"),
 );
 
-const sizes = new Card({
-	header: new Header({
-		title: "All sizes",
-		subtitle: "The field and the rows of the list scale together",
-	}),
-	content: new VBox({
-		items: Object.values(SizeMode).map(
-			(size) =>
-				new SizedComboBox({
-					size: size,
-					value: "Steel bar 10 mm",
-					width: "22rem",
-					items: materials.map(
-						(material) =>
-							new Item({ key: material.key, text: material.text }),
-					),
-				}),
-		),
-	})
-		.addStyleClass("sapUiSmallMarginBegin")
-		.addStyleClass("sapUiSmallMarginEnd")
-		.addStyleClass("sapUiSmallMarginBottom"),
-}).addStyleClass("sapUiMediumMarginBottom");
-
-page.addItem(sizes);
-
 page.addItem(
 	createExampleCard(`
 <mvc:View
