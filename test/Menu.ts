@@ -55,6 +55,7 @@ const controlPages: PageInfo[] = [
 		icon: "sap-icon://switch-views",
 	},
 	{ key: "CheckBox", text: "CheckBox", icon: "sap-icon://complete" },
+	{ key: "Switch", text: "Switch", icon: "sap-icon://sys-enter-2" },
 	{
 		key: "RadioButton",
 		text: "RadioButton",

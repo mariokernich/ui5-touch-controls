@@ -70,6 +70,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "Switch",
+		replaces: "sap.m.Switch",
+		description:
+			"Track, handle and label scale together, where sap.m.Switch is fixed at 4rem x 2rem. Supports state, customTextOn, customTextOff and the AcceptReject type; the colors come from the @sapButton_Track_* / @sapButton_Handle_* theme parameters. Fires change.",
+		hasPage: true,
+	},
+	{
 		name: "Select",
 		replaces: "sap.m.Select",
 		description:
