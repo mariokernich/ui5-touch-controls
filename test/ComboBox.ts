@@ -29,7 +29,7 @@ const model = new JSONModel(
 		materials: materials,
 		value: "Steel bar 10 mm",
 		selectedKey: "M-2001",
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		valueState: "None",

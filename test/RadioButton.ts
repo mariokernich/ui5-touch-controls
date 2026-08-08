@@ -23,7 +23,7 @@ const model = new JSONModel(
 	{
 		selectedIndex: 1,
 		columns: 1,
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		valueState: "None",

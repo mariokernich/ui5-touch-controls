@@ -18,7 +18,7 @@ const model = new JSONModel(
 	{
 		value: "2026-08-14",
 		displayFormat: "medium",
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		limited: false,
