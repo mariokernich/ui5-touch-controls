@@ -78,6 +78,7 @@ const controlPages: PageInfo[] = [
 	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
 	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },
 	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
+	{ key: "Slider", text: "Slider", icon: "sap-icon://horizontal-bar-chart" },
 	{ key: "Text", text: "Text", icon: "sap-icon://text" },
 	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },
 	{ key: "TextArea", text: "TextArea", icon: "sap-icon://document-text" },

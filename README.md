@@ -255,6 +255,7 @@ These are rebuilds of standard controls. They keep the properties, aggregations 
 | `tc:Link` | `sap.m.Link` | Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports `href`, `target`, `wrapping`, `subtle`, `emphasized` and `width`; a `target="_blank"` link automatically gets `rel="noopener noreferrer"`. Fires `press`. |
 | `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
 | `tc:OverflowToolbar` | `sap.m.OverflowToolbar` | Like `tc:Toolbar`, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of `sap.m.OverflowToolbarLayoutData`. |
+| `tc:Slider` / `tc:RangeSlider` | `sap.m.Slider` / `sap.m.RangeSlider` | Handle, track and the row around them scale with `size`, where the handle of `sap.m.Slider` is 1.25rem — a target made for a mouse pointer. Supports `min`, `max`, `step`, tickmarks and a value bubble; the range slider adds a second handle and `value2`. Fires `change` and `liveChange`. |
 | `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
 | `QuickDialog` | `sap.m.MessageBox` | Helper class for touch-ready dialogs, used from the controller instead of a view: `show`, `confirm`, `information`, `error`, `input`, `select`, `details`. Every method returns a `Promise`. |
 

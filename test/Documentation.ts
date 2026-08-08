@@ -145,6 +145,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "Slider",
+		replaces: "sap.m.Slider / sap.m.RangeSlider",
+		description:
+			"Handle, track and the row around them scale with size, where the handle of sap.m.Slider is 1.25rem — a target made for a mouse pointer. Supports min, max, step, tickmarks and a value bubble; tc:RangeSlider adds a second handle and value2. Fires change and liveChange.",
+		hasPage: true,
+	},
+	{
 		name: "StepInput",
 		replaces: "sap.m.StepInput",
 		description:
