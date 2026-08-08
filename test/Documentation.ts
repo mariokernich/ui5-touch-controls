@@ -98,6 +98,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "TimePicker",
+		replaces: "sap.m.TimePicker",
+		description:
+			"Field with two columns of buttons - hours and minutes - so a time is picked with one tap on a target that grows with size, where sap.m.TimePicker uses a slider that has to be dragged. Supports minutesStep, valueFormat and displayFormat. Fires change once, when the popover closes.",
+		hasPage: true,
+	},
+	{
 		name: "Input",
 		replaces: "sap.m.Input",
 		description: "Single-line input with configurable size.",

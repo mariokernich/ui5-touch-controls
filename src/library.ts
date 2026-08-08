@@ -83,6 +83,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"ui5.touch.controls.Switch",
 		"ui5.touch.controls.Text",
 		"ui5.touch.controls.TextArea",
+		"ui5.touch.controls.TimePicker",
 		"ui5.touch.controls.Toolbar",
 		"ui5.touch.controls.VirtualKeyboard",
 	],
