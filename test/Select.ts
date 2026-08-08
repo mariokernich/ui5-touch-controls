@@ -26,7 +26,7 @@ const model = new JSONModel(
 	{
 		workstations: workstations,
 		selectedKey: "P1",
-		size: SizeMode.M,
+		size: SizeMode.L,
 		enabled: true,
 		editable: true,
 		valueState: "None",
