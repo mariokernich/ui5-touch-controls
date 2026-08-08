@@ -1,0 +1,123 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/*
+ * Unlike sap.m.CheckBox, which positions the box absolutely inside a fixed
+ * height row, the control is laid out with flexbox. The renderer only has to
+ * write the size of the box; height, side padding, gap and focus inset are
+ * derived from it, so every size mode stays proportional.
+ */
+.sizedCheckBox {
+	display: inline-flex;
+	align-items: center;
+	position: relative;
+	box-sizing: border-box;
+	vertical-align: top;
+	max-width: 100%;
+	outline: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.sizedCheckBoxBox {
+	flex: none;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: @sapField_Background;
+	border: var(--sapField_BorderWidth) solid @sapField_BorderColor;
+	border-radius: @sapField_BorderCornerRadius;
+	/* the check mark takes the color from the box, so a value state only has
+	   to set it once */
+	color: @sapSelectedColor;
+}
+
+/* the check mark is the "accept" glyph of the SAP icon font, as in sap.m */
+.sizedCheckBoxChecked::before {
+	content: "\e05b";
+	font-family: var(--sapContent_IconFontFamily);
+	line-height: 1;
+}
+
+/* partially selected: a filled square instead of the check mark. sap.m draws
+   it with a transparent border, a percentage keeps it proportional here */
+.sizedCheckBoxChecked.sizedCheckBoxPartial::before {
+	content: "";
+	width: 64%;
+	height: 64%;
+	background-color: currentColor;
+}
+
+.sizedCheckBoxLabel {
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sizedCheckBoxWrapping .sizedCheckBoxLabel {
+	white-space: normal;
+	overflow: visible;
+	line-height: @sapContent_LineHeight;
+}
+
+/* hover */
+.sizedCheckBox:not(.sizedCheckBoxDisabled):not(.sizedCheckBoxReadonly):not(.sizedCheckBoxState):hover
+	.sizedCheckBoxBox {
+	background-color: @sapField_Hover_Background;
+	border-color: @sapField_Hover_BorderColor;
+}
+
+/* focus: a ring around the whole hit area, kept at a quarter of the box from
+   the edge so it grows with the size mode */
+.sizedCheckBox:focus::before {
+	content: "";
+	position: absolute;
+	inset: var(--sized-check-box-focus-inset);
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) @sapContent_FocusColor;
+	border-radius: @sapField_BorderCornerRadius;
+	pointer-events: none;
+}
+
+/* read-only */
+.sizedCheckBoxReadonly {
+	cursor: default;
+}
+.sizedCheckBoxReadonly .sizedCheckBoxBox {
+	background-color: @sapField_ReadOnly_Background;
+	border-color: @sapField_ReadOnly_BorderColor;
+	border-style: @sapField_Selector_ReadOnly_BorderStyle;
+	color: @sapField_TextColor;
+}
+
+/* disabled */
+.sizedCheckBoxDisabled {
+	opacity: @sapContent_DisabledOpacity;
+	cursor: default;
+}
+
+/* value states */
+.sizedCheckBoxError .sizedCheckBoxBox {
+	background-color: @sapField_InvalidBackground;
+	border: var(--sapField_InvalidBorderWidth) solid @sapField_InvalidColor;
+	color: @sapField_InvalidColor;
+}
+
+.sizedCheckBoxWarning .sizedCheckBoxBox {
+	background-color: @sapField_WarningBackground;
+	border: var(--sapField_WarningBorderWidth) solid @sapField_WarningColor;
+	color: @sapField_WarningColor;
+}
+
+.sizedCheckBoxSuccess .sizedCheckBoxBox {
+	background-color: @sapField_SuccessBackground;
+	border: var(--sapField_SuccessBorderWidth) solid @sapField_SuccessColor;
+	color: @sapField_SuccessColor;
+}
+
+.sizedCheckBoxInformation .sizedCheckBoxBox {
+	background-color: @sapField_InformationBackground;
+	border: var(--sapField_InformationBorderWidth) solid @sapField_InformationColor;
+	color: @sapField_InformationColor;
+}

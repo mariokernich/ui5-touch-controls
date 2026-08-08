@@ -54,6 +54,7 @@ const controlPages: PageInfo[] = [
 		text: "SegmentedButton",
 		icon: "sap-icon://switch-views",
 	},
+	{ key: "CheckBox", text: "CheckBox", icon: "sap-icon://complete" },
 	{ key: "Input", text: "Input", icon: "sap-icon://edit" },
 	{
 		key: "VirtualKeyboard",

@@ -56,6 +56,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "CheckBox",
+		replaces: "sap.m.CheckBox",
+		description:
+			"Check box whose box, check mark, label and hit area scale together — at size M the geometry matches sap.m.CheckBox. Supports selected, partiallySelected, text, editable, wrapping, value states and width. Fires select.",
+		hasPage: true,
+	},
+	{
 		name: "Input",
 		replaces: "sap.m.Input",
 		description: "Single-line input with configurable size.",
