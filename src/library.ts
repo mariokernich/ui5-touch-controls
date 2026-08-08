@@ -66,6 +66,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 	types: ["ui5.touch.controls.SizeMode"],
 	interfaces: ["ui5.touch.controls.ISized"],
 	controls: [
+		"ui5.touch.controls.BarcodeInput",
 		"ui5.touch.controls.Button",
 		"ui5.touch.controls.CheckBox",
 		"ui5.touch.controls.ComboBox",

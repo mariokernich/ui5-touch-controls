@@ -1,0 +1,49 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/* the field frame, see Field.less */
+.touchField(sizedBarcodeInput);
+
+.sizedBarcodeInputInner {
+	flex: 1 1 auto;
+	min-width: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sizedBarcodeInputInner::placeholder {
+	color: @sapField_PlaceholderTextColor;
+	font-style: italic;
+}
+
+/* the barcode symbol at the end of the field says where a scan lands */
+.sizedBarcodeInputIcon {
+	flex: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: @sapContent_IconColor;
+}
+
+.sizedBarcodeInputIcon::before {
+	/* sap-icon://bar-code */
+	font-family: var(--sapContent_IconFontFamily);
+	content: "\e08d";
+	pointer-events: none;
+}
+
+.sizedBarcodeInputDisabled,
+.sizedBarcodeInputDisabled .sizedBarcodeInputIcon,
+.sizedBarcodeInputReadonly .sizedBarcodeInputIcon {
+	cursor: default;
+}
+.sizedBarcodeInputDisabled .sizedBarcodeInputInner {
+	pointer-events: none;
+}

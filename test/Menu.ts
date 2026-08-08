@@ -69,6 +69,7 @@ const controlPages: PageInfo[] = [
 		text: "VirtualKeyboard",
 		icon: "sap-icon://keyboard-and-mouse",
 	},
+	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
 	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
 	{ key: "Text", text: "Text", icon: "sap-icon://text" },
 	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },

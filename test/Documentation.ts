@@ -138,6 +138,13 @@ const controls: ControlDoc[] = [
 		hasPage: true,
 	},
 	{
+		name: "BarcodeInput",
+		replaces: "nothing — new",
+		description:
+			"Input field that tells a barcode scanner from a person typing: a run of at least minLength characters whose gaps stay below scanTimeout and that is closed by Enter fires scan, everything else fires change. prefix and suffix are cut off the code, clearOnScan empties the field for the next one.",
+		hasPage: true,
+	},
+	{
 		name: "VirtualKeyboard",
 		replaces: "nothing — new",
 		description:
