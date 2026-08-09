@@ -11,7 +11,7 @@ resources:
       test: docs
 framework:
   name: OpenUI5
-  version: 1.150.0
+  version: 1.151.0
   libraries:
     - name: sap.m
     - name: sap.ui.core
