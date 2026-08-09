@@ -1,7 +1,7 @@
 <p align="center">
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
-<img src="docs/logo.svg" width="500" alt="ui5-touch-controls"/>
+<source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+<img src="assets/logo.svg" width="500" alt="ui5-touch-controls"/>
 </picture>
 </p>
 
@@ -15,7 +15,7 @@ The library does two things about that:
 
 2. **It adds controls that `sap.m` does not have at all**, for situations that only come up on touch devices. The prime example is [`tc:VirtualKeyboard`](#new-controls-for-touch) — a terminal without a hardware keyboard needs an on-screen keyboard, and OpenUI5 does not ship one.
 
-![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
+![Screenshot of the ui5.touch.controls library](assets/screenshot.png)
 
 **Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
 
@@ -70,7 +70,7 @@ Same aggregations, same properties, same event handlers — `press=".onSave"` st
 
 The result: buttons big enough to hit with a finger, and a toolbar that moves everything that does not fit behind a button with three dots.
 
-![Screenshot of the OverflowToolbar with the overflow popover](docs/overflowtoolbar.png)
+![Screenshot of the OverflowToolbar with the overflow popover](assets/overflowtoolbar.png)
 
 Bind `size` to a model to switch the size of the whole app at runtime:
 
@@ -86,7 +86,7 @@ Not everything a touch app needs exists in `sap.m`. Where that is the case, the 
 
 On a shop floor terminal, a kiosk or a device operated with gloves there is often no hardware keyboard, and the on-screen keyboard of the operating system is either unavailable or covers half the screen. OpenUI5 has no control for this. `tc:VirtualKeyboard` is an on-screen keyboard rendered from the library's own buttons — no third-party dependency, and sized through the same `size` property as everything else.
 
-![The VirtualKeyboard with a QWERTY layout](docs/virtualkeyboard.png)
+![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
 
 The layout is simply a list of rows, so a numeric pad, a full QWERTY keyboard or a domain-specific key set are all a matter of one property:
 
@@ -305,11 +305,11 @@ Themes that are not listed here are not shipped with the library. UI5 then falls
 
 The controls integrate seamlessly with existing standard controls and aggregations — for example `tc:Button` and `tc:Text` inside a `sap.m.Table`:
 
-![sap.m.Table using ui5.touch.controls Button and Text controls](docs/table.png)
+![sap.m.Table using ui5.touch.controls Button and Text controls](assets/table.png)
 
 Use `tc:Toolbar` or `tc:OverflowToolbar` as a replacement for the toolbar in a `Page` or `Dialog`:
 
-![Screenshot of Toolbar in Dialog](docs/dialog.png)
+![Screenshot of Toolbar in Dialog](assets/dialog.png)
 
 ### ⚠️ Aggregations that only accept `sap.m.Button`
 
