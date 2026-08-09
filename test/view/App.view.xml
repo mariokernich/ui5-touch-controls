@@ -28,11 +28,11 @@
 					text="{i18n>appTitle}"
 					level="H1"
 					class="touchControlsHeaderTitle" />
-				<ToolbarSpacer />
 				<Text
 					text="{app>/version}"
 					tooltip="{i18n>versionTooltip}"
 					class="touchControlsHeaderVersion sapUiTinyMarginEnd" />
+        <ToolbarSpacer />
 				<!-- the languages are named in their own language, so the entries
 				     read the same whichever one is active -->
 				<Select
