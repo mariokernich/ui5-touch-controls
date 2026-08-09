@@ -84,7 +84,6 @@ export const portedPages: PageInfo[] = [
 		text: "OverflowToolbar",
 		icon: "sap-icon://overflow",
 	},
-	{ key: "MessageBox", text: "MessageBox", icon: "sap-icon://message-popup" },
 ];
 
 /** the controls that have no sap.m equivalent */
@@ -98,9 +97,18 @@ export const additionalPages: PageInfo[] = [
 	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },
 ];
 
+/**
+ * What the library adds next to the controls: classes that are used from a
+ * controller instead of being placed in a view.
+ */
+export const classPages: PageInfo[] = [
+	{ key: "QuickDialog", text: "QuickDialog", icon: "sap-icon://message-popup" },
+];
+
 /** the order used by the previous/next buttons in the header */
 export const allPages: PageInfo[] = [
 	...introPages,
 	...portedPages,
 	...additionalPages,
+	...classPages,
 ];

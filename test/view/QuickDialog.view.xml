@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="ui5.touch.controls.demo.controller.MessageBox"
+	controllerName="ui5.touch.controls.demo.controller.QuickDialog"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
@@ -10,7 +10,7 @@
 		<!-- playground: the options every dialog below is opened with -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
-				<cards:Header title="{i18n>optionsMessageBox}" />
+				<cards:Header title="{i18n>optionsQuickDialog}" />
 			</f:header>
 			<f:content>
 				<VBox
@@ -63,7 +63,7 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="MessageBox.show" />
+					<cards:Header title="QuickDialog.show" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -86,7 +86,7 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="{i18n>mbOtherMethods}" />
+					<cards:Header title="{i18n>qdOtherMethods}" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -109,7 +109,7 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="{i18n>mbCustomActions}" />
+					<cards:Header title="{i18n>qdCustomActions}" />
 				</f:header>
 				<f:content>
 					<VBox

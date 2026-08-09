@@ -6,6 +6,7 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 import {
 	additionalPages,
 	allPages,
+	classPages,
 	introPages,
 	portedPages,
 } from "./model/pages";
@@ -61,6 +62,7 @@ export default class Component extends UIComponent {
 				intro: introPages,
 				ported: portedPages,
 				additional: additionalPages,
+				classes: classPages,
 			}),
 			"pages",
 		);

@@ -121,6 +121,16 @@
 							text="{pages>text}"
 							icon="{pages>icon}" />
 					</tnt:NavigationListGroup>
+					<!-- what is used from a controller rather than put in a view -->
+					<tnt:NavigationListGroup
+						text="{i18n>groupClasses}"
+						expanded="true"
+						items="{pages>/classes}">
+						<tnt:NavigationListItem
+							key="{pages>key}"
+							text="{pages>text}"
+							icon="{pages>icon}" />
+					</tnt:NavigationListGroup>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>

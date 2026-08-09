@@ -166,9 +166,9 @@
           "target": "OverflowToolbar"
         },
         {
-          "name": "MessageBox",
-          "pattern": "control/MessageBox",
-          "target": "MessageBox"
+          "name": "QuickDialog",
+          "pattern": "class/QuickDialog",
+          "target": "QuickDialog"
         },
         {
           "name": "VirtualKeyboard",
@@ -287,10 +287,10 @@
           "viewId": "OverflowToolbar",
           "name": "OverflowToolbar"
         },
-        "MessageBox": {
-          "id": "MessageBox",
-          "viewId": "MessageBox",
-          "name": "MessageBox"
+        "QuickDialog": {
+          "id": "QuickDialog",
+          "viewId": "QuickDialog",
+          "name": "QuickDialog"
         },
         "VirtualKeyboard": {
           "id": "VirtualKeyboard",

@@ -32,12 +32,6 @@ export const releases: Release[] = [
 			"Twelve more sap.m controls, a virtual keyboard inside the Input, and a demo application in place of the old test pages.",
 		groups: [
 			{
-				kind: "Breaking",
-				items: [
-					"QuickDialog is now MessageBox, and IQuickDialogOptions is now IMessageBoxOptions. The API behind the names is unchanged, so renaming the import is all it takes.",
-				],
-			},
-			{
 				kind: "Added",
 				items: [
 					"CheckBox — the touch version of sap.m.CheckBox, with the tristate selection of the original.",
@@ -53,7 +47,7 @@ export const releases: Release[] = [
 					"SignaturePad, a canvas to sign on with a finger or a pen.",
 					"Input shows a keyboard of its own: put a VirtualKeyboard into the new virtualKeyboard aggregation and switch showVirtualKeyboard on, and the keyboard opens in a popover while the field has the focus.",
 					"ComboBox has showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of every entry, as sap.m.ComboBox does.",
-					"MessageBox.select() builds its field from the touch ComboBox and takes a selectSize for it.",
+					"QuickDialog.select() builds its field from the touch ComboBox and takes a selectSize for it.",
 					"OverflowToolbar takes a ToolbarSpacer.",
 				],
 			},
@@ -85,7 +79,7 @@ export const releases: Release[] = [
 			{
 				kind: "Added",
 				items: [
-					"QuickDialog — a MessageBox in the spirit of sap.m.MessageBox, with show, input, select, error, information, confirm and details, all returning a promise. It was renamed to MessageBox in 1.2.0.",
+					"QuickDialog — a dialog in the spirit of sap.m.MessageBox, with show, input, select, error, information, confirm and details, all returning a promise.",
 				],
 			},
 			{
