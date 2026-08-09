@@ -99,6 +99,12 @@ body,
 	flex-wrap: wrap;
 }
 
+/* a bullet belongs to its line: the rule above would put the text of an entry
+   below its bullet as soon as the two do not fit on one line */
+.touchControlsPage .touchControlsBullet.sapMHBox {
+	flex-wrap: nowrap;
+}
+
 /* The rows are flex boxes and their items are sized by their content, so a
    fixed-width field inside one widens the row instead of being cut down by it.
    Capping the item is what makes the caps below work at all: a percentage

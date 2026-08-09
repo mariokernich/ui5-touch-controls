@@ -81,6 +81,11 @@
           "target": "Documentation"
         },
         {
+          "name": "Changelog",
+          "pattern": "changelog",
+          "target": "Changelog"
+        },
+        {
           "name": "Button",
           "pattern": "control/Button",
           "target": "Button"
@@ -196,6 +201,11 @@
           "id": "Documentation",
           "viewId": "Documentation",
           "name": "Documentation"
+        },
+        "Changelog": {
+          "id": "Changelog",
+          "viewId": "Changelog",
+          "name": "Changelog"
         },
         "Button": {
           "id": "Button",

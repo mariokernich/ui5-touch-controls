@@ -327,7 +327,7 @@
 		<HBox
 			wrap="Wrap"
 			alignItems="Center"
-			class="touchControlsCardRow sapUiSmallMarginBottom">
+			class="touchControlsButtonRow sapUiSmallMarginBottom">
 			<Button
 				text="{i18n>navSetup}"
 				icon="sap-icon://navigation-left-arrow"

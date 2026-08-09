@@ -46,6 +46,12 @@ export const introPages: PageInfo[] = [
 		textKey: "navDocumentation",
 		icon: "sap-icon://documents",
 	},
+	// the page itself is English only, and so is its name
+	{
+		key: "Changelog",
+		text: "Changelog",
+		icon: "sap-icon://history",
+	},
 ];
 
 /** rebuilds of sap.m controls */
