@@ -1,0 +1,56 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:tc="ui5.touch.controls">
+	<!-- The buttons aggregation of sap.m.Dialog only accepts sap.m.Button, the
+	     footer takes any sap.m.Toolbar - so a touch OverflowToolbar fits in.
+	     Of the two toolbars it is the one to reach for here: a dialog is narrow
+	     by nature, and what does not fit moves into the overflow menu instead
+	     of being cut off. The width is fixed so the overflow is there to see
+	     right away. -->
+	<Dialog
+		title="{i18n>otDialogTitle}"
+		contentWidth="420px"
+		contentHeight="160px">
+		<VBox
+			alignItems="Center"
+			justifyContent="Center"
+			height="100%"
+			class="sapUiSmallMargin">
+			<Text text="{i18n>otDialogText}" textAlign="Center" />
+		</VBox>
+		<footer>
+			<tc:OverflowToolbar size="{json>/size}">
+				<tc:Button
+					text="{i18n>btnSave}"
+					icon="sap-icon://save"
+					type="Emphasized"
+					size="{json>/size}"
+					press=".onCloseDialog" />
+				<tc:Button
+					text="{i18n>btnCancel}"
+					icon="sap-icon://decline"
+					size="{json>/size}"
+					press=".onCloseDialog" />
+				<ToolbarSpacer />
+				<tc:Button
+					text="{i18n>btnApprove}"
+					icon="sap-icon://accept"
+					type="Accept"
+					size="{json>/size}"
+					press=".onDemoPress" />
+				<tc:Button
+					text="{i18n>btnReject}"
+					icon="sap-icon://decline"
+					type="Reject"
+					size="{json>/size}"
+					press=".onDemoPress" />
+				<tc:Button
+					text="{i18n>btnHistory}"
+					icon="sap-icon://history"
+					size="{json>/size}"
+					press=".onDemoPress" />
+			</tc:OverflowToolbar>
+		</footer>
+	</Dialog>
+</core:FragmentDefinition>
