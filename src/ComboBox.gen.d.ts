@@ -53,6 +53,19 @@ declare module "./ComboBox" {
         width?: CSSSize | PropertyBindingInfo | `{${string}}`;
 
         /**
+         * Indicates whether the rows of the list show the
+        <code>additionalText</code> of their item as a second value at the
+        end of the row. Only <code>sap.ui.core.ListItem</code> carries that
+        text; plain items are shown without one.
+        
+        Unlike <code>sap.m.ComboBox</code> the second value is never part
+        of what the typed text is matched against - that is what
+        <code>filterSecondaryValues</code> does there, and it is not
+        supported here.
+         */
+        showSecondaryValues?: boolean | PropertyBindingInfo | `{${string}}`;
+
+        /**
          * Touch size of the field and of the rows in the list.
          */
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
@@ -165,6 +178,34 @@ declare module "./ComboBox" {
          * Width of the field.
          */
         setWidth(width: CSSSize): this;
+
+        // property: showSecondaryValues
+
+        /**
+         * Indicates whether the rows of the list show the
+        <code>additionalText</code> of their item as a second value at the
+        end of the row. Only <code>sap.ui.core.ListItem</code> carries that
+        text; plain items are shown without one.
+        
+        Unlike <code>sap.m.ComboBox</code> the second value is never part
+        of what the typed text is matched against - that is what
+        <code>filterSecondaryValues</code> does there, and it is not
+        supported here.
+         */
+        getShowSecondaryValues(): boolean;
+
+        /**
+         * Indicates whether the rows of the list show the
+        <code>additionalText</code> of their item as a second value at the
+        end of the row. Only <code>sap.ui.core.ListItem</code> carries that
+        text; plain items are shown without one.
+        
+        Unlike <code>sap.m.ComboBox</code> the second value is never part
+        of what the typed text is matched against - that is what
+        <code>filterSecondaryValues</code> does there, and it is not
+        supported here.
+         */
+        setShowSecondaryValues(showSecondaryValues: boolean): this;
 
         // property: size
 

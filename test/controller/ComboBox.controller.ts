@@ -16,12 +16,12 @@ export default class ComboBox extends BaseController {
 			{
 				// the items both combo boxes are filled from
 				materials: [
-					{ key: "M-1001", text: "Aluminium sheet 2 mm" },
-					{ key: "M-1002", text: "Aluminium sheet 4 mm" },
-					{ key: "M-2001", text: "Steel bar 10 mm" },
-					{ key: "M-2002", text: "Steel bar 20 mm" },
-					{ key: "M-3001", text: "Copper wire 1.5 mm²" },
-					{ key: "M-3002", text: "Copper wire 2.5 mm²" },
+					{ key: "M-1001", text: "Aluminium sheet 2 mm", stock: "1,240 pcs" },
+					{ key: "M-1002", text: "Aluminium sheet 4 mm", stock: "860 pcs" },
+					{ key: "M-2001", text: "Steel bar 10 mm", stock: "312 pcs" },
+					{ key: "M-2002", text: "Steel bar 20 mm", stock: "95 pcs" },
+					{ key: "M-3001", text: "Copper wire 1.5 mm²", stock: "4,500 m" },
+					{ key: "M-3002", text: "Copper wire 2.5 mm²", stock: "2,100 m" },
 				],
 				value: "Steel bar 10 mm",
 				selectedKey: "M-2001",
@@ -29,6 +29,7 @@ export default class ComboBox extends BaseController {
 				enabled: true,
 				editable: true,
 				valueState: "None",
+				showSecondaryValues: true,
 				lastEvent: "-",
 			},
 			true,
@@ -46,10 +47,11 @@ export default class ComboBox extends BaseController {
 		placeholder="Search material..."
 		size="XL"
 		width="22rem"
+		showSecondaryValues="true"
 		change=".onMaterialChange">
-		<core:Item key="M-1001" text="Aluminium sheet 2 mm" />
-		<core:Item key="M-2001" text="Steel bar 10 mm" />
-		<core:Item key="M-3001" text="Copper wire 1.5 mm²" />
+		<core:ListItem key="M-1001" text="Aluminium sheet 2 mm" additionalText="1,240 pcs" />
+		<core:ListItem key="M-2001" text="Steel bar 10 mm" additionalText="312 pcs" />
+		<core:ListItem key="M-3001" text="Copper wire 1.5 mm²" additionalText="4,500 m" />
 	</tc:ComboBox>
 </mvc:View>
 `);

@@ -58,3 +58,26 @@
 	color: @sapContent_LabelColor;
 	text-align: center;
 }
+
+/*
+ * A row that carries a second value, e.g. the additionalText of a ListItem in
+ * a ComboBox with showSecondaryValues. The text itself comes from a CSS custom
+ * property the control writes onto the row, so the row stays a plain button.
+ * It sits on the content span, which already carries the font size of the
+ * current touch size - the second value therefore scales with it.
+ */
+.sizedPickerList > .sizedPickerItemSecondary .sizedButtonContent {
+	display: flex;
+	align-items: baseline;
+	width: 100%;
+	min-width: 0;
+}
+
+.sizedPickerList > .sizedPickerItemSecondary .sizedButtonContent::after {
+	content: var(--sized-picker-secondary-text, "");
+	margin-left: auto;
+	padding-left: 1rem;
+	font-size: 0.875em;
+	color: @sapContent_LabelColor;
+	white-space: nowrap;
+}

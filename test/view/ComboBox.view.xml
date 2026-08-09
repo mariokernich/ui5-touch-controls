@@ -21,10 +21,13 @@
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
-						<HBox alignItems="Center">
+						<HBox alignItems="Center" wrap="Wrap">
 							<Text text="{i18n>lblBehavior}" width="100px" />
 							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
 							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+							<CheckBox
+								text="{i18n>cbShowSecondaryValues}"
+								selected="{json>/showSecondaryValues}" />
 						</HBox>
 						<HBox alignItems="Center">
 							<Text text="{i18n>lblValue}" width="100px" />
@@ -52,6 +55,7 @@
 						width="100%"
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<tc:ComboBox
+							showSecondaryValues="{json>/showSecondaryValues}"
 							value="{json>/value}"
 							selectedKey="{json>/selectedKey}"
 							placeholder="{i18n>phSearchMaterial}"
@@ -62,7 +66,10 @@
 							width="22rem"
 							items="{json>/materials}"
 							change=".onChange">
-							<core:Item key="{json>key}" text="{json>text}" />
+							<core:ListItem
+								key="{json>key}"
+								text="{json>text}"
+								additionalText="{json>stock}" />
 						</tc:ComboBox>
 					</VBox>
 				</f:content>
@@ -81,6 +88,7 @@
 						width="100%"
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<ComboBox
+							showSecondaryValues="{json>/showSecondaryValues}"
 							value="{json>/value}"
 							selectedKey="{json>/selectedKey}"
 							placeholder="{i18n>phSearchMaterial}"
@@ -89,7 +97,10 @@
 							valueState="{json>/valueState}"
 							width="22rem"
 							items="{json>/materials}">
-							<core:Item key="{json>key}" text="{json>text}" />
+							<core:ListItem
+								key="{json>key}"
+								text="{json>text}"
+								additionalText="{json>stock}" />
 						</ComboBox>
 					</VBox>
 				</f:content>

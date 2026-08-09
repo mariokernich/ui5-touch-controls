@@ -4,6 +4,7 @@ import VBox from "sap/m/VBox";
 import { FlexRendertype, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import type Item from "sap/ui/core/Item";
+import type ListItem from "sap/ui/core/ListItem";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -20,11 +21,15 @@ import { ISized, SizeMode } from "./library";
  * {@link ui5.touch.controls.VirtualKeyboard} on a device without a keyboard.
  *
  * The items are plain <code>sap.ui.core.Item</code> elements, so an existing
- * <code>sap.m.ComboBox</code> can be exchanged without touching them.
+ * <code>sap.m.ComboBox</code> can be exchanged without touching them. With
+ * {@link #getShowSecondaryValues showSecondaryValues} the rows show a second
+ * value at their end, which comes from the <code>additionalText</code> of a
+ * <code>sap.ui.core.ListItem</code> - the same as in
+ * <code>sap.m.ComboBox</code>.
  *
  * Compared to <code>sap.m.ComboBox</code> the following simplifications apply:
  * <ul>
- * <li><code>showSecondaryValues</code>, <code>filterSecondaryValues</code>,
+ * <li><code>filterSecondaryValues</code>,
  * <code>showClearIcon</code>, <code>maxWidth</code>, <code>name</code>,
  * <code>valueStateText</code>, <code>textAlign</code>,
  * <code>textDirection</code> and <code>required</code> are not supported</li>
@@ -83,6 +88,22 @@ export default class ComboBox extends Control implements ISized {
 				type: "sap.ui.core.CSSSize",
 				group: "Dimension",
 				defaultValue: null,
+			},
+			/**
+			 * Indicates whether the rows of the list show the
+			 * <code>additionalText</code> of their item as a second value at the
+			 * end of the row. Only <code>sap.ui.core.ListItem</code> carries that
+			 * text; plain items are shown without one.
+			 *
+			 * Unlike <code>sap.m.ComboBox</code> the second value is never part
+			 * of what the typed text is matched against - that is what
+			 * <code>filterSecondaryValues</code> does there, and it is not
+			 * supported here.
+			 */
+			showSecondaryValues: {
+				type: "boolean",
+				group: "Misc",
+				defaultValue: false,
 			},
 			/**
 			 * Touch size of the field and of the rows in the list.
@@ -332,6 +353,39 @@ export default class ComboBox extends Control implements ISized {
 		}
 	}
 
+	/**
+	 * Puts the second value of an item at the end of its row.
+	 *
+	 * The row is one of the library's buttons, which knows nothing about a
+	 * second value, so the text goes into a CSS custom property that the
+	 * styling of the picker renders - that way the row keeps the size, the
+	 * press handling and the hover state of a plain button.
+	 */
+	private addSecondaryValue(button: Button, item: Item): void {
+		if (!this.getShowSecondaryValues()) {
+			return;
+		}
+
+		const text = item.isA("sap.ui.core.ListItem")
+			? (item as ListItem).getAdditionalText()
+			: "";
+
+		if (!text) {
+			return;
+		}
+
+		button.addStyleClass("sizedPickerItemSecondary");
+		button.addEventDelegate({
+			onAfterRendering: () => {
+				(button.getDomRef() as HTMLElement | null)?.style.setProperty(
+					"--sized-picker-secondary-text",
+					// a CSS string, so quotes and backslashes have to be escaped
+					JSON.stringify(text),
+				);
+			},
+		});
+	}
+
 	private createList(items: Item[]): VBox {
 		const size = this.getSize();
 		const selectedItem = this.getSelectedItem();
@@ -363,6 +417,7 @@ export default class ComboBox extends Control implements ISized {
 				if (item === selectedItem) {
 					button.addStyleClass("sizedPickerItemSelected");
 				}
+				this.addSecondaryValue(button, item);
 
 				return button;
 			}),

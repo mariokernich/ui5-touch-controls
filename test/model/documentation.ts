@@ -65,7 +65,7 @@ const controls: ControlDoc[] = [
 		name: "ComboBox",
 		replaces: "sap.m.ComboBox",
 		description:
-			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states and width. Fires change and selectionChange.",
+			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states, width and showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of a row. Fires change and selectionChange.",
 	},
 	{
 		name: "DatePicker",
