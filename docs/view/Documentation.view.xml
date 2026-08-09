@@ -93,6 +93,48 @@
 			</f:content>
 		</f:Card>
 
+		<!-- what is called from a controller instead of put into a view -->
+		<f:Card class="sapUiMediumMarginBottom">
+			<f:header>
+				<cards:Header
+					title="{i18n>docClassesTitle}"
+					subtitle="{i18n>docClassesSubtitle}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<FormattedText
+						htmlText="{i18n>docClassesText}"
+						width="100%"
+						class="sapUiTinyMarginTop" />
+					<Table items="{docs>/classes}">
+						<columns>
+							<Column width="12rem">
+								<Label text="{i18n>colClass}" />
+							</Column>
+							<Column width="14rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+								<Label text="{i18n>colReplaces}" />
+							</Column>
+							<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+								<Label text="{i18n>colDescription}" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Link
+									text="tc:{docs>name}"
+									tooltip="{i18n>tooltipOpenControlPage}"
+									press=".onControlPress" />
+								<Text text="{docs>replaces}" />
+								<Text text="{docs>description}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</VBox>
+			</f:content>
+		</f:Card>
+
 		<!-- theme compatibility -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>

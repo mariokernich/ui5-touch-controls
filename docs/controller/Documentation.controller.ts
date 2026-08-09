@@ -1,6 +1,7 @@
 import type { Link$PressEvent } from "sap/m/Link";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import {
+	classControls,
 	newControls,
 	portedControls,
 	themes,
@@ -19,6 +20,7 @@ export default class Documentation extends BaseController {
 			new JSONModel({
 				ported: portedControls,
 				new: newControls,
+				classes: classControls,
 				themes: themes,
 			}),
 			"docs",

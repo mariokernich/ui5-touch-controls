@@ -19,6 +19,12 @@ export interface ControlDoc {
 	 * {@link ControlDoc.replaces} names more than one.
 	 */
 	docEntity?: string;
+	/**
+	 * Whether this is a class that is used from a controller instead of a
+	 * control that is put into a view. Those are listed on their own, in the
+	 * navigation as well as in the tables of the documentation page.
+	 */
+	isClass?: boolean;
 }
 
 export interface ThemeDoc {
@@ -174,7 +180,7 @@ const controls: ControlDoc[] = [
 		name: "VirtualKeyboard",
 		replaces: NEW_CONTROL,
 		description:
-			"On-screen keyboard built from the library's own buttons, with configurable layout (incl. {shift}, {space}, {bksp}, {enter}), optional hardware key input, value binding and change / keyPress / enter events.",
+			"On-screen keyboard built from the library's own buttons. The mode property picks one of the ready-made layouts (QWERTY, Numeric, Phone, Calculator); mode Custom reads a layout of your own from the layout property (incl. {shift}, {space}, {bksp}, {enter}). Optional hardware key input, value binding and change / keyPress / enter events.",
 	},
 	{
 		name: "SignaturePad",
@@ -185,6 +191,7 @@ const controls: ControlDoc[] = [
 	{
 		name: "QuickDialog",
 		replaces: "sap.m.MessageBox",
+		isClass: true,
 		description:
 			"Helper class for touch-ready dialogs, used from the controller instead of a view: show, confirm, information, error, input, select, details. Every method returns a Promise.",
 	},
@@ -192,7 +199,12 @@ const controls: ControlDoc[] = [
 
 /** rebuilds of sap.m controls */
 export const portedControls: ControlDoc[] = controls.filter(
-	(control) => control.replaces !== NEW_CONTROL,
+	(control) => control.replaces !== NEW_CONTROL && !control.isClass,
+);
+
+/** what is called from a controller rather than put into a view */
+export const classControls: ControlDoc[] = controls.filter(
+	(control) => control.isClass,
 );
 
 /** the controls that exist only in this library */

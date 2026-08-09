@@ -88,16 +88,26 @@ On a shop floor terminal, a kiosk or a device operated with gloves there is ofte
 
 ![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
 
-The layout is simply a list of rows, so a numeric pad, a full QWERTY keyboard or a domain-specific key set are all a matter of one property:
+Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY`, `Numeric`, `Phone` or `Calculator`.
 
 ```xml
 <tc:VirtualKeyboard
 	value="{/quantity}"
 	size="XL"
 	width="700px"
-	layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
+	mode="Numeric"
 	change=".onChange"
 	enter=".onEnter" />
+```
+
+For a key set of your own there is `mode="Custom"`, and only then the `layout` property is read. A layout is a list of rows, keys separated by spaces:
+
+```xml
+<tc:VirtualKeyboard
+	value="{/article}"
+	size="XL"
+	mode="Custom"
+	layout="A B C D, E F G H, {bksp} {space} {enter}" />
 ```
 
 `{shift}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
@@ -265,7 +275,7 @@ These exist only in this library, for situations that only come up on a touch de
 | Control | Description |
 | --- | --- |
 | `tc:BarcodeInput` | Input field that tells a barcode scanner from a person typing: a run of at least `minLength` characters whose gaps stay below `scanTimeout` and that is closed by Enter fires `scan`, everything else fires `change`. `prefix` and `suffix` are cut off the code, `clearOnScan` empties the field for the next one. |
-| `tc:VirtualKeyboard` | On-screen keyboard built from the library's own buttons, with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`), optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `tc:VirtualKeyboard` | On-screen keyboard built from the library's own buttons. `mode` picks one of the ready-made layouts (`QWERTY`, `Numeric`, `Phone`, `Calculator`); `mode="Custom"` reads a layout of your own from `layout` (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`). Optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
 | `tc:SignaturePad` | A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in `value`. Stroke width, placeholder and clear button follow `size`; the strokes survive a resize. Fires `change`. |
 
 ### Sizes

@@ -1,4 +1,5 @@
 import Event from "sap/ui/base/Event";
+import { KeyboardMode } from "ui5/touch/controls/library";
 import { SizeMode } from "ui5/touch/controls/library";
 import { CSSSize } from "sap/ui/core/library";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
@@ -17,10 +18,33 @@ declare module "./VirtualKeyboard" {
         value?: string | PropertyBindingInfo;
 
         /**
-         * The keyboard layout rows. Each entry represents one row,
-        keys are separated by spaces. Special keys are wrapped in
-        curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
-        <code>{space}</code> or <code>{shift}</code>.
+         * /**
+                     * Which keys the keyboard shows.
+                     *
+                     * All values but <code>Custom</code> are ready-made layouts that
+                     * the control brings along. <code>Custom</code> is the one that
+                     * reads the
+        {@link #getLayout layout}
+         property.
+         */
+        mode?: KeyboardMode | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * /**
+                     * The keyboard layout rows, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        . Each entry
+                     * represents one row, keys are separated by spaces. Special keys
+                     * are wrapped in curly braces, e.g. <code>{bksp}</code>,
+                     * <code>{enter}</code>, <code>{space}</code> or
+                     * <code>{shift}</code>.
+                     *
+                     * It is only looked at when
+        {@link #getMode mode}
+         is
+                     * <code>Custom</code>; with any other mode the layout of that mode
+                     * is shown.
          */
         layout?: string[] | PropertyBindingInfo | `{${string}}`;
 
@@ -83,21 +107,69 @@ declare module "./VirtualKeyboard" {
          */
         setValue(value: string): this;
 
+        // property: mode
+
+        /**
+         * /**
+                     * Which keys the keyboard shows.
+                     *
+                     * All values but <code>Custom</code> are ready-made layouts that
+                     * the control brings along. <code>Custom</code> is the one that
+                     * reads the
+        {@link #getLayout layout}
+         property.
+         */
+        getMode(): KeyboardMode;
+
+        /**
+         * /**
+                     * Which keys the keyboard shows.
+                     *
+                     * All values but <code>Custom</code> are ready-made layouts that
+                     * the control brings along. <code>Custom</code> is the one that
+                     * reads the
+        {@link #getLayout layout}
+         property.
+         */
+        setMode(mode: KeyboardMode): this;
+
         // property: layout
 
         /**
-         * The keyboard layout rows. Each entry represents one row,
-        keys are separated by spaces. Special keys are wrapped in
-        curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
-        <code>{space}</code> or <code>{shift}</code>.
+         * /**
+                     * The keyboard layout rows, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        . Each entry
+                     * represents one row, keys are separated by spaces. Special keys
+                     * are wrapped in curly braces, e.g. <code>{bksp}</code>,
+                     * <code>{enter}</code>, <code>{space}</code> or
+                     * <code>{shift}</code>.
+                     *
+                     * It is only looked at when
+        {@link #getMode mode}
+         is
+                     * <code>Custom</code>; with any other mode the layout of that mode
+                     * is shown.
          */
         getLayout(): string[];
 
         /**
-         * The keyboard layout rows. Each entry represents one row,
-        keys are separated by spaces. Special keys are wrapped in
-        curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
-        <code>{space}</code> or <code>{shift}</code>.
+         * /**
+                     * The keyboard layout rows, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        . Each entry
+                     * represents one row, keys are separated by spaces. Special keys
+                     * are wrapped in curly braces, e.g. <code>{bksp}</code>,
+                     * <code>{enter}</code>, <code>{space}</code> or
+                     * <code>{shift}</code>.
+                     *
+                     * It is only looked at when
+        {@link #getMode mode}
+         is
+                     * <code>Custom</code>; with any other mode the layout of that mode
+                     * is shown.
          */
         setLayout(layout: string[]): this;
 

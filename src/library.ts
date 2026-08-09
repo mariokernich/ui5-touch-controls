@@ -31,6 +31,27 @@ export enum SizeMode {
 }
 
 /**
+ * The keyboard layouts a {@link ui5.touch.controls.VirtualKeyboard} brings
+ * along.
+ *
+ * Everything but <code>Custom</code> is a ready-made layout - the control
+ * knows its rows and the <code>layout</code> property is not looked at. Only
+ * <code>Custom</code> hands the keyboard over to that property.
+ */
+export enum KeyboardMode {
+	/** letters and digits, in the arrangement of a computer keyboard */
+	QWERTY = "QWERTY",
+	/** the digits of a number pad, 7 8 9 on top */
+	Numeric = "Numeric",
+	/** the digits of a telephone, 1 2 3 on top, with * and # */
+	Phone = "Phone",
+	/** the digits of a number pad with the four basic operations */
+	Calculator = "Calculator",
+	/** the rows come from the <code>layout</code> property */
+	Custom = "Custom",
+}
+
+/**
  * The CSS class that carries the size ladder for a size mode.
  *
  * A control renders it on its root element and then takes what it needs from
@@ -108,6 +129,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 }) as { [key: string]: unknown };
 
 thisLib.SizeMode = SizeMode;
+thisLib.KeyboardMode = KeyboardMode;
 
 // Register the library's own icon font so its SVG-based icons (backspace,
 // enter) render as real font glyphs and therefore inherit the current text

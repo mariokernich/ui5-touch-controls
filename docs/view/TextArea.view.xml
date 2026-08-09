@@ -50,15 +50,14 @@
 								selected="{json>/showVirtualKeyboard}" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="{i18n>lblLayout}" width="100px" />
+							<Text text="{i18n>lblMode}" width="100px" />
 							<Select
-								selectedKey="{json>/layoutKey}"
-								enabled="{json>/showVirtualKeyboard}"
-								change=".onLayoutChange">
-								<core:Item key="qwerty" text="QWERTY" />
-								<core:Item key="numeric" text="{i18n>layoutNumeric}" />
-								<core:Item key="phone" text="{i18n>layoutPhone}" />
-								<core:Item key="calculator" text="{i18n>layoutCalculator}" />
+								selectedKey="{json>/keyboardMode}"
+								enabled="{json>/showVirtualKeyboard}">
+								<core:Item key="QWERTY" text="QWERTY" />
+								<core:Item key="Numeric" text="Numeric" />
+								<core:Item key="Phone" text="Phone" />
+								<core:Item key="Calculator" text="Calculator" />
 							</Select>
 						</HBox>
 						<Text text="{i18n>textAreaKeyboardHint}" class="sapUiTinyMarginTop" />
@@ -95,7 +94,7 @@
 							<tc:virtualKeyboard>
 								<tc:VirtualKeyboard
 									size="{json>/size}"
-									layout="{json>/layout}" />
+									mode="{json>/keyboardMode}" />
 							</tc:virtualKeyboard>
 						</tc:TextArea>
 					</VBox>

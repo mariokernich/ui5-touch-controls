@@ -30,13 +30,25 @@
 								width="150px" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="{i18n>lblLayout}" width="100px" />
-							<Select selectedKey="{json>/layout}">
-								<core:Item key="qwerty" text="{i18n>layoutQwertyReal}" />
-								<core:Item key="numeric" text="{i18n>layoutNumeric}" />
-								<core:Item key="phone" text="{i18n>layoutPhone}" />
-								<core:Item key="calculator" text="{i18n>layoutCalculator}" />
+							<Text text="{i18n>lblMode}" width="100px" />
+							<!-- the entries are the values of the property, so they can be
+							     copied straight into a view -->
+							<Select selectedKey="{json>/mode}">
+								<core:Item key="QWERTY" text="QWERTY" />
+								<core:Item key="Numeric" text="Numeric" />
+								<core:Item key="Phone" text="Phone" />
+								<core:Item key="Calculator" text="Calculator" />
+								<core:Item key="Custom" text="Custom" />
 							</Select>
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblLayout}" width="100px" />
+							<Input
+								value="{json>/layoutText}"
+								placeholder="{i18n>phLayout}"
+								enabled="{= ${json>/mode} === 'Custom' }"
+								change=".applyCustomLayout"
+								width="240px" />
 						</HBox>
 						<HBox alignItems="Center">
 							<Text text="{i18n>lblWidth}" width="100px" />
@@ -73,6 +85,7 @@
 						<tc:VirtualKeyboard
 							id="keyboard"
 							value="{json>/value}"
+							mode="{json>/mode}"
 							size="{json>/size}"
 							enabled="{json>/enabled}"
 							hardwareKeys="{json>/hardwareKeys}"
@@ -99,24 +112,24 @@
 						htmlText="{i18n>keyboardLayoutsText}"
 						width="100%"
 						class="sapUiTinyMarginTop" />
-					<Table items="{json>/layouts}">
+					<Table items="{json>/modes}">
 						<columns>
 							<Column width="10rem">
-								<Label text="{i18n>colLayout}" />
+								<Label text="{i18n>colMode}" />
 							</Column>
 							<Column width="6rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colKeys}" />
 							</Column>
 							<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
-								<Label text="{i18n>colLayoutProperty}" />
+								<Label text="{i18n>colModeKeys}" />
 							</Column>
 						</columns>
 						<items>
 							<ColumnListItem>
 								<Link
-									text="{json>text}"
-									tooltip="{i18n>tooltipTryLayout}"
-									press=".onLayoutPress" />
+									text="{json>mode}"
+									tooltip="{i18n>tooltipTryMode}"
+									press=".onModePress" />
 								<Text text="{json>keys}" />
 								<Text text="{json>sample}" />
 							</ColumnListItem>

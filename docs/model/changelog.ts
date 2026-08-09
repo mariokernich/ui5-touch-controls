@@ -48,6 +48,7 @@ export const releases: Release[] = [
 					"Input and TextArea show a keyboard of their own: put a VirtualKeyboard into the new virtualKeyboard aggregation and switch showVirtualKeyboard on, and the keyboard opens in a popover while the field has the focus. In the TextArea its Enter key adds a line break.",
 					"ComboBox has showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of every entry, as sap.m.ComboBox does.",
 					"QuickDialog.select() builds its field from the touch ComboBox and takes a selectSize for it.",
+					"VirtualKeyboard has a mode property with the ready-made layouts QWERTY, Numeric, Phone and Calculator. Only mode Custom reads the rows from the layout property, which is where every keyboard used to start.",
 					"OverflowToolbar takes a ToolbarSpacer.",
 				],
 			},

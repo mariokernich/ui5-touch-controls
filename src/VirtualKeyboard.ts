@@ -3,15 +3,51 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
 import Button from "./Button";
-import { ISized, SizeMode } from "./library";
+import { ISized, KeyboardMode, SizeMode } from "./library";
+
+/**
+ * The rows of the ready-made layouts, by the mode that selects them.
+ *
+ * <code>Custom</code> is not in here on purpose: it is the mode that has no
+ * layout of its own and reads the <code>layout</code> property instead.
+ */
+const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
+	[KeyboardMode.QWERTY]: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"q w e r t y u i o p",
+		"a s d f g h j k l",
+		"{shift} z x c v b n m {bksp}",
+		"{space} {enter}",
+	],
+	[KeyboardMode.Numeric]: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
+	[KeyboardMode.Phone]: [
+		"1 2 3",
+		"4 5 6",
+		"7 8 9",
+		"* 0 #",
+		"{bksp} {enter}",
+	],
+	[KeyboardMode.Calculator]: [
+		"7 8 9 /",
+		"4 5 6 *",
+		"1 2 3 -",
+		"0 . = +",
+		"{bksp} {enter}",
+	],
+};
 
 /**
  * An on-screen keyboard optimized for touch devices, built natively from
  * the library's own {@link ui5.touch.controls.Button} controls — no
  * third-party keyboard dependency.
  *
- * The layout is defined row by row: each entry represents one row, keys are
- * separated by spaces and special keys are wrapped in curly braces
+ * Which keys it shows is a matter of the {@link #getMode mode} property:
+ * <code>QWERTY</code>, <code>Numeric</code>, <code>Phone</code> and
+ * <code>Calculator</code> are ready-made, <code>Custom</code> hands the
+ * keyboard over to the {@link #getLayout layout} property.
+ *
+ * A layout is written row by row: each entry is one row, keys are separated
+ * by spaces and special keys are wrapped in curly braces
  * (<code>{bksp}</code>, <code>{enter}</code>, <code>{space}</code>,
  * <code>{shift}</code>).
  *
@@ -62,10 +98,28 @@ export default class VirtualKeyboard extends Control implements ISized {
 			 */
 			value: { type: "string", group: "Data", defaultValue: "" },
 			/**
-			 * The keyboard layout rows. Each entry represents one row,
-			 * keys are separated by spaces. Special keys are wrapped in
-			 * curly braces, e.g. <code>{bksp}</code>, <code>{enter}</code>,
-			 * <code>{space}</code> or <code>{shift}</code>.
+			 * Which keys the keyboard shows.
+			 *
+			 * All values but <code>Custom</code> are ready-made layouts that
+			 * the control brings along. <code>Custom</code> is the one that
+			 * reads the {@link #getLayout layout} property.
+			 */
+			mode: {
+				type: "ui5.touch.controls.KeyboardMode",
+				group: "Appearance",
+				defaultValue: KeyboardMode.Numeric,
+			},
+			/**
+			 * The keyboard layout rows, for
+			 * {@link ui5.touch.controls.KeyboardMode.Custom}. Each entry
+			 * represents one row, keys are separated by spaces. Special keys
+			 * are wrapped in curly braces, e.g. <code>{bksp}</code>,
+			 * <code>{enter}</code>, <code>{space}</code> or
+			 * <code>{shift}</code>.
+			 *
+			 * It is only looked at when {@link #getMode mode} is
+			 * <code>Custom</code>; with any other mode the layout of that mode
+			 * is shown.
 			 */
 			layout: {
 				type: "string[]",
@@ -385,10 +439,33 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
+	 * The rows this keyboard shows: the layout of its mode, or the one from
+	 * the <code>layout</code> property when the mode is <code>Custom</code>.
+	 */
+	public getEffectiveLayout(): string[] {
+		const mode = this.getMode();
+
+		return mode === KeyboardMode.Custom
+			? this.getLayout()
+			: LAYOUTS[mode];
+	}
+
+	/**
+	 * The rows of one of the ready-made layouts - a starting point for a
+	 * custom one, and what the documentation of the library lists.
+	 *
+	 * @param mode the mode to look up; <code>Custom</code> has no layout of
+	 *   its own and yields an empty list
+	 */
+	public static getLayoutForMode(mode: KeyboardMode): string[] {
+		return mode === KeyboardMode.Custom ? [] : [...LAYOUTS[mode]];
+	}
+
+	/**
 	 * (Re)builds the key buttons if the layout has changed.
 	 */
 	private buildButtons(): void {
-		const layout = this.getLayout();
+		const layout = this.getEffectiveLayout();
 		const signature = layout.join("\n");
 
 		if (signature === this.builtLayoutSignature) {

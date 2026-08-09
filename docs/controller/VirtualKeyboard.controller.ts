@@ -6,11 +6,9 @@ import type {
 	VirtualKeyboard$ChangeEvent,
 	VirtualKeyboard$EnterEvent,
 } from "ui5/touch/controls/VirtualKeyboard";
-import type { KeyboardLayoutDoc } from "../model/keyboardLayouts";
-import {
-	keyboardLayoutDocs,
-	keyboardLayouts,
-} from "../model/keyboardLayouts";
+import { KeyboardMode } from "ui5/touch/controls/library";
+import type { KeyboardModeDoc } from "../model/keyboardModes";
+import { keyboardModeDocs } from "../model/keyboardModes";
 import BaseController from "./BaseController";
 
 /**
@@ -22,60 +20,74 @@ export default class VirtualKeyboard extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("VirtualKeyboard");
+
 		this.model = new JSONModel(
 			{
 				value: "",
-				layout: "numeric",
+				mode: KeyboardMode.Numeric,
+				// what the Custom mode shows: the rows of a layout, comma
+				// separated, the way they are written in an XML view
+				layoutText: "7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}",
 				size: "L",
 				enabled: true,
 				hardwareKeys: true,
 				width: "",
-				layouts: keyboardLayoutDocs,
+				modes: keyboardModeDocs,
 			},
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
-
-		// the layout is an array of rows, so it is set from the controller
-		// instead of through a binding
-		this.model.attachPropertyChange(() => {
-			this.applyLayout();
-		});
-		this.applyLayout();
+		this.applyCustomLayout();
 
 		this.setExample(`
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:tc="ui5.touch.controls">
+	<!-- a ready-made layout: the mode is all it takes -->
 	<tc:VirtualKeyboard
 		value="{/value}"
 		size="XL"
 		width="700px"
 		hardwareKeys="true"
-		layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
+		mode="QWERTY"
 		change=".onChange"
 		enter=".onEnter" />
+
+	<!-- rows of your own: only Custom looks at the layout property -->
+	<tc:VirtualKeyboard
+		value="{/quantity}"
+		size="XL"
+		mode="Custom"
+		layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
+		change=".onChange" />
 </mvc:View>
 `);
 	}
 
-	private applyLayout(): void {
+	/**
+	 * Hands the typed rows to the keyboard. The layout is an array, so it
+	 * cannot be bound to the text field directly.
+	 */
+	public applyCustomLayout(): void {
 		const keyboard = this.byId("keyboard") as SizedVirtualKeyboard;
+		const text = this.model.getProperty("/layoutText") as string;
+
 		keyboard.setLayout(
-			keyboardLayouts[this.model.getProperty("/layout") as string],
+			text
+				.split(",")
+				.map((row) => row.trim())
+				.filter(Boolean),
 		);
 	}
 
 	/**
-	 * Switches the playground to the layout that was clicked in the table.
+	 * Switches the playground to the mode that was clicked in the table.
 	 */
-	public onLayoutPress(event: Link$PressEvent): void {
-		const layout = event.getSource().getBindingContext("json")
-			?.getObject() as KeyboardLayoutDoc;
-		this.model.setProperty("/layout", layout.key);
-		// setProperty does not fire propertyChange - that only happens for
-		// changes coming from a two-way binding, e.g. from the select above
-		this.applyLayout();
+	public onModePress(event: Link$PressEvent): void {
+		const entry = event.getSource().getBindingContext("json")
+			?.getObject() as KeyboardModeDoc;
+		this.model.setProperty("/mode", entry.mode);
 	}
 
 	public onChange(event: VirtualKeyboard$ChangeEvent): void {
