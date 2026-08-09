@@ -9,7 +9,14 @@ body,
 }
 
 .touchControlsHeaderLogo {
+	margin-right: 0.5rem;
+}
+
+/* the library name next to the icon tile; it is the app title, so it should
+   not shrink away when the header gets crowded */
+.touchControlsHeaderTitle {
 	margin-right: 0.75rem;
+	flex-shrink: 0;
 }
 
 /* the three cards of a playground row sit next to each other with a gap */

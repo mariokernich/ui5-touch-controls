@@ -10,7 +10,7 @@ import {
 	portedPages,
 } from "./model/pages";
 import { getLanguageKey } from "./model/language";
-import { getLogoUrl } from "./model/theme";
+import { getLogoMarkUrl, getLogoUrl } from "./model/theme";
 
 /**
  * Component of the demo application.
@@ -40,6 +40,7 @@ export default class Component extends UIComponent {
 			nextText: "",
 			theme: Theming.getTheme(),
 			logo: getLogoUrl(Theming.getTheme()),
+			logoMark: getLogoMarkUrl(),
 			language: getLanguageKey(),
 			version: this.getLibraryVersion(),
 		});

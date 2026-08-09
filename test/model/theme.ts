@@ -15,3 +15,11 @@ export function getLogoUrl(theme: string): string {
 		`ui5/touch/controls/demo/logo${isDarkTheme(theme) || theme === "sap_fiori_3" ? "-dark" : ""}.svg`,
 	);
 }
+
+/**
+ * Returns the icon tile of the logo, without the wordmark. The tile looks the
+ * same in every theme, so unlike {@link getLogoUrl} it takes no theme.
+ */
+export function getLogoMarkUrl(): string {
+	return sap.ui.require.toUrl("ui5/touch/controls/demo/logo-mark.svg");
+}

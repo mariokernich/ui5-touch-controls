@@ -14,14 +14,20 @@
 					type="Transparent"
 					tooltip="{i18n>toggleNavigation}"
 					press=".onMenuPress" />
+				<!-- only the icon tile of the logo, the name is the title next to
+				     it - the full logo with its wordmark would be too wide here -->
 				<Image
-					src="{app>/logo}"
+					src="{app>/logoMark}"
 					height="2rem"
-					alt="ui5-touch-controls"
+					alt="{i18n>appTitle}"
 					tooltip="{i18n>home}"
 					densityAware="false"
 					press=".onLogoPress"
 					class="touchControlsHeaderLogo" />
+				<Title
+					text="{i18n>appTitle}"
+					level="H1"
+					class="touchControlsHeaderTitle" />
 				<ToolbarSpacer />
 				<Text
 					text="{app>/version}"
