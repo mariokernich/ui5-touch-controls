@@ -66,11 +66,13 @@
 					enabled="{= !!${app>/nextKey} }"
 					tooltip="{= ${app>/nextKey} ? ${i18n>next} + ': ' + ${app>/nextText} : '' }"
 					press=".onNextPress" />
+				<!-- the mark is drawn by the stylesheet, so the link carries no
+				     text of its own; the tooltip is what names it -->
 				<Link
-					text="{i18n>github}"
 					tooltip="{i18n>githubTooltip}"
 					href="https://github.com/mariokernich/ui5-touch-controls"
-					target="_blank" />
+					target="_blank"
+					class="touchControlsHeaderGithub" />
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:sideContent>
