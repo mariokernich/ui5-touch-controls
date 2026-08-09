@@ -13,7 +13,7 @@ import Button from "ui5/touch/controls/Button";
 import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
 import Link from "sap/m/Link";
 
-export interface IQuickDialogOptions {
+export interface IMessageBoxOptions {
 	actions?: Array<MessageAction | string>;
 	title?: string;
 	contentWidth?: string;
@@ -41,11 +41,11 @@ export enum MessageAction {
 /**
  * @namespace ui5.touch.controls.touch
  */
-export default class QuickDialog extends ManagedObject {
+export default class MessageBox extends ManagedObject {
 	static async show(
 		options: {
 			message: string;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	) {
 		const dialog = this.getDialog(options);
 
@@ -99,7 +99,7 @@ export default class QuickDialog extends ManagedObject {
 			placeholder?: string;
 			value?: string;
 			inputSize?: SizeMode;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	): Promise<{
 		action: MessageAction | string;
 		value: string;
@@ -174,7 +174,7 @@ export default class QuickDialog extends ManagedObject {
 			selectedKey?: string;
 			items: { key: string; text: string; additionalText?: string }[];
 			selectSize?: SizeMode;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	): Promise<{
 		selectedKey: string;
 		action: MessageAction | string;
@@ -247,7 +247,7 @@ export default class QuickDialog extends ManagedObject {
 	static async error(
 		options: {
 			message: string;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	): Promise<MessageAction | string> {
 		return this.show({
 			icon: "sap-icon://error",
@@ -266,7 +266,7 @@ export default class QuickDialog extends ManagedObject {
 	static async information(
 		options: {
 			message: string;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	): Promise<MessageAction | string> {
 		return this.show({
 			icon: "sap-icon://information",
@@ -285,7 +285,7 @@ export default class QuickDialog extends ManagedObject {
 	static async confirm(
 		options: {
 			message: string;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	): Promise<boolean> {
 		const action = await this.show({
 			icon: "sap-icon://question-mark",
@@ -301,7 +301,7 @@ export default class QuickDialog extends ManagedObject {
 		options: {
 			title: string;
 			details: string;
-		} & IQuickDialogOptions,
+		} & IMessageBoxOptions,
 	) {
 		const dialog = this.getDialog(options);
 
@@ -365,7 +365,7 @@ export default class QuickDialog extends ManagedObject {
 		});
 	}
 
-	private static getDialog(options: IQuickDialogOptions) {
+	private static getDialog(options: IMessageBoxOptions) {
 		return new Dialog({
 			title: options.title,
 			contentWidth: options.contentWidth,

@@ -115,12 +115,6 @@ const controls: ControlDoc[] = [
 			"Like tc:Toolbar, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of sap.m.OverflowToolbarLayoutData.",
 	},
 	{
-		name: "Slider",
-		replaces: "sap.m.Slider / sap.m.RangeSlider",
-		description:
-			"Handle, track and the row around them scale with size, where the handle of sap.m.Slider is 1.25rem — a target made for a mouse pointer. Supports min, max, step, tickmarks and a value bubble; tc:RangeSlider adds a second handle and value2. Fires change and liveChange.",
-	},
-	{
 		name: "StepInput",
 		replaces: "sap.m.StepInput",
 		description:
@@ -145,7 +139,7 @@ const controls: ControlDoc[] = [
 			"A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in value, so it can be bound to a model. Stroke width, placeholder and clear button follow the size property; the strokes survive a resize. Fires change.",
 	},
 	{
-		name: "QuickDialog",
+		name: "MessageBox",
 		replaces: "sap.m.MessageBox",
 		description:
 			"Helper class for touch-ready dialogs, used from the controller instead of a view: show, confirm, information, error, input, select, details. Every method returns a Promise.",

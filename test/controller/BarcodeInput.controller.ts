@@ -76,7 +76,7 @@ onScan(event: BarcodeInput$ScanEvent): void {
 
 onManualEntry(event: BarcodeInput$ChangeEvent): void {
 	// typed by hand - worth a confirmation before it is booked
-	QuickDialog.confirm({ text: \`Book \${event.getParameter("value")}?\`, size: SizeMode.XL });
+	MessageBox.confirm({ text: \`Book \${event.getParameter("value")}?\`, size: SizeMode.XL });
 }
 `,
 				},

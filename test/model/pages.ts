@@ -70,7 +70,6 @@ export const portedPages: PageInfo[] = [
 	{ key: "Input", text: "Input", icon: "sap-icon://edit" },
 	{ key: "TextArea", text: "TextArea", icon: "sap-icon://document-text" },
 	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
-	{ key: "Slider", text: "Slider", icon: "sap-icon://horizontal-bar-chart" },
 	{ key: "Text", text: "Text", icon: "sap-icon://text" },
 	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },
 	{ key: "Toolbar", text: "Toolbar", icon: "sap-icon://menu2" },
@@ -79,7 +78,7 @@ export const portedPages: PageInfo[] = [
 		text: "OverflowToolbar",
 		icon: "sap-icon://overflow",
 	},
-	{ key: "QuickDialog", text: "QuickDialog", icon: "sap-icon://message-popup" },
+	{ key: "MessageBox", text: "MessageBox", icon: "sap-icon://message-popup" },
 ];
 
 /** the controls that have no sap.m equivalent */

@@ -149,11 +149,6 @@
           "target": "StepInput"
         },
         {
-          "name": "Slider",
-          "pattern": "control/Slider",
-          "target": "Slider"
-        },
-        {
           "name": "Text",
           "pattern": "control/Text",
           "target": "Text"
@@ -174,9 +169,9 @@
           "target": "OverflowToolbar"
         },
         {
-          "name": "QuickDialog",
-          "pattern": "control/QuickDialog",
-          "target": "QuickDialog"
+          "name": "MessageBox",
+          "pattern": "control/MessageBox",
+          "target": "MessageBox"
         },
         {
           "name": "VirtualKeyboard",
@@ -270,11 +265,6 @@
           "viewId": "StepInput",
           "name": "StepInput"
         },
-        "Slider": {
-          "id": "Slider",
-          "viewId": "Slider",
-          "name": "Slider"
-        },
         "Text": {
           "id": "Text",
           "viewId": "Text",
@@ -295,10 +285,10 @@
           "viewId": "OverflowToolbar",
           "name": "OverflowToolbar"
         },
-        "QuickDialog": {
-          "id": "QuickDialog",
-          "viewId": "QuickDialog",
-          "name": "QuickDialog"
+        "MessageBox": {
+          "id": "MessageBox",
+          "viewId": "MessageBox",
+          "name": "MessageBox"
         },
         "VirtualKeyboard": {
           "id": "VirtualKeyboard",

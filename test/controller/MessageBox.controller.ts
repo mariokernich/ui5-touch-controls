@@ -3,7 +3,7 @@ import type { ValueState } from "sap/ui/core/library";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type SizedButton from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
-import Dialog, { MessageAction } from "ui5/touch/controls/QuickDialog";
+import Box, { MessageAction } from "ui5/touch/controls/MessageBox";
 import BaseController from "./BaseController";
 
 /** one of the buttons that open a dialog */
@@ -105,19 +105,19 @@ const customButtons: DemoButton[] = [
 ];
 
 /**
- * Controller of the QuickDialog page. Every button opens one of the dialogs
+ * Controller of the MessageBox page. Every button opens one of the dialogs
  * and writes what it resolved with into the "Last result" strip.
  *
  * @namespace ui5.touch.controls.demo.controller
  */
-export default class QuickDialog extends BaseController {
+export default class MessageBox extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
 		this.model = new JSONModel(
 			{
-				title: "QuickDialog",
-				message: "This is a QuickDialog message.",
+				title: "MessageBox",
+				message: "This is a MessageBox message.",
 				size: SizeMode.L,
 				state: "None",
 				toolbarSpacer: false,
@@ -133,11 +133,11 @@ export default class QuickDialog extends BaseController {
 		this.setExample(
 			`
 import { SizeMode } from "ui5/touch/controls/library";
-import QuickDialog, { MessageAction }
-	from "ui5/touch/controls/QuickDialog";
+import MessageBox, { MessageAction }
+	from "ui5/touch/controls/MessageBox";
 
-// QuickDialog is used from controller code, not from XML views:
-const action = await QuickDialog.show({
+// MessageBox is used from controller code, not from XML views:
+const action = await QuickBox.show({
 	title: "Delete Item",
 	message: "Do you really want to delete this item?",
 	actions: [MessageAction.Delete, MessageAction.Cancel],
@@ -281,13 +281,13 @@ if (action === MessageAction.Delete) {
 		emphasized?: MessageAction | string,
 	): Promise<void> {
 		try {
-			const action = await Dialog.show({
+			const action = await Box.show({
 				...this.getBaseOptions(),
 				message: this.getMessage(),
 				actions: actions,
 				emphasizedAction: emphasized,
 			});
-			this.setResult(`show → ${QuickDialog.label(action)}`);
+			this.setResult(`show → ${MessageBox.label(action)}`);
 		} catch {
 			this.setResult("show → rejected (escape)");
 		}
@@ -295,7 +295,7 @@ if (action === MessageAction.Delete) {
 
 	private async runConfirm(): Promise<void> {
 		try {
-			const confirmed = await Dialog.confirm({
+			const confirmed = await Box.confirm({
 				...this.getBaseOptions(),
 				message: this.getMessage(),
 			});
@@ -313,7 +313,7 @@ if (action === MessageAction.Delete) {
 		emphasized: MessageAction | string,
 	): Promise<void> {
 		try {
-			const result = await Dialog.input({
+			const result = await Box.input({
 				...this.getBaseOptions(),
 				label: label,
 				placeholder: placeholder,
@@ -322,7 +322,7 @@ if (action === MessageAction.Delete) {
 				emphasizedAction: emphasized,
 			});
 			this.setResult(
-				`input → ${QuickDialog.label(result.action)}: "${result.value}"`,
+				`input → ${MessageBox.label(result.action)}: "${result.value}"`,
 			);
 		} catch {
 			this.setResult("input → rejected (escape)");
@@ -337,7 +337,7 @@ if (action === MessageAction.Delete) {
 		emphasized: MessageAction | string,
 	): Promise<void> {
 		try {
-			const result = await Dialog.select({
+			const result = await Box.select({
 				...this.getBaseOptions(),
 				label: label,
 				placeholder: "Choose an item…",
@@ -347,7 +347,7 @@ if (action === MessageAction.Delete) {
 				emphasizedAction: emphasized,
 			});
 			this.setResult(
-				`select → ${QuickDialog.label(result.action)}: "${result.selectedKey}"`,
+				`select → ${MessageBox.label(result.action)}: "${result.selectedKey}"`,
 			);
 		} catch {
 			this.setResult("select → rejected (escape)");
@@ -356,11 +356,11 @@ if (action === MessageAction.Delete) {
 
 	private async runMessage(kind: "error" | "information"): Promise<void> {
 		try {
-			const action = await Dialog[kind]({
+			const action = await Box[kind]({
 				...this.getBaseOptions(),
 				message: this.getMessage(),
 			});
-			this.setResult(`${kind} → ${QuickDialog.label(action)}`);
+			this.setResult(`${kind} → ${MessageBox.label(action)}`);
 		} catch {
 			this.setResult(`${kind} → rejected (escape)`);
 		}
@@ -368,13 +368,13 @@ if (action === MessageAction.Delete) {
 
 	private async runDetails(): Promise<void> {
 		try {
-			const action = await Dialog.details({
+			const action = await Box.details({
 				...this.getBaseOptions(),
 				title: this.getMessage(),
 				details:
 					"Error code: 500\nCorrelation ID: 8f3c2a1b-77d4-4e2e-9c55-0d6a1b2c3d4e\nTimestamp: 2026-08-07T10:15:30Z\nThe backend service did not respond within the configured timeout.",
 			});
-			this.setResult(`details → ${QuickDialog.label(action)}`);
+			this.setResult(`details → ${MessageBox.label(action)}`);
 		} catch {
 			this.setResult("details → rejected (escape)");
 		}
