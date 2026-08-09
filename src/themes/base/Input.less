@@ -142,15 +142,3 @@
 .sizedInputContentWrapper.sizedInputInformation:focus-within::before {
 	border-color: @sapField_InformationColor;
 }
-
-/* the virtual keyboard brings its own frame, so the popover around it must
-   not add a second one */
-.sizedInputKeyboardPopover .sapMPopoverCont,
-.sizedInputKeyboardPopover .sapMPopoverScroll {
-	padding: 0;
-}
-
-.sizedInputKeyboardPopover .touchVirtualKeyboard {
-	display: flex;
-	border: none;
-}

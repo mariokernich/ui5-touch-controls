@@ -89,7 +89,7 @@ const controls: ControlDoc[] = [
 		name: "TextArea",
 		replaces: "sap.m.TextArea",
 		description:
-			"Multi-line input with configurable size, rows, max length and value states. Fires change / liveChange.",
+			"Multi-line input with configurable size, rows, max length and value states. Takes a VirtualKeyboard in its virtualKeyboard aggregation just like the Input does; there the Enter key adds a line break. Fires change / liveChange.",
 	},
 	{
 		name: "Text",

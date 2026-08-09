@@ -40,3 +40,16 @@
 	opacity: 0.4;
 	pointer-events: none;
 }
+
+/* The popover a field opens its keyboard in - the same one for every field,
+   which is why it lives here and not with one of them. The keyboard brings
+   its own frame, so the popover around it must not add a second one. */
+.sizedKeyboardPopover .sapMPopoverCont,
+.sizedKeyboardPopover .sapMPopoverScroll {
+	padding: 0;
+}
+
+.sizedKeyboardPopover .touchVirtualKeyboard {
+	display: flex;
+	border: none;
+}

@@ -420,7 +420,7 @@ export default class Input extends Control implements ISized {
 				// popover must not pull it onto one of the keys
 				initialFocus: this,
 			});
-			popover.addStyleClass("sizedInputKeyboardPopover");
+			popover.addStyleClass("sizedKeyboardPopover");
 			popover.attachAfterOpen(() => {
 				this.getPopoverDomRef()?.addEventListener(
 					"mousedown",

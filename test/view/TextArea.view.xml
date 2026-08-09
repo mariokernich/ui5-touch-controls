@@ -37,11 +37,27 @@
 							<StepInput value="{json>/maxLength}" min="0" max="500" step="10" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
-						<HBox alignItems="Center">
+						<HBox alignItems="Center" wrap="Wrap">
 							<Text text="{i18n>lblBehavior}" width="100px" />
 							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
 							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+							<CheckBox
+								text="{i18n>cbVirtualKeyboard}"
+								selected="{json>/showVirtualKeyboard}" />
 						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblLayout}" width="100px" />
+							<Select
+								selectedKey="{json>/layoutKey}"
+								enabled="{json>/showVirtualKeyboard}"
+								change=".onLayoutChange">
+								<core:Item key="qwerty" text="QWERTY" />
+								<core:Item key="numeric" text="{i18n>layoutNumeric}" />
+								<core:Item key="phone" text="{i18n>layoutPhone}" />
+								<core:Item key="calculator" text="{i18n>layoutCalculator}" />
+							</Select>
+						</HBox>
+						<Text text="{i18n>textAreaKeyboardHint}" class="sapUiTinyMarginTop" />
 					</VBox>
 				</f:content>
 			</f:Card>
@@ -67,8 +83,15 @@
 							enabled="{json>/enabled}"
 							editable="{json>/editable}"
 							valueState="{json>/valueState}"
+							showVirtualKeyboard="{json>/showVirtualKeyboard}"
 							width="100%"
-							liveChange=".onLiveChange" />
+							liveChange=".onLiveChange">
+							<tc:virtualKeyboard>
+								<tc:VirtualKeyboard
+									size="{json>/size}"
+									layout="{json>/layout}" />
+							</tc:virtualKeyboard>
+						</tc:TextArea>
 					</VBox>
 				</f:content>
 			</f:Card>

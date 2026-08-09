@@ -45,7 +45,7 @@ export const releases: Release[] = [
 					"OverflowToolbar, which moves what does not fit into an overflow area.",
 					"BarcodeInput, a field that collects the keystrokes of a barcode scanner.",
 					"SignaturePad, a canvas to sign on with a finger or a pen.",
-					"Input shows a keyboard of its own: put a VirtualKeyboard into the new virtualKeyboard aggregation and switch showVirtualKeyboard on, and the keyboard opens in a popover while the field has the focus.",
+					"Input and TextArea show a keyboard of their own: put a VirtualKeyboard into the new virtualKeyboard aggregation and switch showVirtualKeyboard on, and the keyboard opens in a popover while the field has the focus. In the TextArea its Enter key adds a line break.",
 					"ComboBox has showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of every entry, as sap.m.ComboBox does.",
 					"QuickDialog.select() builds its field from the touch ComboBox and takes a selectSize for it.",
 					"OverflowToolbar takes a ToolbarSpacer.",
