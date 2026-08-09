@@ -4,7 +4,7 @@ import ResizeHandler from "sap/ui/core/ResizeHandler";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import Button from "./Button";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * A field to sign in with a finger or a stylus.
@@ -169,6 +169,11 @@ export default class SignaturePad extends Control implements ISized {
 
 	/**
 	 * Stroke width in CSS pixels for the current size mode.
+	 *
+	 * This is the one ladder that cannot live in
+	 * <code>themes/base/Sizing.less</code> with the others: it is not a style
+	 * of an element but a number handed to the 2D context of the canvas, and
+	 * CSS does not reach in there.
 	 */
 	private getLineWidth(): number {
 		switch (this.getSize()) {
@@ -389,41 +394,9 @@ export default class SignaturePad extends Control implements ISized {
 			const enabled = control.getEnabled();
 			const valueState = control.getValueState();
 
-			let fontSize;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					break;
-			}
-
 			rm.openStart("div", control);
 			rm.class("sizedSignaturePad");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedSignaturePadDisabled");
@@ -453,7 +426,6 @@ export default class SignaturePad extends Control implements ISized {
 			if (control.getPlaceholder()) {
 				rm.openStart("span", control.getId() + "-placeholder");
 				rm.class("sizedSignaturePadPlaceholder");
-				rm.style("font-size", fontSize);
 				rm.openEnd();
 				rm.text(control.getPlaceholder());
 				rm.close("span");

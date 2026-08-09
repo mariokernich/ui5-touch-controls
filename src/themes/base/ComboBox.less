@@ -2,10 +2,14 @@
 
 /* the field frame and the arrow, see Field.less */
 .touchField(sizedComboBox);
+.touchFieldSize(sizedComboBox);
 .touchFieldArrow(sizedComboBox);
 
 .sizedComboBoxInner {
 	flex: 1 1 auto;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	padding-right: var(--sized-padding-x);
 	min-width: 0;
 	background: transparent;
 	border: none;

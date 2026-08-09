@@ -9,7 +9,7 @@ import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import Button from "./Button";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * A simplified variant of <code>sap.m.ComboBox</code> for touch devices.
@@ -477,68 +477,9 @@ export default class ComboBox extends Control implements ISized {
 			const interactive = enabled && editable;
 			const valueState = control.getValueState();
 
-			let fontSize, arrowSize, sidePadding, height;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					arrowSize = "0.875rem";
-					sidePadding = "10px";
-					height = "2rem";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					arrowSize = "1rem";
-					sidePadding = "10px";
-					height = "2.3rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					arrowSize = "1.25rem";
-					sidePadding = "12px";
-					height = "3rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					arrowSize = "1.5rem";
-					sidePadding = "14px";
-					height = "3.5rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					arrowSize = "1.55rem";
-					sidePadding = "16px";
-					height = "4rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					arrowSize = "1.65rem";
-					sidePadding = "18px";
-					height = "4.5rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					arrowSize = "1.85rem";
-					sidePadding = "20px";
-					height = "5rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					arrowSize = "2.05rem";
-					sidePadding = "22px";
-					height = "5.5rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					arrowSize = "2.25rem";
-					sidePadding = "24px";
-					height = "6rem";
-					break;
-			}
-
 			rm.openStart("div", control);
 			rm.class("sizedComboBox");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedComboBoxDisabled");
@@ -550,8 +491,6 @@ export default class ComboBox extends Control implements ISized {
 				rm.class(`sizedComboBox${valueState}`);
 			}
 
-			rm.style("height", height);
-			rm.style("min-width", `calc(${height} * 2)`);
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
 			}
@@ -565,9 +504,6 @@ export default class ComboBox extends Control implements ISized {
 			rm.class("sizedComboBoxInner");
 			rm.attr("type", "text");
 			rm.attr("autocomplete", "off");
-			rm.style("font-size", fontSize);
-			rm.style("padding-left", sidePadding);
-			rm.style("padding-right", sidePadding);
 			if (control.getValue()) {
 				rm.attr("value", control.getValue());
 			}
@@ -584,8 +520,6 @@ export default class ComboBox extends Control implements ISized {
 			if (editable) {
 				rm.openStart("span", control.getId() + "-arrow");
 				rm.class("sizedComboBoxArrow");
-				rm.style("width", height);
-				rm.style("font-size", arrowSize);
 				rm.openEnd();
 				rm.close("span");
 			}

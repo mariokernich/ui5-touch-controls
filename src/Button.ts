@@ -1,12 +1,11 @@
 import { ButtonType } from "sap/m/library";
 import { MetadataOptions } from "sap/ui/core/Element";
 import IconPool from "sap/ui/core/IconPool";
-import Icon from "sap/ui/core/Icon";
 import RenderManager from "sap/ui/core/RenderManager";
 import Parameters from "sap/ui/core/theming/Parameters";
 import Image from "sap/m/Image";
 import Control from "sap/ui/core/Control";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * @namespace ui5.touch.controls
@@ -67,71 +66,11 @@ export default class Button extends Control implements ISized {
 			const type = control.getType();
 			const icon = control.getIcon();
 
-			let fontSize, iconSize, sidePadding, height;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					iconSize = "0.875rem";
-					sidePadding = "16px";
-					height = "2rem";
-					break;
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					iconSize = "1rem";
-					sidePadding = "10px";
-					height = "2.3rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					iconSize = "1.25rem";
-					sidePadding = "24px";
-					height = "3rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					iconSize = "1.5rem";
-					sidePadding = "28px";
-					height = "3.5rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					iconSize = "1.55rem";
-					sidePadding = "32px";
-					height = "4rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					iconSize = "1.65rem";
-					sidePadding = "36px";
-					height = "4.5rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					iconSize = "1.85rem";
-					sidePadding = "40px";
-					height = "5rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					iconSize = "2.05rem";
-					sidePadding = "44px";
-					height = "5.5rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					iconSize = "2.25rem";
-					sidePadding = "48px";
-					height = "6rem";
-					break;
-			}
 			// START: BUTTON
 			rm.openStart("button", control);
 			rm.class(`sizedButton`);
 			rm.class(`sizedButton${type}`);
-			rm.style("padding-left", sidePadding);
-			rm.style("padding-right", sidePadding);
-			rm.style("height", height);
+			rm.class(sizeClass(control.getSize()));
 
 			if (!control.getEnabled()) {
 				rm.attr("disabled", "disabled");
@@ -150,15 +89,6 @@ export default class Button extends Control implements ISized {
 				},
 				Image,
 			);
-
-			if (iconSize && iconControl) {
-				if (iconControl instanceof Icon) {
-					iconControl.setSize(iconSize);
-				} else if (iconControl instanceof Image) {
-					iconControl.setWidth(iconSize);
-					iconControl.setHeight(iconSize);
-				}
-			}
 
 			if (!enabled) {
 				rm.attr("disabled", "disabled");
@@ -196,7 +126,6 @@ export default class Button extends Control implements ISized {
 			// START: SPAN-CONTENT
 			rm.openStart("span", id + "-content");
 			rm.class("sizedButtonContent");
-			rm.style("font-size", fontSize);
 			rm.openEnd();
 			rm.text(text);
 

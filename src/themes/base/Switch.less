@@ -1,14 +1,21 @@
 /* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
 
 /*
- * The renderer writes only the height; width, handle, inset and font size are
- * derived from it, so every size mode keeps the same proportions.
+ * Everything is derived from one height, which comes from the size ladder in
+ * Sizing.less: the track is twice as wide, the handle three quarters as high
+ * as the track, as in sap.m - so every size mode keeps the same proportions.
  *
  * The colors come from the @sapButton_Track_* / @sapButton_Handle_* family -
  * the parameters the themes provide for exactly this control - so the switch
  * follows the theme instead of borrowing colors from somewhere else.
  */
 .sizedSwitch {
+	height: var(--sized-switch-height);
+	width: ~"calc(var(--sized-switch-height) * 2)";
+	font-size: ~"calc(var(--sized-switch-height) * 0.375)";
+	--sized-switch-handle: ~"calc(var(--sized-switch-height) * 0.75)";
+	--sized-switch-handle-width: ~"calc(var(--sized-switch-height) * 1.15)";
+	--sized-switch-inset: ~"calc(var(--sized-switch-height) * 0.125)";
 	display: inline-block;
 	position: relative;
 	box-sizing: border-box;

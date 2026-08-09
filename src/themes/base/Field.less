@@ -130,8 +130,23 @@
 }
 
 /*
- * The arrow at the end of such a field: a square, so it grows with the height
- * the renderer writes.
+ * The height of a field and the width it never falls below, both from the size
+ * ladder. This is separate from the frame above because not everything that
+ * wears the frame is a field of that kind - the signature pad has a height of
+ * its own.
+ *
+ * @minWidthFactor is in field heights: a field that only holds a value keeps
+ * two of them, one that holds a formatted date or a scanned code keeps three.
+ */
+.touchFieldSize(@base; @minWidthFactor: 2) {
+	.@{base} {
+		height: var(--sized-height);
+		min-width: ~"calc(var(--sized-height) * @{minWidthFactor})";
+	}
+}
+
+/*
+ * The arrow at the end of such a field.
  */
 .touchFieldArrow(@base) {
 	.@{base}Arrow {
@@ -139,6 +154,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		/* a square at the end of the field, so it grows with its height */
+		width: var(--sized-height);
+		font-size: var(--sized-icon-size);
 		color: @sapContent_IconColor;
 	}
 

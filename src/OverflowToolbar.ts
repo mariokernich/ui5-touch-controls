@@ -186,7 +186,6 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 
 		button.setSize(size);
 		button.setSidePadding("0px");
-		button.setWidth(OverflowToolbar.getOverflowButtonSize(size));
 	}
 
 	onAfterRendering(event: jQuery.Event): void {
@@ -262,35 +261,6 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 		}
 
 		return popover;
-	}
-
-	/**
-	 * Returns the square size (width and height) of the overflow button for the
-	 * given size mode - it matches the height the library's button renders for
-	 * that size.
-	 */
-	private static getOverflowButtonSize(size: SizeMode): string {
-		switch (size) {
-			case SizeMode.S:
-				return "2rem";
-			default:
-			case SizeMode.M:
-				return "2.3rem";
-			case SizeMode.L:
-				return "3rem";
-			case SizeMode.XL:
-				return "3.5rem";
-			case SizeMode["2XL"]:
-				return "4rem";
-			case SizeMode["3XL"]:
-				return "4.5rem";
-			case SizeMode["4XL"]:
-				return "5rem";
-			case SizeMode["5XL"]:
-				return "5.5rem";
-			case SizeMode["6XL"]:
-				return "6rem";
-		}
 	}
 
 	/**

@@ -1,7 +1,9 @@
 @import "/resources/sap/ui/core/themes/base/base.less";
 @import "/resources/sap/ui/core/themes/base/global.less";
 
-/* mixin library, has to be imported before the controls that use it */
+/* the size ladder every control reads from, and the mixin library - both have
+   to come before the controls that use them */
+@import "Sizing.less";
 @import "Field.less";
 
 @import "BarcodeInput.less";

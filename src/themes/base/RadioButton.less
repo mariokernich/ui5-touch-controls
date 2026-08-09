@@ -7,6 +7,14 @@
  * dashed read-only ring included.
  */
 .sizedRadioButton {
+	/* The box sits in a square hit area, so the padding on each side is half
+	   the box - which also makes the whole row exactly twice as high as the
+	   box, as in the sap.m original. */
+	min-height: ~"calc(var(--sized-indicator-size) * 2)";
+	padding: 0 ~"calc(var(--sized-indicator-size) / 2)";
+	gap: ~"calc(var(--sized-indicator-size) / 2)";
+	/* the focus ring scales with the control, see below */
+	--sized-radio-button-focus-inset: ~"calc(var(--sized-indicator-size) / 4)";
 	display: inline-flex;
 	align-items: center;
 	position: relative;
@@ -20,6 +28,8 @@
 
 .sizedRadioButtonCircle {
 	flex: none;
+	width: var(--sized-indicator-size);
+	height: var(--sized-indicator-size);
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -43,11 +53,17 @@
 }
 
 .sizedRadioButtonLabel {
+	font-size: var(--sized-font-size);
 	font-family: @sapFontFamily;
 	color: @sapField_TextColor;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.sizedRadioButtonWrapping {
+	padding-top: ~"calc(var(--sized-indicator-size) / 4)";
+	padding-bottom: ~"calc(var(--sized-indicator-size) / 4)";
 }
 
 .sizedRadioButtonWrapping .sizedRadioButtonLabel {

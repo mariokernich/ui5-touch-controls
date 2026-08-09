@@ -2,7 +2,7 @@ import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * The event UI5 hands to the event handlers, narrowed to what is used here.
@@ -200,55 +200,13 @@ export default class RadioButton extends Control implements ISized {
 			const text = control.getText();
 			const wrapping = control.getWrapping();
 
-			let fontSize, circleSize;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					circleSize = "1.125rem";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					circleSize = "1.375rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					circleSize = "1.5rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					circleSize = "1.75rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					circleSize = "2rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					circleSize = "2.25rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					circleSize = "2.5rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					circleSize = "2.75rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					circleSize = "3rem";
-					break;
-			}
 
 			// same geometry as the check box: the circle sits in a square hit
 			// area, so the row is twice as high as the circle
-			const halfCircle = `calc(${circleSize} / 2)`;
-			const quarterCircle = `calc(${circleSize} / 4)`;
 
 			rm.openStart("div", control);
 			rm.class("sizedRadioButton");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedRadioButtonDisabled");
@@ -263,11 +221,6 @@ export default class RadioButton extends Control implements ISized {
 				rm.class(`sizedRadioButton${valueState}`);
 			}
 
-			rm.style("min-height", `calc(${circleSize} * 2)`);
-			rm.style("padding", `${wrapping ? quarterCircle : "0"} ${halfCircle}`);
-			rm.style("gap", halfCircle);
-			// the focus ring scales with the control, see RadioButton.less
-			rm.style("--sized-radio-button-focus-inset", quarterCircle);
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
 			}
@@ -287,15 +240,12 @@ export default class RadioButton extends Control implements ISized {
 			if (selected) {
 				rm.class("sizedRadioButtonSelected");
 			}
-			rm.style("width", circleSize);
-			rm.style("height", circleSize);
 			rm.openEnd();
 			rm.close("div");
 
 			if (text) {
 				rm.openStart("span", control.getId() + "-label");
 				rm.class("sizedRadioButtonLabel");
-				rm.style("font-size", fontSize);
 				rm.openEnd();
 				rm.text(text);
 				rm.close("span");

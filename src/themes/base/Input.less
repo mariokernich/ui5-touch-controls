@@ -18,6 +18,7 @@
  * reason; the shorthand has to come first because it resets the color.
  */
 .sizedInputContentWrapper {
+	height: var(--sized-height);
 	box-sizing: border-box;
 	display: inline-block;
 	position: relative;
@@ -65,6 +66,9 @@
 
 .sizedInputInner {
 	background: transparent;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	padding-right: var(--sized-padding-x);
 	border: none;
 	outline: none;
 	font-family: @sapFontFamily;

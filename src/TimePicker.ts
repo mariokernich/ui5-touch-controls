@@ -9,7 +9,7 @@ import { ValueState } from "sap/ui/core/library";
 import DateFormat from "sap/ui/core/format/DateFormat";
 import Button from "./Button";
 import Text from "./Text";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * A simplified variant of <code>sap.m.TimePicker</code> for touch devices.
@@ -518,68 +518,9 @@ export default class TimePicker extends Control implements ISized {
 			const interactive = enabled && editable;
 			const valueState = control.getValueState();
 
-			let fontSize, iconSize, sidePadding, height;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					iconSize = "0.875rem";
-					sidePadding = "10px";
-					height = "2rem";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					iconSize = "1rem";
-					sidePadding = "10px";
-					height = "2.3rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					iconSize = "1.25rem";
-					sidePadding = "12px";
-					height = "3rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					iconSize = "1.5rem";
-					sidePadding = "14px";
-					height = "3.5rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					iconSize = "1.55rem";
-					sidePadding = "16px";
-					height = "4rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					iconSize = "1.65rem";
-					sidePadding = "18px";
-					height = "4.5rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					iconSize = "1.85rem";
-					sidePadding = "20px";
-					height = "5rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					iconSize = "2.05rem";
-					sidePadding = "22px";
-					height = "5.5rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					iconSize = "2.25rem";
-					sidePadding = "24px";
-					height = "6rem";
-					break;
-			}
-
 			rm.openStart("div", control);
 			rm.class("sizedTimePicker");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedTimePickerDisabled");
@@ -591,8 +532,6 @@ export default class TimePicker extends Control implements ISized {
 				rm.class(`sizedTimePicker${valueState}`);
 			}
 
-			rm.style("height", height);
-			rm.style("min-width", `calc(${height} * 3)`);
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
 			}
@@ -606,9 +545,6 @@ export default class TimePicker extends Control implements ISized {
 			rm.class("sizedTimePickerInner");
 			rm.attr("type", "text");
 			rm.attr("autocomplete", "off");
-			rm.style("font-size", fontSize);
-			rm.style("padding-left", sidePadding);
-			rm.style("padding-right", sidePadding);
 
 			const text = control.getDisplayValue();
 			if (text) {
@@ -627,8 +563,6 @@ export default class TimePicker extends Control implements ISized {
 			if (editable) {
 				rm.openStart("span", control.getId() + "-icon");
 				rm.class("sizedTimePickerIcon");
-				rm.style("width", height);
-				rm.style("font-size", iconSize);
 				rm.openEnd();
 				rm.close("span");
 			}

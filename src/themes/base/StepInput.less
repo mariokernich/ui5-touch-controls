@@ -8,7 +8,15 @@
 	gap: 0.25rem;
 	vertical-align: middle;
 
+	/* the two buttons are square, the field between them is as wide as the
+	   digits of a step usually need - both from the size ladder */
+	.sizedButton {
+		width: var(--sized-height);
+	}
+
 	.sizedInput {
+		width: var(--sized-step-field-width);
+
 		.sizedInputInner {
 			text-align: center;
 

@@ -4,7 +4,7 @@ import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 import type VirtualKeyboard from "./VirtualKeyboard";
 
 /**
@@ -182,60 +182,10 @@ export default class TextArea extends Control implements ISized {
 			const editable = control.getEditable();
 			const valueState = control.getValueState();
 
-			let fontSize, sidePadding, verticalPadding;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					sidePadding = "10px";
-					verticalPadding = "6px";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					sidePadding = "10px";
-					verticalPadding = "7px";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					sidePadding = "12px";
-					verticalPadding = "8px";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					sidePadding = "14px";
-					verticalPadding = "10px";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					sidePadding = "16px";
-					verticalPadding = "12px";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					sidePadding = "18px";
-					verticalPadding = "14px";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					sidePadding = "20px";
-					verticalPadding = "16px";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					sidePadding = "22px";
-					verticalPadding = "18px";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					sidePadding = "24px";
-					verticalPadding = "20px";
-					break;
-			}
-
 			// START: outer container (see sap.m.InputBaseRenderer.render)
 			rm.openStart("div", control);
 			rm.class("sizedTextArea");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedTextAreaDisabled");
@@ -265,9 +215,6 @@ export default class TextArea extends Control implements ISized {
 			// START: inner textarea element
 			rm.openStart("textarea", id + "-inner");
 			rm.class("sizedTextAreaInner");
-
-			rm.style("font-size", fontSize);
-			rm.style("padding", `${verticalPadding} ${sidePadding}`);
 
 			rm.attr("rows", `${Math.max(1, control.getRows())}`);
 

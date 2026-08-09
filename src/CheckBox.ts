@@ -2,7 +2,7 @@ import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * The event UI5 hands to the event handlers, narrowed to what is used here.
@@ -175,67 +175,13 @@ export default class CheckBox extends Control implements ISized {
 			const valueState = control.getValueState();
 			const text = control.getText();
 
-			let fontSize, boxSize, markSize;
 
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					boxSize = "1.125rem";
-					markSize = "0.8125rem";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					boxSize = "1.375rem";
-					markSize = "1rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					boxSize = "1.5rem";
-					markSize = "1.125rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					boxSize = "1.75rem";
-					markSize = "1.25rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					boxSize = "2rem";
-					markSize = "1.5rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					boxSize = "2.25rem";
-					markSize = "1.625rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					boxSize = "2.5rem";
-					markSize = "1.875rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					boxSize = "2.75rem";
-					markSize = "2rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					boxSize = "3rem";
-					markSize = "2.25rem";
-					break;
-			}
-
-			// The box sits in a square hit area, so the padding on each side is
-			// half the box - which also makes the whole row exactly twice as
-			// high as the box, as in sap.m.CheckBox.
-			const halfBox = `calc(${boxSize} / 2)`;
-			const quarterBox = `calc(${boxSize} / 4)`;
 			const wrapping = control.getWrapping();
 
 			// START: outer container, it carries the checkbox semantics
 			rm.openStart("div", control);
 			rm.class("sizedCheckBox");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedCheckBoxDisabled");
@@ -250,14 +196,6 @@ export default class CheckBox extends Control implements ISized {
 				rm.class(`sizedCheckBox${valueState}`);
 			}
 
-			rm.style("min-height", `calc(${boxSize} * 2)`);
-			// a wrapping label may grow past the minimum height, so it needs a
-			// gap to the edge - min-height includes it, so the collapsed
-			// control keeps its height
-			rm.style("padding", `${wrapping ? quarterBox : "0"} ${halfBox}`);
-			rm.style("gap", halfBox);
-			// the focus ring scales with the control, see CheckBox.less
-			rm.style("--sized-check-box-focus-inset", quarterBox);
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
 			}
@@ -282,9 +220,6 @@ export default class CheckBox extends Control implements ISized {
 			if (partiallySelected) {
 				rm.class("sizedCheckBoxPartial");
 			}
-			rm.style("width", boxSize);
-			rm.style("height", boxSize);
-			rm.style("font-size", markSize);
 			rm.openEnd();
 			rm.close("div");
 			// END: the box itself
@@ -292,7 +227,6 @@ export default class CheckBox extends Control implements ISized {
 			if (text) {
 				rm.openStart("span", control.getId() + "-label");
 				rm.class("sizedCheckBoxLabel");
-				rm.style("font-size", fontSize);
 				rm.openEnd();
 				rm.text(text);
 				rm.close("span");

@@ -2,7 +2,7 @@ import { SwitchType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * The event UI5 hands to the event handlers, narrowed to what is used here.
@@ -170,41 +170,10 @@ export default class Switch extends Control implements ISized {
 			const state = control.getState();
 			const acceptReject = control.getType() === SwitchType.AcceptReject;
 
-			let height;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					height = "1.5rem";
-					break;
-				default:
-				case SizeMode.M:
-					height = "2rem";
-					break;
-				case SizeMode.L:
-					height = "2.25rem";
-					break;
-				case SizeMode.XL:
-					height = "2.75rem";
-					break;
-				case SizeMode["2XL"]:
-					height = "3rem";
-					break;
-				case SizeMode["3XL"]:
-					height = "3.5rem";
-					break;
-				case SizeMode["4XL"]:
-					height = "4rem";
-					break;
-				case SizeMode["5XL"]:
-					height = "4.5rem";
-					break;
-				case SizeMode["6XL"]:
-					height = "5rem";
-					break;
-			}
 
 			rm.openStart("div", control);
 			rm.class("sizedSwitch");
+			rm.class(sizeClass(control.getSize()));
 			rm.class(state ? "sizedSwitchOn" : "sizedSwitchOff");
 			if (acceptReject) {
 				rm.class("sizedSwitchAcceptReject");
@@ -212,16 +181,6 @@ export default class Switch extends Control implements ISized {
 			if (!enabled) {
 				rm.class("sizedSwitchDisabled");
 			}
-
-			// everything is derived from the height, so one value per size mode
-			// is enough: the track is twice as wide, the handle three quarters
-			// as high as the track, as in sap.m
-			rm.style("height", height);
-			rm.style("width", `calc(${height} * 2)`);
-			rm.style("font-size", `calc(${height} * 0.375)`);
-			rm.style("--sized-switch-handle", `calc(${height} * 0.75)`);
-			rm.style("--sized-switch-handle-width", `calc(${height} * 1.15)`);
-			rm.style("--sized-switch-inset", `calc(${height} * 0.125)`);
 
 			rm.attr("role", "switch");
 			rm.attr("aria-checked", `${state}`);

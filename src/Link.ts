@@ -1,7 +1,7 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * A simplified variant of <code>sap.m.Link</code> for touch devices.
@@ -107,33 +107,6 @@ export default class Link extends Control implements ISized {
 		}
 	}
 
-	/**
-	 * Returns the font size matching the current size mode.
-	 */
-	private getFontSize(): string {
-		switch (this.getSize()) {
-			case SizeMode.S:
-				return "0.75rem";
-			default:
-			case SizeMode.M:
-				return "0.875rem";
-			case SizeMode.L:
-				return "1rem";
-			case SizeMode.XL:
-				return "1.125rem";
-			case SizeMode["2XL"]:
-				return "1.25rem";
-			case SizeMode["3XL"]:
-				return "1.5rem";
-			case SizeMode["4XL"]:
-				return "1.75rem";
-			case SizeMode["5XL"]:
-				return "2rem";
-			case SizeMode["6XL"]:
-				return "2.25rem";
-		}
-	}
-
 	static renderer = {
 		apiVersion: 2,
 		render(rm: RenderManager, control: Link) {
@@ -144,6 +117,7 @@ export default class Link extends Control implements ISized {
 
 			rm.openStart("a", control);
 			rm.class("sizedLink");
+			rm.class(sizeClass(control.getSize()));
 			if (control.getWrapping()) {
 				rm.class("sizedLinkWrapping");
 			}
@@ -157,7 +131,6 @@ export default class Link extends Control implements ISized {
 				rm.class("sizedLinkDisabled");
 			}
 
-			rm.style("font-size", control.getFontSize());
 			if (width) {
 				rm.style("width", width);
 			}

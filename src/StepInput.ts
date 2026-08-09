@@ -219,66 +219,10 @@ export default class StepInput extends Control implements ISized {
 		}
 	}
 
-	/**
-	 * Returns the input width matching the current size.
-	 */
-	private getInputWidth(): string {
-		switch (this.getSize()) {
-			case SizeMode.S:
-				return "3rem";
-			default:
-			case SizeMode.M:
-				return "3.5rem";
-			case SizeMode.L:
-				return "4rem";
-			case SizeMode.XL:
-				return "4.5rem";
-			case SizeMode["2XL"]:
-				return "5rem";
-			case SizeMode["3XL"]:
-				return "5.5rem";
-			case SizeMode["4XL"]:
-				return "6rem";
-			case SizeMode["5XL"]:
-				return "6.5rem";
-			case SizeMode["6XL"]:
-				return "7rem";
-		}
-	}
-
-	/**
-	 * Returns the square button width matching the current size
-	 * (same as the button height of the respective size).
-	 */
-	private getButtonWidth(): string {
-		switch (this.getSize()) {
-			case SizeMode.S:
-				return "2rem";
-			default:
-			case SizeMode.M:
-				return "2.3rem";
-			case SizeMode.L:
-				return "3rem";
-			case SizeMode.XL:
-				return "3.5rem";
-			case SizeMode["2XL"]:
-				return "4rem";
-			case SizeMode["3XL"]:
-				return "4.5rem";
-			case SizeMode["4XL"]:
-				return "5rem";
-			case SizeMode["5XL"]:
-				return "5.5rem";
-			case SizeMode["6XL"]:
-				return "6rem";
-		}
-	}
-
 	onBeforeRendering(): void {
 		const size = this.getSize();
 		const enabled = this.getEnabled();
 		const value = this.getNumericValue();
-		const buttonWidth = this.getButtonWidth();
 		const buttonType = this.getButtonType();
 
 		const minusButton = this.getMinusButton();
@@ -286,13 +230,11 @@ export default class StepInput extends Control implements ISized {
 		minusButton.setType(buttonType);
 		minusButton.setEnabled(enabled && value > this.getNumericMin());
 		minusButton.setSidePadding("0px");
-		minusButton.setWidth(buttonWidth);
 
 		const input = this.getInput();
 		input.setSize(size);
 		input.setEnabled(enabled);
 		input.setEditable(this.getEditable());
-		input.setWidth(this.getInputWidth());
 		input.setValue(`${value}`);
 
 		const plusButton = this.getPlusButton();
@@ -300,7 +242,6 @@ export default class StepInput extends Control implements ISized {
 		plusButton.setType(buttonType);
 		plusButton.setEnabled(enabled && value < this.getNumericMax());
 		plusButton.setSidePadding("0px");
-		plusButton.setWidth(buttonWidth);
 	}
 
 	static renderer = {

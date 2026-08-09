@@ -31,6 +31,22 @@ export enum SizeMode {
 }
 
 /**
+ * The CSS class that carries the size ladder for a size mode.
+ *
+ * A control renders it on its root element and then takes what it needs from
+ * the custom properties the class defines - <code>--sized-font-size</code>,
+ * <code>--sized-height</code> and so on. The values themselves live in
+ * <code>themes/base/Sizing.less</code>, which is the only place they are
+ * written down.
+ *
+ * @param size the size mode of the control
+ * @returns the class name, e.g. <code>sizedSizeXL</code>
+ */
+export function sizeClass(size: SizeMode): string {
+	return `sizedSize${size}`;
+}
+
+/**
  * Interface for controls that provide the library's central
  * <code>size</code> property ({@link ui5.touch.controls.SizeMode}).
  *

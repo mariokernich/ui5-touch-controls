@@ -4,7 +4,7 @@ import Control from "sap/ui/core/Control";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import RenderManager from "sap/ui/core/RenderManager";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 import type VirtualKeyboard from "./VirtualKeyboard";
 
 /**
@@ -179,60 +179,10 @@ export default class Input extends Control implements ISized {
 			const editable = control.getEditable();
 			const valueState = control.getValueState();
 
-			let fontSize, sidePadding, height;
-
-			switch (control.getSize()) {
-				case SizeMode.S:
-					fontSize = "0.75rem";
-					sidePadding = "10px";
-					height = "2rem";
-					break;
-				default:
-				case SizeMode.M:
-					fontSize = "0.875rem";
-					sidePadding = "10px";
-					height = "2.3rem";
-					break;
-				case SizeMode.L:
-					fontSize = "1rem";
-					sidePadding = "12px";
-					height = "3rem";
-					break;
-				case SizeMode.XL:
-					fontSize = "1.125rem";
-					sidePadding = "14px";
-					height = "3.5rem";
-					break;
-				case SizeMode["2XL"]:
-					fontSize = "1.25rem";
-					sidePadding = "16px";
-					height = "4rem";
-					break;
-				case SizeMode["3XL"]:
-					fontSize = "1.5rem";
-					sidePadding = "18px";
-					height = "4.5rem";
-					break;
-				case SizeMode["4XL"]:
-					fontSize = "1.75rem";
-					sidePadding = "20px";
-					height = "5rem";
-					break;
-				case SizeMode["5XL"]:
-					fontSize = "2rem";
-					sidePadding = "22px";
-					height = "5.5rem";
-					break;
-				case SizeMode["6XL"]:
-					fontSize = "2.25rem";
-					sidePadding = "24px";
-					height = "6rem";
-					break;
-			}
-
 			// START: outer container (see sap.m.InputBaseRenderer.render)
 			rm.openStart("div", control);
 			rm.class("sizedInput");
+			rm.class(sizeClass(control.getSize()));
 
 			if (!enabled) {
 				rm.class("sizedInputDisabled");
@@ -254,17 +204,12 @@ export default class Input extends Control implements ISized {
 				rm.class(`sizedInput${valueState}`);
 			}
 
-			rm.style("height", height);
 			rm.openEnd();
 
 			// START: inner input element
 			rm.voidStart("input", id + "-inner");
 			rm.class("sizedInputInner");
 			rm.attr("type", control.getType().toLowerCase());
-
-			rm.style("font-size", fontSize);
-			rm.style("padding-left", sidePadding);
-			rm.style("padding-right", sidePadding);
 
 			if (control.getValue()) {
 				rm.attr("value", control.getValue());

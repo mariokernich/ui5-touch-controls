@@ -2,9 +2,13 @@
 
 /* the field frame, see Field.less */
 .touchField(sizedDatePicker);
+.touchFieldSize(sizedDatePicker; 3);
 
 .sizedDatePickerInner {
 	flex: 1 1 auto;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	padding-right: var(--sized-padding-x);
 	min-width: 0;
 	background: transparent;
 	border: none;
@@ -25,6 +29,8 @@
 /* the calendar icon sits in a square at the end of the field */
 .sizedDatePickerIcon {
 	flex: none;
+	width: var(--sized-height);
+	font-size: var(--sized-icon-size);
 	display: flex;
 	align-items: center;
 	justify-content: center;
