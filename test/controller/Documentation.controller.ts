@@ -27,13 +27,11 @@ export default class Documentation extends BaseController {
 		this.setSnippets({
 			sizes: [
 				{
-					title: "Binding the size",
 					code: '<tc:Button text="Save" size="{settings>/touchSize}" press=".onSave" />',
 				},
 			],
 			isized: [
 				{
-					title: "Controller Code",
 					language: "typescript",
 					code: `
 import { ISized, SizeMode } from "ui5/touch/controls/library";
@@ -46,7 +44,6 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 			],
 			keyboard: [
 				{
-					title: "XML View",
 					code: `
 <tc:VirtualKeyboard
 	value="{/quantity}"
@@ -60,7 +57,6 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 			],
 			pitfallBroken: [
 				{
-					title: "Does not work",
 					code: `
 <!-- does NOT work — these aggregations only accept sap.m.Button -->
 <Dialog title="Delete order">
@@ -74,7 +70,6 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 			],
 			pitfallWorks: [
 				{
-					title: "Works",
 					code: `
 <!-- works — the footer takes any sap.m.Toolbar, so also the touch ones -->
 <Dialog title="Delete order">

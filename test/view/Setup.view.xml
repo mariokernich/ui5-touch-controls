@@ -151,7 +151,7 @@
 					items="{example>/namespace}">
 					<f:Card class="sapUiMediumMarginTop">
 						<f:header>
-							<cards:Header title="{example>title}" />
+							<cards:Header title="{i18n>exampleUsageXml}" />
 						</f:header>
 						<f:content>
 							<editor:CodeEditor
@@ -173,7 +173,7 @@
 			<f:header>
 				<cards:Header
 					title="{i18n>setupTypeScriptTitle}"
-					subtitle="{i188>setupTypeScriptSubtitle}" />
+					subtitle="{i18n>setupTypeScriptSubtitle}" />
 			</f:header>
 			<f:content>
 				<VBox

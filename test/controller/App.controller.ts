@@ -1,9 +1,11 @@
+import Localization from "sap/base/i18n/Localization";
 import type { Select$ChangeEvent } from "sap/m/Select";
 import type { SideNavigation$ItemSelectEvent } from "sap/tnt/SideNavigation";
 import type ToolPage from "sap/tnt/ToolPage";
 import type { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Theming from "sap/ui/core/Theming";
 import type JSONModel from "sap/ui/model/json/JSONModel";
+import type { PageInfo } from "../model/pages";
 import { allPages } from "../model/pages";
 import BaseController from "./BaseController";
 
@@ -55,20 +57,26 @@ export default class App extends BaseController {
 
 		this.model.setProperty("/currentKey", index >= 0 ? key : "");
 		this.model.setProperty("/previousKey", previous?.key ?? "");
-		this.model.setProperty(
-			"/previousTooltip",
-			previous ? `${this.getText("previous")}: ${previous.text}` : "",
-		);
+		this.model.setProperty("/previousText", this.getPageText(previous));
 		this.model.setProperty("/nextKey", next?.key ?? "");
-		this.model.setProperty(
-			"/nextTooltip",
-			next ? `${this.getText("next")}: ${next.text}` : "",
-		);
+		this.model.setProperty("/nextText", this.getPageText(next));
 
 		document.title =
 			index >= 0
-				? `ui5.touch.controls — ${allPages[index].text}`
+				? `ui5.touch.controls — ${this.getPageText(allPages[index])}`
 				: "ui5.touch.controls";
+	}
+
+	/**
+	 * Returns the name of a page in the current language. Only the
+	 * introductory pages are translated - the others are named after their
+	 * control.
+	 */
+	private getPageText(page: PageInfo | null): string {
+		if (!page) {
+			return "";
+		}
+		return page.textKey ? this.getText(page.textKey) : page.text;
 	}
 
 	public onMenuPress(): void {
@@ -86,6 +94,17 @@ export default class App extends BaseController {
 			| undefined;
 		if (key) {
 			this.getRouter().navTo(key);
+		}
+	}
+
+	/**
+	 * Switches the language of the whole demo. UI5 reloads the resource bundle
+	 * and re-renders everything, so nothing else has to be done here.
+	 */
+	public onLanguageChange(event: Select$ChangeEvent): void {
+		const language = event.getParameter("selectedItem")?.getKey();
+		if (language) {
+			Localization.setLanguage(language);
 		}
 	}
 

@@ -6,7 +6,9 @@
     "i18n": {
       "bundleUrl": "i18n/i18n.properties",
       "supportedLocales": [
-        ""
+        "",
+        "de",
+        "hi"
       ],
       "fallbackLocale": ""
     },
@@ -48,7 +50,9 @@
         "settings": {
           "bundleName": "ui5.touch.controls.demo.i18n.i18n",
           "supportedLocales": [
-            ""
+            "",
+            "de",
+            "hi"
           ],
           "fallbackLocale": ""
         }

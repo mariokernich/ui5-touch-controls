@@ -165,7 +165,7 @@
 					<VBox width="100%" items="{example>/sizes}">
 						<f:Card class="sapUiMediumMarginTop">
 							<f:header>
-								<cards:Header title="{example>title}" />
+								<cards:Header title="{i18n>docSizesExample}" />
 							</f:header>
 							<f:content>
 								<editor:CodeEditor
@@ -201,7 +201,7 @@
 					<VBox width="100%" items="{example>/isized}">
 						<f:Card class="sapUiMediumMarginTop">
 							<f:header>
-								<cards:Header title="{example>title}" />
+								<cards:Header title="{i18n>exampleUsageController}" />
 							</f:header>
 							<f:content>
 								<editor:CodeEditor
@@ -231,7 +231,7 @@
 					width="100%"
 					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 					<FormattedText
-						htmlText="{i188>docKeyboardText1}"
+						htmlText="{i18n>docKeyboardText1}"
 						width="100%"
 						class="sapUiTinyMarginTop" />
 					<FormattedText
@@ -241,7 +241,7 @@
 					<VBox width="100%" items="{example>/keyboard}">
 						<f:Card class="sapUiMediumMarginTop">
 							<f:header>
-								<cards:Header title="{example>title}" />
+								<cards:Header title="{i18n>exampleUsageXml}" />
 							</f:header>
 							<f:content>
 								<editor:CodeEditor
@@ -281,7 +281,7 @@
 					<VBox width="100%" items="{example>/pitfallBroken}">
 						<f:Card class="sapUiMediumMarginTop">
 							<f:header>
-								<cards:Header title="{example>title}" />
+								<cards:Header title="{i18n>docPitfallBrokenTitle}" />
 							</f:header>
 							<f:content>
 								<editor:CodeEditor
@@ -302,7 +302,7 @@
 					<VBox width="100%" items="{example>/pitfallWorks}">
 						<f:Card class="sapUiMediumMarginTop">
 							<f:header>
-								<cards:Header title="{example>title}" />
+								<cards:Header title="{i18n>docPitfallWorksTitle}" />
 							</f:header>
 							<f:content>
 								<editor:CodeEditor

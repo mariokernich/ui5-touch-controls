@@ -11,7 +11,7 @@ export interface Snippet {
 	code: string;
 	/** the CodeEditor language, e.g. "xml", "json", "sh" or "typescript" */
 	language?: string;
-	/** card title, defaults to a language specific one */
+	/** card title; without one the view falls back to a translated default */
 	title?: string;
 }
 
@@ -67,11 +67,10 @@ export default abstract class BaseController extends Controller {
 					// the CodeEditor does not grow with its content, so the height is
 					// derived from the number of lines
 					height: `${code.split("\n").length + 2}rem`,
-					title:
-						normalized.title ??
-						this.getText(
-							language === "xml" ? "exampleUsageXml" : "exampleUsageController",
-						),
+					// an empty title means "use the default", which the view derives
+					// from the language - resolving it here would freeze it in the
+					// language that was active when the page was built
+					title: normalized.title ?? "",
 				};
 			});
 		}
@@ -85,7 +84,8 @@ export default abstract class BaseController extends Controller {
 	 *
 	 * @param code the snippet to display
 	 * @param language the CodeEditor language, defaults to "xml"
-	 * @param title card title, defaults to a language specific one
+	 * @param title card title, defaults to the one the view derives from the
+	 *   language
 	 */
 	protected setExample(code: string, language = "xml", title?: string): void {
 		this.setSnippets({

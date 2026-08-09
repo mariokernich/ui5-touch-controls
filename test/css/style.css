@@ -27,3 +27,8 @@ body,
 .touchControlsDemoPage {
 	height: 20rem;
 }
+
+/* the version sits next to the switches in the header, quieter than they are */
+.touchControlsHeaderVersion {
+	opacity: 0.75;
+}

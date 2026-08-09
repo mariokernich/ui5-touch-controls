@@ -23,6 +23,20 @@
 					press=".onLogoPress"
 					class="touchControlsHeaderLogo" />
 				<ToolbarSpacer />
+				<Text
+					text="{app>/version}"
+					tooltip="{i18n>versionTooltip}"
+					class="touchControlsHeaderVersion sapUiTinyMarginEnd" />
+				<!-- the languages are named in their own language, so the entries
+				     read the same whichever one is active -->
+				<Select
+					tooltip="{i18n>language}"
+					selectedKey="{app>/language}"
+					change=".onLanguageChange">
+					<core:Item key="en" text="English" />
+					<core:Item key="de" text="Deutsch" />
+					<core:Item key="hi" text="हिन्दी" />
+				</Select>
 				<Select
 					tooltip="{i18n>theme}"
 					selectedKey="{app>/theme}"
@@ -38,13 +52,13 @@
 					icon="sap-icon://navigation-left-arrow"
 					type="Transparent"
 					enabled="{= !!${app>/previousKey} }"
-					tooltip="{app>/previousTooltip}"
+					tooltip="{= ${app>/previousKey} ? ${i18n>previous} + ': ' + ${app>/previousText} : '' }"
 					press=".onPreviousPress" />
 				<Button
 					icon="sap-icon://navigation-right-arrow"
 					type="Transparent"
 					enabled="{= !!${app>/nextKey} }"
-					tooltip="{app>/nextTooltip}"
+					tooltip="{= ${app>/nextKey} ? ${i18n>next} + ': ' + ${app>/nextText} : '' }"
 					press=".onNextPress" />
 				<Link
 					text="{i18n>github}"

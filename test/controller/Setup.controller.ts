@@ -65,7 +65,6 @@ server:
 			],
 			namespace: [
 				{
-					title: "XML View",
 					code: `
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"

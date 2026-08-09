@@ -10,6 +10,12 @@ export interface PageInfo {
 	key: string;
 	/** label shown in the side navigation */
 	text: string;
+	/**
+	 * i18n key of the label, for the pages whose name is translated. The
+	 * control pages carry the name of their control, which is the same in
+	 * every language.
+	 */
+	textKey?: string;
 	icon: string;
 }
 
@@ -22,11 +28,22 @@ export interface PageInfo {
  * They are only used for the previous/next buttons and the page title.
  */
 export const introPages: PageInfo[] = [
-	{ key: "GettingStarted", text: "Getting Started", icon: "sap-icon://home" },
-	{ key: "Setup", text: "Setup", icon: "sap-icon://wrench" },
+	{
+		key: "GettingStarted",
+		text: "Getting Started",
+		textKey: "navGettingStarted",
+		icon: "sap-icon://home",
+	},
+	{
+		key: "Setup",
+		text: "Setup",
+		textKey: "navSetup",
+		icon: "sap-icon://wrench",
+	},
 	{
 		key: "Documentation",
 		text: "Documentation",
+		textKey: "navDocumentation",
 		icon: "sap-icon://documents",
 	},
 ];

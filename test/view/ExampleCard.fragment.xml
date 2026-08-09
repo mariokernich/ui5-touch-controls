@@ -10,7 +10,11 @@
 	<VBox width="100%" items="{example>/main}">
 		<f:Card>
 			<f:header>
-				<cards:Header title="{example>title}" />
+				<!-- without an explicit title the card falls back to a translated
+				     default; binding it here instead of resolving it in the
+				     controller keeps it following the language switch -->
+				<cards:Header
+					title="{= ${example>title} || (${example>language} === 'xml' ? ${i18n>exampleUsageXml} : ${i18n>exampleUsageController}) }" />
 			</f:header>
 			<f:content>
 				<editor:CodeEditor
