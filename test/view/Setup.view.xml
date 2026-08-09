@@ -173,7 +173,7 @@
 			<f:header>
 				<cards:Header
 					title="{i18n>setupTypeScriptTitle}"
-					subtitle="{i18n>setupTypeScriptSubtitle}" />
+					subtitle="{i188>setupTypeScriptSubtitle}" />
 			</f:header>
 			<f:content>
 				<VBox
@@ -213,11 +213,11 @@
 			alignItems="Center"
 			class="touchControlsCardRow sapUiSmallMarginBottom">
 			<Button
-				text="Getting Started"
+				text="{i18n>navGettingStarted}"
 				icon="sap-icon://navigation-left-arrow"
 				press=".onGettingStartedPress" />
 			<Button
-				text="Documentation"
+				text="{i18n>navDocumentation}"
 				icon="sap-icon://navigation-right-arrow"
 				iconFirst="false"
 				type="Emphasized"

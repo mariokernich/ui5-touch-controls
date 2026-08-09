@@ -14,14 +14,14 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="DatePicker Options" />
+					<cards:Header title="{i18n>optionsDatePicker}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Display format" width="110px" />
+							<Text text="{i18n>lblDisplayFormat}" width="110px" />
 							<Select selectedKey="{json>/displayFormat}">
 								<core:Item key="short" text="short" />
 								<core:Item key="medium" text="medium" />
@@ -33,13 +33,13 @@
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
 						<HBox alignItems="Center" wrap="Wrap">
-							<Text text="Behavior" width="110px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Editable" selected="{json>/editable}" />
-							<CheckBox text="Today ± 10 days only" selected="{json>/limited}" />
+							<Text text="{i18n>lblBehavior}" width="110px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+							<CheckBox text="{i18n>cbTodayLimited}" selected="{json>/limited}" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Value" width="110px" />
+							<Text text="{i18n>lblValue}" width="110px" />
 							<Text text="{json>/value}" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
@@ -63,7 +63,7 @@
 							id="sizedPicker"
 							value="{json>/value}"
 							displayFormat="{json>/displayFormat}"
-							placeholder="Pick a date..."
+							placeholder="{i18n>phPickDate}"
 							size="{json>/size}"
 							enabled="{json>/enabled}"
 							editable="{json>/editable}"
@@ -91,7 +91,7 @@
 							value="{json>/value}"
 							valueFormat="yyyy-MM-dd"
 							displayFormat="{json>/displayFormat}"
-							placeholder="Pick a date..."
+							placeholder="{i18n>phPickDate}"
 							enabled="{json>/enabled}"
 							editable="{json>/editable}"
 							valueState="{json>/valueState}"

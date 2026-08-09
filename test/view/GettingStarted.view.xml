@@ -180,16 +180,16 @@
 						alignItems="Center"
 						class="touchControlsCardRow sapUiSmallMarginTop">
 						<Button
-							text="Setup"
+							text="{i18n>navSetup}"
 							icon="sap-icon://wrench"
 							type="Emphasized"
 							press=".onSetupPress" />
 						<Button
-							text="Documentation"
+							text="{i18n>navDocumentation}"
 							icon="sap-icon://documents"
 							press=".onDocumentationPress" />
 						<Button
-							text="Explore the Button"
+							text="{i18n>btnExploreButton}"
 							icon="sap-icon://navigation-right-arrow"
 							iconFirst="false"
 							press=".onButtonPress" />

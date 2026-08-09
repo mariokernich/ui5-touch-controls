@@ -2,7 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
 	xmlns:unified="sap.ui.unified">
-	<ResponsivePopover title="Pick a Color" placement="Bottom">
+	<ResponsivePopover title="{i18n>colorPickerTitle}" placement="Bottom">
 		<unified:ColorPicker
 			colorString="{json>/color}"
 			mode="HSL"

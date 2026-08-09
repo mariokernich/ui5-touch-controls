@@ -14,22 +14,22 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="SegmentedButton Options" />
+					<cards:Header title="{i18n>optionsSegmentedButton}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<Text
-							text="size only exists on the touch control — sap.m.SegmentedButton stays at its fixed height."
+							text="{i18n>sbSizeNote}"
 							class="sapUiTinyMarginTop" />
 						<HBox alignItems="Center">
-							<Text text="Behavior" width="100px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Full width" select=".onFullWidthSelect" />
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbFullWidth}" select=".onFullWidthSelect" />
 						</HBox>
 						<Text
-							text="Both controls share the same model, so selecting a segment on one side moves the other one as well."
+							text="{i18n>sbSharedModelNote}"
 							class="sapUiTinyMarginTop" />
 					</VBox>
 				</f:content>
@@ -48,7 +48,7 @@
 						width="100%"
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<Title
-							text="Text only"
+							text="{i18n>sbTextOnly}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:SegmentedButton
@@ -57,13 +57,13 @@
 							width="{json>/width}"
 							selectedKey="{json>/view}"
 							selectionChange=".onSizedSelectionChange">
-							<tc:SegmentedButtonItem key="list" text="List" />
-							<tc:SegmentedButtonItem key="grid" text="Grid" />
-							<tc:SegmentedButtonItem key="table" text="Table" />
+							<tc:SegmentedButtonItem key="list" text="{i18n>segList}" />
+							<tc:SegmentedButtonItem key="grid" text="{i18n>segGrid}" />
+							<tc:SegmentedButtonItem key="table" text="{i18n>segTable}" />
 						</tc:SegmentedButton>
 
 						<Title
-							text="Icon and text"
+							text="{i18n>sbIconAndText}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:SegmentedButton
@@ -71,13 +71,13 @@
 							enabled="{json>/enabled}"
 							width="{json>/width}"
 							selectedKey="{json>/chart}">
-							<tc:SegmentedButtonItem key="line" text="Line" icon="sap-icon://line-chart" />
-							<tc:SegmentedButtonItem key="bar" text="Bar" icon="sap-icon://bar-chart" />
-							<tc:SegmentedButtonItem key="pie" text="Pie" icon="sap-icon://pie-chart" />
+							<tc:SegmentedButtonItem key="line" text="{i18n>segLine}" icon="sap-icon://line-chart" />
+							<tc:SegmentedButtonItem key="bar" text="{i18n>segBar}" icon="sap-icon://bar-chart" />
+							<tc:SegmentedButtonItem key="pie" text="{i18n>segPie}" icon="sap-icon://pie-chart" />
 						</tc:SegmentedButton>
 
 						<Title
-							text="Icon only"
+							text="{i18n>sbIconOnly}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:SegmentedButton
@@ -91,7 +91,7 @@
 						</tc:SegmentedButton>
 
 						<Title
-							text="With a disabled item"
+							text="{i18n>sbDisabledItem}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:SegmentedButton
@@ -99,9 +99,9 @@
 							enabled="{json>/enabled}"
 							width="{json>/width}"
 							selectedKey="{json>/mode}">
-							<tc:SegmentedButtonItem key="day" text="Day" />
-							<tc:SegmentedButtonItem key="week" text="Week" />
-							<tc:SegmentedButtonItem key="month" text="Month" enabled="false" />
+							<tc:SegmentedButtonItem key="day" text="{i18n>segDay}" />
+							<tc:SegmentedButtonItem key="week" text="{i18n>segWeek}" />
+							<tc:SegmentedButtonItem key="month" text="{i18n>segMonth}" enabled="false" />
 						</tc:SegmentedButton>
 					</VBox>
 				</f:content>
@@ -120,7 +120,7 @@
 						width="100%"
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<Title
-							text="Text only"
+							text="{i18n>sbTextOnly}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<SegmentedButton
@@ -129,14 +129,14 @@
 							selectedKey="{json>/view}"
 							selectionChange=".onStandardSelectionChange">
 							<items>
-								<SegmentedButtonItem key="list" text="List" />
-								<SegmentedButtonItem key="grid" text="Grid" />
-								<SegmentedButtonItem key="table" text="Table" />
+								<SegmentedButtonItem key="list" text="{i18n>segList}" />
+								<SegmentedButtonItem key="grid" text="{i18n>segGrid}" />
+								<SegmentedButtonItem key="table" text="{i18n>segTable}" />
 							</items>
 						</SegmentedButton>
 
 						<Title
-							text="Icon and text"
+							text="{i18n>sbIconAndText}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<SegmentedButton
@@ -144,14 +144,14 @@
 							width="{json>/width}"
 							selectedKey="{json>/chart}">
 							<items>
-								<SegmentedButtonItem key="line" text="Line" icon="sap-icon://line-chart" />
-								<SegmentedButtonItem key="bar" text="Bar" icon="sap-icon://bar-chart" />
-								<SegmentedButtonItem key="pie" text="Pie" icon="sap-icon://pie-chart" />
+								<SegmentedButtonItem key="line" text="{i18n>segLine}" icon="sap-icon://line-chart" />
+								<SegmentedButtonItem key="bar" text="{i18n>segBar}" icon="sap-icon://bar-chart" />
+								<SegmentedButtonItem key="pie" text="{i18n>segPie}" icon="sap-icon://pie-chart" />
 							</items>
 						</SegmentedButton>
 
 						<Title
-							text="Icon only"
+							text="{i18n>sbIconOnly}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<SegmentedButton
@@ -166,7 +166,7 @@
 						</SegmentedButton>
 
 						<Title
-							text="With a disabled item"
+							text="{i18n>sbDisabledItem}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<SegmentedButton
@@ -174,9 +174,9 @@
 							width="{json>/width}"
 							selectedKey="{json>/mode}">
 							<items>
-								<SegmentedButtonItem key="day" text="Day" />
-								<SegmentedButtonItem key="week" text="Week" />
-								<SegmentedButtonItem key="month" text="Month" enabled="false" />
+								<SegmentedButtonItem key="day" text="{i18n>segDay}" />
+								<SegmentedButtonItem key="week" text="{i18n>segWeek}" />
+								<SegmentedButtonItem key="month" text="{i18n>segMonth}" enabled="false" />
 							</items>
 						</SegmentedButton>
 					</VBox>

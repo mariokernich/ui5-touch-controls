@@ -10,7 +10,7 @@
 		<!-- playground: the options every dialog below is opened with -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
-				<cards:Header title="QuickDialog Options" />
+				<cards:Header title="{i18n>optionsQuickDialog}" />
 			</f:header>
 			<f:content>
 				<VBox
@@ -20,37 +20,37 @@
 						fragmentName="ui5.touch.controls.demo.view.SizeOption"
 						type="XML" />
 					<HBox alignItems="Center">
-						<Text text="Title" width="100px" />
+						<Text text="{i18n>lblTitle}" width="100px" />
 						<Input
 							value="{json>/title}"
-							placeholder="Dialog Title"
+							placeholder="{i18n>phDialogTitle}"
 							valueLiveUpdate="true"
 							width="200px" />
 					</HBox>
 					<HBox alignItems="Center">
-						<Text text="Message" width="100px" />
+						<Text text="{i18n>lblMessage}" width="100px" />
 						<Input
 							value="{json>/message}"
-							placeholder="Dialog Message"
+							placeholder="{i18n>phDialogMessage}"
 							valueLiveUpdate="true"
 							width="300px" />
 					</HBox>
 					<HBox alignItems="Center">
-						<Text text="State" width="100px" />
+						<Text text="{i18n>lblState}" width="100px" />
 						<Select selectedKey="{json>/state}">
-							<core:Item key="None" text="None" />
-							<core:Item key="Information" text="Information" />
-							<core:Item key="Success" text="Success" />
-							<core:Item key="Warning" text="Warning" />
-							<core:Item key="Error" text="Error" />
+							<core:Item key="None" text="{i18n>vsNone}" />
+							<core:Item key="Information" text="{i18n>vsInformation}" />
+							<core:Item key="Success" text="{i18n>vsSuccess}" />
+							<core:Item key="Warning" text="{i18n>vsWarning}" />
+							<core:Item key="Error" text="{i18n>vsError}" />
 						</Select>
 					</HBox>
 					<CheckBox
 						selected="{json>/toolbarSpacer}"
-						text="Toolbar Spacer (adds space between the buttons in the dialog footer)"
-						tooltip="When enabled, a ToolbarSpacer is inserted between the action buttons, spreading them apart instead of grouping them together." />
+						text="{i18n>cbToolbarSpacer}"
+						tooltip="{i18n>cbToolbarSpacerTooltip}" />
 					<HBox alignItems="Center" class="sapUiSmallMarginTop">
-						<Text text="Last result" width="100px" />
+						<Text text="{i18n>lblLastResult}" width="100px" />
 						<MessageStrip text="{json>/lastResult}" showIcon="true" />
 					</HBox>
 				</VBox>
@@ -86,7 +86,7 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Other QuickDialog Methods" />
+					<cards:Header title="{i18n>qdOtherMethods}" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -109,7 +109,7 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Custom Actions" />
+					<cards:Header title="{i18n>qdCustomActions}" />
 				</f:header>
 				<f:content>
 					<VBox

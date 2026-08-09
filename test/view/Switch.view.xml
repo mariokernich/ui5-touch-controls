@@ -14,21 +14,21 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Switch Options" />
+					<cards:Header title="{i18n>optionsSwitch}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Type" width="100px" />
+							<Text text="{i18n>lblType}" width="100px" />
 							<Select selectedKey="{json>/type}">
 								<core:Item key="Default" text="Default" />
 								<core:Item key="AcceptReject" text="AcceptReject" />
 							</Select>
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Text on" width="100px" />
+							<Text text="{i18n>lblTextOn}" width="100px" />
 							<Input
 								value="{json>/customTextOn}"
 								placeholder="ON"
@@ -36,7 +36,7 @@
 								width="150px" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Text off" width="100px" />
+							<Text text="{i18n>lblTextOff}" width="100px" />
 							<Input
 								value="{json>/customTextOff}"
 								placeholder="OFF"
@@ -44,9 +44,9 @@
 								width="150px" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Behavior" width="100px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="State" selected="{json>/state}" />
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbState}" selected="{json>/state}" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
 					</VBox>

@@ -14,47 +14,47 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Input Options" />
+					<cards:Header title="{i18n>optionsInput}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Value" width="100px" />
+							<Text text="{i18n>lblValue}" width="100px" />
 							<Input
 								value="{json>/value}"
-								placeholder="Value"
+								placeholder="{i18n>lblValue}"
 								valueLiveUpdate="true"
 								width="300px" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Placeholder" width="100px" />
+							<Text text="{i18n>lblPlaceholder}" width="100px" />
 							<Input
 								value="{json>/placeholder}"
-								placeholder="Placeholder"
+								placeholder="{i18n>lblPlaceholder}"
 								valueLiveUpdate="true"
 								width="300px" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
 						<HBox alignItems="Center" wrap="Wrap">
-							<Text text="Behavior" width="100px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Editable" selected="{json>/editable}" />
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
 							<CheckBox
-								text="Virtual keyboard"
+								text="{i18n>cbVirtualKeyboard}"
 								selected="{json>/showVirtualKeyboard}" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Layout" width="100px" />
+							<Text text="{i18n>lblLayout}" width="100px" />
 							<Select
 								selectedKey="{json>/layoutKey}"
 								enabled="{json>/showVirtualKeyboard}"
 								change=".onLayoutChange">
 								<core:Item key="qwerty" text="QWERTY" />
-								<core:Item key="numeric" text="Numeric" />
-								<core:Item key="phone" text="Phone" />
-								<core:Item key="calculator" text="Calculator" />
+								<core:Item key="numeric" text="{i18n>layoutNumeric}" />
+								<core:Item key="phone" text="{i18n>layoutPhone}" />
+								<core:Item key="calculator" text="{i18n>layoutCalculator}" />
 							</Select>
 						</HBox>
 						<Text text="{i18n>inputKeyboardHint}" class="sapUiTinyMarginTop" />

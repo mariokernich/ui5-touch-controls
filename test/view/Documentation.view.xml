@@ -29,20 +29,20 @@
 					<Table items="{docs>/ported}">
 						<columns>
 							<Column width="12rem">
-								<Label text="Control" />
+								<Label text="{i18n>colControl}" />
 							</Column>
 							<Column width="14rem">
-								<Label text="Replaces" />
+								<Label text="{i18n>colReplaces}" />
 							</Column>
 							<Column>
-								<Label text="Description" />
+								<Label text="{i18n>colDescription}" />
 							</Column>
 						</columns>
 						<items>
 							<ColumnListItem>
 								<Link
 									text="tc:{docs>name}"
-									tooltip="Open the {docs>name} page"
+									tooltip="{i18n>tooltipOpenControlPage}"
 									press=".onControlPress" />
 								<Text text="{docs>replaces}" />
 								<Text text="{docs>description}" />
@@ -73,17 +73,17 @@
 					<Table items="{docs>/new}">
 						<columns>
 							<Column width="12rem">
-								<Label text="Control" />
+								<Label text="{i18n>colControl}" />
 							</Column>
 							<Column>
-								<Label text="Description" />
+								<Label text="{i18n>colDescription}" />
 							</Column>
 						</columns>
 						<items>
 							<ColumnListItem>
 								<Link
 									text="tc:{docs>name}"
-									tooltip="Open the {docs>name} page"
+									tooltip="{i18n>tooltipOpenControlPage}"
 									press=".onControlPress" />
 								<Text text="{docs>description}" />
 							</ColumnListItem>
@@ -111,16 +111,16 @@
 					<Table items="{docs>/themes}">
 						<columns>
 							<Column width="18rem">
-								<Label text="Theme" />
+								<Label text="{i18n>colTheme}" />
 							</Column>
 							<Column width="14rem">
-								<Label text="Theme ID" />
+								<Label text="{i18n>colThemeId}" />
 							</Column>
 							<Column width="10rem">
-								<Label text="Supported" />
+								<Label text="{i18n>colSupported}" />
 							</Column>
 							<Column>
-								<Label text="Remark" />
+								<Label text="{i18n>colRemark}" />
 							</Column>
 						</columns>
 						<items>
@@ -128,7 +128,7 @@
 								<Text text="{docs>name}" />
 								<Text text="{docs>id}" />
 								<ObjectStatus
-									text="{= ${docs>supported} ? 'Yes' : 'No' }"
+									text="{= ${docs>supported} ? ${i18n>yes} : ${i18n>no} }"
 									state="{= ${docs>supported} ? 'Success' : 'Error' }"
 									icon="{= ${docs>supported} ? 'sap-icon://accept' : 'sap-icon://decline' }" />
 								<Text text="{docs>note}" />
@@ -231,7 +231,7 @@
 					width="100%"
 					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 					<FormattedText
-						htmlText="{i18n>docKeyboardText1}"
+						htmlText="{i188>docKeyboardText1}"
 						width="100%"
 						class="sapUiTinyMarginTop" />
 					<FormattedText
@@ -329,11 +329,11 @@
 			alignItems="Center"
 			class="touchControlsCardRow sapUiSmallMarginBottom">
 			<Button
-				text="Setup"
+				text="{i18n>navSetup}"
 				icon="sap-icon://navigation-left-arrow"
 				press=".onSetupPress" />
 			<Button
-				text="Explore the Button"
+				text="{i18n>btnExploreButton}"
 				icon="sap-icon://navigation-right-arrow"
 				iconFirst="false"
 				type="Emphasized"

@@ -6,7 +6,7 @@
 	xmlns:tc="ui5.touch.controls">
 	<Page showHeader="false" class="touchControlsPage">
 		<HBox alignItems="Center" class="sapUiTinyMarginBottom">
-			<Text text="Button size" width="100px" />
+			<Text text="{i18n>lblButtonSize}" width="100px" />
 			<Select selectedKey="{json>/size}">
 				<core:Item key="S" text="S" />
 				<core:Item key="M" text="M" />
@@ -20,7 +20,7 @@
 			</Select>
 		</HBox>
 		<HBox alignItems="Center" class="sapUiSmallMarginBottom">
-			<Text text="Toolbar width" width="100px" />
+			<Text text="{i18n>lblToolbarWidth}" width="100px" />
 			<Slider
 				min="20"
 				max="100"
@@ -32,32 +32,32 @@
 		<!-- both toolbars live in a container whose width follows the slider,
 		     so the overflow behaviour can be compared directly -->
 		<VBox width="{json>/containerWidth}">
-			<Title text="Without priorities" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+			<Title text="{i18n>otWithoutPriorities}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
 			<tc:OverflowToolbar size="{json>/size}">
 				<tc:Button
-					text="New"
+					text="{i18n>btnNew}"
 					icon="sap-icon://add"
 					type="Emphasized"
 					size="{json>/size}"
 					press=".onDemoPress" />
 				<tc:Button
-					text="Edit"
+					text="{i18n>btnEdit}"
 					icon="sap-icon://edit"
 					size="{json>/size}"
 					press=".onDemoPress" />
 				<tc:Button
-					text="Copy"
+					text="{i18n>btnCopy}"
 					icon="sap-icon://copy"
 					size="{json>/size}"
 					press=".onDemoPress" />
 				<tc:Button
-					text="Share"
+					text="{i18n>btnShare}"
 					icon="sap-icon://share"
 					size="{json>/size}"
 					press=".onDemoPress" />
 				<ToolbarSpacer />
 				<tc:Button
-					text="Delete"
+					text="{i18n>btnDelete}"
 					icon="sap-icon://delete"
 					type="Reject"
 					size="{json>/size}"
@@ -66,11 +66,11 @@
 			<Text text="{i18n>overflowPlainHint}" class="sapUiTinyMarginTop" />
 
 			<Title
-				text="With overflow priorities"
+				text="{i18n>otWithPriorities}"
 				class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
 			<tc:OverflowToolbar size="{json>/size}">
 				<tc:Button
-					text="Print (Low)"
+					text="{i18n>btnPrintLow}"
 					icon="sap-icon://print"
 					size="{json>/size}"
 					press=".onDemoPress">
@@ -79,12 +79,12 @@
 					</tc:layoutData>
 				</tc:Button>
 				<tc:Button
-					text="Export"
+					text="{i18n>btnExport}"
 					icon="sap-icon://excel-attachment"
 					size="{json>/size}"
 					press=".onDemoPress" />
 				<tc:Button
-					text="Save (Never)"
+					text="{i18n>btnSaveNever}"
 					icon="sap-icon://save"
 					type="Emphasized"
 					size="{json>/size}"
@@ -95,7 +95,7 @@
 				</tc:Button>
 				<ToolbarSpacer />
 				<tc:Button
-					text="About (Always)"
+					text="{i18n>btnAboutAlways}"
 					icon="sap-icon://hint"
 					type="Ghost"
 					size="{json>/size}"
@@ -108,40 +108,40 @@
 			<Text text="{i18n>overflowPriorityHint}" class="sapUiTinyMarginTop" />
 		</VBox>
 
-		<Title text="As a footer" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+		<Title text="{i18n>otAsFooter}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
 		<!-- the page needs an explicit height, otherwise it collapses -->
 		<Page
-			title="Page with an OverflowToolbar as footer"
+			title="{i18n>otFooterPageTitle}"
 			showFooter="true"
 			class="touchControlsDemoPage">
 			<footer>
 				<tc:OverflowToolbar size="{json>/size}">
 					<tc:Button
-						text="Save"
+						text="{i18n>btnSave}"
 						icon="sap-icon://save"
 						type="Emphasized"
 						size="{json>/size}"
 						press=".onDemoPress" />
 					<tc:Button
-						text="Cancel"
+						text="{i18n>btnCancel}"
 						icon="sap-icon://decline"
 						size="{json>/size}"
 						press=".onDemoPress" />
 					<ToolbarSpacer />
 					<tc:Button
-						text="Approve"
+						text="{i18n>btnApprove}"
 						icon="sap-icon://accept"
 						type="Accept"
 						size="{json>/size}"
 						press=".onDemoPress" />
 					<tc:Button
-						text="Reject"
+						text="{i18n>btnReject}"
 						icon="sap-icon://decline"
 						type="Reject"
 						size="{json>/size}"
 						press=".onDemoPress" />
 					<tc:Button
-						text="History"
+						text="{i18n>btnHistory}"
 						icon="sap-icon://history"
 						size="{json>/size}"
 						press=".onDemoPress" />

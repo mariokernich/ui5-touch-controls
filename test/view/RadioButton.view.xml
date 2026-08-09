@@ -14,21 +14,21 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="RadioButton Options" />
+					<cards:Header title="{i18n>optionsRadioButton}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Columns" width="100px" />
+							<Text text="{i18n>lblColumns}" width="100px" />
 							<StepInput value="{json>/columns}" min="1" max="3" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Behavior" width="100px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Editable" selected="{json>/editable}" />
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
 					</VBox>
@@ -55,9 +55,9 @@
 							editable="{json>/editable}"
 							valueState="{json>/valueState}"
 							select=".onSelect">
-							<tc:RadioButton text="Early shift" />
-							<tc:RadioButton text="Late shift" />
-							<tc:RadioButton text="Night shift" />
+							<tc:RadioButton text="{i18n>shiftEarly}" />
+							<tc:RadioButton text="{i18n>shiftLate}" />
+							<tc:RadioButton text="{i18n>shiftNight}" />
 						</tc:RadioButtonGroup>
 					</VBox>
 				</f:content>
@@ -81,9 +81,9 @@
 							enabled="{json>/enabled}"
 							editable="{json>/editable}"
 							valueState="{json>/valueState}">
-							<RadioButton text="Early shift" />
-							<RadioButton text="Late shift" />
-							<RadioButton text="Night shift" />
+							<RadioButton text="{i18n>shiftEarly}" />
+							<RadioButton text="{i18n>shiftLate}" />
+							<RadioButton text="{i18n>shiftNight}" />
 						</RadioButtonGroup>
 					</VBox>
 				</f:content>

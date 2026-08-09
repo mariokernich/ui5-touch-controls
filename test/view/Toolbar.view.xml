@@ -6,7 +6,7 @@
 	xmlns:tc="ui5.touch.controls">
 	<Page showHeader="false" class="touchControlsPage">
 		<HBox alignItems="Center" class="sapUiSmallMarginBottom">
-			<Text text="Button size" width="100px" />
+			<Text text="{i18n>lblButtonSize}" width="100px" />
 			<Select selectedKey="{json>/size}">
 				<core:Item key="S" text="S" />
 				<core:Item key="M" text="M" />
@@ -22,24 +22,24 @@
 
 		<!-- the toolbar as the footer of a page; the page needs an explicit
 		     height, otherwise it collapses inside the flow of the page -->
-		<Page title="Page with footer" showFooter="true" class="touchControlsDemoPage">
+		<Page title="{i18n>toolbarPageTitle}" showFooter="true" class="touchControlsDemoPage">
 			<footer>
 				<tc:Toolbar size="{json>/size}">
 					<tc:Button
-						text="Open Sample Dialog"
+						text="{i18n>btnOpenSampleDialog}"
 						type="Emphasized"
 						icon="sap-icon://add"
 						size="{json>/size}"
 						press=".onOpenDialog" />
 					<tc:Button
-						text="Button 2"
+						text="{i18n>btnButton2}"
 						type="Ghost"
 						icon="sap-icon://edit"
 						size="{json>/size}"
 						press=".onDummyPress" />
 					<ToolbarSpacer />
 					<tc:Button
-						text="Button 3"
+						text="{i18n>btnButton3}"
 						type="Reject"
 						icon="sap-icon://delete"
 						size="{json>/size}"

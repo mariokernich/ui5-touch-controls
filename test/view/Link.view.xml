@@ -14,25 +14,25 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Link Options" />
+					<cards:Header title="{i18n>optionsLink}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Text" width="100px" />
+							<Text text="{i18n>lblText}" width="100px" />
 							<Input value="{json>/text}" valueLiveUpdate="true" width="260px" />
 						</HBox>
 						<HBox alignItems="Center" wrap="Wrap">
-							<Text text="Behavior" width="100px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Wrapping" selected="{json>/wrapping}" />
-							<CheckBox text="Subtle" selected="{json>/subtle}" />
-							<CheckBox text="Emphasized" selected="{json>/emphasized}" />
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbWrapping}" selected="{json>/wrapping}" />
+							<CheckBox text="{i18n>cbSubtle}" selected="{json>/subtle}" />
+							<CheckBox text="{i18n>cbEmphasized}" selected="{json>/emphasized}" />
 						</HBox>
 						<Text
-							text="size only exists on the touch control — sap.m.Link stays at its fixed font size."
+							text="{i18n>linkSizeNote}"
 							class="sapUiTinyMarginTop" />
 					</VBox>
 				</f:content>
@@ -51,7 +51,7 @@
 						width="100%"
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<Title
-							text="With a press handler"
+							text="{i18n>linkWithPressHandler}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:Link
@@ -64,7 +64,7 @@
 							press=".onSizedPress" />
 
 						<Title
-							text="With a href, opening a new tab"
+							text="{i18n>linkWithHref}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:Link
@@ -78,7 +78,7 @@
 							emphasized="{json>/emphasized}" />
 
 						<Title
-							text="Truncated at a fixed width"
+							text="{i18n>linkTruncated}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<tc:Link
@@ -105,7 +105,7 @@
 						width="100%"
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<Title
-							text="With a press handler"
+							text="{i18n>linkWithPressHandler}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<Link
@@ -117,7 +117,7 @@
 							press=".onStandardPress" />
 
 						<Title
-							text="With a href, opening a new tab"
+							text="{i18n>linkWithHref}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<Link
@@ -130,7 +130,7 @@
 							emphasized="{json>/emphasized}" />
 
 						<Title
-							text="Truncated at a fixed width"
+							text="{i18n>linkTruncated}"
 							level="H6"
 							class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
 						<Link

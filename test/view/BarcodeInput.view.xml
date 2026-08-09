@@ -14,7 +14,7 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="BarcodeInput Options" />
+					<cards:Header title="{i18n>optionsBarcodeInput}" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -23,22 +23,22 @@
 							fragmentName="ui5.touch.controls.demo.view.SizeOption"
 							type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Scan timeout" width="120px" />
+							<Text text="{i18n>lblScanTimeout}" width="120px" />
 							<StepInput value="{json>/scanTimeout}" min="5" max="500" step="5" />
-							<Text text="ms" class="sapUiTinyMarginBegin" />
+							<Text text="{i18n>unitMs}" class="sapUiTinyMarginBegin" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Min length" width="120px" />
+							<Text text="{i18n>lblMinLength}" width="120px" />
 							<StepInput value="{json>/minLength}" min="1" max="30" />
 						</HBox>
 						<core:Fragment
 							fragmentName="ui5.touch.controls.demo.view.ValueStateOption"
 							type="XML" />
 						<HBox alignItems="Center" wrap="Wrap">
-							<Text text="Behavior" width="120px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Editable" selected="{json>/editable}" />
-							<CheckBox text="Clear on scan" selected="{json>/clearOnScan}" />
+							<Text text="{i18n>lblBehavior}" width="120px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+							<CheckBox text="{i18n>cbClearOnScan}" selected="{json>/clearOnScan}" />
 						</HBox>
 					</VBox>
 				</f:content>
@@ -52,7 +52,7 @@
 				<f:header>
 					<cards:Header
 						title="ui5.touch.controls.BarcodeInput"
-						subtitle="Scan a code, or type one and press Enter" />
+						subtitle="{i18n>biSubtitle}" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -60,7 +60,7 @@
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<tc:BarcodeInput
 							value="{json>/value}"
-							placeholder="Scan or type a code..."
+							placeholder="{i18n>phScanOrType}"
 							scanTimeout="{json>/scanTimeout}"
 							minLength="{json>/minLength}"
 							clearOnScan="{json>/clearOnScan}"
@@ -85,7 +85,9 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Events" subtitle="The most recent one first" />
+					<cards:Header
+						title="{i18n>biEventsTitle}"
+						subtitle="{i18n>biEventsSubtitle}" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -94,13 +96,13 @@
 						<Table items="{json>/log}">
 							<columns>
 								<Column width="7rem">
-									<Label text="Event" />
+									<Label text="{i18n>colEvent}" />
 								</Column>
 								<Column>
-									<Label text="Value" />
+									<Label text="{i18n>colValue}" />
 								</Column>
 								<Column width="8rem">
-									<Label text="Time" />
+									<Label text="{i18n>colTime}" />
 								</Column>
 							</columns>
 							<items>

@@ -14,30 +14,30 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="Text Options" />
+					<cards:Header title="{i18n>optionsText}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Text" width="100px" />
+							<Text text="{i18n>lblText}" width="100px" />
 							<Input
 								value="{json>/text}"
-								placeholder="Text"
+								placeholder="{i18n>lblText}"
 								valueLiveUpdate="true"
 								width="300px" />
 						</HBox>
 						<HBox alignItems="Center">
-							<Text text="Color" width="100px" />
+							<Text text="{i18n>lblColor}" width="100px" />
 							<Input
 								value="{json>/color}"
-								placeholder="e.g. #333333 or red"
+								placeholder="{i18n>phColor}"
 								valueLiveUpdate="true"
 								width="200px" />
 							<Button
 								icon="sap-icon://color-fill"
-								tooltip="Choose Color"
+								tooltip="{i18n>tooltipChooseColor}"
 								press=".onColorPress"
 								class="sapUiTinyMarginBegin" />
 						</HBox>

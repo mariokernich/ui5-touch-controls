@@ -14,27 +14,27 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="CheckBox Options" />
+					<cards:Header title="{i18n>optionsCheckBox}" />
 				</f:header>
 				<f:content>
 					<VBox
 						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="Text" width="100px" />
+							<Text text="{i18n>lblText}" width="100px" />
 							<Input value="{json>/text}" valueLiveUpdate="true" width="300px" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
 						<HBox alignItems="Center">
-							<Text text="State" width="100px" />
-							<CheckBox text="Selected" selected="{json>/selected}" />
-							<CheckBox text="Partially selected" selected="{json>/partiallySelected}" />
+							<Text text="{i18n>lblState}" width="100px" />
+							<CheckBox text="{i18n>cbSelected}" selected="{json>/selected}" />
+							<CheckBox text="{i18n>cbPartiallySelected}" selected="{json>/partiallySelected}" />
 						</HBox>
 						<HBox alignItems="Center" wrap="Wrap">
-							<Text text="Behavior" width="100px" />
-							<CheckBox text="Enabled" selected="{json>/enabled}" />
-							<CheckBox text="Editable" selected="{json>/editable}" />
-							<CheckBox text="Wrapping" selected="{json>/wrapping}" />
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+							<CheckBox text="{i18n>cbWrapping}" selected="{json>/wrapping}" />
 						</HBox>
 						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
 					</VBox>

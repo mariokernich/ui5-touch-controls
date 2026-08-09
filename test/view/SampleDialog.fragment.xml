@@ -4,9 +4,9 @@
 	xmlns:tc="ui5.touch.controls">
 	<!-- a dialog whose footer is a touch Toolbar - the buttons aggregation of
 	     sap.m.Dialog only accepts sap.m.Button, the footer takes any Toolbar -->
-	<Dialog title="Sample Dialog" contentWidth="700px" contentHeight="250px">
+	<Dialog title="{i18n>sampleDialogTitle}" contentWidth="700px" contentHeight="250px">
 		<VBox alignItems="Center" justifyContent="Center" height="100%">
-			<Text text="Change Button Size" class="sapUiTinyMarginBottom" />
+			<Text text="{i18n>sampleDialogChangeSize}" class="sapUiTinyMarginBottom" />
 			<Select selectedKey="{json>/size}">
 				<core:Item key="S" text="S" />
 				<core:Item key="M" text="M" />
@@ -22,14 +22,14 @@
 		<footer>
 			<tc:Toolbar size="{json>/size}">
 				<tc:Button
-					text="Close Dialog"
+					text="{i18n>btnCloseDialog}"
 					type="Emphasized"
 					icon="sap-icon://decline"
 					size="{json>/size}"
 					press=".onCloseDialog" />
 				<ToolbarSpacer />
 				<tc:Button
-					text="Dummy"
+					text="{i18n>btnDummy}"
 					type="Ghost"
 					icon="sap-icon://edit"
 					size="{json>/size}"

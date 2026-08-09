@@ -61,15 +61,15 @@
 				<tnt:NavigationList>
 					<tnt:NavigationListItem
 						key="GettingStarted"
-						text="Getting Started"
+						text="{i18n>navGettingStarted}"
 						icon="sap-icon://home" />
 					<tnt:NavigationListItem
 						key="Setup"
-						text="Setup"
+						text="{i18n>navSetup}"
 						icon="sap-icon://wrench" />
 					<tnt:NavigationListItem
 						key="Documentation"
-						text="Documentation"
+						text="{i18n>navDocumentation}"
 						icon="sap-icon://documents" />
 					<!-- A NavigationListGroup is used instead of nested
 					     NavigationListItems on purpose: sap.tnt does not render icons

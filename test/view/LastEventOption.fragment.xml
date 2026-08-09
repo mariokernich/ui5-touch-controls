@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<!-- shows what the library control has fired last -->
 	<HBox alignItems="Center">
-		<Text text="Last event" width="100px" />
+		<Text text="{i18n>lblLastEvent}" width="100px" />
 		<Text text="{json>/lastEvent}" />
 	</HBox>
 </core:FragmentDefinition>
