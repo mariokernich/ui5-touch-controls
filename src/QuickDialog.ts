@@ -39,7 +39,7 @@ export enum MessageAction {
 }
 
 /**
- * @namespace ui5.touch.controls.touch
+ * @namespace ui5.touch.controls
  */
 export default class QuickDialog extends ManagedObject {
 	static async show(
