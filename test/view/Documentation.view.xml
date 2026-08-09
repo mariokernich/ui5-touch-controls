@@ -31,10 +31,10 @@
 							<Column width="12rem">
 								<Label text="{i18n>colControl}" />
 							</Column>
-							<Column width="14rem">
+							<Column width="14rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colReplaces}" />
 							</Column>
-							<Column>
+							<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colDescription}" />
 							</Column>
 						</columns>
@@ -75,7 +75,7 @@
 							<Column width="12rem">
 								<Label text="{i18n>colControl}" />
 							</Column>
-							<Column>
+							<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colDescription}" />
 							</Column>
 						</columns>
@@ -113,13 +113,13 @@
 							<Column width="18rem">
 								<Label text="{i18n>colTheme}" />
 							</Column>
-							<Column width="14rem">
+							<Column width="14rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colThemeId}" />
 							</Column>
-							<Column width="10rem">
+							<Column width="10rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colSupported}" />
 							</Column>
-							<Column>
+							<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colRemark}" />
 							</Column>
 						</columns>

@@ -101,7 +101,7 @@
 								<Column>
 									<Label text="{i18n>colValue}" />
 								</Column>
-								<Column width="8rem">
+								<Column width="8rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 									<Label text="{i18n>colTime}" />
 								</Column>
 							</columns>

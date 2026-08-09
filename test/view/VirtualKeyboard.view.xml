@@ -104,10 +104,10 @@
 							<Column width="10rem">
 								<Label text="{i18n>colLayout}" />
 							</Column>
-							<Column width="6rem">
+							<Column width="6rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colKeys}" />
 							</Column>
-							<Column>
+							<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
 								<Label text="{i18n>colLayoutProperty}" />
 							</Column>
 						</columns>

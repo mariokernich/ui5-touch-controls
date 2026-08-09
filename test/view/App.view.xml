@@ -6,7 +6,7 @@
 	xmlns:tnt="sap.tnt"
 	displayBlock="true"
 	height="100%">
-	<tnt:ToolPage id="toolPage" sideExpanded="{device>/system/desktop}">
+	<tnt:ToolPage id="toolPage" sideExpanded="{app>/sideExpanded}">
 		<tnt:header>
 			<tnt:ToolHeader>
 				<Button

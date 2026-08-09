@@ -41,6 +41,8 @@ export default class Component extends UIComponent {
 			theme: Theming.getTheme(),
 			logo: getLogoUrl(Theming.getTheme()),
 			logoMark: getLogoMarkUrl(),
+			// set from the viewport width by the App controller
+			sideExpanded: false,
 			language: getLanguageKey(),
 			version: this.getLibraryVersion(),
 		});

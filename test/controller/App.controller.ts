@@ -1,9 +1,9 @@
 import Localization from "sap/base/i18n/Localization";
 import type { Select$ChangeEvent } from "sap/m/Select";
 import type { SideNavigation$ItemSelectEvent } from "sap/tnt/SideNavigation";
-import type ToolPage from "sap/tnt/ToolPage";
 import type { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Theming from "sap/ui/core/Theming";
+import Device from "sap/ui/Device";
 import type JSONModel from "sap/ui/model/json/JSONModel";
 import type { PageInfo } from "../model/pages";
 import { allPages } from "../model/pages";
@@ -17,6 +17,8 @@ import BaseController from "./BaseController";
  */
 export default class App extends BaseController {
 	private model!: JSONModel;
+	/** whether the window is wide enough for the side navigation */
+	private wide = false;
 
 	public onInit(): void {
 		this.model = this.getOwnerComponent()?.getModel("app") as JSONModel;
@@ -29,6 +31,29 @@ export default class App extends BaseController {
 		this.getRouter().attachBypassed(() => {
 			this.select(-1, "");
 		});
+
+		// Whether the side navigation fits next to the content is a question of
+		// the window, not of the device: a narrow window on a desktop has the
+		// same problem as a phone, and there the navigation covers the content.
+		Device.media.attachHandler(
+			(range) => {
+				this.applyRange(range.name);
+			},
+			undefined,
+			Device.media.RANGESETS.SAP_STANDARD,
+		);
+		this.applyRange(
+			Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD).name,
+		);
+	}
+
+	/**
+	 * Expands the side navigation only when there is room for it beside the
+	 * content.
+	 */
+	private applyRange(range: string | undefined): void {
+		this.wide = range === "Desktop";
+		this.model.setProperty("/sideExpanded", this.wide);
 	}
 
 	/**
@@ -80,8 +105,10 @@ export default class App extends BaseController {
 	}
 
 	public onMenuPress(): void {
-		const toolPage = this.byId("toolPage") as ToolPage;
-		toolPage.setSideExpanded(!toolPage.getSideExpanded());
+		this.model.setProperty(
+			"/sideExpanded",
+			!(this.model.getProperty("/sideExpanded") as boolean),
+		);
 	}
 
 	public onLogoPress(): void {

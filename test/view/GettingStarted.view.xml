@@ -56,7 +56,7 @@
 					<HBox
 						wrap="Wrap"
 						alignItems="Center"
-						class="touchControlsCardRow sapUiTinyMarginTop">
+						class="touchControlsButtonRow sapUiTinyMarginTop">
 						<tc:Button
 							text="S"
 							icon="sap-icon://accept"
@@ -178,7 +178,7 @@
 					<HBox
 						wrap="Wrap"
 						alignItems="Center"
-						class="touchControlsCardRow sapUiSmallMarginTop">
+						class="touchControlsButtonRow sapUiSmallMarginTop">
 						<Button
 							text="{i18n>navSetup}"
 							icon="sap-icon://wrench"
