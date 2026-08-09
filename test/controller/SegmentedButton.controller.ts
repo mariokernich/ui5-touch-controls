@@ -15,6 +15,8 @@ export default class SegmentedButton extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("SegmentedButton");
+
 		this.model = new JSONModel(
 			{
 				size: SizeMode.L,

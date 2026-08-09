@@ -10,6 +10,8 @@ import BaseController from "./BaseController";
  */
 export default class Link extends BaseController {
 	public onInit(): void {
+		this.setControlIntro("Link");
+
 		this.getView()?.setModel(
 			new JSONModel(
 				{

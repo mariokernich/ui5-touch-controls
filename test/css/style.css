@@ -105,6 +105,13 @@ body,
 	flex-wrap: nowrap;
 }
 
+/* the name of a control in the head of its page reads as what it is: an API
+   name, not prose */
+.touchControlsIntroName {
+	font-family: "72Mono", "Courier New", monospace;
+	font-weight: bold;
+}
+
 /* The rows are flex boxes and their items are sized by their content, so a
    fixed-width field inside one widens the row instead of being cut down by it.
    Capping the item is what makes the caps below work at all: a percentage

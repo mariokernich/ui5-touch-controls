@@ -14,6 +14,8 @@ export default class Input extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("Input");
+
 		this.model = new JSONModel(
 			{
 				value: "Hello World",

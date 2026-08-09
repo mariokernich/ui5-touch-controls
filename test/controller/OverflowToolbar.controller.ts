@@ -18,6 +18,8 @@ export default class OverflowToolbar extends BaseController {
 	private dialog?: Dialog;
 
 	public onInit(): void {
+		this.setControlIntro("OverflowToolbar");
+
 		this.model = new JSONModel(
 			{ size: SizeMode.L, containerWidth: "100%" },
 			true,

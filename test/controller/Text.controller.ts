@@ -18,6 +18,8 @@ export default class Text extends BaseController {
 	private colorPicker?: ResponsivePopover;
 
 	public onInit(): void {
+		this.setControlIntro("Text");
+
 		this.model = new JSONModel(
 			{
 				text: "The quick brown fox jumps over the lazy dog",

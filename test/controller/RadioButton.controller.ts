@@ -12,6 +12,8 @@ export default class RadioButton extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("RadioButton");
+
 		this.model = new JSONModel(
 			{
 				selectedIndex: 1,

@@ -12,6 +12,8 @@ export default class TimePicker extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("TimePicker");
+
 		this.model = new JSONModel(
 			{
 				value: "07:30",

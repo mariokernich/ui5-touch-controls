@@ -14,6 +14,8 @@ export default class Button extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("Button");
+
 		this.model = new JSONModel(
 			{
 				showIcon: true,

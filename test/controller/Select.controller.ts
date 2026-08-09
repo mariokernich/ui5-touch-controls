@@ -12,6 +12,8 @@ export default class Select extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("Select");
+
 		this.model = new JSONModel(
 			{
 				// the items both selects are filled from

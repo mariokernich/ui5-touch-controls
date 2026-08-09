@@ -12,6 +12,8 @@ export default class Switch extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("Switch");
+
 		this.model = new JSONModel(
 			{
 				state: true,

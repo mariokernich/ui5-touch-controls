@@ -17,6 +17,8 @@ export default class DatePicker extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("DatePicker");
+
 		this.model = new JSONModel(
 			{
 				value: "2026-08-14",

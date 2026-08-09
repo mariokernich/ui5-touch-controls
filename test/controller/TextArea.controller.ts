@@ -14,6 +14,8 @@ export default class TextArea extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("TextArea");
+
 		this.model = new JSONModel(
 			{
 				value: "Hello World\nThis is a multi-line text.",

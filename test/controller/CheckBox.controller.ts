@@ -12,6 +12,8 @@ export default class CheckBox extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("CheckBox");
+
 		this.model = new JSONModel(
 			{
 				text: "Send me a copy",

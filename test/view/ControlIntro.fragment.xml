@@ -1,0 +1,51 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards">
+	<!-- The head of every page of a ported control: what the sap.m original is
+	     on the left, what this library made of it on the right. The two sides
+	     are filled from model/documentation.ts, the same source the control
+	     table on the documentation page reads. -->
+	<f:Card class="sapUiMediumMarginBottom">
+		<f:header>
+			<cards:Header
+				title="{control>/name}"
+				subtitle="{i18n>introSubtitle}"
+				subtitleMaxLines="0" />
+		</f:header>
+		<f:content>
+			<HBox
+				width="100%"
+				wrap="Wrap"
+				class="touchControlsCardRow sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+				<VBox>
+					<layoutData>
+						<FlexItemData growFactor="1" baseSize="0" />
+					</layoutData>
+					<Title text="{i18n>introOriginal}" level="H3" wrapping="true" />
+					<Text
+						text="{control>/replaces}"
+						class="touchControlsIntroName sapUiTinyMarginTop" />
+					<Text text="{control>/original}" class="sapUiTinyMarginTop" />
+					<Link
+						text="{i18n>introDocLink}"
+						href="{control>/docUrl}"
+						target="_blank"
+						class="sapUiTinyMarginTop" />
+				</VBox>
+				<VBox>
+					<layoutData>
+						<FlexItemData growFactor="1" baseSize="0" />
+					</layoutData>
+					<Title text="{i18n>introTouch}" level="H3" wrapping="true" />
+					<Text
+						text="{control>/fullName}"
+						class="touchControlsIntroName sapUiTinyMarginTop" />
+					<Text text="{control>/description}" class="sapUiTinyMarginTop" />
+					<Text text="{i18n>introSizeNote}" class="sapUiTinyMarginTop" />
+				</VBox>
+			</HBox>
+		</f:content>
+	</f:Card>
+</core:FragmentDefinition>

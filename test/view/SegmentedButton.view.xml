@@ -7,6 +7,10 @@
 	xmlns:cards="sap.f.cards"
 	xmlns:tc="ui5.touch.controls">
 	<Page showHeader="false" class="touchControlsPage">
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
+			type="XML" />
+
 		<HBox width="100%" class="touchControlsCardRow">
 			<!-- playground -->
 			<f:Card class="sapUiMediumMarginBottom">
@@ -41,7 +45,9 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="ui5.touch.controls.SegmentedButton" />
+					<cards:Header
+						title="ui5.touch.controls.SegmentedButton"
+						subtitle="{i18n>cardTouch}" />
 				</f:header>
 				<f:content>
 					<VBox
@@ -113,7 +119,9 @@
 					<FlexItemData growFactor="1" baseSize="0" />
 				</f:layoutData>
 				<f:header>
-					<cards:Header title="sap.m.SegmentedButton" />
+					<cards:Header
+						title="sap.m.SegmentedButton"
+						subtitle="{i18n>cardOriginal}" />
 				</f:header>
 				<f:content>
 					<VBox

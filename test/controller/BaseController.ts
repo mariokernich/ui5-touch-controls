@@ -4,6 +4,7 @@ import type Router from "sap/ui/core/routing/Router";
 import type UIComponent from "sap/ui/core/UIComponent";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type ResourceModel from "sap/ui/model/resource/ResourceModel";
+import { getApiUrl, getControlDoc } from "../model/documentation";
 
 /** a code snippet shown in a card of a page */
 export interface Snippet {
@@ -37,6 +38,33 @@ export default abstract class BaseController extends Controller {
 		const model = this.getOwnerComponent()?.getModel("i18n") as ResourceModel;
 		return (
 			(model.getResourceBundle() as ResourceBundle).getText(key, args) ?? key
+		);
+	}
+
+	/**
+	 * Fills the head of the page of a control - what the sap.m original is and
+	 * what this library made of it.
+	 *
+	 * The texts come from the control table of the documentation page, so the
+	 * two never drift apart, and the link points at the entity of the original
+	 * in the OpenUI5 demo kit.
+	 *
+	 * @param name the key of the page, which is also the name of the control
+	 */
+	protected setControlIntro(name: string): void {
+		const doc = getControlDoc(name);
+
+		if (!doc) {
+			return;
+		}
+
+		this.getView()?.setModel(
+			new JSONModel({
+				...doc,
+				fullName: `ui5.touch.controls.${doc.name}`,
+				docUrl: getApiUrl(doc.docEntity ?? doc.replaces),
+			}),
+			"control",
 		);
 	}
 

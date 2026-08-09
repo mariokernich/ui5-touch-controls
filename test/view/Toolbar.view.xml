@@ -5,6 +5,10 @@
 	xmlns:core="sap.ui.core"
 	xmlns:tc="ui5.touch.controls">
 	<Page showHeader="false" class="touchControlsPage">
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
+			type="XML" />
+
 		<HBox alignItems="Center" class="sapUiSmallMarginBottom">
 			<Text text="{i18n>lblButtonSize}" width="100px" />
 			<Select selectedKey="{json>/size}">

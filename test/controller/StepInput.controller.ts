@@ -13,6 +13,8 @@ export default class StepInput extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("StepInput");
+
 		this.model = new JSONModel(
 			{
 				value: 1,

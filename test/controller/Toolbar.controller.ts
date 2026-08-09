@@ -14,6 +14,8 @@ export default class Toolbar extends BaseController {
 	private dialog?: Dialog;
 
 	public onInit(): void {
+		this.setControlIntro("Toolbar");
+
 		this.getView()?.setModel(
 			new JSONModel({ size: SizeMode.L }, true),
 			"json",

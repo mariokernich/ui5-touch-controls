@@ -12,6 +12,8 @@ export default class ComboBox extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("ComboBox");
+
 		this.model = new JSONModel(
 			{
 				// the items both combo boxes are filled from
