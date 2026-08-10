@@ -1,0 +1,21 @@
+/* ===========================================================================
+   Theme parameters that the older UI5 versions this library supports do not
+   define yet.
+
+   Everywhere else a missing parameter is handled at the usage site, with
+   var(--parameter, fallback): the theme wins when it has the parameter and the
+   compiled fallback steps in when it does not. That does not work for a
+   parameter a LESS guard asks about, because a guard is evaluated while the
+   stylesheet is compiled, long before a custom property means anything - and
+   an undefined variable fails the build outright, which is what UI5 1.124 and
+   1.130 do here.
+
+   So this one gets a value up front. It is set before the theme is imported,
+   so a theme that knows the parameter overwrites it and only a theme that does
+   not is left with what stands here.
+   =========================================================================== */
+
+/* Introduced with the Horizon refresh: how round the selected segment of a
+   segmented button is. Zero means the classic joined look, which is what the
+   themes without this parameter drew - see SegmentedButton.less. */
+@sapButton_Segment_BorderCornerRadius: 0;

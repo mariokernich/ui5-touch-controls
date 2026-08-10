@@ -1,26 +1,170 @@
-# UI5 Library `ui5.touch.controls`
+<p align="center">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+<img src="assets/logo.svg" width="500" alt="ui5-touch-controls"/>
+</picture>
+</p>
 
-A custom [OpenUI5](https://openui5.org/) control library focused on **touch-friendly controls** — buttons, texts, toolbars, and an on-screen keyboard with generous hit areas and configurable sizes, built with TypeScript.
+**Standard OpenUI5 controls, rebuilt for touch — plus the ones `sap.m` is missing.**
 
-The main advantage: the original `sap.m` controls are rebuilt on their original structure and opened up for resizing — for example via a central, easy-to-use `size` property (`S`–`6XL`) that works consistently across all controls of the library.
+`sap.m` controls are made for mouse and keyboard. On a tablet, a shop floor terminal or a device operated with gloves they are simply too small — and the cozy content density only gets you one step further.
 
-**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/Button.html
+The library does two things about that:
 
-**npm package:** https://www.npmjs.com/package/ui5.touch.controls
+1. **It rebuilds the most important `sap.m` controls** on their original structure and opens them up for sizing through one central `size` property (`S`–`6XL`) that works the same way on every control. You do not have to rebuild your app: the controls keep the familiar properties, aggregations and events of their originals for the common cases, so you can use them as a drop-in replacement — add the namespace, put `tc:` in front of the control, set a size. Everything else stays the way it is.
 
-![Screenshot of the ui5.touch.controls library](docs/screenshot.png)
+2. **It adds controls that `sap.m` does not have at all**, for situations that only come up on touch devices. The prime example is [`tc:VirtualKeyboard`](#new-controls-for-touch) — a terminal without a hardware keyboard needs an on-screen keyboard, and OpenUI5 does not ship one.
 
-The controls integrate seamlessly with existing standard controls and aggregations — for example, `Button` and `Text` inside a `sap.m.Table`:
+![Screenshot of the ui5.touch.controls library](assets/screenshot.png)
 
-![sap.m.Table using ui5.touch.controls Button and Text controls](docs/table.png)
+**Link of full documentation:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
 
-Use the toolbar as replacement for existing toolbar in `Page` or `Dialog`.
+## Drop-in replacement — before and after
 
-![Screenshot of Toolbar in Dialog](docs/dialog.png)
+A `sap.m.Page` with an `OverflowToolbar` as footer. This is the standard version:
+
+```xml
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<Page title="Order">
+		<footer>
+			<OverflowToolbar>
+				<Button text="Save" type="Emphasized" icon="sap-icon://save" press=".onSave" />
+				<Button text="Cancel" icon="sap-icon://decline" press=".onCancel" />
+				<ToolbarSpacer />
+				<Button text="Approve" type="Accept" icon="sap-icon://accept" press=".onApprove" />
+				<Button text="Reject" type="Reject" icon="sap-icon://decline" press=".onReject" />
+				<Button text="History" icon="sap-icon://history" press=".onHistory" />
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>
+```
+
+And the touch version — the namespace `tc`, a `tc:` in front of the controls and a `size`:
+
+```xml
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:tc="ui5.touch.controls">
+	<Page title="Order">
+		<footer>
+			<tc:OverflowToolbar size="XL">
+				<tc:Button text="Save" type="Emphasized" icon="sap-icon://save" size="XL" press=".onSave" />
+				<tc:Button text="Cancel" icon="sap-icon://decline" size="XL" press=".onCancel" />
+				<ToolbarSpacer />
+				<tc:Button text="Approve" type="Accept" icon="sap-icon://accept" size="XL" press=".onApprove" />
+				<tc:Button text="Reject" type="Reject" icon="sap-icon://decline" size="XL" press=".onReject" />
+				<tc:Button text="History" icon="sap-icon://history" size="XL" press=".onHistory" />
+			</tc:OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>
+```
+
+Same aggregations, same properties, same event handlers — `press=".onSave"` still calls the same method in your controller. `sap.m` controls such as `ToolbarSpacer` can stay exactly where they are.
+
+The result: buttons big enough to hit with a finger, and a toolbar that moves everything that does not fit behind a button with three dots.
+
+![Screenshot of the OverflowToolbar with the overflow popover](assets/overflowtoolbar.png)
+
+Bind `size` to a model to switch the size of the whole app at runtime:
+
+```xml
+<tc:Button text="Save" size="{settings>/touchSize}" press=".onSave" />
+```
+
+## New controls for touch
+
+Not everything a touch app needs exists in `sap.m`. Where that is the case, the library adds a control of its own — built from the same sized building blocks, themed through the same theme parameters, so it fits in with the rest.
+
+### `tc:VirtualKeyboard`
+
+On a shop floor terminal, a kiosk or a device operated with gloves there is often no hardware keyboard, and the on-screen keyboard of the operating system is either unavailable or covers half the screen. OpenUI5 has no control for this. `tc:VirtualKeyboard` is an on-screen keyboard rendered from the library's own buttons — no third-party dependency, and sized through the same `size` property as everything else.
+
+![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
+
+Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY`, `Numeric`, `Phone` or `Calculator`.
+
+```xml
+<tc:VirtualKeyboard
+	value="{/quantity}"
+	size="XL"
+	width="700px"
+	mode="Numeric"
+	change=".onChange"
+	enter=".onEnter" />
+```
+
+For a key set of your own there is `mode="Custom"`, and only then the `layout` property is read. A layout is a list of rows, keys separated by spaces:
+
+```xml
+<tc:VirtualKeyboard
+	value="{/article}"
+	size="XL"
+	mode="Custom"
+	layout="A B C D, E F G H, {bksp} {space} {enter}" />
+```
+
+`{shift}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
+
+#### On a field
+
+The keyboard does not have to sit on the page. Put it into the `virtualKeyboard` aggregation of a `tc:Input` and switch `showVirtualKeyboard` on, and it opens in a popover below the field while the field has the focus:
+
+```xml
+<tc:Input
+	value="{/quantity}"
+	size="XL"
+	showVirtualKeyboard="true">
+	<tc:virtualKeyboard>
+		<tc:VirtualKeyboard mode="Numeric" size="XL" />
+	</tc:virtualKeyboard>
+</tc:Input>
+```
+
+The keyboard types into the field: it is filled with the value of the field whenever the popover opens, every key fires `liveChange`, and its Enter key fires `change` and `submit` — the popover stays open, since the field still has the focus. `tc:TextArea` takes the same aggregation, where Enter adds a line break instead.
+
+### `tc:BarcodeInput`
+
+On a shop floor or in a warehouse most input does not come from a keyboard but from a barcode scanner in keyboard wedge mode: it types the code into the focused field within a few milliseconds and closes it with <kbd>Enter</kbd>. A plain input cannot tell that apart from a person, so an application ends up reacting either to every <kbd>Enter</kbd> or to none.
+
+`tc:BarcodeInput` measures the time between the keystrokes. A run of at least `minLength` characters whose gaps all stay below `scanTimeout` and that is closed by <kbd>Enter</kbd> fires `scan`; everything else is manual input and fires `change`:
+
+```xml
+<tc:BarcodeInput
+	value="{/code}"
+	placeholder="Scan a pallet..."
+	size="XL"
+	clearOnScan="true"
+	scan=".onScan"
+	change=".onManualEntry" />
+```
+
+So a scanned code can go straight to the backend while a typed one gets a confirmation first. `prefix` and `suffix` cut off the characters scanners put around the code.
+
+### `tc:SignaturePad`
+
+Handing over goods, confirming a repair or acknowledging a safety briefing all end with a signature, and on a tablet the natural place for it is the screen. `tc:SignaturePad` draws on a canvas and hands the result over as a PNG data URL in `value`, so it can be bound to a model and sent to the backend like any other value:
+
+```xml
+<tc:SignaturePad
+	value="{/signature}"
+	placeholder="Sign here"
+	height="12rem"
+	size="XL"
+	change=".onSigned" />
+```
+
+Stroke width, placeholder and clear button follow the `size` property, and the pad keeps its strokes when it is resized.
 
 ## Requirements
 
-- UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
+- UI5 version **1.116 or higher** (OpenUI5 or SAPUI5)
+
+1.116 is the oldest release the library runs on, and the test page is checked against it. What sets the limit is `sap/base/i18n/Localization`, which the `DatePicker` reads the language from and which does not exist before 1.116.
 
 ## Installation
 
@@ -37,7 +181,7 @@ npm install ui5.touch.controls
 ```json
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.0.3"
+		"ui5.touch.controls": "^1.2.0"
 	}
 }
 ```
@@ -64,22 +208,7 @@ server:
         npmPackagePath: 'ui5.touch.controls/dist/resources/ui5/touch/controls'
 ```
 
-### 2. Add the types to `tsconfig.json`
-
-For TypeScript projects, add the package to the `types` entry in your `tsconfig.json` — otherwise the UI5 Tooling will not load the library automatically:
-
-```json
-{
-	"compilerOptions": {
-		"types": [
-			"@sapui5/types",
-			"ui5.touch.controls"
-		]
-	}
-}
-```
-
-### 3. Declare the library in `manifest.json`
+### 2. Declare the library in `manifest.json`
 
 Add the library to the dependencies of your app:
 
@@ -95,13 +224,12 @@ Add the library to the dependencies of your app:
 }
 ```
 
-### 4. Use the controls
-
-Add the namespace to your XML views and start using the controls (see [Usage](#usage)):
+### 3. Add the namespace to your views
 
 ```xml
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
 	xmlns:tc="ui5.touch.controls">
 	<tc:Button text="Hello" size="XL" />
 </mvc:View>
@@ -109,7 +237,20 @@ Add the namespace to your XML views and start using the controls (see [Usage](#u
 
 ### TypeScript support
 
-The package includes TypeScript type definitions (`dist/index.d.ts`), so in a TypeScript UI5 app you get full typing out of the box:
+For TypeScript projects, add the package to the `types` entry in your `tsconfig.json` — otherwise the UI5 Tooling will not load the library automatically:
+
+```json
+{
+	"compilerOptions": {
+		"types": [
+			"@sapui5/types",
+			"ui5.touch.controls"
+		]
+	}
+}
+```
+
+The package includes TypeScript type definitions (`dist/index.d.ts`), so you get full typing out of the box:
 
 ```ts
 import Button from "ui5/touch/controls/Button";
@@ -120,23 +261,51 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 
 ## Controls
 
+### Touch versions of `sap.m` controls
+
+These are rebuilds of standard controls. They keep the properties, aggregations and events of their originals for the common cases, so they can be used as a drop-in replacement — the **Replaces** column names the control each one steps in for.
+
+| Control | Replaces | Description |
+| --- | --- | --- |
+| `tc:Button` | `sap.m.Button` | Button with configurable size, icon, icon position, type (all `sap.m.ButtonType` values), side padding and width. Fires `press`. |
+| `tc:SegmentedButton` | `sap.m.SegmentedButton` | A row of joined buttons of which exactly one is selected, filled through `tc:SegmentedButtonItem` (`key`, `text`, `icon`, `enabled`). Supports `selectedKey`, `width` for evenly spread segments and fires `selectionChange`. |
+| `tc:CheckBox` | `sap.m.CheckBox` | Check box whose box, check mark, label and hit area scale together. Supports `selected`, `partiallySelected`, `text`, `editable`, `wrapping`, value states and `width`. Fires `select`. |
+| `tc:RadioButton` / `tc:RadioButtonGroup` | `sap.m.RadioButton` / `sap.m.RadioButtonGroup` | Circle, dot, label and hit area scale together. Buttons sharing a `groupName` are mutually exclusive; the group arranges them in `columns` and hands its `size`, `enabled`, `editable` and value state down to them. Fires `select`. |
+| `tc:Switch` | `sap.m.Switch` | Track, handle and label scale together, where `sap.m.Switch` is fixed at 4rem x 2rem. Supports `state`, `customTextOn`, `customTextOff` and the `AcceptReject` type. Fires `change`. |
+| `tc:Select` | `sap.m.Select` | Drop-down filled with plain `sap.ui.core.Item` elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of `sap.m.Select` keeps its standard row height however large the field is. Supports `selectedKey`, `editable`, `forceSelection`, value states and `width`. Fires `change`. |
+| `tc:ComboBox` | `sap.m.ComboBox` | A `tc:Select` the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with `tc:VirtualKeyboard` on a device without a keyboard. Supports `value`, `selectedKey`, `placeholder`, `editable`, value states, `width` and `showSecondaryValues`, which puts the `additionalText` of a `sap.ui.core.ListItem` at the end of a row. Fires `change` and `selectionChange`. |
+| `tc:DatePicker` | `sap.m.DatePicker` | Field with a calendar built from the library's own buttons, so a day is a square that grows with `size` instead of the fixed grid of `sap.ui.unified.Calendar`. Days and months view, `minDate` / `maxDate`, `valueFormat` and `displayFormat`. Fires `change`. |
+| `tc:TimePicker` | `sap.m.TimePicker` | Field with two columns of buttons — hours and minutes — so a time is picked with one tap on a target that grows with `size`, where `sap.m.TimePicker` uses a slider that has to be dragged. Supports `minutesStep`, `valueFormat` and `displayFormat`. Fires `change`. |
+| `tc:Input` | `sap.m.Input` | Single-line input with configurable size. A `tc:VirtualKeyboard` can be put into its `virtualKeyboard` aggregation; with `showVirtualKeyboard` it then opens in a popover below the field while the field has the focus and types into it. |
+| `tc:TextArea` | `sap.m.TextArea` | Multi-line input with configurable size, rows, max length and value states. Takes a `tc:VirtualKeyboard` in its `virtualKeyboard` aggregation just like `tc:Input` does; there the Enter key adds a line break. Fires `change` / `liveChange`. |
+| `tc:Text` | `sap.m.Text` | Text with configurable size and color. Fires `press`. |
+| `tc:Link` | `sap.m.Link` | Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports `href`, `target`, `wrapping`, `subtle`, `emphasized` and `width`; a `target="_blank"` link automatically gets `rel="noopener noreferrer"`. Fires `press`. |
+| `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
+| `tc:OverflowToolbar` | `sap.m.OverflowToolbar` | Like `tc:Toolbar`, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of `sap.m.OverflowToolbarLayoutData`. |
+| `tc:StepInput` | `sap.m.StepInput` | Minus button, input and plus button, sized together. Supports `min`, `max`, `step`. Fires `change`. |
+| `QuickDialog` | `sap.m.MessageBox` | Helper class for touch-ready dialogs, used from the controller instead of a view: `show`, `confirm`, `information`, `error`, `input`, `select`, `details`. Every method returns a `Promise`. |
+
+### Controls without a `sap.m` equivalent
+
+These exist only in this library, for situations that only come up on a touch device — see [New controls for touch](#new-controls-for-touch) above for what they are good for.
+
 | Control | Description |
 | --- | --- |
-| `ui5.touch.controls.Button` | A button with configurable size (`S`–`6XL`), icon, icon position, type (all `sap.m.ButtonType` values), side padding, and width. Fires `press`. |
-| `ui5.touch.controls.Input` | A wrapper around `sap.m.Input` that supports `size` property. |
-| `ui5.touch.controls.StepInput` | A step input composed of a minus button, an input, and a plus button. The `size` property (`S`–`6XL`) is applied to all three parts together; supports `min`, `max`, `step`, and enabled/editable behavior. Fires `change`. |
-| `ui5.touch.controls.Text` | A text control with configurable size (`S`–`6XL`) and color. Fires `press`. |
-| `ui5.touch.controls.TextArea` | A multi-line text input based on `sap.m.TextArea` with touch-friendly size modes (`S`–`6XL`), rows, max length, value states, and `change` / `liveChange` events. |
-| `ui5.touch.controls.Toolbar` | A simple toolbar container with a `content` aggregation for arbitrary controls. |
-| `ui5.touch.controls.VirtualKeyboard` | An on-screen keyboard built natively from the library's own `Button` controls (no third-party dependency) with configurable layout (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}` special keys), optional real (hardware) keyboard input via `hardwareKeys`, size (`S`–`6XL`), button type, value binding, max length, and `change` / `keyPress` / `enter` events. |
+| `tc:BarcodeInput` | Input field that tells a barcode scanner from a person typing: a run of at least `minLength` characters whose gaps stay below `scanTimeout` and that is closed by Enter fires `scan`, everything else fires `change`. `prefix` and `suffix` are cut off the code, `clearOnScan` empties the field for the next one. |
+| `tc:VirtualKeyboard` | On-screen keyboard built from the library's own buttons. `mode` picks one of the ready-made layouts (`QWERTY`, `Numeric`, `Phone`, `Calculator`); `mode="Custom"` reads a layout of your own from `layout` (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`). Optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `tc:SignaturePad` | A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in `value`. Stroke width, placeholder and clear button follow `size`; the strokes survive a resize. Fires `change`. |
 
-### `SizeMode`
+### Sizes
 
-Shared enum for control sizing: `S`, `M`, `L`, `XL`, `2XL`, `3XL`, `4XL`, `5XL`, `6XL`.
+Every control has the same `size` property. Available values:
+
+`S` · `M` (default) · `L` · `XL` · `2XL` · `3XL` · `4XL` · `5XL` · `6XL`
+
+The size scales font size, icon size, padding and height together, so the controls stay proportional at every step.
 
 ### `ISized`
 
-Marker interface (`ui5.touch.controls.ISized`) implemented by every control with a `size` property (`Button`, `Input`, `StepInput`, `Text`, `TextArea`, `VirtualKeyboard`). It allows generic size handling, e.g.:
+All controls with a `size` property implement the marker interface `ui5.touch.controls.ISized`. This allows generic size handling, e.g. to apply a user setting to a whole view:
 
 ```ts
 if (control.isA<ISized>("ui5.touch.controls.ISized")) {
@@ -144,25 +313,91 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 }
 ```
 
-## Usage
+### Theme compatibility
 
-Example with the touch `Button` and `Toolbar`:
+The library ships its own theme library for the following themes, so the controls take their colours, borders and shadows from the theme parameters of the active theme and blend in with the surrounding `sap.m` controls. Set the theme as usual through `data-sap-ui-theme` in the bootstrap or at runtime through `Theming.setTheme()`.
+
+| Theme | Theme ID | Supported | Remark |
+| --- | --- | --- | --- |
+| Horizon | `sap_horizon` | ✅ | Default theme of the demo |
+| Horizon Dark | `sap_horizon_dark` | ✅ | Dark variant of Horizon |
+| Horizon High Contrast Black | `sap_horizon_hcb` | ✅ | High contrast, dark background |
+| Horizon High Contrast White | `sap_horizon_hcw` | ✅ | High contrast, light background |
+| Fiori 3 (Quartz Light) | `sap_fiori_3` | ✅ | Previous default theme of SAPUI5 / OpenUI5 |
+| Fiori 3 Dark (Quartz Dark) | `sap_fiori_3_dark` | ✅ | Dark variant of Fiori 3 |
+
+Themes that are not listed here are not shipped with the library. UI5 then falls back to the base theme for `ui5.touch.controls`, so the controls stay usable, but they will not match the colours of the rest of the application.
+
+## More examples
+
+The controls integrate seamlessly with existing standard controls and aggregations — for example `tc:Button` and `tc:Text` inside a `sap.m.Table`:
+
+![sap.m.Table using ui5.touch.controls Button and Text controls](assets/table.png)
+
+Use `tc:Toolbar` or `tc:OverflowToolbar` as a replacement for the toolbar in a `Page` or `Dialog`:
+
+![Screenshot of Toolbar in Dialog](assets/dialog.png)
+
+### ⚠️ Aggregations that only accept `sap.m.Button`
+
+Some standard aggregations are typed to `sap.m.Button` and therefore cannot take a `tc:Button` at all — the most common ones are `buttons`, `beginButton` and `endButton` of `sap.m.Dialog`:
 
 ```xml
-<mvc:View
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:tc="ui5.touch.controls">
-	<tc:Toolbar>
-		<tc:content>
-			<tc:Button
-				text="Confirm"
-				icon="sap-icon://accept"
-				size="XL"
-				press=".onPress" />
-		</tc:content>
-	</tc:Toolbar>
-</mvc:View>
+<!-- does NOT work — these aggregations only accept sap.m.Button -->
+<Dialog title="Delete order">
+	<buttons>
+		<tc:Button text="Delete" type="Reject" size="XL" press=".onDelete" />
+		<tc:Button text="Cancel" size="XL" press=".onCancel" />
+	</buttons>
+</Dialog>
 ```
+
+UI5 rejects the control at runtime:
+
+```
+"Element ui5.touch.controls.Button#__button0" is not valid
+for aggregation "buttons" of Element sap.m.Dialog#__dialog0
+```
+
+And these button slots are not meant to be resized either — they are laid out for the standard button height.
+
+**The way around it is the `footer` aggregation.** It is typed to `sap.m.Toolbar` (available since UI5 1.110), and because `tc:Toolbar` and `tc:OverflowToolbar` extend `sap.m.Toolbar`, they fit straight in. The dialog then sizes its footer to the toolbar, so touch-sized buttons are rendered properly:
+
+```xml
+<!-- works — the footer takes any sap.m.Toolbar, so also the touch ones -->
+<Dialog title="Delete order">
+	<footer>
+		<tc:OverflowToolbar size="XL">
+			<tc:Button text="Delete" type="Reject" icon="sap-icon://delete" size="XL" press=".onDelete" />
+			<ToolbarSpacer />
+			<tc:Button text="Cancel" icon="sap-icon://decline" size="XL" press=".onCancel" />
+		</tc:OverflowToolbar>
+	</footer>
+</Dialog>
+```
+
+Use `tc:OverflowToolbar` rather than `tc:Toolbar` whenever the dialog can get narrow — actions that no longer fit then move into the overflow popover instead of being cut off.
+
+The same applies in a controller:
+
+```ts
+import Button from "ui5/touch/controls/Button";
+import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
+import { SizeMode } from "ui5/touch/controls/library";
+
+dialog.setFooter(
+	new OverflowToolbar({
+		size: SizeMode.XL,
+		content: [
+			new Button({ text: "Delete", type: ButtonType.Reject, size: SizeMode.XL, press: onDelete }),
+			new ToolbarSpacer(),
+			new Button({ text: "Cancel", size: SizeMode.XL, press: onCancel }),
+		],
+	}),
+);
+```
+
+For plain message-box style dialogs you do not have to build this yourself — `QuickDialog` already creates its footer this way, sized through its `size` option.
 
 ## Development
 
@@ -178,18 +413,47 @@ pnpm install
 npm run start
 ```
 
-This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test page overview. Test pages for the individual controls live in `test/` (e.g. `Button.html`, `Text.html`, `VirtualKeyboard.html`).
+This starts the dev server (`ui5 serve` with `ui5-docs.yaml`) and opens the demo application. The demo is a standalone UI5 app in `docs/`: `Component.ts` and `manifest.json` wire the router, `view/` holds one XML view per page and `controller/` the matching controllers. The shell (side navigation, theme switcher, previous/next) lives in `view/App.view.xml`, the page list in `model/pages.ts`. It always runs against the latest UI5.
+
+### Test pages
+
+`test/` holds a single plain page that shows every control — no descriptions, no navigation, no models, nothing but the controls, so a broken render is the library's doing and not the demo's. It exists to see the controls on the older UI5 versions the library supports:
+
+```sh
+npm run start:test          # latest
+npm run start:test:1.116    # the oldest supported release
+npm run start:test:1.120    # and 1.124, 1.130, 1.140
+```
+
+`#Button` in the hash — or `?control=Button` — narrows the page to a single control; without either, every control is shown, one section after the other. Switching by hash rebuilds the page without reloading it. The cases are built in `test/cases.ts`.
+
+### UI tests
+
+The same page is what the UI tests run against. They are written with [wdi5](https://ui5-community.github.io/wdi5/) (WebdriverIO plus the UI5 service), so the controls are addressed through the UI5 control tree and read back through their own getters:
+
+```sh
+npm run test:ui                        # the version pinned in ui5-test.yaml
+UI5_VERSION=1.116.0 npm run test:ui    # any other release
+```
+
+`wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
+
+The GitHub workflow `ci.yml` runs the suite on every supported UI5 release in parallel. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
 
 ### Scripts
 
 | Script | Description |
 | --- | --- |
-| `npm run start` | Start the local dev server with livereload and open the test pages |
+| `npm run start` | Start the local dev server with livereload and open the demo application |
+| `npm run start:test` | Open the plain test page on the latest UI5 |
+| `npm run start:test:1.116` | Same page on UI5 1.116, the oldest supported release |
+| `npm run start:test:1.120` | Same page on UI5 1.120 (`:1.124`, `:1.130` and `:1.140` for the other supported versions) |
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:self-contained` | Self-contained build (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
+| `npm run test:ui` | Run the wdi5 UI tests against the test page (`UI5_VERSION` picks the release) |
 | `npm run check:ts` | TypeScript type check (`tsc --noEmit`) |
-| `npm run check:lint` | ESLint check for `src` and `test` |
+| `npm run check:lint` | ESLint check for `src`, `docs`, `test`, `e2e`, `scripts` and `wdio.conf.js` |
 | `npm run build:icon-font` | Generate the library's icon font (TTF/WOFF/WOFF2 + metadata) from the SVGs in `src/icons` (runs automatically before start/build) |
 | `npm run clean` | Remove `dist` and `coverage` |
 
@@ -198,20 +462,19 @@ This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the test
 ```
 src/                  Library sources (controls, library.ts, themes)
 src/themes/           Base + theme-specific LESS files
-test/                 Test pages (one HTML + TS pair per control)
+docs/                 Demo application (Component, manifest, views, controllers)
+test/                 Plain test page (one section per control)
+e2e/                  wdi5 UI tests that run against the test page
 scripts/              Build helper scripts
 ui5.yaml              UI5 tooling config (library build)
-ui5-test.yaml         UI5 tooling config (dev server / test pages)
+ui5-docs.yaml         UI5 tooling config (dev server / demo application)
+ui5-test.yaml         UI5 tooling config (test page, any UI5 version)
 ui5-self-contained.yaml  UI5 tooling config (self-contained build)
 ```
 
-### Icon font
-
-The library ships its own icon font, generated from the SVG files in `src/icons` by `scripts/build-icon-font.mjs` (runs automatically before start/build). The font is registered with the UI5 `IconPool` in `library.ts` under the `touch` collection, so its glyphs can be used through `sap-icon://touch/<icon-name>` and — being real font glyphs — inherit the current text color (`currentColor`), following the theme-aware LESS colors.
-
 ## Deployment
 
-Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which runs the self-contained build and deploys the test pages to GitHub Pages.
+Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which runs the self-contained build and deploys the demo application to GitHub Pages.
 
 ## License
 

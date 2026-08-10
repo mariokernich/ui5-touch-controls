@@ -6,9 +6,11 @@
 	box-sizing: border-box;
 	line-height: 0;
 	margin: 5px 0;
-	
 }
 
+/* see Input.less: the field outline of a theme such as Horizon is painted
+   through @sapField_BackgroundStyle, so the shorthand has to be applied
+   before the background color in every state */
 .sizedTextAreaContentWrapper {
 	box-sizing: border-box;
 	display: inline-block;
@@ -17,15 +19,22 @@
 	vertical-align: middle;
 	width: 100%;
 	height: 100%;
+	background: var(--sapField_BackgroundStyle);
 	background-color: @sapField_Background;
-	box-shadow: var(--sapField_Shadow);
 	border: var(--sapField_BorderWidth) var(--sapField_BorderStyle) var(--sapField_BorderColor);
 	border-radius: @sapField_BorderCornerRadius;
 }
 
-.sizedTextAreaContentWrapper:hover:not(.sizedTextAreaState) {
+.sizedTextAreaContentWrapper:not(.sizedTextAreaState) {
+	box-shadow: var(--sapField_Shadow);
+}
+
+.sizedTextArea:not(.sizedTextAreaReadonly):not(.sizedTextAreaDisabled)
+	.sizedTextAreaContentWrapper:hover:not(.sizedTextAreaState) {
+	background: var(--sapField_Hover_BackgroundStyle);
 	background-color: @sapField_Hover_Background;
 	border-color: @sapField_Hover_BorderColor;
+	box-shadow: var(--sapField_Hover_Shadow);
 }
 
 .sizedTextAreaContentWrapper:focus-within {
@@ -33,15 +42,36 @@
 	outline: none;
 }
 
+.sizedTextAreaContentWrapper:focus-within::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) var(--sapField_Active_BorderColor);
+	border-radius: @sapField_BorderCornerRadius;
+	pointer-events: none;
+	z-index: 2;
+}
+
 .sizedTextAreaInner {
 	display: block;
+	font-size: var(--sized-font-size);
+	padding: var(--sized-padding-y) var(--sized-padding-x);
 	background: transparent;
 	border: none;
 	outline: none;
-	resize: vertical;
+	/* like sap.m.TextArea: no native resize grip. It would be drawn over the
+	   rounded corner and the value state line of the field, and a 15px grab
+	   handle is of no use on a touch device anyway. */
+	resize: none;
 	font-family: @sapFontFamily;
 	color: @sapField_TextColor;
-	line-height: normal;
+	/* the parameter the themes give the sap.m text area: 1.5 in Horizon,
+	   1.4 in Fiori 3 - "normal" would pack the lines noticeably tighter and
+	   make the control shorter than sap.m for the same number of rows */
+	line-height: @sapContent_LineHeight;
 	height: 100%;
 	width: 100%;
 	box-sizing: border-box;
@@ -52,13 +82,32 @@
 	font-style: italic;
 }
 
-/* read-only */
+/*
+ * read-only: sap.m.TextArea does not take the read-only indication of a
+ * single-line field. @sapField_ReadOnly_BackgroundStyle is an underline - on a
+ * box the size of a text area that reads as an error line rather than as
+ * "read-only" - so the whole box gets the border instead. The style comes from
+ * @sapField_Selector_ReadOnly_BorderStyle, the parameter the themes use for
+ * box shaped fields: dashed in Horizon, solid in Fiori 3.
+ */
 .sizedTextAreaReadonly .sizedTextAreaContentWrapper {
+	background-image: none;
 	background-color: @sapField_ReadOnly_Background;
 	border-color: @sapField_ReadOnly_BorderColor;
+	/* the fallback is for the UI5 versions that do not know the parameter yet.
+	   It cannot be @sapField_ReadOnly_BorderStyle: that is "none" in Horizon,
+	   which draws its fields without a border - a box needs its outline. */
+	border-style: var(--sapField_Selector_ReadOnly_BorderStyle, solid);
+	box-shadow: none;
 }
-.sizedTextAreaReadonly .sizedTextAreaInner {
-	resize: none;
+
+/* keep the read-only border visible next to the focus ring */
+.sizedTextAreaReadonly .sizedTextAreaContentWrapper:focus-within::before {
+	top: 1px;
+	left: 1px;
+	right: 1px;
+	bottom: 1px;
+	border-radius: 0.125rem;
 }
 
 /* disabled */
@@ -71,21 +120,45 @@
 
 /* value states */
 .sizedTextAreaError {
+	background: var(--sapField_InvalidBackgroundStyle);
 	background-color: @sapField_InvalidBackground;
-	border: 2px solid @sapField_InvalidColor;
+	border: var(--sapField_InvalidBorderWidth) var(--sapField_InvalidBorderStyle) @sapField_InvalidColor;
+	box-shadow: var(--sapField_InvalidShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaError:focus-within::before {
+	border-color: @sapField_InvalidColor;
 }
 
 .sizedTextAreaWarning {
+	background: var(--sapField_WarningBackgroundStyle);
 	background-color: @sapField_WarningBackground;
-	border: 2px solid @sapField_WarningColor;
+	border: var(--sapField_WarningBorderWidth) var(--sapField_WarningBorderStyle) @sapField_WarningColor;
+	box-shadow: var(--sapField_WarningShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaWarning:focus-within::before {
+	border-color: @sapField_WarningColor;
 }
 
 .sizedTextAreaSuccess {
+	background: var(--sapField_SuccessBackgroundStyle);
 	background-color: @sapField_SuccessBackground;
-	border: 1px solid @sapField_SuccessColor;
+	border: var(--sapField_SuccessBorderWidth) var(--sapField_SuccessBorderStyle) @sapField_SuccessColor;
+	box-shadow: var(--sapField_SuccessShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaSuccess:focus-within::before {
+	border-color: @sapField_SuccessColor;
 }
 
 .sizedTextAreaInformation {
+	background: var(--sapField_InformationBackgroundStyle);
 	background-color: @sapField_InformationBackground;
-	border: 2px solid @sapField_InformationColor;
+	border: var(--sapField_InformationBorderWidth) var(--sapField_InformationBorderStyle) @sapField_InformationColor;
+	box-shadow: var(--sapField_InformationShadow);
+}
+
+.sizedTextAreaContentWrapper.sizedTextAreaInformation:focus-within::before {
+	border-color: @sapField_InformationColor;
 }

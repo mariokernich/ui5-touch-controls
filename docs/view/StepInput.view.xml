@@ -1,0 +1,125 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.StepInput"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
+			type="XML" />
+
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="{i18n>optionsStepInput}" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblMin}" width="100px" />
+							<Input
+								value="{json>/min}"
+								type="Number"
+								valueLiveUpdate="true"
+								width="100px" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblMax}" width="100px" />
+							<Input
+								value="{json>/max}"
+								type="Number"
+								valueLiveUpdate="true"
+								width="100px" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblButtonType}" width="100px" />
+							<Select selectedKey="{json>/buttonType}">
+								<core:Item key="Default" text="Default" />
+								<core:Item key="Emphasized" text="Emphasized" />
+								<core:Item key="Accept" text="Accept" />
+								<core:Item key="Reject" text="Reject" />
+								<core:Item key="Attention" text="Attention" />
+								<core:Item key="Transparent" text="Transparent" />
+								<core:Item key="Neutral" text="Neutral" />
+								<core:Item key="Critical" text="Critical" />
+								<core:Item key="Negative" text="Negative" />
+								<core:Item key="Success" text="Success" />
+								<core:Item key="Ghost" text="Ghost" />
+							</Select>
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblBehavior}" width="100px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+						</HBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header
+						title="ui5.touch.controls.StepInput"
+						subtitle="{i18n>cardTouch}" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:StepInput
+							value="{json>/value}"
+							min="{json>/min}"
+							max="{json>/max}"
+							size="{json>/size}"
+							buttonType="{json>/buttonType}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							change=".onChange" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header
+						title="sap.m.StepInput"
+						subtitle="{i18n>cardOriginal}" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<StepInput
+							value="{json>/value}"
+							min="{json>/min}"
+							max="{json>/max}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							width="10rem" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

@@ -2,6 +2,7 @@ import Event from "sap/ui/base/Event";
 import { ValueState } from "sap/ui/core/library";
 import { CSSSize } from "sap/ui/core/library";
 import { SizeMode } from "ui5/touch/controls/library";
+import VirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 
@@ -62,6 +63,33 @@ declare module "./TextArea" {
          * Touch size of the text area.
          */
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * /**
+                     * Indicates whether the keyboard in the
+                     *
+        {@link #getVirtualKeyboard virtualKeyboard}
+         aggregation is shown in
+                     * a popover below the field while the field has the focus.
+                     *
+                     * Without a keyboard in that aggregation the property has no effect.
+         */
+        showVirtualKeyboard?: boolean | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * /**
+                     * The on-screen keyboard shown while the field has the focus, if
+                     *
+        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+         is set.
+                     *
+                     * The keyboard types into this field: its value is replaced with the
+                     * value of the field whenever the popover opens, every key press
+                     * fires <code>liveChange</code> and its Enter key adds a line break,
+                     * as Enter does in a multi-line field. The <code>maxLength</code> of
+                     * the field is handed down to it.
+         */
+        virtualKeyboard?: VirtualKeyboard;
 
         /**
          * Fired when the value of the text area has changed and the focus
@@ -199,6 +227,79 @@ declare module "./TextArea" {
          * Touch size of the text area.
          */
         setSize(size: SizeMode): this;
+
+        // property: showVirtualKeyboard
+
+        /**
+         * /**
+                     * Indicates whether the keyboard in the
+                     *
+        {@link #getVirtualKeyboard virtualKeyboard}
+         aggregation is shown in
+                     * a popover below the field while the field has the focus.
+                     *
+                     * Without a keyboard in that aggregation the property has no effect.
+         */
+        getShowVirtualKeyboard(): boolean;
+
+        /**
+         * /**
+                     * Indicates whether the keyboard in the
+                     *
+        {@link #getVirtualKeyboard virtualKeyboard}
+         aggregation is shown in
+                     * a popover below the field while the field has the focus.
+                     *
+                     * Without a keyboard in that aggregation the property has no effect.
+         */
+        setShowVirtualKeyboard(showVirtualKeyboard: boolean): this;
+
+        // aggregation: virtualKeyboard
+
+        /**
+         * /**
+                     * The on-screen keyboard shown while the field has the focus, if
+                     *
+        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+         is set.
+                     *
+                     * The keyboard types into this field: its value is replaced with the
+                     * value of the field whenever the popover opens, every key press
+                     * fires <code>liveChange</code> and its Enter key adds a line break,
+                     * as Enter does in a multi-line field. The <code>maxLength</code> of
+                     * the field is handed down to it.
+         */
+        getVirtualKeyboard(): VirtualKeyboard;
+
+        /**
+         * /**
+                     * The on-screen keyboard shown while the field has the focus, if
+                     *
+        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+         is set.
+                     *
+                     * The keyboard types into this field: its value is replaced with the
+                     * value of the field whenever the popover opens, every key press
+                     * fires <code>liveChange</code> and its Enter key adds a line break,
+                     * as Enter does in a multi-line field. The <code>maxLength</code> of
+                     * the field is handed down to it.
+         */
+        setVirtualKeyboard(virtualKeyboard: VirtualKeyboard): this;
+
+        /**
+         * /**
+                     * The on-screen keyboard shown while the field has the focus, if
+                     *
+        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+         is set.
+                     *
+                     * The keyboard types into this field: its value is replaced with the
+                     * value of the field whenever the popover opens, every key press
+                     * fires <code>liveChange</code> and its Enter key adds a line break,
+                     * as Enter does in a multi-line field. The <code>maxLength</code> of
+                     * the field is handed down to it.
+         */
+        destroyVirtualKeyboard(): this;
 
         // event: change
 

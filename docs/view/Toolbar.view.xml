@@ -1,0 +1,59 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.Toolbar"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
+			type="XML" />
+
+		<HBox alignItems="Center" class="sapUiSmallMarginBottom">
+			<Text text="{i18n>lblButtonSize}" width="100px" />
+			<Select selectedKey="{json>/size}">
+				<core:Item key="S" text="S" />
+				<core:Item key="M" text="M" />
+				<core:Item key="L" text="L" />
+				<core:Item key="XL" text="XL" />
+				<core:Item key="2XL" text="2XL" />
+				<core:Item key="3XL" text="3XL" />
+				<core:Item key="4XL" text="4XL" />
+				<core:Item key="5XL" text="5XL" />
+				<core:Item key="6XL" text="6XL" />
+			</Select>
+		</HBox>
+
+		<!-- the toolbar as the footer of a page; the page needs an explicit
+		     height, otherwise it collapses inside the flow of the page -->
+		<Page title="{i18n>toolbarPageTitle}" showFooter="true" class="touchControlsDemoPage">
+			<footer>
+				<tc:Toolbar size="{json>/size}">
+					<tc:Button
+						text="{i18n>btnOpenSampleDialog}"
+						type="Emphasized"
+						icon="sap-icon://add"
+						size="{json>/size}"
+						press=".onOpenDialog" />
+					<tc:Button
+						text="{i18n>btnButton2}"
+						type="Ghost"
+						icon="sap-icon://edit"
+						size="{json>/size}"
+						press=".onDummyPress" />
+					<ToolbarSpacer />
+					<tc:Button
+						text="{i18n>btnButton3}"
+						type="Reject"
+						icon="sap-icon://delete"
+						size="{json>/size}"
+						press=".onDummyPress" />
+				</tc:Toolbar>
+			</footer>
+		</Page>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

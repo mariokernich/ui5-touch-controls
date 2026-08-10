@@ -1,0 +1,186 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/*
+ * Everything is derived from one height, which comes from the size ladder in
+ * Sizing.less: the track is twice as wide, the handle three quarters as high
+ * as the track, as in sap.m - so every size mode keeps the same proportions.
+ *
+ * The colors come from the @sapButton_Track_* / @sapButton_Handle_* family -
+ * the parameters the themes provide for exactly this control - so the switch
+ * follows the theme instead of borrowing colors from somewhere else.
+ */
+.sizedSwitch {
+	height: var(--sized-switch-height);
+	width: ~"calc(var(--sized-switch-height) * 2)";
+	font-size: ~"calc(var(--sized-switch-height) * 0.375)";
+	--sized-switch-handle: ~"calc(var(--sized-switch-height) * 0.75)";
+	--sized-switch-handle-width: ~"calc(var(--sized-switch-height) * 1.15)";
+	--sized-switch-inset: ~"calc(var(--sized-switch-height) * 0.125)";
+	display: inline-block;
+	position: relative;
+	box-sizing: border-box;
+	vertical-align: top;
+	margin: 0.5rem 0;
+	outline: none;
+	cursor: pointer;
+	border: var(--sapButton_BorderWidth) solid;
+	border-radius: 62.5rem;
+	font-family: @sapFontFamily;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* the handle carries the label, so the text travels with it - the way the
+   Horizon switch is built */
+.sizedSwitchHandle {
+	position: absolute;
+	top: 50%;
+	left: var(--sized-switch-inset);
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: var(--sized-switch-handle-width);
+	height: var(--sized-switch-handle);
+	border: 0.125rem solid;
+	border-radius: 62.5rem;
+	overflow: hidden;
+	transition: left 0.125s ease-in-out;
+}
+
+.sizedSwitchOn .sizedSwitchHandle {
+	left: ~"calc(100% - var(--sized-switch-handle-width) - var(--sized-switch-inset))";
+}
+
+.sizedSwitchLabel {
+	line-height: 1;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+.sizedSwitchOff .sizedSwitchLabelOn,
+.sizedSwitchOn .sizedSwitchLabelOff {
+	display: none;
+}
+
+/* ------------------------------------------------------------------------ */
+/* type Default                                                              */
+/* ------------------------------------------------------------------------ */
+
+.sizedSwitchOff:not(.sizedSwitchAcceptReject) {
+	background: @sapButton_Track_Background;
+	border-color: @sapButton_Track_BorderColor;
+}
+
+.sizedSwitchOff:not(.sizedSwitchAcceptReject) .sizedSwitchHandle {
+	background: @sapButton_Handle_Background;
+	border-color: @sapButton_Handle_BorderColor;
+	color: @sapButton_Handle_TextColor;
+}
+
+.sizedSwitchOn:not(.sizedSwitchAcceptReject) {
+	background: @sapButton_Track_Selected_Background;
+	border-color: @sapButton_Track_Selected_BorderColor;
+}
+
+.sizedSwitchOn:not(.sizedSwitchAcceptReject) .sizedSwitchHandle {
+	background: @sapButton_Handle_Selected_Background;
+	border-color: @sapButton_Handle_Selected_BorderColor;
+	color: @sapButton_Handle_Selected_TextColor;
+}
+
+/* hover */
+.sizedSwitch:not(.sizedSwitchDisabled).sizedSwitchOff:not(.sizedSwitchAcceptReject):hover {
+	background: @sapButton_Track_Hover_Background;
+	border-color: @sapButton_Track_Hover_BorderColor;
+}
+
+.sizedSwitch:not(.sizedSwitchDisabled).sizedSwitchOff:not(.sizedSwitchAcceptReject):hover
+	.sizedSwitchHandle {
+	background: @sapButton_Handle_Hover_Background;
+	border-color: @sapButton_Handle_Hover_BorderColor;
+}
+
+.sizedSwitch:not(.sizedSwitchDisabled).sizedSwitchOn:not(.sizedSwitchAcceptReject):hover {
+	background: @sapButton_Track_Selected_Hover_Background;
+	border-color: @sapButton_Track_Selected_Hover_BorderColor;
+}
+
+.sizedSwitch:not(.sizedSwitchDisabled).sizedSwitchOn:not(.sizedSwitchAcceptReject):hover
+	.sizedSwitchHandle {
+	background: @sapButton_Handle_Selected_Hover_Background;
+	border-color: @sapButton_Handle_Selected_Hover_BorderColor;
+}
+
+/* ------------------------------------------------------------------------ */
+/* type AcceptReject                                                         */
+/* ------------------------------------------------------------------------ */
+
+/* sap-icon://accept and sap-icon://decline, the pair sap.m uses. They sit in
+   the handle here, where sap.m puts them into the track */
+.sizedSwitchAcceptReject .sizedSwitchLabel::before {
+	font-family: var(
+		--sapContent_IconFontFamily,
+		@sapContent_IconFontFamily
+	);
+}
+
+.sizedSwitchAcceptReject .sizedSwitchLabelOn::before {
+	content: "\e05b";
+}
+
+.sizedSwitchAcceptReject .sizedSwitchLabelOff::before {
+	content: "\e03e";
+}
+
+.sizedSwitchAcceptReject.sizedSwitchOn {
+	background: @sapButton_Track_Positive_Background;
+	border-color: @sapButton_Track_Positive_BorderColor;
+}
+
+.sizedSwitchAcceptReject.sizedSwitchOn .sizedSwitchHandle {
+	background: @sapButton_Handle_Positive_Background;
+	border-color: @sapButton_Handle_Positive_BorderColor;
+	color: @sapPositiveElementColor;
+}
+
+.sizedSwitchAcceptReject.sizedSwitchOff {
+	background: @sapButton_Track_Negative_Background;
+	border-color: @sapButton_Track_Negative_BorderColor;
+}
+
+.sizedSwitchAcceptReject.sizedSwitchOff .sizedSwitchHandle {
+	background: @sapButton_Handle_Negative_Background;
+	border-color: @sapButton_Handle_Negative_BorderColor;
+	color: @sapNegativeElementColor;
+}
+
+.sizedSwitch:not(.sizedSwitchDisabled).sizedSwitchAcceptReject.sizedSwitchOn:hover {
+	background: @sapButton_Track_Positive_Hover_Background;
+	border-color: @sapButton_Track_Positive_Hover_BorderColor;
+}
+
+.sizedSwitch:not(.sizedSwitchDisabled).sizedSwitchAcceptReject.sizedSwitchOff:hover {
+	background: @sapButton_Track_Negative_Hover_Background;
+	border-color: @sapButton_Track_Negative_Hover_BorderColor;
+}
+
+/* ------------------------------------------------------------------------ */
+/* focus and disabled                                                        */
+/* ------------------------------------------------------------------------ */
+
+.sizedSwitch:focus::before {
+	content: "";
+	position: absolute;
+	inset: ~"calc(-1 * (var(--sized-switch-inset) + 0.125rem))";
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) @sapContent_FocusColor;
+	border-radius: 62.5rem;
+	pointer-events: none;
+}
+
+.sizedSwitchDisabled {
+	opacity: @sapContent_DisabledOpacity;
+	cursor: default;
+}

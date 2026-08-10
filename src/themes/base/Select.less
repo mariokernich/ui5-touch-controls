@@ -1,0 +1,32 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/* the field frame and the arrow, see Field.less */
+.touchField(sizedSelect);
+.touchFieldSize(sizedSelect);
+.touchFieldArrow(sizedSelect);
+
+.sizedSelect {
+	cursor: pointer;
+}
+
+.sizedSelectLabel {
+	flex: 1 1 auto;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	min-width: 0;
+	align-self: center;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+/* read-only: no arrow, because there is nothing to open */
+.sizedSelectReadonly,
+.sizedSelectDisabled {
+	cursor: default;
+}

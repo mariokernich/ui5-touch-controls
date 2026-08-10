@@ -1,6 +1,6 @@
-import ComboBox from "sap/m/ComboBox";
+import ComboBox from "ui5/touch/controls/ComboBox";
 import Dialog from "sap/m/Dialog";
-import Input from "sap/m/Input";
+import Input from "ui5/touch/controls/Input";
 import { ButtonType } from "sap/m/library";
 import Text from "sap/m/Text";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
@@ -10,7 +10,7 @@ import { ValueState } from "sap/ui/core/library";
 import ListItem from "sap/ui/core/ListItem";
 import { SizeMode } from "ui5/touch/controls/library";
 import Button from "ui5/touch/controls/Button";
-import Toolbar from "ui5/touch/controls/Toolbar";
+import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
 import Link from "sap/m/Link";
 
 export interface IQuickDialogOptions {
@@ -23,7 +23,7 @@ export interface IQuickDialogOptions {
 	state?: ValueState;
 	toolbarSpacer?: boolean;
 	emphasizedAction?: MessageAction | string;
-	size: SizeMode;
+	buttonSize: SizeMode;
 }
 
 export enum MessageAction {
@@ -39,7 +39,7 @@ export enum MessageAction {
 }
 
 /**
- * @namespace ui5.touch.controls.touch
+ * @namespace ui5.touch.controls
  */
 export default class QuickDialog extends ManagedObject {
 	static async show(
@@ -61,7 +61,9 @@ export default class QuickDialog extends ManagedObject {
 		const actions = options.actions ?? [MessageAction.Ok];
 
 		return new Promise<MessageAction | string>((resolve, reject) => {
-			const toolbar = new Toolbar();
+			const toolbar = new OverflowToolbar({
+				size: options.buttonSize,
+			});
 
 			actions.forEach((action) => {
 				const btn = new Button({
@@ -74,7 +76,7 @@ export default class QuickDialog extends ManagedObject {
 						options.emphasizedAction === action
 							? ButtonType.Emphasized
 							: ButtonType.Default,
-					size: options.size,
+					size: options.buttonSize,
 				});
 
 				toolbar.addContent(btn);
@@ -96,6 +98,7 @@ export default class QuickDialog extends ManagedObject {
 			label?: string;
 			placeholder?: string;
 			value?: string;
+			inputSize?: SizeMode;
 		} & IQuickDialogOptions,
 	): Promise<{
 		action: MessageAction | string;
@@ -114,11 +117,15 @@ export default class QuickDialog extends ManagedObject {
 				const input = new Input({
 					value: options.value,
 					placeholder: options.placeholder,
+					size: options.inputSize ?? SizeMode.M,
+					width: "100%",
 				});
 
 				vbox.addItem(input);
 				const actions = options.actions ?? [MessageAction.Ok];
-				const toolbar = new Toolbar();
+				const toolbar = new OverflowToolbar({
+					size: options.buttonSize,
+				});
 
 				actions.forEach((action) => {
 					const btn = new Button({
@@ -134,7 +141,7 @@ export default class QuickDialog extends ManagedObject {
 							options.emphasizedAction === action
 								? ButtonType.Emphasized
 								: ButtonType.Default,
-						size: options.size,
+						size: options.buttonSize,
 					});
 
 					toolbar.addContent(btn);
@@ -166,6 +173,7 @@ export default class QuickDialog extends ManagedObject {
 			placeholder?: string;
 			selectedKey?: string;
 			items: { key: string; text: string; additionalText?: string }[];
+			selectSize?: SizeMode;
 		} & IQuickDialogOptions,
 	): Promise<{
 		selectedKey: string;
@@ -195,12 +203,15 @@ export default class QuickDialog extends ManagedObject {
 						}),
 				),
 				width: "100%",
-				showSecondaryValues: true,
+				//showSecondaryValues: true,
+				size: options.selectSize,
 			});
 
 			vbox.addItem(combobox);
 			const actions = options.actions ?? [MessageAction.Ok];
-			const toolbar = new Toolbar();
+			const toolbar = new OverflowToolbar({
+				size: options.buttonSize,
+			});
 
 			actions.forEach((action) => {
 				const btn = new Button({
@@ -216,7 +227,7 @@ export default class QuickDialog extends ManagedObject {
 						options.emphasizedAction === action
 							? ButtonType.Emphasized
 							: ButtonType.Default,
-					size: options.size,
+					size: options.buttonSize,
 				});
 
 				toolbar.addContent(btn);
@@ -322,7 +333,9 @@ export default class QuickDialog extends ManagedObject {
 		const actions = options.actions ?? [MessageAction.Ok];
 
 		return new Promise<MessageAction | string>((resolve, reject) => {
-			const toolbar = new Toolbar();
+			const toolbar = new OverflowToolbar({
+				size: options.buttonSize,
+			});
 
 			actions.forEach((action) => {
 				const btn = new Button({
@@ -335,7 +348,7 @@ export default class QuickDialog extends ManagedObject {
 						options.emphasizedAction === action
 							? ButtonType.Emphasized
 							: ButtonType.Default,
-					size: options.size,
+					size: options.buttonSize,
 				});
 
 				toolbar.addContent(btn);
@@ -360,6 +373,6 @@ export default class QuickDialog extends ManagedObject {
 			icon: options.icon,
 			draggable: options.draggable,
 			state: options.state,
-		}).addStyleClass("sapUiResponsivePadding");
+		}).addStyleClass("sapUiContentPadding");
 	}
 }

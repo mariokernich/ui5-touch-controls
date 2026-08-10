@@ -1,0 +1,51 @@
+.sizedOverflowToolbar {
+	/* the hidden overflow button is positioned absolutely for measuring */
+	position: relative;
+}
+
+/* the content is either shown completely or moved to the overflow area,
+   it is never shrunk - otherwise the measured widths would not match */
+.sizedOverflowToolbar > * {
+	flex-shrink: 0;
+}
+
+.sizedButton.sizedOverflowToolbarButton {
+	/* square, so it matches the height the buttons next to it have */
+	width: var(--sized-height);
+	background-color: transparent;
+	border-color: transparent;
+	margin-left: 0.25rem;
+}
+
+.sizedButton.sizedOverflowToolbarButton:hover:not(.sizedButtonActive) {
+	background-color: @sapButton_Hover_Background;
+	border-color: @sapButton_Hover_BorderColor;
+}
+
+/* pushed to the right end of the toolbar when there is no ToolbarSpacer that
+   already positions the content */
+.sizedButton.sizedOverflowToolbarButtonEnd {
+	margin-left: auto;
+}
+
+/* kept in the DOM while everything fits so that its width stays measurable */
+.sizedOverflowToolbarButtonHidden {
+	position: absolute;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+/* the overflowing content is stacked vertically inside the popover - the
+   selector matches the specificity of the sap.m popover styles */
+.sapMPopover.sizedOverflowToolbarPopover .sapMPopoverCont .sapMPopoverScroll {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	padding: 0.5rem;
+}
+
+.sizedOverflowToolbarPopover .sizedOverflowToolbarPopoverChild {
+	display: block;
+	width: 100%;
+	margin: 0.25rem 0;
+}

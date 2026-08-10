@@ -1,0 +1,36 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/* the field frame and the arrow, see Field.less */
+.touchField(sizedComboBox);
+.touchFieldSize(sizedComboBox);
+.touchFieldArrow(sizedComboBox);
+
+.sizedComboBoxInner {
+	flex: 1 1 auto;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	padding-right: var(--sized-padding-x);
+	min-width: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sizedComboBoxInner::placeholder {
+	color: @sapField_PlaceholderTextColor;
+	font-style: italic;
+}
+
+/* read-only: no arrow, because there is nothing to open */
+.sizedComboBoxDisabled {
+	cursor: default;
+}
+.sizedComboBoxDisabled .sizedComboBoxInner {
+	pointer-events: none;
+}

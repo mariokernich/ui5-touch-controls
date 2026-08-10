@@ -1,4 +1,7 @@
 allowBuilds:
+  edgedriver: false
+  esbuild: true
+  geckodriver: false
   ttf2woff2: false
   ui5-tooling-modules: true
   ui5-tooling-transpile: true

@@ -8,22 +8,40 @@
 	margin: 5px 0;
 }
 
+/*
+ * Horizon draws the outline of a field as a background image rather than as a
+ * border: @sapField_BorderStyle is "none" there, and the line at the bottom
+ * comes from @sapField_BackgroundStyle. Applying only the background color -
+ * as this file did before - therefore loses the underline in Horizon while
+ * looking correct in Fiori 3, where the style parameter is "none" and the
+ * border does the work. Every state below repeats the pair for the same
+ * reason; the shorthand has to come first because it resets the color.
+ */
 .sizedInputContentWrapper {
+	height: var(--sized-height);
 	box-sizing: border-box;
 	display: inline-block;
 	position: relative;
 	overflow: hidden;
 	vertical-align: middle;
 	width: 100%;
+	background: var(--sapField_BackgroundStyle);
 	background-color: @sapField_Background;
 	border: var(--sapField_BorderWidth) var(--sapField_BorderStyle) var(--sapField_BorderColor);
 	border-radius: @sapField_BorderCornerRadius;
+}
+
+/* the shadow belongs to the plain field only, a value state brings its own */
+.sizedInputContentWrapper:not(.sizedInputState) {
 	box-shadow: var(--sapField_Shadow);
 }
 
-.sizedInputContentWrapper:hover:not(.sizedInputState) {
+.sizedInput:not(.sizedInputReadonly):not(.sizedInputDisabled)
+	.sizedInputContentWrapper:hover:not(.sizedInputState) {
+	background: var(--sapField_Hover_BackgroundStyle);
 	background-color: @sapField_Hover_Background;
 	border-color: @sapField_Hover_BorderColor;
+	box-shadow: var(--sapField_Hover_Shadow);
 }
 
 .sizedInputContentWrapper:focus-within {
@@ -31,8 +49,26 @@
 	outline: none;
 }
 
+/* the focus ring is an overlay, so it also shows in themes that draw the
+   field without a border */
+.sizedInputContentWrapper:focus-within::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: var(--sapContent_FocusWidth) var(--sapContent_FocusStyle) var(--sapField_Active_BorderColor);
+	border-radius: @sapField_BorderCornerRadius;
+	pointer-events: none;
+	z-index: 2;
+}
+
 .sizedInputInner {
 	background: transparent;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	padding-right: var(--sized-padding-x);
 	border: none;
 	outline: none;
 	font-family: @sapFontFamily;
@@ -52,8 +88,10 @@
 
 /* read-only */
 .sizedInputReadonly .sizedInputContentWrapper {
+	background: var(--sapField_ReadOnly_BackgroundStyle);
 	background-color: @sapField_ReadOnly_Background;
 	border-color: @sapField_ReadOnly_BorderColor;
+	box-shadow: none;
 }
 
 /* disabled */
@@ -66,21 +104,45 @@
 
 /* value states */
 .sizedInputError {
+	background: var(--sapField_InvalidBackgroundStyle);
 	background-color: @sapField_InvalidBackground;
-	border: 2px solid @sapField_InvalidColor;
+	border: var(--sapField_InvalidBorderWidth) var(--sapField_InvalidBorderStyle) @sapField_InvalidColor;
+	box-shadow: var(--sapField_InvalidShadow);
+}
+
+.sizedInputContentWrapper.sizedInputError:focus-within::before {
+	border-color: @sapField_InvalidColor;
 }
 
 .sizedInputWarning {
+	background: var(--sapField_WarningBackgroundStyle);
 	background-color: @sapField_WarningBackground;
-	border: 2px solid @sapField_WarningColor;
+	border: var(--sapField_WarningBorderWidth) var(--sapField_WarningBorderStyle) @sapField_WarningColor;
+	box-shadow: var(--sapField_WarningShadow);
+}
+
+.sizedInputContentWrapper.sizedInputWarning:focus-within::before {
+	border-color: @sapField_WarningColor;
 }
 
 .sizedInputSuccess {
+	background: var(--sapField_SuccessBackgroundStyle);
 	background-color: @sapField_SuccessBackground;
-	border: 1px solid @sapField_SuccessColor;
+	border: var(--sapField_SuccessBorderWidth) var(--sapField_SuccessBorderStyle) @sapField_SuccessColor;
+	box-shadow: var(--sapField_SuccessShadow);
+}
+
+.sizedInputContentWrapper.sizedInputSuccess:focus-within::before {
+	border-color: @sapField_SuccessColor;
 }
 
 .sizedInputInformation {
+	background: var(--sapField_InformationBackgroundStyle);
 	background-color: @sapField_InformationBackground;
-	border: 2px solid @sapField_InformationColor;
+	border: var(--sapField_InformationBorderWidth) var(--sapField_InformationBorderStyle) @sapField_InformationColor;
+	box-shadow: var(--sapField_InformationShadow);
+}
+
+.sizedInputContentWrapper.sizedInputInformation:focus-within::before {
+	border-color: @sapField_InformationColor;
 }

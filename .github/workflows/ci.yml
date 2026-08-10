@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: "ci-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Types, lint & build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: 🔨 setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Type check
+        run: npm run check:ts
+
+      - name: Lint
+        run: npm run check:lint
+
+      - name: Build
+        run: npm run build
+
+  versions:
+    name: Collect UI5 versions
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.read.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # the versions come from the start:test scripts in package.json, so the
+      # matrix and the scripts a developer runs locally stay the same list
+      - name: Read the versions from package.json
+        id: read
+        run: echo "matrix=$(node scripts/ui5-versions.mjs)" >> "$GITHUB_OUTPUT"
+
+  ui:
+    name: UI tests on UI5 ${{ matrix.ui5.name }}
+    needs: versions
+    runs-on: ubuntu-latest
+    strategy:
+      # one release failing should not hide how the others did
+      fail-fast: false
+      matrix:
+        ui5: ${{ fromJSON(needs.versions.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: 🔨 setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # the UI5 releases are downloaded on first use and kept in ~/.ui5, which
+      # is worth carrying over: a cold download is most of the runtime
+      - name: Cache the UI5 framework versions
+        uses: actions/cache@v4
+        with:
+          path: ~/.ui5/framework
+          key: ui5-framework-${{ matrix.ui5.version || 'default' }}
+
+      - name: Run the UI tests
+        run: npm run test:ui
+        env:
+          UI5_VERSION: ${{ matrix.ui5.version }}

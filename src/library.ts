@@ -31,6 +31,43 @@ export enum SizeMode {
 }
 
 /**
+ * The keyboard layouts a {@link ui5.touch.controls.VirtualKeyboard} brings
+ * along.
+ *
+ * Everything but <code>Custom</code> is a ready-made layout - the control
+ * knows its rows and the <code>layout</code> property is not looked at. Only
+ * <code>Custom</code> hands the keyboard over to that property.
+ */
+export enum KeyboardMode {
+	/** letters and digits, in the arrangement of a computer keyboard */
+	QWERTY = "QWERTY",
+	/** the digits of a number pad, 7 8 9 on top */
+	Numeric = "Numeric",
+	/** the digits of a telephone, 1 2 3 on top, with * and # */
+	Phone = "Phone",
+	/** the digits of a number pad with the four basic operations */
+	Calculator = "Calculator",
+	/** the rows come from the <code>layout</code> property */
+	Custom = "Custom",
+}
+
+/**
+ * The CSS class that carries the size ladder for a size mode.
+ *
+ * A control renders it on its root element and then takes what it needs from
+ * the custom properties the class defines - <code>--sized-font-size</code>,
+ * <code>--sized-height</code> and so on. The values themselves live in
+ * <code>themes/base/Sizing.less</code>, which is the only place they are
+ * written down.
+ *
+ * @param size the size mode of the control
+ * @returns the class name, e.g. <code>sizedSizeXL</code>
+ */
+export function sizeClass(size: SizeMode): string {
+	return `sizedSize${size}`;
+}
+
+/**
  * Interface for controls that provide the library's central
  * <code>size</code> property ({@link ui5.touch.controls.SizeMode}).
  *
@@ -66,19 +103,33 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 	types: ["ui5.touch.controls.SizeMode"],
 	interfaces: ["ui5.touch.controls.ISized"],
 	controls: [
+		"ui5.touch.controls.BarcodeInput",
 		"ui5.touch.controls.Button",
+		"ui5.touch.controls.CheckBox",
+		"ui5.touch.controls.ComboBox",
+		"ui5.touch.controls.DatePicker",
 		"ui5.touch.controls.Input",
+		"ui5.touch.controls.Link",
+		"ui5.touch.controls.OverflowToolbar",
+		"ui5.touch.controls.RadioButton",
+		"ui5.touch.controls.RadioButtonGroup",
+		"ui5.touch.controls.SegmentedButton",
+		"ui5.touch.controls.Select",
+		"ui5.touch.controls.SignaturePad",
 		"ui5.touch.controls.StepInput",
+		"ui5.touch.controls.Switch",
 		"ui5.touch.controls.Text",
 		"ui5.touch.controls.TextArea",
+		"ui5.touch.controls.TimePicker",
 		"ui5.touch.controls.Toolbar",
 		"ui5.touch.controls.VirtualKeyboard",
 	],
-	elements: [],
+	elements: ["ui5.touch.controls.SegmentedButtonItem"],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 }) as { [key: string]: unknown };
 
 thisLib.SizeMode = SizeMode;
+thisLib.KeyboardMode = KeyboardMode;
 
 // Register the library's own icon font so its SVG-based icons (backspace,
 // enter) render as real font glyphs and therefore inherit the current text

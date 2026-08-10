@@ -1,4 +1,4 @@
-name: Deploy Test Pages to GitHub Pages
+name: Deploy Demo to GitHub Pages
 
 on:
   push:
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build test pages
+    name: Build the demo application
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

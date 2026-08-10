@@ -1,0 +1,96 @@
+.sizedSegmentedButton {
+	display: inline-flex;
+	align-items: center;
+}
+
+/* the segments are joined into one group, so only the outer corners are
+   rounded and the borders in between are collapsed into a single line */
+.sizedSegmentedButton > .sizedButton {
+	border-radius: 0;
+	flex-shrink: 0;
+}
+
+.sizedSegmentedButton > .sizedButton + .sizedButton {
+	margin-left: -1px;
+}
+
+.sizedSegmentedButton > .sizedButton:first-child {
+	border-top-left-radius: @sapButton_BorderCornerRadius;
+	border-bottom-left-radius: @sapButton_BorderCornerRadius;
+}
+
+.sizedSegmentedButton > .sizedButton:last-child {
+	border-top-right-radius: @sapButton_BorderCornerRadius;
+	border-bottom-right-radius: @sapButton_BorderCornerRadius;
+}
+
+.sizedSegmentedButton > .sizedButton.sizedSegmentedButtonSelected {
+	background-color: @sapButton_Selected_Background;
+	border-color: @sapButton_Selected_BorderColor;
+	color: @sapButton_Selected_TextColor;
+	/* lift the selected segment so its border wins over its neighbours */
+	position: relative;
+	z-index: 1;
+}
+
+.sizedSegmentedButton
+	> .sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive) {
+	background-color: @sapButton_Selected_Hover_Background;
+	border-color: @sapButton_Selected_Hover_BorderColor;
+	color: @sapButton_Selected_TextColor;
+}
+
+/*
+ * Themes differ in how a segmented button marks its selection, and
+ * @sapButton_Segment_BorderCornerRadius is what tells them apart:
+ *
+ *   - Horizon (0.5rem): the selection is a rounded pill inside the group and
+ *     there are no dividers between the segments, only one outline around the
+ *     whole group.
+ *   - Fiori 3 and the base theme (0): the classic joined look with a divider
+ *     between every segment and no extra rounding on the selected one.
+ *
+ * The guard therefore falls back to the classic look for any theme that does
+ * not define a segment radius.
+ */
+.touchSegmentedButtonPill() when (@sapButton_Segment_BorderCornerRadius > 0) {
+	/*
+	 * The outline belongs to the group, not to the single segments: only then
+	 * the line runs through behind the selected segment instead of being
+	 * interrupted by its rounded corners. The standard control does the same
+	 * with its per-segment wrapper element, which carries the top and bottom
+	 * border while the inner element floats inside it as the pill.
+	 */
+	.sizedSegmentedButton {
+		border: 1px solid @sapButton_BorderColor;
+		border-radius: @sapButton_BorderCornerRadius;
+		background-color: @sapButton_Background;
+	}
+
+	/* the segments themselves are transparent and overlap the group border by
+	   1px, so a pill lines up exactly with the group outline */
+	.sizedSegmentedButton > .sizedButton {
+		margin-top: -1px;
+		margin-bottom: -1px;
+		border-color: transparent;
+		background-color: transparent;
+		border-radius: @sapButton_Segment_BorderCornerRadius;
+	}
+
+	.sizedSegmentedButton > .sizedButton.sizedSegmentedButtonSelected {
+		border-color: @sapButton_Selected_BorderColor;
+		background-color: @sapButton_Selected_Background;
+	}
+}
+
+.touchSegmentedButtonPill();
+
+/* an explicit width on the control spreads the segments evenly */
+.sizedSegmentedButtonEqual {
+	display: flex;
+}
+
+.sizedSegmentedButtonEqual > .sizedButton {
+	flex: 1 1 0;
+	min-width: 0;
+}

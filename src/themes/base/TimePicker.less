@@ -1,0 +1,119 @@
+/* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
+
+/* the field frame, see Field.less */
+.touchField(sizedTimePicker);
+.touchFieldSize(sizedTimePicker; 3);
+
+.sizedTimePickerInner {
+	flex: 1 1 auto;
+	font-size: var(--sized-font-size);
+	padding-left: var(--sized-padding-x);
+	padding-right: var(--sized-padding-x);
+	min-width: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: @sapFontFamily;
+	color: @sapField_TextColor;
+	line-height: normal;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sizedTimePickerInner::placeholder {
+	color: @sapField_PlaceholderTextColor;
+	font-style: italic;
+}
+
+/* the clock icon sits in a square at the end of the field */
+.sizedTimePickerIcon {
+	flex: none;
+	width: var(--sized-height);
+	font-size: var(--sized-icon-size);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: @sapContent_IconColor;
+}
+
+.sizedTimePickerIcon::before {
+	/* sap-icon://time-entry-request */
+	font-family: var(
+		--sapContent_IconFontFamily,
+		@sapContent_IconFontFamily
+	);
+	content: "\e0a4";
+	pointer-events: none;
+}
+
+.sizedTimePickerDisabled {
+	cursor: default;
+}
+.sizedTimePickerDisabled .sizedTimePickerInner {
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------------------------ */
+/* the two columns in the popover                                            */
+/* ------------------------------------------------------------------------ */
+
+.sizedTimePickerClock {
+	display: block;
+	background-color: @sapList_Background;
+}
+
+.sizedTimePickerHeaders {
+	display: flex;
+	box-shadow: inset 0 -0.0625rem @sapGroup_ContentBorderColor;
+}
+
+.sizedTimePickerHeader {
+	flex: 1 1 0;
+	display: block;
+	padding: 0.25rem 0;
+	text-align: center;
+	font-family: @sapFontFamily;
+	color: @sapContent_LabelColor;
+}
+
+.sizedTimePickerColumns {
+	display: flex;
+}
+
+/* each column scrolls on its own, so the popover keeps a sensible height
+   however many entries there are */
+.sizedTimePickerColumn {
+	flex: 1 1 0;
+	display: block;
+	max-height: 15rem;
+	overflow-y: auto;
+	min-width: 4rem;
+}
+
+.sizedTimePickerColumn + .sizedTimePickerColumn {
+	box-shadow: inset 0.0625rem 0 @sapGroup_ContentBorderColor;
+}
+
+/* the entries are the library's buttons, turned into plain rows */
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem,
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem:hover {
+	display: block;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	font-family: @sapFontFamily;
+	background-color: @sapList_Background;
+	color: @sapList_TextColor;
+}
+
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem:hover {
+	background-color: @sapList_Hover_Background;
+}
+
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItemSelected,
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItemSelected:hover {
+	background-color: @sapSelectedColor;
+	color: @sapContent_ContrastTextColor;
+}

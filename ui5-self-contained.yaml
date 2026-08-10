@@ -2,9 +2,16 @@ specVersion: "4.0"
 metadata:
     name: ui5.touch.controls
 type: library
+resources:
+  configuration:
+    paths:
+      src: src
+      # the demo application, called "docs" because that is what it is; the
+      # tooling still serves it under /test-resources
+      test: docs
 framework:
   name: OpenUI5
-  version: 1.147.1
+  version: 1.151.0
   libraries:
     - name: sap.m
     - name: sap.ui.core

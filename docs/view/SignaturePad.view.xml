@@ -1,0 +1,116 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.SignaturePad"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="{i18n>optionsSignaturePad}" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment
+							fragmentName="ui5.touch.controls.demo.view.SizeOption"
+							type="XML" />
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblHeight}" width="120px" />
+							<Select selectedKey="{json>/height}">
+								<core:Item key="8rem" text="8rem" />
+								<core:Item key="12rem" text="12rem" />
+								<core:Item key="16rem" text="16rem" />
+								<core:Item key="24rem" text="24rem" />
+							</Select>
+						</HBox>
+						<core:Fragment
+							fragmentName="ui5.touch.controls.demo.view.ValueStateOption"
+							type="XML" />
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblBehavior}" width="120px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbClearButton}" selected="{json>/showClearButton}" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblSigned}" width="120px" />
+							<Text text="{json>/signed}" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblDataUrl}" width="120px" />
+							<Text text="{json>/length} {i18n>spCharacters}" />
+						</HBox>
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="2" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header
+						title="ui5.touch.controls.SignaturePad"
+						subtitle="{i18n>spSubtitle}" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:SignaturePad
+							value="{json>/value}"
+							placeholder="{json>/placeholder}"
+							height="{json>/height}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							showClearButton="{json>/showClearButton}"
+							valueState="{json>/valueState}"
+							change=".onChange" />
+						<FormattedText
+							htmlText="{i18n>signatureHint}"
+							width="100%"
+							class="sapUiTinyMarginTop" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- what the control writes into the model -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header
+						title="{i18n>spValueTitle}"
+						subtitle="{i18n>spValueSubtitle}" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<Image
+							src="{json>/preview}"
+							width="100%"
+							densityAware="false"
+							visible="{json>/signed}" />
+						<Text
+							text="{i18n>spNothingSigned}"
+							visible="{= !${json>/signed} }" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

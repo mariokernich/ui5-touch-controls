@@ -1,11 +1,16 @@
 /* Theme Parameter Toolbox: https://sdk.openui5.org/test-resources/sap/m/demokit/theming/webapp/index.html */
 
 .sizedButton {
+	height: var(--sized-height);
+	padding-left: var(--sized-button-padding-x);
+	padding-right: var(--sized-button-padding-x);
 	border: none;
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
-	font-family: @sapButton_FontFamily;
+	/* the button font family is a parameter of its own only from UI5 1.140
+	   on; before that the button simply used the font of the theme */
+	font-family: var(--sapButton_FontFamily, @sapFontFamily);
 	color: @sapButton_TextColor;
 	background-color: @sapButton_Background;
 	border: 1px solid @sapButton_BorderColor;
@@ -18,6 +23,24 @@
     align-content: center;
     align-items: center;
     justify-content: center;
+}
+
+.sizedButtonContent {
+	font-size: var(--sized-font-size);
+}
+
+/* the icon of a button, whether it comes from the icon font or as an image.
+   sap.ui.core.Icon sizes itself through its font size, an image through its
+   box - both are given the same value. */
+.sizedButtonIcon .sapUiIcon {
+	font-size: var(--sized-icon-size);
+	height: var(--sized-icon-size);
+	line-height: var(--sized-icon-size);
+}
+
+.sizedButtonIcon img {
+	width: var(--sized-icon-size);
+	height: var(--sized-icon-size);
 }
 
 .sizedButtonIconLeft {

@@ -1,0 +1,116 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.DatePicker"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls">
+	<Page showHeader="false" class="touchControlsPage">
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
+			type="XML" />
+
+		<HBox width="100%" class="touchControlsCardRow">
+			<!-- playground -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header title="{i18n>optionsDatePicker}" />
+				</f:header>
+				<f:content>
+					<VBox
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblDisplayFormat}" width="110px" />
+							<Select selectedKey="{json>/displayFormat}">
+								<core:Item key="short" text="short" />
+								<core:Item key="medium" text="medium" />
+								<core:Item key="long" text="long" />
+								<core:Item key="full" text="full" />
+								<core:Item key="dd.MM.yyyy" text="dd.MM.yyyy" />
+								<core:Item key="yyyy-MM-dd" text="yyyy-MM-dd" />
+							</Select>
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
+						<HBox alignItems="Center" wrap="Wrap">
+							<Text text="{i18n>lblBehavior}" width="110px" />
+							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+							<CheckBox text="{i18n>cbTodayLimited}" selected="{json>/limited}" />
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="{i18n>lblValue}" width="110px" />
+							<Text text="{json>/value}" />
+						</HBox>
+						<core:Fragment fragmentName="ui5.touch.controls.demo.view.LastEventOption" type="XML" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the library control -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header
+						title="ui5.touch.controls.DatePicker"
+						subtitle="{i18n>cardTouch}" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<tc:DatePicker
+							id="sizedPicker"
+							value="{json>/value}"
+							displayFormat="{json>/displayFormat}"
+							placeholder="{i18n>phPickDate}"
+							size="{json>/size}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							width="18rem"
+							change=".onChange" />
+					</VBox>
+				</f:content>
+			</f:Card>
+
+			<!-- the sap.m original -->
+			<f:Card class="sapUiMediumMarginBottom">
+				<f:layoutData>
+					<FlexItemData growFactor="1" baseSize="0" />
+				</f:layoutData>
+				<f:header>
+					<cards:Header
+						title="sap.m.DatePicker"
+						subtitle="{i18n>cardOriginal}" />
+				</f:header>
+				<f:content>
+					<VBox
+						width="100%"
+						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<DatePicker
+							id="standardPicker"
+							value="{json>/value}"
+							valueFormat="yyyy-MM-dd"
+							displayFormat="{json>/displayFormat}"
+							placeholder="{i18n>phPickDate}"
+							enabled="{json>/enabled}"
+							editable="{json>/editable}"
+							valueState="{json>/valueState}"
+							width="18rem" />
+					</VBox>
+				</f:content>
+			</f:Card>
+		</HBox>
+
+		<core:Fragment
+			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+			type="XML" />
+	</Page>
+</mvc:View>

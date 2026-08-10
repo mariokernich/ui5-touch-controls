@@ -1,0 +1,198 @@
+/* the ToolPage needs a container that spans the whole viewport */
+html,
+body,
+#container,
+#container > .sapUiComponentContainer {
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+.touchControlsHeaderLogo {
+	margin-right: 0.5rem;
+}
+
+/* the library name next to the icon tile; it is the app title, so it should
+   not shrink away when the header gets crowded */
+.touchControlsHeaderTitle {
+	margin-right: 0.75rem;
+	flex-shrink: 0;
+}
+
+/* the three cards of a playground row sit next to each other with a gap; a row
+   of buttons is spaced the same way, but it is a row of its own kind - only
+   the cards are stacked when the window gets narrow */
+.touchControlsCardRow,
+.touchControlsButtonRow {
+	gap: 1rem;
+}
+
+/* every page scrolls on its own, the shell around it stays put */
+.touchControlsPage .sapMPageEnableScrolling {
+	padding: 1rem;
+}
+
+/* the demo pages of the Toolbar pages need an explicit height, otherwise they
+   collapse inside the flow of the surrounding page */
+.touchControlsDemoPage {
+	height: 20rem;
+}
+
+/* the version sits next to the switches in the header, quieter than they are */
+.touchControlsHeaderVersion {
+	opacity: 0.75;
+}
+
+/* The GitHub mark is drawn as a mask rather than as an image, so its colour is
+   the colour of the link it sits on. That is what makes it work in every
+   theme, the dark and the high contrast ones included - an image would need a
+   file per theme.
+
+   The mark is not meant to read as a link, so it takes the colour of the text
+   in the header instead of the link colour: near black on the light themes,
+   near white on the dark ones, and on Fiori 3, whose header is dark blue even
+   in the light variant, white. Only the plain colour is set here - the themes
+   that recolour a focused item in their header stay in charge of that, which
+   is what keeps the mark readable on the filled background they draw. */
+.touchControlsHeaderGithub.sapMLnk {
+	display: inline-flex;
+	width: 1.25rem;
+	height: 1.25rem;
+	color: var(--sapShell_TextColor, currentColor);
+}
+
+/* the mask sits on the pseudo element, not on the link itself: a mask covers
+   everything the element draws, and on the link that would swallow the focus
+   outline */
+.touchControlsHeaderGithub.sapMLnk::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: currentColor;
+	-webkit-mask: url("../github.svg") no-repeat center / contain;
+	mask: url("../github.svg") no-repeat center / contain;
+}
+
+/* ---------------------------------------------------------------------------
+   responsive behaviour
+
+   The pages are built from rows of cards next to each other. On a narrow
+   window they must not squeeze into unusable columns, so the rows wrap and a
+   card never gets smaller than a card is useful at.
+   --------------------------------------------------------------------------- */
+.touchControlsCardRow {
+	flex-wrap: wrap;
+}
+
+/* The rule cannot use the child combinator: an HBox wraps every child in a
+   flex item of its own, so the card is a grandchild. A percentage would be
+   circular here - it would resolve against the flex item, whose width is what
+   the bound is meant to decide - so the bound is absolute, and small enough to
+   fit a phone. */
+.touchControlsCardRow .sapFCard {
+	min-width: 16rem;
+}
+
+/* the rows of a playground put a label next to a field; when they do not fit
+   side by side any more the field moves to a line of its own */
+.touchControlsPage .sapMHBox {
+	flex-wrap: wrap;
+}
+
+/* a bullet belongs to its line: the rule above would put the text of an entry
+   below its bullet as soon as the two do not fit on one line */
+.touchControlsPage .touchControlsBullet.sapMHBox {
+	flex-wrap: nowrap;
+}
+
+/* the name of a control in the head of its page reads as what it is: an API
+   name, not prose */
+.touchControlsIntroName {
+	font-family: "72Mono", "Courier New", monospace;
+	font-weight: bold;
+}
+
+/* The rows are flex boxes and their items are sized by their content, so a
+   fixed-width field inside one widens the row instead of being cut down by it.
+   Capping the item is what makes the caps below work at all: a percentage
+   needs a width that was decided without it, and the row - unlike the item -
+   has one. */
+.touchControlsPage .sapMFlexBox > .sapMFlexItem {
+	max-width: 100%;
+}
+
+/* a field with a fixed width must not push its row wider than the card it
+   sits in */
+.touchControlsPage .sapMInputBase,
+.touchControlsPage .sapMSlt,
+.touchControlsPage .sizedInput,
+.touchControlsPage .sizedTextArea,
+.touchControlsPage .sizedSelect,
+.touchControlsPage .sizedComboBox,
+.touchControlsPage .sizedDatePicker,
+.touchControlsPage .sizedTimePicker,
+.touchControlsPage .sizedBarcodeInput,
+.touchControlsPage .sapMSlider {
+	max-width: 100%;
+}
+
+/* a heading is more use wrapped than cut off: sap.m.Title truncates by
+   default, which on a narrow window hides the end of every section heading.
+   Only the headings inside a page are meant, the ones in a bar keep their
+   single line. */
+.touchControlsPage .sapMPageEnableScrolling .sapMTitle {
+	white-space: normal;
+}
+
+/* A keyboard has a lower bound of its own: its keys are touch targets and do
+   not shrink. A full QWERTY row is wider than a phone, so the keyboard gets a
+   scroll area instead of pushing the page sideways.
+
+   The bound is measured against the viewport rather than against the card,
+   because the card sizes itself to its content: a percentage would resolve
+   against the very width the keyboard is deciding, and the two would inflate
+   each other. The subtracted amount is the padding of the page plus the
+   margins inside the card. Above roughly 740px even the widest layout fits on
+   its own, and the bound never comes into play. */
+.touchControlsPage .touchVirtualKeyboard {
+	max-width: calc(100vw - 5rem);
+	overflow-x: auto;
+}
+
+/* the logo of the landing page is sized by its height, so on a narrow window
+   its width has to be capped - and once it is, the drawing has to keep its
+   proportions instead of being squeezed into the box that is left */
+.touchControlsPage img {
+	max-width: 100%;
+	object-fit: contain;
+}
+
+/* the demo pages of the toolbar pages are taller than they need to be on a
+   phone, where the height is the scarce dimension */
+@media (max-width: 599px) {
+	.touchControlsDemoPage {
+		height: 14rem;
+	}
+
+	.touchControlsPage .sapMPageEnableScrolling {
+		padding: 0.5rem;
+	}
+
+	/* One card per line. Wrapping alone is not enough on a phone: a wrapped
+	   flex item is still sized by its own content, so a card keeps the width
+	   of the widest field inside it and pushes the page sideways. Giving the
+	   item the width of the row makes that width definite - which is what the
+	   caps of the fields below need, because a percentage can only work
+	   against a width that is decided without them.
+
+	   The !important is not decoration: sap.m writes the flex settings of an
+	   item into its style attribute, min-width among them, and an inline
+	   declaration cannot be overridden any other way. */
+	.touchControlsCardRow > .sapMFlexItem {
+		min-width: 100% !important;
+	}
+
+	.touchControlsCardRow .sapFCard {
+		max-width: 100%;
+	}
+}

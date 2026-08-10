@@ -1,10 +1,32 @@
 @import "/resources/sap/ui/core/themes/base/base.less";
 @import "/resources/sap/ui/core/themes/base/global.less";
 
+/* values for the theme parameters the supported UI5 versions do not all bring
+   along - before the theme, so a theme that has them wins */
+@import "Compat.less";
+
+/* the size ladder every control reads from, and the mixin library - both have
+   to come before the controls that use them */
+@import "Sizing.less";
+@import "Field.less";
+
+@import "BarcodeInput.less";
 @import "Button.less";
+@import "CheckBox.less";
+@import "ComboBox.less";
+@import "DatePicker.less";
 @import "Input.less";
+@import "Link.less";
+@import "OverflowToolbar.less";
+@import "Picker.less";
+@import "RadioButton.less";
+@import "SegmentedButton.less";
+@import "Select.less";
+@import "SignaturePad.less";
 @import "StepInput.less";
+@import "Switch.less";
 @import "Text.less";
 @import "TextArea.less";
+@import "TimePicker.less";
 @import "Toolbar.less";
 @import "VirtualKeyboard.less";

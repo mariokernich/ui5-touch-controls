@@ -64,18 +64,26 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Create GitHub release
+      - name: Create GitHub release draft
         if: steps.check.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="v${{ steps.pkg.outputs.version }}"
-          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+          # listed rather than looked up by tag: a draft has no tag yet, and
+          # "gh release view" resolves a release through it
+          EXISTING=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 100 --json tagName --jq '.[].tagName')
+          if grep -qx "$TAG" <<< "$EXISTING"; then
             echo "::notice::Release $TAG already exists - skipping."
           else
+            # a draft, so the notes can be looked over before they go out. The
+            # tag is only written when the draft is published, which is why the
+            # commit it belongs to is pinned here.
             gh release create "$TAG" \
               --repo "$GITHUB_REPOSITORY" \
               --target "$GITHUB_SHA" \
               --title "$TAG" \
+              --draft \
               --generate-notes
+            echo "::notice::Release $TAG created as a draft - publish it to tag $GITHUB_SHA."
           fi

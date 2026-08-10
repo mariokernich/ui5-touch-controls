@@ -1,0 +1,255 @@
+/* ===========================================================================
+   The size ladder of the library.
+
+   Every control renders one of the nine classes below on its root element and
+   reads what it needs from the custom properties. That is the whole mechanism:
+   the values live here and nowhere else, and because custom properties are
+   inherited, the elements inside a control - a label, an icon, an inner input
+   - get them without the control having to hand them down.
+
+   Two ways to change a step, both without touching a control:
+
+     - a theme redefines the LESS variables below and rebuilds;
+     - an application overrides the custom property at runtime, e.g.
+       .sizedSizeXL { --sized-height: 4.25rem; }
+
+   Not every ladder is used by every control - a check box has no field height,
+   a text has no padding. The ladders are named after what they size, not after
+   the controls that happen to use them.
+   =========================================================================== */
+
+/* text, and everything that has to line up with it */
+@sizedFontSizeS: 0.75rem;
+@sizedFontSizeM: 0.875rem;
+@sizedFontSizeL: 1rem;
+@sizedFontSizeXL: 1.125rem;
+@sizedFontSize2XL: 1.25rem;
+@sizedFontSize3XL: 1.5rem;
+@sizedFontSize4XL: 1.75rem;
+@sizedFontSize5XL: 2rem;
+@sizedFontSize6XL: 2.25rem;
+
+/* icons in a field or a button, and the arrow of a picker. It grows slower
+   than the font from 2XL on, so a large button does not become all icon */
+@sizedIconSizeS: 0.875rem;
+@sizedIconSizeM: 1rem;
+@sizedIconSizeL: 1.25rem;
+@sizedIconSizeXL: 1.5rem;
+@sizedIconSize2XL: 1.55rem;
+@sizedIconSize3XL: 1.65rem;
+@sizedIconSize4XL: 1.85rem;
+@sizedIconSize5XL: 2.05rem;
+@sizedIconSize6XL: 2.25rem;
+
+/* the height of anything that can be tapped: fields, buttons, the overflow
+   button of a toolbar, the buttons of a step input */
+@sizedHeightS: 2rem;
+@sizedHeightM: 2.3rem;
+@sizedHeightL: 3rem;
+@sizedHeightXL: 3.5rem;
+@sizedHeight2XL: 4rem;
+@sizedHeight3XL: 4.5rem;
+@sizedHeight4XL: 5rem;
+@sizedHeight5XL: 5.5rem;
+@sizedHeight6XL: 6rem;
+
+/* the space between the border of a field and its text */
+@sizedPaddingXS: 10px;
+@sizedPaddingXM: 10px;
+@sizedPaddingXL: 12px;
+@sizedPaddingXXL: 14px;
+@sizedPaddingX2XL: 16px;
+@sizedPaddingX3XL: 18px;
+@sizedPaddingX4XL: 20px;
+@sizedPaddingX5XL: 22px;
+@sizedPaddingX6XL: 24px;
+
+/* the same, above and below - only a multi-line field needs it, a single-line
+   one is spaced by its height */
+@sizedPaddingYS: 6px;
+@sizedPaddingYM: 7px;
+@sizedPaddingYL: 8px;
+@sizedPaddingYXL: 10px;
+@sizedPaddingY2XL: 12px;
+@sizedPaddingY3XL: 14px;
+@sizedPaddingY4XL: 16px;
+@sizedPaddingY5XL: 18px;
+@sizedPaddingY6XL: 20px;
+
+/* the box of a check box and the circle of a radio button. It is wider than
+   the font so the two keep the proportion the standard controls have at M */
+@sizedIndicatorSizeS: 1.125rem;
+@sizedIndicatorSizeM: 1.375rem;
+@sizedIndicatorSizeL: 1.5rem;
+@sizedIndicatorSizeXL: 1.75rem;
+@sizedIndicatorSize2XL: 2rem;
+@sizedIndicatorSize3XL: 2.25rem;
+@sizedIndicatorSize4XL: 2.5rem;
+@sizedIndicatorSize5XL: 2.75rem;
+@sizedIndicatorSize6XL: 3rem;
+
+/* the check mark inside that box */
+@sizedMarkSizeS: 0.8125rem;
+@sizedMarkSizeM: 1rem;
+@sizedMarkSizeL: 1.125rem;
+@sizedMarkSizeXL: 1.25rem;
+@sizedMarkSize2XL: 1.5rem;
+@sizedMarkSize3XL: 1.625rem;
+@sizedMarkSize4XL: 1.875rem;
+@sizedMarkSize5XL: 2rem;
+@sizedMarkSize6XL: 2.25rem;
+
+/* a button is padded wider than a field, so its label gets room to breathe */
+@sizedButtonPaddingXS: 16px;
+@sizedButtonPaddingXM: 10px;
+@sizedButtonPaddingXL: 24px;
+@sizedButtonPaddingXXL: 28px;
+@sizedButtonPaddingX2XL: 32px;
+@sizedButtonPaddingX3XL: 36px;
+@sizedButtonPaddingX4XL: 40px;
+@sizedButtonPaddingX5XL: 44px;
+@sizedButtonPaddingX6XL: 48px;
+
+/* the switch is flatter than a field - everything about it is derived from
+   this one height */
+@sizedSwitchHeightS: 1.5rem;
+@sizedSwitchHeightM: 2rem;
+@sizedSwitchHeightL: 2.25rem;
+@sizedSwitchHeightXL: 2.75rem;
+@sizedSwitchHeight2XL: 3rem;
+@sizedSwitchHeight3XL: 3.5rem;
+@sizedSwitchHeight4XL: 4rem;
+@sizedSwitchHeight5XL: 4.5rem;
+@sizedSwitchHeight6XL: 5rem;
+
+/* the field between the minus and the plus button of a step input: wide
+   enough for the digits the step usually produces */
+@sizedStepFieldWidthS: 3rem;
+@sizedStepFieldWidthM: 3.5rem;
+@sizedStepFieldWidthL: 4rem;
+@sizedStepFieldWidthXL: 4.5rem;
+@sizedStepFieldWidth2XL: 5rem;
+@sizedStepFieldWidth3XL: 5.5rem;
+@sizedStepFieldWidth4XL: 6rem;
+@sizedStepFieldWidth5XL: 6.5rem;
+@sizedStepFieldWidth6XL: 7rem;
+
+/* ---------------------------------------------------------------------------
+   the nine steps
+   --------------------------------------------------------------------------- */
+.sizedSizeS {
+	--sized-font-size: @sizedFontSizeS;
+	--sized-icon-size: @sizedIconSizeS;
+	--sized-height: @sizedHeightS;
+	--sized-padding-x: @sizedPaddingXS;
+	--sized-padding-y: @sizedPaddingYS;
+	--sized-indicator-size: @sizedIndicatorSizeS;
+	--sized-mark-size: @sizedMarkSizeS;
+	--sized-button-padding-x: @sizedButtonPaddingXS;
+	--sized-switch-height: @sizedSwitchHeightS;
+	--sized-step-field-width: @sizedStepFieldWidthS;
+}
+
+.sizedSizeM {
+	--sized-font-size: @sizedFontSizeM;
+	--sized-icon-size: @sizedIconSizeM;
+	--sized-height: @sizedHeightM;
+	--sized-padding-x: @sizedPaddingXM;
+	--sized-padding-y: @sizedPaddingYM;
+	--sized-indicator-size: @sizedIndicatorSizeM;
+	--sized-mark-size: @sizedMarkSizeM;
+	--sized-button-padding-x: @sizedButtonPaddingXM;
+	--sized-switch-height: @sizedSwitchHeightM;
+	--sized-step-field-width: @sizedStepFieldWidthM;
+}
+
+.sizedSizeL {
+	--sized-font-size: @sizedFontSizeL;
+	--sized-icon-size: @sizedIconSizeL;
+	--sized-height: @sizedHeightL;
+	--sized-padding-x: @sizedPaddingXL;
+	--sized-padding-y: @sizedPaddingYL;
+	--sized-indicator-size: @sizedIndicatorSizeL;
+	--sized-mark-size: @sizedMarkSizeL;
+	--sized-button-padding-x: @sizedButtonPaddingXL;
+	--sized-switch-height: @sizedSwitchHeightL;
+	--sized-step-field-width: @sizedStepFieldWidthL;
+}
+
+.sizedSizeXL {
+	--sized-font-size: @sizedFontSizeXL;
+	--sized-icon-size: @sizedIconSizeXL;
+	--sized-height: @sizedHeightXL;
+	--sized-padding-x: @sizedPaddingXXL;
+	--sized-padding-y: @sizedPaddingYXL;
+	--sized-indicator-size: @sizedIndicatorSizeXL;
+	--sized-mark-size: @sizedMarkSizeXL;
+	--sized-button-padding-x: @sizedButtonPaddingXXL;
+	--sized-switch-height: @sizedSwitchHeightXL;
+	--sized-step-field-width: @sizedStepFieldWidthXL;
+}
+
+.sizedSize2XL {
+	--sized-font-size: @sizedFontSize2XL;
+	--sized-icon-size: @sizedIconSize2XL;
+	--sized-height: @sizedHeight2XL;
+	--sized-padding-x: @sizedPaddingX2XL;
+	--sized-padding-y: @sizedPaddingY2XL;
+	--sized-indicator-size: @sizedIndicatorSize2XL;
+	--sized-mark-size: @sizedMarkSize2XL;
+	--sized-button-padding-x: @sizedButtonPaddingX2XL;
+	--sized-switch-height: @sizedSwitchHeight2XL;
+	--sized-step-field-width: @sizedStepFieldWidth2XL;
+}
+
+.sizedSize3XL {
+	--sized-font-size: @sizedFontSize3XL;
+	--sized-icon-size: @sizedIconSize3XL;
+	--sized-height: @sizedHeight3XL;
+	--sized-padding-x: @sizedPaddingX3XL;
+	--sized-padding-y: @sizedPaddingY3XL;
+	--sized-indicator-size: @sizedIndicatorSize3XL;
+	--sized-mark-size: @sizedMarkSize3XL;
+	--sized-button-padding-x: @sizedButtonPaddingX3XL;
+	--sized-switch-height: @sizedSwitchHeight3XL;
+	--sized-step-field-width: @sizedStepFieldWidth3XL;
+}
+
+.sizedSize4XL {
+	--sized-font-size: @sizedFontSize4XL;
+	--sized-icon-size: @sizedIconSize4XL;
+	--sized-height: @sizedHeight4XL;
+	--sized-padding-x: @sizedPaddingX4XL;
+	--sized-padding-y: @sizedPaddingY4XL;
+	--sized-indicator-size: @sizedIndicatorSize4XL;
+	--sized-mark-size: @sizedMarkSize4XL;
+	--sized-button-padding-x: @sizedButtonPaddingX4XL;
+	--sized-switch-height: @sizedSwitchHeight4XL;
+	--sized-step-field-width: @sizedStepFieldWidth4XL;
+}
+
+.sizedSize5XL {
+	--sized-font-size: @sizedFontSize5XL;
+	--sized-icon-size: @sizedIconSize5XL;
+	--sized-height: @sizedHeight5XL;
+	--sized-padding-x: @sizedPaddingX5XL;
+	--sized-padding-y: @sizedPaddingY5XL;
+	--sized-indicator-size: @sizedIndicatorSize5XL;
+	--sized-mark-size: @sizedMarkSize5XL;
+	--sized-button-padding-x: @sizedButtonPaddingX5XL;
+	--sized-switch-height: @sizedSwitchHeight5XL;
+	--sized-step-field-width: @sizedStepFieldWidth5XL;
+}
+
+.sizedSize6XL {
+	--sized-font-size: @sizedFontSize6XL;
+	--sized-icon-size: @sizedIconSize6XL;
+	--sized-height: @sizedHeight6XL;
+	--sized-padding-x: @sizedPaddingX6XL;
+	--sized-padding-y: @sizedPaddingY6XL;
+	--sized-indicator-size: @sizedIndicatorSize6XL;
+	--sized-mark-size: @sizedMarkSize6XL;
+	--sized-button-padding-x: @sizedButtonPaddingX6XL;
+	--sized-switch-height: @sizedSwitchHeight6XL;
+	--sized-step-field-width: @sizedStepFieldWidth6XL;
+}
