@@ -56,6 +56,7 @@ export const releases: Release[] = [
 				kind: "Changed",
 				items: [
 					"Every measurement a size stands for now comes from one stylesheet, Sizing.less, which writes the ladder of a size into custom properties on a single class per control. Sizes look and behave as before.",
+					"The oldest UI5 release the library runs on is 1.116, and the test page is checked against it. What sets the limit is sap/base/i18n/Localization, which the DatePicker reads the language from and which does not exist before 1.116.",
 				],
 			},
 			{
@@ -65,7 +66,7 @@ export const releases: Release[] = [
 					"Input and TextArea keep the field outline of Horizon, and the TextArea sits at the height of its sap.m original.",
 					"Content marked NeverOverflow moves into the overflow area as a last resort instead of widening the toolbar, and the overflow button stays at its right end.",
 					"The placeholder of the SignaturePad no longer breaks the calc it is built from.",
-					"The library builds and draws on UI5 1.120 and later again: the theme parameters that only the newer releases define are used with a fallback, so the arrows, the tick of the CheckBox and the other icons of the library show up on every supported version.",
+					"The library builds and draws on UI5 1.116 and later again: the theme parameters that only the newer releases define are used with a fallback, so the arrows, the tick of the CheckBox and the other icons of the library show up on every supported version.",
 					"A ComboBox with a selectedKey written next to its items shows the text of that item. Properties reach a control before its aggregations do, so the key used to arrive while there were no items to match it against.",
 				],
 			},

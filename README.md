@@ -147,7 +147,9 @@ Stroke width, placeholder and clear button follow the `size` property, and the p
 
 ## Requirements
 
-- UI5 version **1.118 or higher** (OpenUI5 or SAPUI5)
+- UI5 version **1.116 or higher** (OpenUI5 or SAPUI5)
+
+1.116 is the oldest release the library runs on, and the test page is checked against it. What sets the limit is `sap/base/i18n/Localization`, which the `DatePicker` reads the language from and which does not exist before 1.116.
 
 ## Installation
 
@@ -404,6 +406,7 @@ This starts the dev server (`ui5 serve` with `ui5-docs.yaml`) and opens the demo
 
 ```sh
 npm run start:test          # latest
+npm run start:test:1.116    # the oldest supported release
 npm run start:test:1.120    # and 1.124, 1.130, 1.140
 ```
 
@@ -415,6 +418,7 @@ npm run start:test:1.120    # and 1.124, 1.130, 1.140
 | --- | --- |
 | `npm run start` | Start the local dev server with livereload and open the demo application |
 | `npm run start:test` | Open the plain test page on the latest UI5 |
+| `npm run start:test:1.116` | Same page on UI5 1.116, the oldest supported release |
 | `npm run start:test:1.120` | Same page on UI5 1.120 (`:1.124`, `:1.130` and `:1.140` for the other supported versions) |
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:self-contained` | Self-contained build (used for the GitHub Pages deployment) |
