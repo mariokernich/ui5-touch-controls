@@ -21,7 +21,7 @@
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 latest" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%20latest&label=UI5%20latest"></a>
 </p>
 
-**Standard OpenUI5 controls, rebuilt for touch — plus the ones `sap.m` is missing.**
+**Standard UI5 controls, rebuilt for touch — plus the ones `sap.m` is missing.**
 
 `sap.m` controls are made for mouse and keyboard. On a tablet, a shop floor terminal or a device operated with gloves they are simply too small — and the cozy content density only gets you one step further.
 
