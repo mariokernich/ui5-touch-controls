@@ -30,7 +30,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, "..");
 
 const FONT_FAMILY = "ui5-touch-controls-icons";
-const COLLECTION = "touch";
 const ICON_DIR = resolve(projectRoot, "src/icons");
 const OUT_DIR = resolve(projectRoot, "src/themes/base/fonts");
 

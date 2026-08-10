@@ -7,6 +7,21 @@
 		<!-- the page is served from test-resources/ui5/touch/controls/, so the
 		     framework is four levels up -->
 		<base href="../../../../" />
+		<script>
+			// Everything that goes wrong on the page is collected here, so the
+			// UI tests can ask for it with one call - a failed module load
+			// included, which fires an error event on its script element.
+			window.touchTestErrors = [];
+			window.addEventListener("error", (event) => {
+				const source = event.target?.src ?? event.target?.href;
+				window.touchTestErrors.push(
+					source ? `failed to load ${source}` : String(event.message),
+				);
+			});
+			window.addEventListener("unhandledrejection", (event) => {
+				window.touchTestErrors.push(String(event.reason));
+			});
+		</script>
 		<script
 			id="sap-ui-bootstrap"
 			src="resources/sap-ui-core.js"

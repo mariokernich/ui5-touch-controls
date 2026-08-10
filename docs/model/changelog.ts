@@ -80,6 +80,13 @@ export const releases: Release[] = [
 					"Every page works down to a phone: the cards stack, the tables fall back to pop-in and the widest keyboard layout scrolls inside its card.",
 				],
 			},
+			{
+				kind: "Tests",
+				items: [
+					"The library has UI tests, written with wdi5. They run against the plain test page, so every control of the library is opened in a browser, and they check that the controls are there, that a CheckBox, a Switch, an Input and a Select react, and that a Button grows with its size.",
+					"A CI workflow runs those tests on every supported UI5 release, next to the type check, the lint run and the build. The list of releases is the one behind the start:test scripts, so the two cannot drift apart.",
+				],
+			},
 		],
 	},
 	{

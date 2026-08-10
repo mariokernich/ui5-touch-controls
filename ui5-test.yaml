@@ -33,9 +33,5 @@ server:
       afterMiddleware: compression
       configuration:
           generateTsInterfaces: true
-    - name: ui5-middleware-livereload
-      afterMiddleware: compression
-      configuration:
-          path:
-              - "test/"
-              - "src/"
+# No livereload here, unlike the demo: the UI tests run against this server, and
+# a reload in the middle of a test takes the wdi5 bridge in the page with it.

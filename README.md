@@ -410,7 +410,20 @@ npm run start:test:1.116    # the oldest supported release
 npm run start:test:1.120    # and 1.124, 1.130, 1.140
 ```
 
-`?control=Button` narrows the page to a single control; without it every control is shown, one section after the other. The cases are built in `test/cases.ts`.
+`#Button` in the hash — or `?control=Button` — narrows the page to a single control; without either, every control is shown, one section after the other. Switching by hash rebuilds the page without reloading it. The cases are built in `test/cases.ts`.
+
+### UI tests
+
+The same page is what the UI tests run against. They are written with [wdi5](https://ui5-community.github.io/wdi5/) (WebdriverIO plus the UI5 service), so the controls are addressed through the UI5 control tree and read back through their own getters:
+
+```sh
+npm run test:ui                        # the version pinned in ui5-test.yaml
+UI5_VERSION=1.116.0 npm run test:ui    # any other release
+```
+
+`wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
+
+The GitHub workflow `ci.yml` runs the suite on every supported UI5 release in parallel. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
 
 ### Scripts
 
@@ -423,8 +436,9 @@ npm run start:test:1.120    # and 1.124, 1.130, 1.140
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:self-contained` | Self-contained build (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
+| `npm run test:ui` | Run the wdi5 UI tests against the test page (`UI5_VERSION` picks the release) |
 | `npm run check:ts` | TypeScript type check (`tsc --noEmit`) |
-| `npm run check:lint` | ESLint check for `src`, `docs` and `test` |
+| `npm run check:lint` | ESLint check for `src`, `docs`, `test`, `e2e`, `scripts` and `wdio.conf.js` |
 | `npm run build:icon-font` | Generate the library's icon font (TTF/WOFF/WOFF2 + metadata) from the SVGs in `src/icons` (runs automatically before start/build) |
 | `npm run clean` | Remove `dist` and `coverage` |
 
@@ -435,6 +449,7 @@ src/                  Library sources (controls, library.ts, themes)
 src/themes/           Base + theme-specific LESS files
 docs/                 Demo application (Component, manifest, views, controllers)
 test/                 Plain test page (one section per control)
+e2e/                  wdi5 UI tests that run against the test page
 scripts/              Build helper scripts
 ui5.yaml              UI5 tooling config (library build)
 ui5-docs.yaml         UI5 tooling config (dev server / demo application)
