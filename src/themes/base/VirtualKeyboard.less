@@ -80,6 +80,19 @@
 		max-width: 100%;
 		border-radius: 0;
 	}
+
+	/* A docked keyboard has the width of the screen and nothing more, so its
+	   keys have to make do with what is there: ten of them in a row do not fit
+	   a phone at the width a key is otherwise granted. What stands in the way
+	   is the padding a button carries left and right - a key cannot shrink
+	   below its own frame - so on a screen this narrow the keys are drawn
+	   without it and the row divides what is there. Their height still comes
+	   from the size, so they stay as easy to hit as before. */
+	.touchVirtualKeyboardDocked .touchVirtualKeyboardRow > .sizedButton {
+		min-width: 0;
+		padding-left: 0.25rem;
+		padding-right: 0.25rem;
+	}
 }
 
 /* The popover a field opens its keyboard in - the same one for every field,
@@ -127,5 +140,13 @@
 		transform: none;
 		width: 100% !important;
 		max-width: 100%;
+	}
+
+	/* The keyboard is measured against the screen, not against the popover
+	   around it: the content area of a popover scrolls, so it is as wide as
+	   whatever is put in it, and a width in percent would be measured against
+	   the very width the keyboard is deciding. */
+	.sizedKeyboardPopoverDocked .touchVirtualKeyboardDocked {
+		width: 100vw !important;
 	}
 }

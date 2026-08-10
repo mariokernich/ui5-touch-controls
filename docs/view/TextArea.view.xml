@@ -48,6 +48,10 @@
 							<CheckBox
 								text="{i18n>cbVirtualKeyboard}"
 								selected="{json>/showVirtualKeyboard}" />
+							<CheckBox
+								text="{i18n>cbDocked}"
+								selected="{json>/keyboardDocked}"
+								enabled="{json>/showVirtualKeyboard}" />
 						</HBox>
 						<HBox alignItems="Center">
 							<Text text="{i18n>lblMode}" width="100px" />
@@ -55,6 +59,7 @@
 								selectedKey="{json>/keyboardMode}"
 								enabled="{json>/showVirtualKeyboard}">
 								<core:Item key="QWERTY" text="QWERTY" />
+								<core:Item key="QWERTZ" text="QWERTZ" />
 								<core:Item key="Numeric" text="Numeric" />
 								<core:Item key="Phone" text="Phone" />
 								<core:Item key="Calculator" text="Calculator" />
@@ -94,7 +99,8 @@
 							<tc:virtualKeyboard>
 								<tc:VirtualKeyboard
 									size="{json>/size}"
-									mode="{json>/keyboardMode}" />
+									mode="{json>/keyboardMode}"
+									docked="{json>/keyboardDocked}" />
 							</tc:virtualKeyboard>
 						</tc:TextArea>
 					</VBox>

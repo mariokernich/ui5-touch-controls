@@ -26,6 +26,7 @@ export default class TextArea extends BaseController {
 				valueState: "None",
 				showVirtualKeyboard: false,
 				keyboardMode: KeyboardMode.QWERTY,
+				keyboardDocked: false,
 			},
 			true,
 		);
@@ -53,6 +54,18 @@ export default class TextArea extends BaseController {
 		showVirtualKeyboard="true">
 		<tc:virtualKeyboard>
 			<tc:VirtualKeyboard size="XL" mode="QWERTY" />
+		</tc:virtualKeyboard>
+	</tc:TextArea>
+
+	<!-- docked: the keyboard sits at the bottom edge of the screen instead
+	     of at the field, and takes the full width of a phone or a tablet -->
+	<tc:TextArea
+		value="{/note}"
+		rows="4"
+		size="XL"
+		showVirtualKeyboard="true">
+		<tc:virtualKeyboard>
+			<tc:VirtualKeyboard size="XL" mode="QWERTZ" docked="true" />
 		</tc:virtualKeyboard>
 	</tc:TextArea>
 </mvc:View>
