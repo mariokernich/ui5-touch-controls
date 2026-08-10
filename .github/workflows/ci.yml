@@ -11,9 +11,11 @@ concurrency:
   group: "ci-${{ github.ref }}"
   cancel-in-progress: true
 
+# The job names are what the badges in the README are looked up by - they are
+# matched exactly - so renaming a job means changing its badge as well.
 jobs:
-  check:
-    name: Types, lint & build
+  types:
+    name: Types
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,8 +36,46 @@ jobs:
       - name: Type check
         run: npm run check:ts
 
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: 🔨 setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Lint
         run: npm run check:lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: 🔨 setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Build
         run: npm run build

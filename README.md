@@ -5,6 +5,22 @@
 </picture>
 </p>
 
+<p align="center">
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="Types" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=Types&label=types&logo=typescript&logoColor=white"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="Lint" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=Lint&label=lint&logo=eslint&logoColor=white"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="Build" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=Build&label=build"></a>
+</p>
+
+<p align="center">
+<strong>UI tests</strong><br>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.116" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.116&label=UI5%201.116"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.120" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.120&label=UI5%201.120"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.124" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.124&label=UI5%201.124"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.130" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.130&label=UI5%201.130"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.140" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.140&label=UI5%201.140"></a>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 latest" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%20latest&label=UI5%20latest"></a>
+</p>
+
 **Standard OpenUI5 controls, rebuilt for touch — plus the ones `sap.m` is missing.**
 
 `sap.m` controls are made for mouse and keyboard. On a tablet, a shop floor terminal or a device operated with gloves they are simply too small — and the cozy content density only gets you one step further.
@@ -438,7 +454,9 @@ UI5_VERSION=1.116.0 npm run test:ui    # any other release
 
 `wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
 
-The GitHub workflow `ci.yml` runs the suite on every supported UI5 release in parallel. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
+The GitHub workflow `ci.yml` runs the suite on every supported UI5 release in parallel, next to the type check, the lint run and the build. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
+
+The badges at the top of this file show one job of that workflow each, on `main`. They are looked up by the name of the job — `Types`, `Lint`, `Build`, `UI tests on UI5 1.116` — and the name has to match exactly, so renaming a job means changing its badge with it.
 
 ### Scripts
 
