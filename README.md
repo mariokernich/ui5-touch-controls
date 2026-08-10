@@ -112,6 +112,23 @@ For a key set of your own there is `mode="Custom"`, and only then the `layout` p
 
 `{shift}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
 
+#### On a field
+
+The keyboard does not have to sit on the page. Put it into the `virtualKeyboard` aggregation of a `tc:Input` and switch `showVirtualKeyboard` on, and it opens in a popover below the field while the field has the focus:
+
+```xml
+<tc:Input
+	value="{/quantity}"
+	size="XL"
+	showVirtualKeyboard="true">
+	<tc:virtualKeyboard>
+		<tc:VirtualKeyboard mode="Numeric" size="XL" />
+	</tc:virtualKeyboard>
+</tc:Input>
+```
+
+The keyboard types into the field: it is filled with the value of the field whenever the popover opens, every key fires `liveChange`, and its Enter key fires `change` and `submit` — the popover stays open, since the field still has the focus. `tc:TextArea` takes the same aggregation, where Enter adds a line break instead.
+
 ### `tc:BarcodeInput`
 
 On a shop floor or in a warehouse most input does not come from a keyboard but from a barcode scanner in keyboard wedge mode: it types the code into the focused field within a few milliseconds and closes it with <kbd>Enter</kbd>. A plain input cannot tell that apart from a person, so an application ends up reacting either to every <kbd>Enter</kbd> or to none.
