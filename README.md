@@ -17,9 +17,7 @@ The library does two things about that:
 
 ![Screenshot of the ui5.touch.controls library](assets/screenshot.png)
 
-**Live demo:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
-
-**npm package:** https://www.npmjs.com/package/ui5.touch.controls
+**Link of full documentation:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
 
 ## Drop-in replacement — before and after
 
