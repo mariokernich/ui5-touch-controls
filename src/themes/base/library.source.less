@@ -1,6 +1,10 @@
 @import "/resources/sap/ui/core/themes/base/base.less";
 @import "/resources/sap/ui/core/themes/base/global.less";
 
+/* values for the theme parameters the supported UI5 versions do not all bring
+   along - before the theme, so a theme that has them wins */
+@import "Compat.less";
+
 /* the size ladder every control reads from, and the mixin library - both have
    to come before the controls that use them */
 @import "Sizing.less";

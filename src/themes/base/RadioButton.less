@@ -75,7 +75,10 @@
 /* hover */
 .sizedRadioButton:not(.sizedRadioButtonDisabled):not(.sizedRadioButtonReadonly):not(.sizedRadioButtonState):hover
 	.sizedRadioButtonCircle {
-	background-color: @sapField_Selector_Hover_Background;
+	background-color: var(
+		--sapField_Selector_Hover_Background,
+		@sapField_Hover_Background
+	);
 	border-color: @sapField_Hover_BorderColor;
 }
 
@@ -114,7 +117,10 @@
 	color: @sapField_InvalidColor;
 }
 .sizedRadioButtonError:hover .sizedRadioButtonCircle {
-	background-color: @sapField_Selector_Hover_InvalidBackground;
+	background-color: var(
+		--sapField_Selector_Hover_InvalidBackground,
+		@sapField_InvalidBackground
+	);
 }
 
 .sizedRadioButtonWarning .sizedRadioButtonCircle {
@@ -123,7 +129,10 @@
 	color: @sapField_WarningColor;
 }
 .sizedRadioButtonWarning:hover .sizedRadioButtonCircle {
-	background-color: @sapField_Selector_Hover_WarningBackground;
+	background-color: var(
+		--sapField_Selector_Hover_WarningBackground,
+		@sapField_WarningBackground
+	);
 }
 
 .sizedRadioButtonSuccess .sizedRadioButtonCircle {
@@ -132,7 +141,10 @@
 	color: @sapField_SuccessColor;
 }
 .sizedRadioButtonSuccess:hover .sizedRadioButtonCircle {
-	background-color: @sapField_Selector_Hover_SuccessBackground;
+	background-color: var(
+		--sapField_Selector_Hover_SuccessBackground,
+		@sapField_SuccessBackground
+	);
 }
 
 .sizedRadioButtonInformation .sizedRadioButtonCircle {
@@ -141,7 +153,10 @@
 	color: @sapField_InformationColor;
 }
 .sizedRadioButtonInformation:hover .sizedRadioButtonCircle {
-	background-color: @sapField_Selector_Hover_InformationBackground;
+	background-color: var(
+		--sapField_Selector_Hover_InformationBackground,
+		@sapField_InformationBackground
+	);
 }
 
 /* ------------------------------------------------------------------------ */

@@ -104,7 +104,10 @@
 .sizedCheckBoxReadonly .sizedCheckBoxBox {
 	background-color: @sapField_ReadOnly_Background;
 	border-color: @sapField_ReadOnly_BorderColor;
-	border-style: @sapField_Selector_ReadOnly_BorderStyle;
+	/* the fallback is for the UI5 versions that do not know the parameter yet.
+	   It cannot be @sapField_ReadOnly_BorderStyle: that is "none" in Horizon,
+	   which draws its fields without a border - a box needs its outline. */
+	border-style: var(--sapField_Selector_ReadOnly_BorderStyle, solid);
 	color: @sapField_TextColor;
 }
 

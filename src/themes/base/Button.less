@@ -8,7 +8,9 @@
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
-	font-family: @sapButton_FontFamily;
+	/* the button font family is a parameter of its own only from UI5 1.140
+	   on; before that the button simply used the font of the theme */
+	font-family: var(--sapButton_FontFamily, @sapFontFamily);
 	color: @sapButton_TextColor;
 	background-color: @sapButton_Background;
 	border: 1px solid @sapButton_BorderColor;
