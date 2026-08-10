@@ -14,7 +14,7 @@
 				height="8rem"
 				alt="ui5-touch-controls"
 				densityAware="false"
-				class="sapUiSmallMarginBottom" />
+				class="sapUiSmallMarginBottom sapUiSmallMarginTop" />
 			<Title text="{i18n>gsTitle}" level="H1" wrapping="true" />
 			<Text text="{i18n>gsSubtitle}" class="sapUiTinyMarginTop" />
 		</VBox>
