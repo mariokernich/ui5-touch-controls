@@ -40,7 +40,10 @@
 
 .sizedBarcodeInputIcon::before {
 	/* sap-icon://bar-code */
-	font-family: var(--sapContent_IconFontFamily);
+	font-family: var(
+		--sapContent_IconFontFamily,
+		@sapContent_IconFontFamily
+	);
 	content: "\e08d";
 	pointer-events: none;
 }

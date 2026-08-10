@@ -212,13 +212,39 @@ export default class ComboBox extends Control implements ISized {
 	 */
 	setSelectedKey(key: string): this {
 		this.setProperty("selectedKey", key, true);
+		this.applySelectedKey(key);
 
+		return this;
+	}
+
+	/**
+	 * Puts the text of the item with that key into the field. Returns whether
+	 * there was such an item.
+	 */
+	private applySelectedKey(key: string): boolean {
 		const item = this.getItems().find((candidate) => candidate.getKey() === key);
+
 		if (item) {
 			this.setValue(item.getText());
 		}
 
-		return this;
+		return Boolean(item);
+	}
+
+	/**
+	 * Properties are applied before aggregations, both in a constructor and in
+	 * an XML view, so a <code>selectedKey</code> written next to the items
+	 * cannot be resolved when it arrives - there are no items yet. It is
+	 * caught up on here, once they are known.
+	 *
+	 * An empty field is the only case this applies to: everything a user types
+	 * keeps the key and the value in step, so a key that is left over from
+	 * before cannot put text back into a field that was cleared.
+	 */
+	onBeforeRendering(): void {
+		if (this.getSelectedKey() && !this.getValue()) {
+			this.applySelectedKey(this.getSelectedKey());
+		}
 	}
 
 	private getInnerInput(): HTMLInputElement | null {

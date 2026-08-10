@@ -1,7 +1,3 @@
-# Serves the plain test pages in test/ - one page per control, no application
-# around them. They exist to see the controls on the older UI5 versions the
-# library supports, which the demo application cannot do: that one is built
-# against the latest release.
 specVersion: "4.0"
 metadata:
   name: ui5.touch.controls
@@ -10,15 +6,19 @@ resources:
   configuration:
     paths:
       src: src
-      test: test
+      # the demo application, called "docs" because that is what it is; the
+      # tooling still serves it under /test-resources
+      test: docs
 framework:
   name: OpenUI5
-  # the version the start:test scripts override; the pages themselves use
-  # nothing that is newer than the oldest supported release
   version: 1.151.0
   libraries:
     - name: sap.m
     - name: sap.ui.core
+    - name: sap.f
+    - name: sap.tnt
+    - name: sap.ui.codeeditor
+    - name: sap.ui.unified
     - name: themelib_sap_horizon
     - name: themelib_sap_fiori_3
 builder:
@@ -26,7 +26,7 @@ builder:
     - name: ui5-tooling-transpile-task
       afterTask: replaceVersion
       configuration:
-        generateTsInterfaces: true
+        generateTsInterfaces: true # always generate the TS interfaces in build
 server:
   customMiddleware:
     - name: ui5-tooling-transpile-middleware
@@ -37,5 +37,5 @@ server:
       afterMiddleware: compression
       configuration:
           path:
-              - "test/"
+              - "docs/"
               - "src/"

@@ -121,7 +121,10 @@
 /* sap-icon://accept and sap-icon://decline, the pair sap.m uses. They sit in
    the handle here, where sap.m puts them into the track */
 .sizedSwitchAcceptReject .sizedSwitchLabel::before {
-	font-family: var(--sapContent_IconFontFamily);
+	font-family: var(
+		--sapContent_IconFontFamily,
+		@sapContent_IconFontFamily
+	);
 }
 
 .sizedSwitchAcceptReject .sizedSwitchLabelOn::before {

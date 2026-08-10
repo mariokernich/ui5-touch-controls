@@ -396,18 +396,31 @@ pnpm install
 npm run start
 ```
 
-This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the demo application. The demo is a standalone UI5 app in `test/`: `Component.ts` and `manifest.json` wire the router, `view/` holds one XML view per page and `controller/` the matching controllers. The shell (side navigation, theme switcher, previous/next) lives in `view/App.view.xml`, the page list in `model/pages.ts`.
+This starts the dev server (`ui5 serve` with `ui5-docs.yaml`) and opens the demo application. The demo is a standalone UI5 app in `docs/`: `Component.ts` and `manifest.json` wire the router, `view/` holds one XML view per page and `controller/` the matching controllers. The shell (side navigation, theme switcher, previous/next) lives in `view/App.view.xml`, the page list in `model/pages.ts`. It always runs against the latest UI5.
+
+### Test pages
+
+`test/` holds a single plain page that shows every control — no descriptions, no navigation, no models, nothing but the controls, so a broken render is the library's doing and not the demo's. It exists to see the controls on the older UI5 versions the library supports:
+
+```sh
+npm run start:test          # latest
+npm run start:test:1.120    # and 1.124, 1.130, 1.140
+```
+
+`?control=Button` narrows the page to a single control; without it every control is shown, one section after the other. The cases are built in `test/cases.ts`.
 
 ### Scripts
 
 | Script | Description |
 | --- | --- |
 | `npm run start` | Start the local dev server with livereload and open the demo application |
+| `npm run start:test` | Open the plain test page on the latest UI5 |
+| `npm run start:test:1.120` | Same page on UI5 1.120 (`:1.124`, `:1.130` and `:1.140` for the other supported versions) |
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:self-contained` | Self-contained build (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
 | `npm run check:ts` | TypeScript type check (`tsc --noEmit`) |
-| `npm run check:lint` | ESLint check for `src` and `test` |
+| `npm run check:lint` | ESLint check for `src`, `docs` and `test` |
 | `npm run build:icon-font` | Generate the library's icon font (TTF/WOFF/WOFF2 + metadata) from the SVGs in `src/icons` (runs automatically before start/build) |
 | `npm run clean` | Remove `dist` and `coverage` |
 
@@ -416,10 +429,12 @@ This starts the dev server (`ui5 serve` with `ui5-test.yaml`) and opens the demo
 ```
 src/                  Library sources (controls, library.ts, themes)
 src/themes/           Base + theme-specific LESS files
-test/                 Demo application (Component, manifest, views, controllers)
+docs/                 Demo application (Component, manifest, views, controllers)
+test/                 Plain test page (one section per control)
 scripts/              Build helper scripts
 ui5.yaml              UI5 tooling config (library build)
-ui5-test.yaml         UI5 tooling config (dev server / demo application)
+ui5-docs.yaml         UI5 tooling config (dev server / demo application)
+ui5-test.yaml         UI5 tooling config (test page, any UI5 version)
 ui5-self-contained.yaml  UI5 tooling config (self-contained build)
 ```
 

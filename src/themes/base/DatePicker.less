@@ -40,7 +40,10 @@
 
 .sizedDatePickerIcon::before {
 	/* sap-icon://appointment-2 */
-	font-family: var(--sapContent_IconFontFamily);
+	font-family: var(
+		--sapContent_IconFontFamily,
+		@sapContent_IconFontFamily
+	);
 	content: "\e0ae";
 	pointer-events: none;
 }

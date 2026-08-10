@@ -40,7 +40,10 @@
 
 .sizedTimePickerIcon::before {
 	/* sap-icon://time-entry-request */
-	font-family: var(--sapContent_IconFontFamily);
+	font-family: var(
+		--sapContent_IconFontFamily,
+		@sapContent_IconFontFamily
+	);
 	content: "\e0a4";
 	pointer-events: none;
 }

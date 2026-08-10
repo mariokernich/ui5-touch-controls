@@ -53,18 +53,27 @@ export const releases: Release[] = [
 				],
 			},
 			{
+				kind: "Changed",
+				items: [
+					"Every measurement a size stands for now comes from one stylesheet, Sizing.less, which writes the ladder of a size into custom properties on a single class per control. Sizes look and behave as before.",
+				],
+			},
+			{
 				kind: "Fixed",
 				items: [
 					"The selection of a SegmentedButton follows the theme, and the outline of the group stays connected around the selected segment.",
 					"Input and TextArea keep the field outline of Horizon, and the TextArea sits at the height of its sap.m original.",
 					"Content marked NeverOverflow moves into the overflow area as a last resort instead of widening the toolbar, and the overflow button stays at its right end.",
 					"The placeholder of the SignaturePad no longer breaks the calc it is built from.",
+					"The library builds and draws on UI5 1.120 and later again: the theme parameters that only the newer releases define are used with a fallback, so the arrows, the tick of the CheckBox and the other icons of the library show up on every supported version.",
+					"A ComboBox with a selectedKey written next to its items shows the text of that item. Properties reach a control before its aggregations do, so the key used to arrive while there were no items to match it against.",
 				],
 			},
 			{
 				kind: "Demo",
 				items: [
-					"The separate test pages are gone. In their place is one application with routing, a page per control and a side navigation to walk through them.",
+					"The separate test pages are gone. In their place is one application with routing, a page per control and a side navigation to walk through them. It runs on the latest UI5.",
+					"Next to it, test/ holds one plain page that shows every control - no descriptions, no navigation, nothing but the controls. The start:test scripts open it on the supported UI5 versions, and ?control=Button narrows it to one of them.",
 					"The interface is translated into German and Hindi, and the language can be switched in the header.",
 					"The application starts in the dark theme when the system is set to dark mode.",
 					"Every page works down to a phone: the cards stack, the tables fall back to pop-in and the widest keyboard layout scrolls inside its card.",
