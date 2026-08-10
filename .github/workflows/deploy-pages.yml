@@ -32,8 +32,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-      - name: Build UI5 library
-        run: npm run build:self-contained
+      - name: Build the library and the demo
+        run: npm run build:demo
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

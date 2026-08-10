@@ -1,3 +1,7 @@
+# The build behind the GitHub Pages deployment: the library plus the demo
+# application in docs/, with a preload bundle for every library and one for the
+# demo itself. Without those bundles the browser fetches every UI5 module on
+# its own - a few hundred requests before the first screen is drawn.
 specVersion: "4.0"
 metadata:
     name: ui5.touch.controls

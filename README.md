@@ -467,7 +467,7 @@ The badges at the top of this file show one job of that workflow each, on `main`
 | `npm run start:test:1.116` | Same page on UI5 1.116, the oldest supported release |
 | `npm run start:test:1.120` | Same page on UI5 1.120 (`:1.124`, `:1.130` and `:1.140` for the other supported versions) |
 | `npm run build` | Build the library into `dist/` |
-| `npm run build:self-contained` | Self-contained build (used for the GitHub Pages deployment) |
+| `npm run build:demo` | Build of library and demo with preload bundles (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
 | `npm run test:ui` | Run the wdi5 UI tests against the test page (`UI5_VERSION` picks the release) |
 | `npm run check:ts` | TypeScript type check (`tsc --noEmit`) |
@@ -487,12 +487,16 @@ scripts/              Build helper scripts
 ui5.yaml              UI5 tooling config (library build)
 ui5-docs.yaml         UI5 tooling config (dev server / demo application)
 ui5-test.yaml         UI5 tooling config (test page, any UI5 version)
-ui5-self-contained.yaml  UI5 tooling config (self-contained build)
+ui5-demo.yaml         UI5 tooling config (GitHub Pages build)
 ```
 
 ## Deployment
 
-Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which runs the self-contained build and deploys the demo application to GitHub Pages.
+Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy-pages.yml`), which builds the demo application with `npm run build:demo` and deploys it to GitHub Pages.
+
+That build is `ui5 build --all`, and the `--all` is what matters: it writes a `library-preload.js` for every UI5 library the demo uses. Without them the browser asks for every single module — 181 requests before the first screen, 106 of them from `sap.m` alone. With them it is 48.
+
+The demo's own files are bundled by `scripts/build-component-preload.mjs`, which runs right after the build. The UI5 tooling cannot do it here: its bundler reads from `/resources/` and writes to `/resources/`, while the demo of a library project lives in `/test-resources/`. The script writes the same `sap.ui.require.preload(...)` call the tooling would, so a page change costs one request instead of up to 54.
 
 ## License
 
