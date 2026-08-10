@@ -35,6 +35,7 @@
 							     copied straight into a view -->
 							<Select selectedKey="{json>/mode}">
 								<core:Item key="QWERTY" text="QWERTY" />
+								<core:Item key="QWERTZ" text="QWERTZ" />
 								<core:Item key="Numeric" text="Numeric" />
 								<core:Item key="Phone" text="Phone" />
 								<core:Item key="Calculator" text="Calculator" />
@@ -62,6 +63,7 @@
 							<Text text="{i18n>lblBehavior}" width="100px" />
 							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
 							<CheckBox text="{i18n>cbHardwareKeys}" selected="{json>/hardwareKeys}" />
+							<CheckBox text="{i18n>cbDocked}" selected="{json>/docked}" />
 						</HBox>
 					</VBox>
 				</f:content>
@@ -89,6 +91,7 @@
 							size="{json>/size}"
 							enabled="{json>/enabled}"
 							hardwareKeys="{json>/hardwareKeys}"
+							docked="{json>/docked}"
 							width="{json>/width}"
 							change=".onChange"
 							enter=".onEnter" />

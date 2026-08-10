@@ -32,6 +32,7 @@ export default class VirtualKeyboard extends BaseController {
 				size: "L",
 				enabled: true,
 				hardwareKeys: true,
+				docked: false,
 				width: "",
 				modes: keyboardModeDocs,
 			},
@@ -60,6 +61,15 @@ export default class VirtualKeyboard extends BaseController {
 		size="XL"
 		mode="Custom"
 		layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
+		change=".onChange" />
+
+	<!-- docked: at the bottom edge of the screen, over everything else,
+	     and the full width of a phone or a tablet -->
+	<tc:VirtualKeyboard
+		value="{/code}"
+		size="XL"
+		mode="QWERTZ"
+		docked="true"
 		change=".onChange" />
 </mvc:View>
 `);

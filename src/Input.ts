@@ -430,6 +430,11 @@ export default class Input extends Control implements ISized {
 		// respects its limit
 		keyboard.setValue(this.getValue());
 		keyboard.setMaxLength(this.getMaxLength());
+		// a docked keyboard belongs at the bottom edge of the screen rather
+		// than at the field, and the popover is the element UI5 places - so it
+		// is the one that carries the docking. Asked every time, because the
+		// property can change between two openings.
+		popover.toggleStyleClass("sizedKeyboardPopoverDocked", keyboard.getDocked());
 
 		popover.openBy(this);
 	}

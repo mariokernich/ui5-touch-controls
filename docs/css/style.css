@@ -154,7 +154,7 @@ body,
    each other. The subtracted amount is the padding of the page plus the
    margins inside the card. Above roughly 740px even the widest layout fits on
    its own, and the bound never comes into play. */
-.touchControlsPage .touchVirtualKeyboard {
+.touchControlsPage .touchVirtualKeyboard:not(.touchVirtualKeyboardDocked) {
 	max-width: calc(100vw - 5rem);
 	overflow-x: auto;
 }
@@ -195,4 +195,16 @@ body,
 	.touchControlsCardRow .sapFCard {
 		max-width: 100%;
 	}
+}
+
+/* A docked VirtualKeyboard is placed with position: fixed, which is measured
+   against the viewport - but only as long as nothing on the way up creates a
+   containing block of its own. sap.tnt.ToolPage puts will-change: transform on
+   its content area, which does exactly that, and the keyboard would end up
+   pinned inside the content area instead of at the bottom of the screen.
+
+   The hint is there to smooth the animation of the side navigation, and giving
+   it up costs nothing that can be noticed. */
+.sapTntToolPageMain {
+	will-change: auto;
 }

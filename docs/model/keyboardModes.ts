@@ -14,6 +14,7 @@ export interface KeyboardModeDoc {
 /** the ready-made modes, in the order the select shows them */
 const readyMade = [
 	KeyboardMode.QWERTY,
+	KeyboardMode.QWERTZ,
 	KeyboardMode.Numeric,
 	KeyboardMode.Phone,
 	KeyboardMode.Calculator,

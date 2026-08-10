@@ -41,6 +41,47 @@
 	pointer-events: none;
 }
 
+/* ---------------------------------------------------------------------------
+   Docked
+
+   A docked keyboard leaves the flow of the page and sits at the bottom edge,
+   the way the on-screen keyboard of a phone does. UI5 hands out z-indexes for
+   its popups starting at 10 and counting up in steps of ten, so a number far
+   above that range is what puts the keyboard over them. It only ranks within
+   the stacking context it is in, though: a keyboard on a field is carried by a
+   popover in the static area and therefore covers everything, while one
+   standing on a page is ranked inside that page.
+
+   The boundary for the full width is the one UI5 draws itself between its
+   Tablet and its Desktop range.
+   --------------------------------------------------------------------------- */
+@touchKeyboardDockedZIndex: 999999;
+@touchKeyboardDockedFullWidth: 1023px;
+
+.touchVirtualKeyboardDocked {
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: @touchKeyboardDockedZIndex;
+	max-width: 100vw;
+	/* it closes off the bottom edge, so the corners down there are square */
+	border-radius: @sapElement_BorderCornerRadius @sapElement_BorderCornerRadius 0
+		0;
+	box-shadow: @sapContent_Shadow2;
+}
+
+@media (max-width: @touchKeyboardDockedFullWidth) {
+	.touchVirtualKeyboardDocked {
+		left: 0;
+		transform: none;
+		/* beats the width property, which is written as an inline style */
+		width: 100% !important;
+		max-width: 100%;
+		border-radius: 0;
+	}
+}
+
 /* The popover a field opens its keyboard in - the same one for every field,
    which is why it lives here and not with one of them. The keyboard brings
    its own frame, so the popover around it must not add a second one. */
@@ -52,4 +93,39 @@
 .sizedKeyboardPopover .touchVirtualKeyboard {
 	display: flex;
 	border: none;
+}
+
+/* A docked keyboard in a field: the popover is what gets docked, because it
+   is the element UI5 positions. The keyboard inside goes back to being an
+   ordinary block - two nested fixed elements would fight over the same edge,
+   and the transform below would make the inner one position itself against
+   the popover anyway. */
+.sizedKeyboardPopoverDocked.sapMPopover {
+	position: fixed !important;
+	top: auto !important;
+	bottom: 0 !important;
+	left: 50% !important;
+	right: auto !important;
+	transform: translateX(-50%);
+	z-index: @touchKeyboardDockedZIndex !important;
+	max-width: 100vw;
+}
+
+.sizedKeyboardPopoverDocked .touchVirtualKeyboardDocked {
+	position: static !important;
+	transform: none;
+	z-index: auto !important;
+	width: 100% !important;
+	max-width: 100%;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+@media (max-width: @touchKeyboardDockedFullWidth) {
+	.sizedKeyboardPopoverDocked.sapMPopover {
+		left: 0 !important;
+		transform: none;
+		width: 100% !important;
+		max-width: 100%;
+	}
 }

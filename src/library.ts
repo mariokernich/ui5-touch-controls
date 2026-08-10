@@ -41,6 +41,8 @@ export enum SizeMode {
 export enum KeyboardMode {
 	/** letters and digits, in the arrangement of a computer keyboard */
 	QWERTY = "QWERTY",
+	/** the same, in the German arrangement: Z and Y are swapped */
+	QWERTZ = "QWERTZ",
 	/** the digits of a number pad, 7 8 9 on top */
 	Numeric = "Numeric",
 	/** the digits of a telephone, 1 2 3 on top, with * and # */

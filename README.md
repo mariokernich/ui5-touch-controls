@@ -102,7 +102,7 @@ On a shop floor terminal, a kiosk or a device operated with gloves there is ofte
 
 ![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
 
-Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY`, `Numeric`, `Phone` or `Calculator`.
+Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY`, `QWERTZ` (the German arrangement, Z and Y swapped), `Numeric`, `Phone` or `Calculator`.
 
 ```xml
 <tc:VirtualKeyboard
@@ -142,6 +142,25 @@ The keyboard does not have to sit on the page. Put it into the `virtualKeyboard`
 ```
 
 The keyboard types into the field: it is filled with the value of the field whenever the popover opens, every key fires `liveChange`, and its Enter key fires `change` and `submit` — the popover stays open, since the field still has the focus. `tc:TextArea` takes the same aggregation, where Enter adds a line break instead.
+
+#### Docked
+
+`docked` takes the keyboard out of the flow of the page and puts it at the bottom edge of the screen, over the content, the way the on-screen keyboard of a phone does. On a phone or a tablet it takes the full width of the screen and `width` is not looked at; from 1024px up it keeps its own width and is centered.
+
+```xml
+<tc:VirtualKeyboard
+	value="{/code}"
+	size="XL"
+	mode="QWERTZ"
+	docked="true"
+	change=".onChange" />
+```
+
+It works the same way on a field: put the keyboard in the `virtualKeyboard` aggregation as above and set `docked`, and the popover that carries it is docked instead of being placed at the field.
+
+How high the keyboard reaches differs between the two, and that follows from where it sits. On a field it is carried into the static area by its popover, so it covers everything — a modal dialog included, which is what makes a field inside a dialog typeable. Standing on a page of its own it stays part of that page, and a page is a stacking context: it covers the content around it, but the block layer of a modal dialog still comes out on top.
+
+One thing to watch in the app around it: `position: fixed` is measured against the screen only as long as no element on the way up creates a containing block of its own. `sap.tnt.ToolPage` does, with a `will-change: transform` on its content area — a docked keyboard inside one ends up pinned to that area instead of the screen. Setting `will-change: auto` on `.sapTntToolPageMain` in the application's own stylesheet is enough; it is what the demo of this library does.
 
 ### `tc:BarcodeInput`
 

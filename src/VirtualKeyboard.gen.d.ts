@@ -72,9 +72,48 @@ declare module "./VirtualKeyboard" {
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
 
         /**
-         * Width of the keyboard.
+         * /**
+                     * Width of the keyboard.
+                     *
+                     * On a phone or a tablet a docked keyboard takes the full width of
+                     * the screen and this property is not looked at - see
+                     *
+        {@link #getDocked docked}
+        .
          */
         width?: CSSSize | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * /**
+                     * Indicates whether the keyboard is docked to the bottom edge of
+                     * the screen.
+                     *
+                     * A docked keyboard is taken out of the flow of the page: it sits
+                     * at the bottom edge, centered, and over the content. On a phone
+                     * or a tablet it takes the full width of the screen and
+                     *
+        {@link #getWidth width}
+         is not looked at.
+                     *
+                     * It works the same way in the <code>virtualKeyboard</code>
+                     * aggregation of an
+        {@link ui5.touch.controls.Input}
+         or an
+                     *
+        {@link ui5.touch.controls.TextArea}
+        : the popover that carries
+                     * the keyboard is docked instead of being placed at the field.
+                     *
+                     * How high it reaches differs between the two, and that follows
+                     * from where they are in the page. A keyboard on a field is put
+                     * into the static area by its popover, so it covers everything, a
+                     * modal dialog included - which is what makes a field inside a
+                     * dialog typeable. A keyboard standing on a page of its own stays
+                     * a part of that page, and a page is a stacking context of its
+                     * own: it covers the content around it, but the block layer of a
+                     * modal dialog still comes out on top of it.
+         */
+        docked?: boolean | PropertyBindingInfo | `{${string}}`;
 
         /**
          * Fired whenever the keyboard input changes (key press,
@@ -230,14 +269,94 @@ declare module "./VirtualKeyboard" {
         // property: width
 
         /**
-         * Width of the keyboard.
+         * /**
+                     * Width of the keyboard.
+                     *
+                     * On a phone or a tablet a docked keyboard takes the full width of
+                     * the screen and this property is not looked at - see
+                     *
+        {@link #getDocked docked}
+        .
          */
         getWidth(): CSSSize;
 
         /**
-         * Width of the keyboard.
+         * /**
+                     * Width of the keyboard.
+                     *
+                     * On a phone or a tablet a docked keyboard takes the full width of
+                     * the screen and this property is not looked at - see
+                     *
+        {@link #getDocked docked}
+        .
          */
         setWidth(width: CSSSize): this;
+
+        // property: docked
+
+        /**
+         * /**
+                     * Indicates whether the keyboard is docked to the bottom edge of
+                     * the screen.
+                     *
+                     * A docked keyboard is taken out of the flow of the page: it sits
+                     * at the bottom edge, centered, and over the content. On a phone
+                     * or a tablet it takes the full width of the screen and
+                     *
+        {@link #getWidth width}
+         is not looked at.
+                     *
+                     * It works the same way in the <code>virtualKeyboard</code>
+                     * aggregation of an
+        {@link ui5.touch.controls.Input}
+         or an
+                     *
+        {@link ui5.touch.controls.TextArea}
+        : the popover that carries
+                     * the keyboard is docked instead of being placed at the field.
+                     *
+                     * How high it reaches differs between the two, and that follows
+                     * from where they are in the page. A keyboard on a field is put
+                     * into the static area by its popover, so it covers everything, a
+                     * modal dialog included - which is what makes a field inside a
+                     * dialog typeable. A keyboard standing on a page of its own stays
+                     * a part of that page, and a page is a stacking context of its
+                     * own: it covers the content around it, but the block layer of a
+                     * modal dialog still comes out on top of it.
+         */
+        getDocked(): boolean;
+
+        /**
+         * /**
+                     * Indicates whether the keyboard is docked to the bottom edge of
+                     * the screen.
+                     *
+                     * A docked keyboard is taken out of the flow of the page: it sits
+                     * at the bottom edge, centered, and over the content. On a phone
+                     * or a tablet it takes the full width of the screen and
+                     *
+        {@link #getWidth width}
+         is not looked at.
+                     *
+                     * It works the same way in the <code>virtualKeyboard</code>
+                     * aggregation of an
+        {@link ui5.touch.controls.Input}
+         or an
+                     *
+        {@link ui5.touch.controls.TextArea}
+        : the popover that carries
+                     * the keyboard is docked instead of being placed at the field.
+                     *
+                     * How high it reaches differs between the two, and that follows
+                     * from where they are in the page. A keyboard on a field is put
+                     * into the static area by its popover, so it covers everything, a
+                     * modal dialog included - which is what makes a field inside a
+                     * dialog typeable. A keyboard standing on a page of its own stays
+                     * a part of that page, and a page is a stacking context of its
+                     * own: it covers the content around it, but the block layer of a
+                     * modal dialog still comes out on top of it.
+         */
+        setDocked(docked: boolean): this;
 
         // event: change
 

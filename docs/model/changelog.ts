@@ -26,6 +26,27 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.3.0",
+		date: "",
+		summary: "The keyboard docks to the bottom edge, and knows QWERTZ.",
+		groups: [
+			{
+				kind: "Added",
+				items: [
+					"VirtualKeyboard has a docked property. A docked keyboard leaves the flow of the page and sits at the bottom edge of the screen, over the content, the way the on-screen keyboard of a phone does. On a phone or a tablet it takes the full width of the screen and the width property is not looked at.",
+					"docked works on a field as well: with a keyboard in the virtualKeyboard aggregation of an Input or a TextArea, the popover that carries it is docked instead of being placed at the field. That keyboard is in the static area, so it covers a modal dialog too - which is what makes a field inside a dialog typeable.",
+					"KeyboardMode QWERTZ, the German arrangement of the letters: Z and Y are swapped against QWERTY.",
+				],
+			},
+			{
+				kind: "Demo",
+				items: [
+					"The VirtualKeyboard page has a Docked switch and QWERTZ in its mode list.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.2.0",
 		date: "2026-08-10",
 		summary:

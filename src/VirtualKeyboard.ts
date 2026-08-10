@@ -19,6 +19,13 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 		"{shift} z x c v b n m {bksp}",
 		"{space} {enter}",
 	],
+	[KeyboardMode.QWERTZ]: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"q w e r t z u i o p",
+		"a s d f g h j k l",
+		"{shift} y x c v b n m {bksp}",
+		"{space} {enter}",
+	],
 	[KeyboardMode.Numeric]: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
 	[KeyboardMode.Phone]: [
 		"1 2 3",
@@ -42,9 +49,10 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
  * third-party keyboard dependency.
  *
  * Which keys it shows is a matter of the {@link #getMode mode} property:
- * <code>QWERTY</code>, <code>Numeric</code>, <code>Phone</code> and
- * <code>Calculator</code> are ready-made, <code>Custom</code> hands the
- * keyboard over to the {@link #getLayout layout} property.
+ * <code>QWERTY</code>, <code>QWERTZ</code>, <code>Numeric</code>,
+ * <code>Phone</code> and <code>Calculator</code> are ready-made,
+ * <code>Custom</code> hands the keyboard over to the
+ * {@link #getLayout layout} property.
  *
  * A layout is written row by row: each entry is one row, keys are separated
  * by spaces and special keys are wrapped in curly braces
@@ -53,6 +61,10 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
  *
  * When {@link #getHardwareKeys hardwareKeys} is enabled, the keyboard also
  * accepts input from a real (physical) keyboard while it has the focus.
+ *
+ * With {@link #getDocked docked} the keyboard leaves the flow of the page and
+ * sits at the bottom edge of the screen, over the content - the way the
+ * on-screen keyboard of a phone does.
  *
  * @namespace ui5.touch.controls
  */
@@ -155,12 +167,40 @@ export default class VirtualKeyboard extends Control implements ISized {
 			},
 			/**
 			 * Width of the keyboard.
+			 *
+			 * On a phone or a tablet a docked keyboard takes the full width of
+			 * the screen and this property is not looked at - see
+			 * {@link #getDocked docked}.
 			 */
 			width: {
 				type: "sap.ui.core.CSSSize",
 				group: "Appearance",
 				defaultValue: null,
 			},
+			/**
+			 * Indicates whether the keyboard is docked to the bottom edge of
+			 * the screen.
+			 *
+			 * A docked keyboard is taken out of the flow of the page: it sits
+			 * at the bottom edge, centered, and over the content. On a phone
+			 * or a tablet it takes the full width of the screen and
+			 * {@link #getWidth width} is not looked at.
+			 *
+			 * It works the same way in the <code>virtualKeyboard</code>
+			 * aggregation of an {@link ui5.touch.controls.Input} or an
+			 * {@link ui5.touch.controls.TextArea}: the popover that carries
+			 * the keyboard is docked instead of being placed at the field.
+			 *
+			 * How high it reaches differs between the two, and that follows
+			 * from where they are in the page. A keyboard on a field is put
+			 * into the static area by its popover, so it covers everything, a
+			 * modal dialog included - which is what makes a field inside a
+			 * dialog typeable. A keyboard standing on a page of its own stays
+			 * a part of that page, and a page is a stacking context of its
+			 * own: it covers the content around it, but the block layer of a
+			 * modal dialog still comes out on top of it.
+			 */
+			docked: { type: "boolean", group: "Appearance", defaultValue: false },
 		},
 		aggregations: {
 			/**
@@ -533,6 +573,9 @@ export default class VirtualKeyboard extends Control implements ISized {
 
 			if (!control.getEnabled()) {
 				rm.class("touchVirtualKeyboardDisabled");
+			}
+			if (control.getDocked()) {
+				rm.class("touchVirtualKeyboardDocked");
 			}
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
