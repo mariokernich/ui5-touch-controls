@@ -27,7 +27,7 @@ export interface Release {
 export const releases: Release[] = [
 	{
 		version: "1.2.0",
-		date: "",
+		date: "2026-08-10",
 		summary:
 			"Twelve more sap.m controls, a virtual keyboard inside the Input, and a demo application in place of the old test pages.",
 		groups: [
@@ -62,12 +62,9 @@ export const releases: Release[] = [
 			{
 				kind: "Fixed",
 				items: [
-					"The selection of a SegmentedButton follows the theme, and the outline of the group stays connected around the selected segment.",
 					"Input and TextArea keep the field outline of Horizon, and the TextArea sits at the height of its sap.m original.",
 					"Content marked NeverOverflow moves into the overflow area as a last resort instead of widening the toolbar, and the overflow button stays at its right end.",
-					"The placeholder of the SignaturePad no longer breaks the calc it is built from.",
 					"The library builds and draws on UI5 1.116 and later again: the theme parameters that only the newer releases define are used with a fallback, so the arrows, the tick of the CheckBox and the other icons of the library show up on every supported version.",
-					"A ComboBox with a selectedKey written next to its items shows the text of that item. Properties reach a control before its aggregations do, so the key used to arrive while there were no items to match it against.",
 				],
 			},
 			{
@@ -164,7 +161,7 @@ export const releases: Release[] = [
 				items: [
 					"Button, Text, TextArea, Input, StepInput and Toolbar, rebuilt on the structure of their sap.m originals so they can replace them one for one.",
 					"One size property on every control, from S to 6XL. It scales font size, icon size, padding and height together, so the controls stay proportional at every step.",
-					"ISized, the interface behind that property. A control can be asked for it with isA(\"ui5.touch.controls.ISized\") and then be sized without knowing what it is.",
+					'ISized, the interface behind that property. A control can be asked for it with isA("ui5.touch.controls.ISized") and then be sized without knowing what it is.',
 					"VirtualKeyboard — a control sap.m has no equivalent for. Its layout is a plain list of rows, it comes with a QWERTY layout, and with hardwareKeys it also takes the keys of a real keyboard.",
 					"An icon font for the special keys of the VirtualKeyboard, built from SVG as part of the build.",
 				],
