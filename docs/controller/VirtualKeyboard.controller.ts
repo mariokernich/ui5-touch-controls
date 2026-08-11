@@ -63,20 +63,25 @@ export default class VirtualKeyboard extends BaseController {
 		layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
 		change=".onChange" />
 
-	<!-- more than one set of keys: a key named after a set switches to it -->
+	<!-- more than one set of keys: every set says in full what is on it,
+	     and a key named after a set switches to it -->
 	<tc:VirtualKeyboard value="{/text}" size="XL" mode="Custom">
 		<tc:layouts>
 			<tc:KeyboardLayout
 				name="default"
-				text="ABC"
 				rows="q w e r t y u i o p,
 				      a s d f g h j k l,
-				      {shift} z x c v b n m {bksp},
-				      {numbers} {space} {enter}" />
+				      {shift} z x c v b n m {backspace},
+				      {numbers} {space} {ent}" />
+			<tc:KeyboardLayout
+				name="shift"
+				rows="Q W E R T Y U I O P,
+				      A S D F G H J K L,
+				      {shift} Z X C V B N M {backspace},
+				      {numbers} {space} {ent}" />
 			<tc:KeyboardLayout
 				name="numbers"
-				text="123"
-				rows="1 2 3, 4 5 6, 7 8 9, {default} 0 {bksp}" />
+				rows="1 2 3, 4 5 6, 7 8 9, {abc} 0 {backspace}" />
 		</tc:layouts>
 	</tc:VirtualKeyboard>
 

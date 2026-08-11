@@ -18,16 +18,6 @@ declare module "./KeyboardLayout" {
         name?: string | PropertyBindingInfo;
 
         /**
-         * What the key that switches to this set says.
-        
-        Without it the key carries the name of the set, which is rarely
-        what belongs on a key: a set called <code>numbers</code> is
-        usually reached by a key that says <code>123</code>, and the way
-        back by one that says <code>ABC</code>.
-         */
-        text?: string | PropertyBindingInfo;
-
-        /**
          * /**
                      * The rows of the set. Each entry is one row, keys are separated by
                      * spaces, and a key in curly braces is a special one - the keys of
@@ -60,28 +50,6 @@ declare module "./KeyboardLayout" {
         <code>default</code> is the set the keyboard starts with.
          */
         setName(name: string): this;
-
-        // property: text
-
-        /**
-         * What the key that switches to this set says.
-        
-        Without it the key carries the name of the set, which is rarely
-        what belongs on a key: a set called <code>numbers</code> is
-        usually reached by a key that says <code>123</code>, and the way
-        back by one that says <code>ABC</code>.
-         */
-        getText(): string;
-
-        /**
-         * What the key that switches to this set says.
-        
-        Without it the key carries the name of the set, which is rarely
-        what belongs on a key: a set called <code>numbers</code> is
-        usually reached by a key that says <code>123</code>, and the way
-        back by one that says <code>ABC</code>.
-         */
-        setText(text: string): this;
 
         // property: rows
 

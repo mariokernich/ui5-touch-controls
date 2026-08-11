@@ -45,6 +45,15 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 };
 
 /**
+ * The key names of simple-keyboard that mean the same as one of ours, so a
+ * layout written for that library can be used as it stands.
+ */
+const KEY_ALIASES: Record<string, string> = {
+	"{backspace}": "{bksp}",
+	"{ent}": "{enter}",
+};
+
+/**
  * An on-screen keyboard optimized for touch devices, built natively from
  * the library's own {@link ui5.touch.controls.Button} controls — no
  * third-party keyboard dependency.
@@ -112,6 +121,12 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 * has no sets of its own.
 	 */
 	private currentLayoutName = "";
+
+	/**
+	 * The set that was on screen before this one, so a key that names the set
+	 * it is already on can lead back out of it.
+	 */
+	private previousLayoutName = "";
 
 	/**
 	 * Pending hardware key press animation timers, keyed by button index.
@@ -401,14 +416,17 @@ export default class VirtualKeyboard extends Control implements ISized {
 		}
 
 		// a key that carries the name of one of the sets of this keyboard puts
-		// that set on screen - {numbers} and back again with {default}
-		const setName = /^\{(\w+)\}$/.exec(key)?.[1];
-		if (setName && this.switchLayoutSet(setName)) {
+		// that set on screen - {numbers} to the digits, {abc} back to the
+		// letters. It is looked at first, so a set called shift takes the
+		// place of the modifier: such a keyboard writes its upper case out.
+		const target = this.getLayoutSetFor(key);
+		if (target) {
 			this.fireKeyPress({ key });
+			this.switchLayoutSet(target.getName());
 			return;
 		}
 
-		switch (key) {
+		switch (this.normalizeKey(key)) {
 			case "{shift}":
 				this.fireKeyPress({ key });
 				this.setShiftActive(!this.shiftActive);
@@ -547,19 +565,11 @@ export default class VirtualKeyboard extends Control implements ISized {
 			},
 		});
 
-		// a key that switches to another set of this keyboard says what that
-		// set wants to be called, not the name it is addressed by
-		const setName = /^\{(\w+)\}$/.exec(key)?.[1];
-		const set = setName
-			? this.getLayoutSets().find((entry) => entry.getName() === setName)
-			: undefined;
-
-		if (set) {
-			button.setText(set.getText() || set.getName());
-			return button;
-		}
-
-		switch (key) {
+		// The keys the control knows come with a sign of their own, whether
+		// they switch a set or not: a {shift} that leads to a set of capitals
+		// is still the key with the arrow on it. Only a key it does not know -
+		// {numbers}, {abc} - is left to say what it is written as.
+		switch (this.normalizeKey(key)) {
 			case "{bksp}":
 				button.setIcon("sap-icon://touch/backspace");
 				break;
@@ -580,7 +590,9 @@ export default class VirtualKeyboard extends Control implements ISized {
 				button.addStyleClass("touchVirtualKeyboardSpaceKey");
 				break;
 			default:
-				button.setText(key);
+				button.setText(
+					this.getLayoutSetFor(key) ? key.slice(1, -1) : key,
+				);
 		}
 
 		return button;
@@ -599,6 +611,39 @@ export default class VirtualKeyboard extends Control implements ISized {
 
 		const set = this.getCurrentLayoutSet();
 		return set ? set.getRows() : this.getLayout();
+	}
+
+	/**
+	 * The key as the control knows it: what a layout of simple-keyboard calls
+	 * <code>{backspace}</code> is the <code>{bksp}</code> of this one.
+	 */
+	private normalizeKey(key: string): string {
+		return KEY_ALIASES[key] ?? key;
+	}
+
+	/**
+	 * The set a key leads to, if it leads to one.
+	 *
+	 * A key is the name of a set in curly braces. <code>{abc}</code> is the
+	 * one exception: it is what a layout of simple-keyboard uses to get back
+	 * to the letters, so it leads to the set called <code>default</code> when
+	 * there is no set of its own name.
+	 */
+	private getLayoutSetFor(key: string): KeyboardLayout | undefined {
+		const name = /^\{(\w+)\}$/.exec(key)?.[1];
+
+		if (!name) {
+			return undefined;
+		}
+
+		const sets = this.getLayoutSets();
+
+		return (
+			sets.find((set) => set.getName() === name) ??
+			(name === "abc"
+				? sets.find((set) => set.getName() === "default")
+				: undefined)
+		);
 	}
 
 	/**
@@ -627,22 +672,23 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
-	 * Puts another set of keys on screen, if the keyboard has one by that
-	 * name. Answers whether it did, so a key can fall back to being an
-	 * ordinary one.
+	 * Puts another set of keys on screen.
+	 *
+	 * A key that names the set it is already on leads back out of it instead,
+	 * to whatever was there before. That is what makes a {shift} key work in
+	 * the set of capitals it leads to: pressing it again comes back, the way
+	 * it does on the keyboard of a phone.
 	 */
-	private switchLayoutSet(name: string): boolean {
-		const target = this.getLayoutSets().find((set) => set.getName() === name);
+	private switchLayoutSet(name: string): void {
+		const current = this.getCurrentLayoutSet()?.getName() ?? "";
+		const target =
+			name === current ? this.previousLayoutName || "default" : name;
 
-		if (!target) {
-			return false;
-		}
-
-		this.currentLayoutName = name;
+		this.previousLayoutName = current;
+		this.currentLayoutName = target;
 		// the keys are different ones now, so the buttons are built anew
 		this.builtLayoutSignature = "";
 		this.invalidate();
-		return true;
 	}
 
 	/**
