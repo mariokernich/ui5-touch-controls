@@ -124,7 +124,7 @@ For a key set of your own there is `mode="Custom"`, and only then the `layout` p
 	layout="A B C D, E F G H, {bksp} {space} {enter}" />
 ```
 
-`{shift}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
+`{tab}`, `{shift}`, `{lock}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. `{shift}` writes the next letter in upper case and then falls away, `{lock}` is the caps lock and stays on until it is pressed again — and shift while the lock is on writes lower case, the way it does on a keyboard of keys. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
 
 #### On a field
 

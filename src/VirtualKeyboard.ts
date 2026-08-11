@@ -14,15 +14,15 @@ import { ISized, KeyboardMode, SizeMode } from "./library";
 const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 	[KeyboardMode.QWERTY]: [
 		"1 2 3 4 5 6 7 8 9 0",
-		"q w e r t y u i o p",
-		"a s d f g h j k l",
+		"{tab} q w e r t y u i o p",
+		"{lock} a s d f g h j k l",
 		"{shift} z x c v b n m {bksp}",
 		"{space} {enter}",
 	],
 	[KeyboardMode.QWERTZ]: [
 		"1 2 3 4 5 6 7 8 9 0",
-		"q w e r t z u i o p",
-		"a s d f g h j k l",
+		"{tab} q w e r t z u i o p",
+		"{lock} a s d f g h j k l",
 		"{shift} y x c v b n m {bksp}",
 		"{space} {enter}",
 	],
@@ -57,7 +57,8 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
  * A layout is written row by row: each entry is one row, keys are separated
  * by spaces and special keys are wrapped in curly braces
  * (<code>{bksp}</code>, <code>{enter}</code>, <code>{space}</code>,
- * <code>{shift}</code>).
+ * <code>{tab}</code>, <code>{shift}</code> and <code>{lock}</code>, the caps
+ * lock).
  *
  * When {@link #getHardwareKeys hardwareKeys} is enabled, the keyboard also
  * accepts input from a real (physical) keyboard while it has the focus.
@@ -96,6 +97,13 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 * Whether the one-shot shift modifier is currently active.
 	 */
 	private shiftActive = false;
+
+	/**
+	 * Whether the caps lock is on. Unlike shift it stays on until it is
+	 * pressed again, and shift inverts it while it is - the way it works on a
+	 * keyboard of keys.
+	 */
+	private capsActive = false;
 
 	/**
 	 * Pending hardware key press animation timers, keyed by button index.
@@ -269,22 +277,61 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
-	 * Activates or deactivates the one-shot shift modifier and updates
-	 * the key buttons accordingly.
+	 * Whether a letter comes out in upper case right now.
+	 *
+	 * Caps lock and shift work against each other, as they do on a keyboard of
+	 * keys: shift alone writes upper case, caps lock alone writes upper case,
+	 * and shift while the caps lock is on writes lower case again.
+	 */
+	private isUpperCase(): boolean {
+		return this.shiftActive !== this.capsActive;
+	}
+
+	/**
+	 * Activates or deactivates the one-shot shift modifier.
 	 */
 	private setShiftActive(active: boolean): void {
 		if (this.shiftActive === active) {
 			return;
 		}
 		this.shiftActive = active;
+		this.updateKeys();
+	}
 
+	/**
+	 * Turns the caps lock on or off. It stays as it is set until it is pressed
+	 * again - that is what makes it a lock.
+	 */
+	private setCapsActive(active: boolean): void {
+		if (this.capsActive === active) {
+			return;
+		}
+		this.capsActive = active;
+		this.updateKeys();
+	}
+
+	/**
+	 * Writes the state of the two modifiers onto the keys: the letters take
+	 * the case they would be typed in, and a modifier that is on is
+	 * emphasized.
+	 */
+	private updateKeys(): void {
+		const upperCase = this.isUpperCase();
 		const buttons = this.getButtons();
+
 		for (let i = 0; i < buttons.length; i++) {
 			const key = this.layoutKeys[i];
+
 			if (key === "{shift}") {
-				buttons[i].setType(active ? ButtonType.Emphasized : ButtonType.Default);
+				buttons[i].setType(
+					this.shiftActive ? ButtonType.Emphasized : ButtonType.Default,
+				);
+			} else if (key === "{lock}") {
+				buttons[i].setType(
+					this.capsActive ? ButtonType.Emphasized : ButtonType.Default,
+				);
 			} else if (this.isShiftableKey(key)) {
-				buttons[i].setText(active ? key.toUpperCase() : key);
+				buttons[i].setText(upperCase ? key.toUpperCase() : key);
 			}
 		}
 	}
@@ -331,6 +378,14 @@ export default class VirtualKeyboard extends Control implements ISized {
 				this.fireKeyPress({ key });
 				this.setShiftActive(!this.shiftActive);
 				return;
+			case "{lock}":
+				this.fireKeyPress({ key });
+				this.setCapsActive(!this.capsActive);
+				return;
+			case "{tab}":
+				this.fireKeyPress({ key });
+				this.insertChar("\t");
+				return;
 			case "{enter}":
 				this.fireKeyPress({ key });
 				this.fireEnter({ value: this.getValue() });
@@ -345,7 +400,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 				return;
 			default: {
 				const char =
-					this.shiftActive && this.isShiftableKey(key)
+					this.isUpperCase() && this.isShiftableKey(key)
 						? key.toUpperCase()
 						: key;
 				this.fireKeyPress({ key: char });
@@ -467,6 +522,12 @@ export default class VirtualKeyboard extends Control implements ISized {
 			case "{shift}":
 				button.setText("\u21E7");
 				break;
+			case "{lock}":
+				button.setText("\u21EA");
+				break;
+			case "{tab}":
+				button.setText("\u21E5");
+				break;
 			case "{space}":
 				button.setText("Space");
 				button.addStyleClass("touchVirtualKeyboardSpaceKey");
@@ -518,6 +579,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 		this.layoutKeys = [];
 		this.layoutKeySet = new Set<string>();
 		this.shiftActive = false;
+		this.capsActive = false;
 
 		let index = 0;
 		for (const row of layout) {
