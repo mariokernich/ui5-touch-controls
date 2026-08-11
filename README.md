@@ -102,7 +102,7 @@ On a shop floor terminal, a kiosk or a device operated with gloves there is ofte
 
 ![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
 
-Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY`, `QWERTZ` (the German arrangement, Z and Y swapped), `Numeric`, `Phone` or `Calculator`.
+Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY`, `QWERTZ` (the German arrangement, Z and Y swapped), `QWERTYMobile` and `QWERTZMobile` (the same two as a phone draws them: letters only, the digits behind a key of their own instead of a row that makes every key narrow), `Numeric`, `Phone` or `Calculator`.
 
 ```xml
 <tc:VirtualKeyboard
@@ -157,6 +157,23 @@ A keyboard of keys has more on it than fits under ten fingers at once. A keyboar
 The keys the control knows keep their own sign — `{shift}` is the key with the arrow whether it switches a set or not, `{bksp}` and `{enter}` are their icons, `{space}` says Space. A key it does not know says what it is written as, so `{numbers}` reads "numbers".
 
 This is the layout concept of [simple-keyboard](https://github.com/hodgef/simple-keyboard), and a layout written for it can be used as it stands: `{backspace}` and `{ent}` mean the same as `{bksp}` and `{enter}`, and `{abc}` leads back to `default` unless a set of that name exists.
+
+#### What a key says
+
+Every key the control knows comes with a sign of its own, and one it does not know says what it is written as. Where that is not the right text, the `display` aggregation puts one of your own on a key — the `display` option of simple-keyboard:
+
+```xml
+<tc:VirtualKeyboard mode="QWERTZMobile" size="XL">
+	<tc:display>
+		<tc:KeyboardKey key="numbers" text="123" />
+		<tc:KeyboardKey key="abc" text="ABC" />
+		<tc:KeyboardKey key="ent" text="return" />
+		<tc:KeyboardKey key="shift" text="⇧" />
+	</tc:display>
+</tc:VirtualKeyboard>
+```
+
+It works on any key — a special one, a letter, a digit — and in every set of the keyboard. Note that the braces are left out: UI5 reads a string that begins with one as a binding, so `key="{numbers}"` would have to be escaped in a view. Both spellings mean the same key, and so do the names of simple-keyboard: `ent` and `enter` are one key.
 
 The `layout` property is the short form of the same thing for a keyboard that only ever shows one set; a keyboard with `layouts` does not look at it.
 

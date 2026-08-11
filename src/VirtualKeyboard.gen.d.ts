@@ -3,6 +3,7 @@ import { KeyboardMode } from "ui5/touch/controls/library";
 import { SizeMode } from "ui5/touch/controls/library";
 import { CSSSize } from "sap/ui/core/library";
 import KeyboardLayout from "ui5/touch/controls/KeyboardLayout";
+import KeyboardKey from "ui5/touch/controls/KeyboardKey";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { AggregationBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
@@ -137,6 +138,18 @@ declare module "./VirtualKeyboard" {
                      * only ever shows one set.
          */
         layouts?: KeyboardLayout[] | KeyboardLayout | AggregationBindingInfo | `{${string}}`;
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        display?: KeyboardKey[] | KeyboardKey | AggregationBindingInfo | `{${string}}`;
 
         /**
          * Fired whenever the keyboard input changes (key press,
@@ -529,6 +542,92 @@ declare module "./VirtualKeyboard" {
                      * only ever shows one set.
          */
         destroyLayouts(): this;
+
+        // aggregation: display
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        getDisplay(): KeyboardKey[];
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        addDisplayKey(display: KeyboardKey): this;
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        insertDisplayKey(display: KeyboardKey, index: number): this;
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        removeDisplayKey(display: number | string | KeyboardKey): KeyboardKey | null;
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        removeAllDisplay(): KeyboardKey[];
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        indexOfDisplayKey(display: KeyboardKey): number;
+
+        /**
+         * What single keys say, where the sign the keyboard would pick is
+        not the right one.
+        
+        The keyboard has a sign for every key it knows and shows the
+        plain name of one it does not, which is enough for most
+        keyboards. An entry here overrules that for one key, whichever
+        set it appears in - the <code>display</code> option of
+        simple-keyboard.
+         */
+        destroyDisplay(): this;
 
         // event: change
 

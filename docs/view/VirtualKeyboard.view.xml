@@ -36,6 +36,8 @@
 							<Select selectedKey="{json>/mode}">
 								<core:Item key="QWERTY" text="QWERTY" />
 								<core:Item key="QWERTZ" text="QWERTZ" />
+								<core:Item key="QWERTYMobile" text="QWERTYMobile" />
+								<core:Item key="QWERTZMobile" text="QWERTZMobile" />
 								<core:Item key="Numeric" text="Numeric" />
 								<core:Item key="Phone" text="Phone" />
 								<core:Item key="Calculator" text="Calculator" />

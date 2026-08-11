@@ -3,6 +3,7 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
 import Button from "./Button";
+import type KeyboardKey from "./KeyboardKey";
 import type KeyboardLayout from "./KeyboardLayout";
 import { ISized, KeyboardMode, SizeMode } from "./library";
 
@@ -12,6 +13,57 @@ import { ISized, KeyboardMode, SizeMode } from "./library";
  * <code>Custom</code> is not in here on purpose: it is the mode that has no
  * layout of its own and reads the <code>layout</code> property instead.
  */
+type LayoutSet = { name: string; rows: string[] };
+
+/**
+ * The rows of a set of letters as a phone draws them: no row of digits, and a
+ * key that leads to them instead. Everything but the two letters that tell
+ * QWERTY and QWERTZ apart is the same, so both are built from here.
+ */
+function mobileSets(lower: string, upper: string): LayoutSet[] {
+	const [lowerRow2, lowerRow4] = lower.split("|");
+	const [upperRow2, upperRow4] = upper.split("|");
+
+	return [
+		{
+			name: "default",
+			rows: [
+				lowerRow2,
+				"a s d f g h j k l",
+				`{shift} ${lowerRow4} {bksp}`,
+				"{numbers} {space} {enter}",
+			],
+		},
+		{
+			name: "shift",
+			rows: [
+				upperRow2,
+				"A S D F G H J K L",
+				`{shift} ${upperRow4} {bksp}`,
+				"{numbers} {space} {enter}",
+			],
+		},
+		{
+			name: "numbers",
+			rows: ["1 2 3", "4 5 6", "7 8 9", "{abc} 0 {bksp}"],
+		},
+	];
+}
+
+/**
+ * The modes that show more than one set of keys, and what those sets are.
+ */
+const LAYOUT_SETS: Partial<Record<KeyboardMode, LayoutSet[]>> = {
+	[KeyboardMode.QWERTYMobile]: mobileSets(
+		"q w e r t y u i o p|z x c v b n m",
+		"Q W E R T Y U I O P|Z X C V B N M",
+	),
+	[KeyboardMode.QWERTZMobile]: mobileSets(
+		"q w e r t z u i o p|y x c v b n m",
+		"Q W E R T Z U I O P|Y X C V B N M",
+	),
+};
+
 const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 	[KeyboardMode.QWERTY]: [
 		"1 2 3 4 5 6 7 8 9 0",
@@ -27,6 +79,8 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 		"{shift} y x c v b n m {bksp}",
 		"{space} {enter}",
 	],
+	[KeyboardMode.QWERTYMobile]: LAYOUT_SETS[KeyboardMode.QWERTYMobile]![0].rows,
+	[KeyboardMode.QWERTZMobile]: LAYOUT_SETS[KeyboardMode.QWERTZMobile]![0].rows,
 	[KeyboardMode.Numeric]: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
 	[KeyboardMode.Phone]: [
 		"1 2 3",
@@ -254,6 +308,21 @@ export default class VirtualKeyboard extends Control implements ISized {
 				singularName: "layout_",
 			},
 			/**
+			 * What single keys say, where the sign the keyboard would pick is
+			 * not the right one.
+			 *
+			 * The keyboard has a sign for every key it knows and shows the
+			 * plain name of one it does not, which is enough for most
+			 * keyboards. An entry here overrules that for one key, whichever
+			 * set it appears in - the <code>display</code> option of
+			 * simple-keyboard.
+			 */
+			display: {
+				type: "ui5.touch.controls.KeyboardKey",
+				multiple: true,
+				singularName: "displayKey",
+			},
+			/**
 			 * Internal key buttons, in layout order.
 			 */
 			_buttons: {
@@ -422,7 +491,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 		const target = this.getLayoutSetFor(key);
 		if (target) {
 			this.fireKeyPress({ key });
-			this.switchLayoutSet(target.getName());
+			this.switchLayoutSet(target.name);
 			return;
 		}
 
@@ -565,6 +634,14 @@ export default class VirtualKeyboard extends Control implements ISized {
 			},
 		});
 
+		// what was said about this key in the display aggregation comes first:
+		// it is there to overrule the sign the keyboard would pick
+		const said = this.getDisplayText(key);
+		if (said) {
+			button.setText(said);
+			return button;
+		}
+
 		// The keys the control knows come with a sign of their own, whether
 		// they switch a set or not: a {shift} that leads to a set of capitals
 		// is still the key with the arrow on it. Only a key it does not know -
@@ -605,12 +682,13 @@ export default class VirtualKeyboard extends Control implements ISized {
 	public getEffectiveLayout(): string[] {
 		const mode = this.getMode();
 
-		if (mode !== KeyboardMode.Custom) {
+		const set = this.getCurrentLayoutSet();
+
+		if (mode !== KeyboardMode.Custom && !set) {
 			return LAYOUTS[mode];
 		}
 
-		const set = this.getCurrentLayoutSet();
-		return set ? set.getRows() : this.getLayout();
+		return set ? set.rows : this.getLayout();
 	}
 
 	/**
@@ -622,6 +700,38 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
+	 * What was said about a key in the <code>display</code> aggregation, if
+	 * anything was. The key is looked up as it stands in the layout and under
+	 * the name the control knows it by, so a display written for
+	 * simple-keyboard reaches a key of ours as well.
+	 */
+	private getDisplayText(key: string): string {
+		const entries =
+			(this.getAggregation("display") as KeyboardKey[] | null) ?? [];
+		const wanted = this.plainKeyName(key);
+		const entry = entries.find(
+			(candidate) => this.plainKeyName(candidate.getKey()) === wanted,
+		);
+
+		return entry?.getText() ?? "";
+	}
+
+	/**
+	 * A key under the one name it is compared by: without its braces and
+	 * under the name the control knows it by, so that <code>{ent}</code>,
+	 * <code>ent</code> and <code>enter</code> all mean the same key.
+	 *
+	 * The braces are optional on purpose. UI5 reads a string that begins with
+	 * one as a binding, so a key could not be written as
+	 * <code>key="{numbers}"</code> in a view without escaping it.
+	 */
+	private plainKeyName(key: string): string {
+		const braced = key.startsWith("{") ? key : `{${key}}`;
+
+		return this.normalizeKey(braced).replace(/^\{|\}$/g, "");
+	}
+
+	/**
 	 * The set a key leads to, if it leads to one.
 	 *
 	 * A key is the name of a set in curly braces. <code>{abc}</code> is the
@@ -629,7 +739,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 * to the letters, so it leads to the set called <code>default</code> when
 	 * there is no set of its own name.
 	 */
-	private getLayoutSetFor(key: string): KeyboardLayout | undefined {
+	private getLayoutSetFor(key: string): LayoutSet | undefined {
 		const name = /^\{(\w+)\}$/.exec(key)?.[1];
 
 		if (!name) {
@@ -639,25 +749,36 @@ export default class VirtualKeyboard extends Control implements ISized {
 		const sets = this.getLayoutSets();
 
 		return (
-			sets.find((set) => set.getName() === name) ??
+			sets.find((set) => set.name === name) ??
 			(name === "abc"
-				? sets.find((set) => set.getName() === "default")
+				? sets.find((set) => set.name === "default")
 				: undefined)
 		);
 	}
 
 	/**
-	 * The sets of keys this keyboard has, if it was given any.
+	 * The sets of keys this keyboard shows: the ones its mode brings along, or
+	 * the ones it was given. A mode with sets of its own is not open to the
+	 * aggregation, the same way a ready-made mode does not read the layout
+	 * property.
 	 */
-	private getLayoutSets(): KeyboardLayout[] {
-		return this.getAggregation("layouts") as KeyboardLayout[] | null ?? [];
+	private getLayoutSets(): LayoutSet[] {
+		const ofMode = LAYOUT_SETS[this.getMode()];
+
+		if (ofMode) {
+			return ofMode;
+		}
+
+		return (
+			(this.getAggregation("layouts") as KeyboardLayout[] | null) ?? []
+		).map((set) => ({ name: set.getName(), rows: set.getRows() }));
 	}
 
 	/**
 	 * The set that is on screen: the one that was switched to, the one called
 	 * <code>default</code>, or the first one there is.
 	 */
-	private getCurrentLayoutSet(): KeyboardLayout | undefined {
+	private getCurrentLayoutSet(): LayoutSet | undefined {
 		const sets = this.getLayoutSets();
 
 		if (sets.length === 0) {
@@ -665,8 +786,8 @@ export default class VirtualKeyboard extends Control implements ISized {
 		}
 
 		return (
-			sets.find((set) => set.getName() === this.currentLayoutName) ??
-			sets.find((set) => set.getName() === "default") ??
+			sets.find((set) => set.name === this.currentLayoutName) ??
+			sets.find((set) => set.name === "default") ??
 			sets[0]
 		);
 	}
@@ -680,7 +801,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 * it does on the keyboard of a phone.
 	 */
 	private switchLayoutSet(name: string): void {
-		const current = this.getCurrentLayoutSet()?.getName() ?? "";
+		const current = this.getCurrentLayoutSet()?.name ?? "";
 		const target =
 			name === current ? this.previousLayoutName || "default" : name;
 
