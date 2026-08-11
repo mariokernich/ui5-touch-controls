@@ -126,7 +126,10 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"ui5.touch.controls.Toolbar",
 		"ui5.touch.controls.VirtualKeyboard",
 	],
-	elements: ["ui5.touch.controls.SegmentedButtonItem"],
+	elements: [
+		"ui5.touch.controls.KeyboardLayout",
+		"ui5.touch.controls.SegmentedButtonItem",
+	],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 }) as { [key: string]: unknown };
 

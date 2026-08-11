@@ -126,6 +126,32 @@ For a key set of your own there is `mode="Custom"`, and only then the `layout` p
 
 `{tab}`, `{shift}`, `{lock}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. `{shift}` writes the next letter in upper case and then falls away, `{lock}` is the caps lock and stays on until it is pressed again — and shift while the lock is on writes lower case, the way it does on a keyboard of keys. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
 
+#### More than one set of keys
+
+A keyboard of keys has more on it than fits under ten fingers at once. A keyboard on a screen does what the one of a phone does instead: it shows one set at a time and swaps it for another when a key says so. Such sets are written as `tc:KeyboardLayout` elements, and **a key named after a set switches to it** — so the keys that do the switching are part of the layout and need no code around them:
+
+```xml
+<tc:VirtualKeyboard value="{/code}" size="XL" mode="Custom">
+	<tc:layouts>
+		<tc:KeyboardLayout
+			name="default"
+			text="ABC"
+			rows="q w e r t y u i o p,
+			      a s d f g h j k l,
+			      {shift} z x c v b n m {bksp},
+			      {numbers} {space} {enter}" />
+		<tc:KeyboardLayout
+			name="numbers"
+			text="123"
+			rows="1 2 3, 4 5 6, 7 8 9, {default} 0 {bksp}" />
+	</tc:layouts>
+</tc:VirtualKeyboard>
+```
+
+The keyboard starts with the set called `default`, or with the first one when there is none by that name. `name` is how a set is addressed, `text` is what the key that switches to it says — a set of digits is reached by a key that reads `123`, not one that reads `numbers`. The value carries on across a switch: what was typed on the letters is still there on the digits.
+
+The `layout` property is the short form of the same thing for a keyboard that only ever shows one set; a keyboard with `layouts` does not look at it.
+
 #### On a field
 
 The keyboard does not have to sit on the page. Put it into the `virtualKeyboard` aggregation of a `tc:Input` and switch `showVirtualKeyboard` on, and it opens in a popover below the field while the field has the focus:

@@ -3,6 +3,7 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
 import Button from "./Button";
+import type KeyboardLayout from "./KeyboardLayout";
 import { ISized, KeyboardMode, SizeMode } from "./library";
 
 /**
@@ -104,6 +105,13 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 * keyboard of keys.
 	 */
 	private capsActive = false;
+
+	/**
+	 * The set of keys that is on screen, by the name of its
+	 * {@link ui5.touch.controls.KeyboardLayout}. Empty while the keyboard
+	 * has no sets of its own.
+	 */
+	private currentLayoutName = "";
 
 	/**
 	 * Pending hardware key press animation timers, keyed by button index.
@@ -211,6 +219,25 @@ export default class VirtualKeyboard extends Control implements ISized {
 			docked: { type: "boolean", group: "Appearance", defaultValue: false },
 		},
 		aggregations: {
+			/**
+			 * The sets of keys the keyboard can show, for
+			 * {@link ui5.touch.controls.KeyboardMode.Custom}.
+			 *
+			 * A keyboard with more than one set shows one of them at a time -
+			 * the one called <code>default</code> to begin with - and a key
+			 * written as the name of another set switches to it. That is how a
+			 * keyboard of a phone gets from its letters to its digits and back
+			 * without any code around it.
+			 *
+			 * Sets take precedence over the {@link #getLayout layout}
+			 * property, which is the shorter way of writing a keyboard that
+			 * only ever shows one set.
+			 */
+			layouts: {
+				type: "ui5.touch.controls.KeyboardLayout",
+				multiple: true,
+				singularName: "layout_",
+			},
 			/**
 			 * Internal key buttons, in layout order.
 			 */
@@ -373,6 +400,14 @@ export default class VirtualKeyboard extends Control implements ISized {
 			return;
 		}
 
+		// a key that carries the name of one of the sets of this keyboard puts
+		// that set on screen - {numbers} and back again with {default}
+		const setName = /^\{(\w+)\}$/.exec(key)?.[1];
+		if (setName && this.switchLayoutSet(setName)) {
+			this.fireKeyPress({ key });
+			return;
+		}
+
 		switch (key) {
 			case "{shift}":
 				this.fireKeyPress({ key });
@@ -512,6 +547,18 @@ export default class VirtualKeyboard extends Control implements ISized {
 			},
 		});
 
+		// a key that switches to another set of this keyboard says what that
+		// set wants to be called, not the name it is addressed by
+		const setName = /^\{(\w+)\}$/.exec(key)?.[1];
+		const set = setName
+			? this.getLayoutSets().find((entry) => entry.getName() === setName)
+			: undefined;
+
+		if (set) {
+			button.setText(set.getText() || set.getName());
+			return button;
+		}
+
 		switch (key) {
 			case "{bksp}":
 				button.setIcon("sap-icon://touch/backspace");
@@ -546,9 +593,56 @@ export default class VirtualKeyboard extends Control implements ISized {
 	public getEffectiveLayout(): string[] {
 		const mode = this.getMode();
 
-		return mode === KeyboardMode.Custom
-			? this.getLayout()
-			: LAYOUTS[mode];
+		if (mode !== KeyboardMode.Custom) {
+			return LAYOUTS[mode];
+		}
+
+		const set = this.getCurrentLayoutSet();
+		return set ? set.getRows() : this.getLayout();
+	}
+
+	/**
+	 * The sets of keys this keyboard has, if it was given any.
+	 */
+	private getLayoutSets(): KeyboardLayout[] {
+		return this.getAggregation("layouts") as KeyboardLayout[] | null ?? [];
+	}
+
+	/**
+	 * The set that is on screen: the one that was switched to, the one called
+	 * <code>default</code>, or the first one there is.
+	 */
+	private getCurrentLayoutSet(): KeyboardLayout | undefined {
+		const sets = this.getLayoutSets();
+
+		if (sets.length === 0) {
+			return undefined;
+		}
+
+		return (
+			sets.find((set) => set.getName() === this.currentLayoutName) ??
+			sets.find((set) => set.getName() === "default") ??
+			sets[0]
+		);
+	}
+
+	/**
+	 * Puts another set of keys on screen, if the keyboard has one by that
+	 * name. Answers whether it did, so a key can fall back to being an
+	 * ordinary one.
+	 */
+	private switchLayoutSet(name: string): boolean {
+		const target = this.getLayoutSets().find((set) => set.getName() === name);
+
+		if (!target) {
+			return false;
+		}
+
+		this.currentLayoutName = name;
+		// the keys are different ones now, so the buttons are built anew
+		this.builtLayoutSignature = "";
+		this.invalidate();
+		return true;
 	}
 
 	/**

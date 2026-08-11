@@ -2,7 +2,9 @@ import Event from "sap/ui/base/Event";
 import { KeyboardMode } from "ui5/touch/controls/library";
 import { SizeMode } from "ui5/touch/controls/library";
 import { CSSSize } from "sap/ui/core/library";
+import KeyboardLayout from "ui5/touch/controls/KeyboardLayout";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
+import { AggregationBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 
 declare module "./VirtualKeyboard" {
@@ -114,6 +116,27 @@ declare module "./VirtualKeyboard" {
                      * modal dialog still comes out on top of it.
          */
         docked?: boolean | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        layouts?: KeyboardLayout[] | KeyboardLayout | AggregationBindingInfo | `{${string}}`;
 
         /**
          * Fired whenever the keyboard input changes (key press,
@@ -357,6 +380,155 @@ declare module "./VirtualKeyboard" {
                      * modal dialog still comes out on top of it.
          */
         setDocked(docked: boolean): this;
+
+        // aggregation: layouts
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        getLayouts(): KeyboardLayout[];
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        addLayout_(layouts: KeyboardLayout): this;
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        insertLayout_(layouts: KeyboardLayout, index: number): this;
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        removeLayout_(layouts: number | string | KeyboardLayout): KeyboardLayout | null;
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        removeAllLayouts(): KeyboardLayout[];
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        indexOfLayout_(layouts: KeyboardLayout): number;
+
+        /**
+         * /**
+                     * The sets of keys the keyboard can show, for
+                     *
+        {@link ui5.touch.controls.KeyboardMode.Custom}
+        .
+                     *
+                     * A keyboard with more than one set shows one of them at a time -
+                     * the one called <code>default</code> to begin with - and a key
+                     * written as the name of another set switches to it. That is how a
+                     * keyboard of a phone gets from its letters to its digits and back
+                     * without any code around it.
+                     *
+                     * Sets take precedence over the
+        {@link #getLayout layout}
+        
+                     * property, which is the shorter way of writing a keyboard that
+                     * only ever shows one set.
+         */
+        destroyLayouts(): this;
 
         // event: change
 
