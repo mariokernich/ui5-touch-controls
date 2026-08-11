@@ -39,9 +39,16 @@ export const releases: Release[] = [
 				],
 			},
 			{
+				kind: "Fixed",
+				items: [
+					"A Toolbar or an OverflowToolbar in the footer of a sap.m.Dialog is no longer cut off at the lower edge. A dialog keeps its footer out of the flow and reserves 2.75rem for it - the height of a toolbar of sap.m - and clips what reaches past that. The toolbars now hand the dialog the height they have, so the room grows with the size and the content above the footer keeps the height it was given.",
+				],
+			},
+			{
 				kind: "Demo",
 				items: [
 					"The VirtualKeyboard page has a Docked switch and QWERTZ in its mode list.",
+					"The Input and the TextArea page have a Docked switch for the keyboard of the field, and QWERTZ in their mode list.",
 				],
 			},
 		],
