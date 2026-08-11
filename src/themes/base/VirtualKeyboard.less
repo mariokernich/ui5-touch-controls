@@ -2,6 +2,9 @@
 
 .touchVirtualKeyboard {
 	display: inline-flex;
+	/* what is too wide gives way rather than running out of the box - see the
+	   rule below, which lets the keys shrink */
+	max-width: 100%;
 	flex-direction: column;
 	gap: 0.3125rem;
 	box-sizing: border-box;
@@ -19,11 +22,18 @@
 	gap: 0.3125rem;
 }
 
-/* keys stretch evenly across the row */
+/* Keys stretch evenly across the row, and shrink with it: a row of ten keys
+   is wider than a narrow screen, and a keyboard that has to be scrolled
+   sideways is of no use to a thumb. What keeps a key from getting narrower is
+   the padding it carries left and right - a key cannot be smaller than its own
+   frame - so that is what gives way first. The height comes from the size and
+   stays as it is, which is what a key has to be hit by. */
 .touchVirtualKeyboardRow > .sizedButton {
 	flex: 1 1 0;
-	min-width: 2.5rem;
+	min-width: 0;
 	margin: 0;
+	padding-left: 0.25rem;
+	padding-right: 0.25rem;
 }
 
 /* the space key takes more room than regular keys */
@@ -81,26 +91,18 @@
 		border-radius: 0;
 	}
 
-	/* A docked keyboard has the width of the screen and nothing more, so its
-	   keys have to make do with what is there: ten of them in a row do not fit
-	   a phone at the width a key is otherwise granted. What stands in the way
-	   is the padding a button carries left and right - a key cannot shrink
-	   below its own frame - so on a screen this narrow the keys are drawn
-	   without it and the row divides what is there. Their height still comes
-	   from the size, so they stay as easy to hit as before. */
-	.touchVirtualKeyboardDocked .touchVirtualKeyboardRow > .sizedButton {
-		min-width: 0;
-		padding-left: 0.25rem;
-		padding-right: 0.25rem;
-	}
 }
 
 /* The popover a field opens its keyboard in - the same one for every field,
-   which is why it lives here and not with one of them. The keyboard brings
-   its own frame, so the popover around it must not add a second one. */
+   which is why it lives here and not with one of them. The keyboard brings its
+   own frame, so the popover around it must not add a second one, and the
+   keyboard is often narrower than the popover, which is as wide as the field it
+   belongs to: it belongs in the middle of it, not against its left edge. */
 .sizedKeyboardPopover .sapMPopoverCont,
 .sizedKeyboardPopover .sapMPopoverScroll {
 	padding: 0;
+	display: flex;
+	justify-content: center;
 }
 
 .sizedKeyboardPopover .touchVirtualKeyboard {

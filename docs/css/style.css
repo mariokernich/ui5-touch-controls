@@ -144,21 +144,6 @@ body,
 	white-space: normal;
 }
 
-/* A keyboard has a lower bound of its own: its keys are touch targets and do
-   not shrink. A full QWERTY row is wider than a phone, so the keyboard gets a
-   scroll area instead of pushing the page sideways.
-
-   The bound is measured against the viewport rather than against the card,
-   because the card sizes itself to its content: a percentage would resolve
-   against the very width the keyboard is deciding, and the two would inflate
-   each other. The subtracted amount is the padding of the page plus the
-   margins inside the card. Above roughly 740px even the widest layout fits on
-   its own, and the bound never comes into play. */
-.touchControlsPage .touchVirtualKeyboard:not(.touchVirtualKeyboardDocked) {
-	max-width: calc(100vw - 5rem);
-	overflow-x: auto;
-}
-
 /* the logo of the landing page is sized by its height, so on a narrow window
    its width has to be capped - and once it is, the drawing has to keep its
    proportions instead of being squeezed into the box that is left */

@@ -105,6 +105,19 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 const KEY_ALIASES: Record<string, string> = {
 	"{backspace}": "{bksp}",
 	"{ent}": "{enter}",
+	"{escape}": "{esc}",
+	"{capslock}": "{lock}",
+};
+
+/**
+ * What the keys that lead to another set say, where the name of the set is
+ * not what belongs on a key. A key of the display aggregation overrules it.
+ */
+const SET_KEY_TEXTS: Record<string, string> = {
+	numbers: "123",
+	abc: "ABC",
+	symbols: "#+=",
+	shift: "\u21E7",
 };
 
 /**
@@ -113,16 +126,22 @@ const KEY_ALIASES: Record<string, string> = {
  * third-party keyboard dependency.
  *
  * Which keys it shows is a matter of the {@link #getMode mode} property:
- * <code>QWERTY</code>, <code>QWERTZ</code>, <code>Numeric</code>,
- * <code>Phone</code> and <code>Calculator</code> are ready-made,
- * <code>Custom</code> hands the keyboard over to the
- * {@link #getLayout layout} property.
+ * <code>QWERTY</code> and <code>QWERTZ</code>, the two as a phone draws them
+ * in <code>QWERTYMobile</code> and <code>QWERTZMobile</code>,
+ * <code>Numeric</code>, <code>Phone</code> and <code>Calculator</code> are
+ * ready-made; <code>Custom</code> hands the keyboard over to the
+ * {@link #getLayout layout} property or to the sets in its
+ * <code>layouts</code> aggregation.
  *
  * A layout is written row by row: each entry is one row, keys are separated
  * by spaces and special keys are wrapped in curly braces
- * (<code>{bksp}</code>, <code>{enter}</code>, <code>{space}</code>,
- * <code>{tab}</code>, <code>{shift}</code> and <code>{lock}</code>, the caps
- * lock).
+ * (<code>{bksp}</code>, <code>{enter}</code>, <code>{esc}</code>,
+ * <code>{space}</code>, <code>{tab}</code>, <code>{shift}</code> and
+ * <code>{lock}</code>, the caps lock).
+ *
+ * However narrow the room is, the keyboard never has to be scrolled sideways:
+ * the keys give up the padding at their sides and share what there is. Their
+ * height comes from the size and stays as it is.
  *
  * When {@link #getHardwareKeys hardwareKeys} is enabled, the keyboard also
  * accepts input from a real (physical) keyboard while it has the focus.
@@ -204,7 +223,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 			mode: {
 				type: "ui5.touch.controls.KeyboardMode",
 				group: "Appearance",
-				defaultValue: KeyboardMode.Numeric,
+				defaultValue: KeyboardMode.QWERTY,
 			},
 			/**
 			 * The keyboard layout rows, for
@@ -222,6 +241,20 @@ export default class VirtualKeyboard extends Control implements ISized {
 				type: "string[]",
 				group: "Appearance",
 				defaultValue: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
+			},
+			/**
+			 * The keys that are drawn as emphasized, written the way they stand
+			 * in the layout - <code>{enter}</code>, <code>a</code> - with the
+			 * braces of a special key optional.
+			 *
+			 * A keyboard usually has one key that ends what is being done, and
+			 * this is how it is made to look like it. A modifier is emphasized
+			 * while it is on whatever this says.
+			 */
+			emphasizedKeys: {
+				type: "string[]",
+				group: "Appearance",
+				defaultValue: [],
 			},
 			/**
 			 * Maximum number of characters. Value <code>0</code> means unlimited.
@@ -366,6 +399,24 @@ export default class VirtualKeyboard extends Control implements ISized {
 					value: { type: "string" },
 				},
 			},
+			/**
+			 * Fired when the Escape key is pressed - the <code>{esc}</code>
+			 * key of the layout, or the one of a real keyboard while
+			 * {@link #getHardwareKeys hardwareKeys} is on.
+			 *
+			 * The keyboard does nothing about it by itself. A field that shows
+			 * one closes its popover on it, and an application is free to make
+			 * it mean whatever it should: leaving a screen, dropping what was
+			 * typed.
+			 */
+			escape: {
+				parameters: {
+					/**
+					 * The current value of the keyboard input.
+					 */
+					value: { type: "string" },
+				},
+			},
 		},
 	};
 
@@ -433,13 +484,12 @@ export default class VirtualKeyboard extends Control implements ISized {
 		for (let i = 0; i < buttons.length; i++) {
 			const key = this.layoutKeys[i];
 
-			if (key === "{shift}") {
+			if (key === "{shift}" || key === "{lock}") {
+				const on = key === "{shift}" ? this.shiftActive : this.capsActive;
 				buttons[i].setType(
-					this.shiftActive ? ButtonType.Emphasized : ButtonType.Default,
-				);
-			} else if (key === "{lock}") {
-				buttons[i].setType(
-					this.capsActive ? ButtonType.Emphasized : ButtonType.Default,
+					on || this.isEmphasizedKey(key)
+						? ButtonType.Emphasized
+						: ButtonType.Default,
 				);
 			} else if (this.isShiftableKey(key)) {
 				buttons[i].setText(upperCase ? key.toUpperCase() : key);
@@ -511,6 +561,10 @@ export default class VirtualKeyboard extends Control implements ISized {
 			case "{enter}":
 				this.fireKeyPress({ key });
 				this.fireEnter({ value: this.getValue() });
+				return;
+			case "{esc}":
+				this.fireKeyPress({ key });
+				this.fireEscape({ value: this.getValue() });
 				return;
 			case "{bksp}":
 				this.fireKeyPress({ key });
@@ -634,6 +688,10 @@ export default class VirtualKeyboard extends Control implements ISized {
 			},
 		});
 
+		if (this.isEmphasizedKey(key)) {
+			button.setType(ButtonType.Emphasized);
+		}
+
 		// what was said about this key in the display aggregation comes first:
 		// it is there to overrule the sign the keyboard would pick
 		const said = this.getDisplayText(key);
@@ -662,14 +720,21 @@ export default class VirtualKeyboard extends Control implements ISized {
 			case "{tab}":
 				button.setText("\u21E5");
 				break;
+			case "{esc}":
+				button.setText("esc");
+				break;
 			case "{space}":
 				button.setText("Space");
 				button.addStyleClass("touchVirtualKeyboardSpaceKey");
 				break;
-			default:
+			default: {
+				const setName = this.getLayoutSetFor(key)
+					? key.slice(1, -1)
+					: undefined;
 				button.setText(
-					this.getLayoutSetFor(key) ? key.slice(1, -1) : key,
+					setName ? (SET_KEY_TEXTS[setName] ?? setName) : key,
 				);
+			}
 		}
 
 		return button;
@@ -714,6 +779,17 @@ export default class VirtualKeyboard extends Control implements ISized {
 		);
 
 		return entry?.getText() ?? "";
+	}
+
+	/**
+	 * Whether this key was named in {@link #getEmphasizedKeys emphasizedKeys}.
+	 */
+	private isEmphasizedKey(key: string): boolean {
+		const wanted = this.plainKeyName(key);
+
+		return this.getEmphasizedKeys().some(
+			(named) => this.plainKeyName(named) === wanted,
+		);
 	}
 
 	/**

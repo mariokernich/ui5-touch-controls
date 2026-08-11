@@ -52,6 +52,17 @@ declare module "./VirtualKeyboard" {
         layout?: string[] | PropertyBindingInfo | `{${string}}`;
 
         /**
+         * The keys that are drawn as emphasized, written the way they stand
+        in the layout - <code>{enter}</code>, <code>a</code> - with the
+        braces of a special key optional.
+        
+        A keyboard usually has one key that ends what is being done, and
+        this is how it is made to look like it. A modifier is emphasized
+        while it is on whatever this says.
+         */
+        emphasizedKeys?: string[] | PropertyBindingInfo | `{${string}}`;
+
+        /**
          * Maximum number of characters. Value <code>0</code> means unlimited.
          */
         maxLength?: number | PropertyBindingInfo | `{${string}}`;
@@ -166,6 +177,21 @@ declare module "./VirtualKeyboard" {
          * Fired when the Enter key is pressed.
          */
         enter?: (event: VirtualKeyboard$EnterEvent) => void;
+
+        /**
+         * /**
+                     * Fired when the Escape key is pressed - the <code>{esc}</code>
+                     * key of the layout, or the one of a real keyboard while
+                     *
+        {@link #getHardwareKeys hardwareKeys}
+         is on.
+                     *
+                     * The keyboard does nothing about it by itself. A field that shows
+                     * one closes its popover on it, and an application is free to make
+                     * it mean whatever it should: leaving a screen, dropping what was
+                     * typed.
+         */
+        escape?: (event: VirtualKeyboard$EscapeEvent) => void;
     }
 
     export default interface VirtualKeyboard {
@@ -247,6 +273,30 @@ declare module "./VirtualKeyboard" {
                      * is shown.
          */
         setLayout(layout: string[]): this;
+
+        // property: emphasizedKeys
+
+        /**
+         * The keys that are drawn as emphasized, written the way they stand
+        in the layout - <code>{enter}</code>, <code>a</code> - with the
+        braces of a special key optional.
+        
+        A keyboard usually has one key that ends what is being done, and
+        this is how it is made to look like it. A modifier is emphasized
+        while it is on whatever this says.
+         */
+        getEmphasizedKeys(): string[];
+
+        /**
+         * The keys that are drawn as emphasized, written the way they stand
+        in the layout - <code>{enter}</code>, <code>a</code> - with the
+        braces of a special key optional.
+        
+        A keyboard usually has one key that ends what is being done, and
+        this is how it is made to look like it. A modifier is emphasized
+        while it is on whatever this says.
+         */
+        setEmphasizedKeys(emphasizedKeys: string[]): this;
 
         // property: maxLength
 
@@ -698,6 +748,68 @@ declare module "./VirtualKeyboard" {
          * Fired when the Enter key is pressed.
          */
         fireEnter(parameters?: VirtualKeyboard$EnterEventParameters): this;
+
+        // event: escape
+
+        /**
+         * /**
+                     * Fired when the Escape key is pressed - the <code>{esc}</code>
+                     * key of the layout, or the one of a real keyboard while
+                     *
+        {@link #getHardwareKeys hardwareKeys}
+         is on.
+                     *
+                     * The keyboard does nothing about it by itself. A field that shows
+                     * one closes its popover on it, and an application is free to make
+                     * it mean whatever it should: leaving a screen, dropping what was
+                     * typed.
+         */
+        attachEscape(fn: (event: VirtualKeyboard$EscapeEvent) => void, listener?: object): this;
+
+        /**
+         * /**
+                     * Fired when the Escape key is pressed - the <code>{esc}</code>
+                     * key of the layout, or the one of a real keyboard while
+                     *
+        {@link #getHardwareKeys hardwareKeys}
+         is on.
+                     *
+                     * The keyboard does nothing about it by itself. A field that shows
+                     * one closes its popover on it, and an application is free to make
+                     * it mean whatever it should: leaving a screen, dropping what was
+                     * typed.
+         */
+        attachEscape<CustomDataType extends object>(data: CustomDataType, fn: (event: VirtualKeyboard$EscapeEvent, data: CustomDataType) => void, listener?: object): this;
+
+        /**
+         * /**
+                     * Fired when the Escape key is pressed - the <code>{esc}</code>
+                     * key of the layout, or the one of a real keyboard while
+                     *
+        {@link #getHardwareKeys hardwareKeys}
+         is on.
+                     *
+                     * The keyboard does nothing about it by itself. A field that shows
+                     * one closes its popover on it, and an application is free to make
+                     * it mean whatever it should: leaving a screen, dropping what was
+                     * typed.
+         */
+        detachEscape(fn: (event: VirtualKeyboard$EscapeEvent) => void, listener?: object): this;
+
+        /**
+         * /**
+                     * Fired when the Escape key is pressed - the <code>{esc}</code>
+                     * key of the layout, or the one of a real keyboard while
+                     *
+        {@link #getHardwareKeys hardwareKeys}
+         is on.
+                     *
+                     * The keyboard does nothing about it by itself. A field that shows
+                     * one closes its popover on it, and an application is free to make
+                     * it mean whatever it should: leaving a screen, dropping what was
+                     * typed.
+         */
+        fireEscape(parameters?: VirtualKeyboard$EscapeEventParameters): this;
     }
 
     /**
@@ -726,6 +838,24 @@ declare module "./VirtualKeyboard" {
     }
 
     /**
+     * Interface describing the parameters of VirtualKeyboard's 'escape' event.
+     * /**
+                 * Fired when the Escape key is pressed - the <code>{esc}</code>
+                 * key of the layout, or the one of a real keyboard while
+                 *
+    {@link #getHardwareKeys hardwareKeys}
+     is on.
+                 *
+                 * The keyboard does nothing about it by itself. A field that shows
+                 * one closes its popover on it, and an application is free to make
+                 * it mean whatever it should: leaving a screen, dropping what was
+                 * typed.
+     */
+    export interface VirtualKeyboard$EscapeEventParameters {
+        value?: string;
+    }
+
+    /**
      * Type describing the VirtualKeyboard's 'change' event.
      * Fired whenever the keyboard input changes (key press,
     backspace, ...).
@@ -743,4 +873,20 @@ declare module "./VirtualKeyboard" {
      * Fired when the Enter key is pressed.
      */
     export type VirtualKeyboard$EnterEvent = Event<VirtualKeyboard$EnterEventParameters>;
+
+    /**
+     * Type describing the VirtualKeyboard's 'escape' event.
+     * /**
+                 * Fired when the Escape key is pressed - the <code>{esc}</code>
+                 * key of the layout, or the one of a real keyboard while
+                 *
+    {@link #getHardwareKeys hardwareKeys}
+     is on.
+                 *
+                 * The keyboard does nothing about it by itself. A field that shows
+                 * one closes its popover on it, and an application is free to make
+                 * it mean whatever it should: leaving a screen, dropping what was
+                 * typed.
+     */
+    export type VirtualKeyboard$EscapeEvent = Event<VirtualKeyboard$EscapeEventParameters>;
 }
