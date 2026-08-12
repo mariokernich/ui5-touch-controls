@@ -83,6 +83,10 @@ export default class NumberPad extends KeyboardBase {
 			/**
 			 * Whether the pad has an <code>{esc}</code> key.
 			 *
+			 * It goes into the row of function keys rather than into the top
+			 * left corner, where a keyboard of keys has it: the block of digits
+			 * is three columns wide and keeps its shape.
+			 *
 			 * The key fires {@link #event:escape escape} and does nothing else;
 			 * what it should mean is left to the application.
 			 */

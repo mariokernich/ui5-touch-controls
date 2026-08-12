@@ -132,8 +132,10 @@ export default class Keyboard extends KeyboardBase {
 			/**
 			 * Whether the keyboard has an <code>{esc}</code> key.
 			 *
-			 * The key fires {@link #event:escape escape} and does nothing else;
-			 * what it should mean is left to the application.
+			 * It is the first key of the top row, where a keyboard of keys has
+			 * it, and it is there on every set. The key fires
+			 * {@link #event:escape escape} and does nothing else; what it
+			 * should mean is left to the application.
 			 */
 			showEscape: {
 				type: "boolean",

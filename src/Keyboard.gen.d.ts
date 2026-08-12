@@ -93,10 +93,12 @@ declare module "./Keyboard" {
          * /**
                      * Whether the keyboard has an <code>{esc}</code> key.
                      *
-                     * The key fires
+                     * It is the first key of the top row, where a keyboard of keys has
+                     * it, and it is there on every set. The key fires
+                     *
         {@link #event:escape escape}
-         and does nothing else;
-                     * what it should mean is left to the application.
+         and does nothing else; what it
+                     * should mean is left to the application.
          */
         showEscape?: boolean | PropertyBindingInfo | `{${string}}`;
 
@@ -293,10 +295,12 @@ declare module "./Keyboard" {
          * /**
                      * Whether the keyboard has an <code>{esc}</code> key.
                      *
-                     * The key fires
+                     * It is the first key of the top row, where a keyboard of keys has
+                     * it, and it is there on every set. The key fires
+                     *
         {@link #event:escape escape}
-         and does nothing else;
-                     * what it should mean is left to the application.
+         and does nothing else; what it
+                     * should mean is left to the application.
          */
         getShowEscape(): boolean;
 
@@ -304,10 +308,12 @@ declare module "./Keyboard" {
          * /**
                      * Whether the keyboard has an <code>{esc}</code> key.
                      *
-                     * The key fires
+                     * It is the first key of the top row, where a keyboard of keys has
+                     * it, and it is there on every set. The key fires
+                     *
         {@link #event:escape escape}
-         and does nothing else;
-                     * what it should mean is left to the application.
+         and does nothing else; what it
+                     * should mean is left to the application.
          */
         setShowEscape(showEscape: boolean): this;
 

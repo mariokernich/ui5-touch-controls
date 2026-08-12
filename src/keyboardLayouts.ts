@@ -152,18 +152,24 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 		toggle && "{numbers}",
 		!toggle && options.specialCharacters && "{symbols}",
 		options.emojis && "{emojis}",
-		options.escape && "{esc}",
 		...options.extraKeys,
 		"{space}",
 		"{enter}",
 	);
+
+	/**
+	 * Puts the escape key where a keyboard of keys has it: first key of the top
+	 * row, whichever set is on screen.
+	 */
+	const withEscape = (rows: string[]): string[] =>
+		options.escape ? [row("{esc}", rows[0]), ...rows.slice(1)] : rows;
 
 	const lettersSet = (name: string, rows: string[]): LayoutSet => {
 		const [first, home, last] = inCase(rows, letterCase);
 
 		return {
 			name: name,
-			rows: [
+			rows: withEscape([
 				...(options.numbers === NumberKeys.Always ? [DIGITS] : []),
 				first,
 				row(modifiers && options.capsLock && "{lock}", home),
@@ -173,7 +179,7 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 					"{bksp}",
 				),
 				functionRow,
-			],
+			]),
 		};
 	};
 
@@ -186,57 +192,49 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 	if (toggle) {
 		sets.push({
 			name: "numbers",
-			rows: [
+			rows: withEscape([
 				DIGITS,
 				NUMBER_ROWS[0],
 				row(options.specialCharacters && "{symbols}", NUMBER_ROWS[1], "{bksp}"),
 				row(
 					"{abc}",
 					options.emojis && "{emojis}",
-					options.escape && "{esc}",
 					...options.extraKeys,
 					"{space}",
 					"{enter}",
 				),
-			],
+			]),
 		});
 	}
 
 	if (options.specialCharacters) {
 		sets.push({
 			name: "symbols",
-			rows: [
+			rows: withEscape([
 				SYMBOL_ROWS[0],
 				SYMBOL_ROWS[1],
 				row(toggle && "{numbers}", SYMBOL_ROWS[2], "{bksp}"),
 				row(
 					"{abc}",
 					options.emojis && "{emojis}",
-					options.escape && "{esc}",
 					...options.extraKeys,
 					"{space}",
 					"{enter}",
 				),
-			],
+			]),
 		});
 	}
 
 	if (options.emojis) {
 		sets.push({
 			name: "emojis",
-			rows: [
+			rows: withEscape([
 				EMOJI_ROWS[0],
 				EMOJI_ROWS[1],
 				EMOJI_ROWS[2],
 				row(EMOJI_ROWS[3], "{bksp}"),
-				row(
-					"{abc}",
-					options.escape && "{esc}",
-					...options.extraKeys,
-					"{space}",
-					"{enter}",
-				),
-			],
+				row("{abc}", ...options.extraKeys, "{space}", "{enter}"),
+			]),
 		});
 	}
 
