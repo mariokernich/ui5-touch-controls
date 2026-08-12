@@ -25,8 +25,15 @@ import Text from "ui5/touch/controls/Text";
 import TextArea from "ui5/touch/controls/TextArea";
 import TimePicker from "ui5/touch/controls/TimePicker";
 import Toolbar from "ui5/touch/controls/Toolbar";
-import VirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
-import { KeyboardMode, SizeMode } from "ui5/touch/controls/library";
+import CustomKeyboard from "ui5/touch/controls/CustomKeyboard";
+import Keyboard from "ui5/touch/controls/Keyboard";
+import NumberPad from "ui5/touch/controls/NumberPad";
+import {
+	KeyboardMode,
+	NumberKeys,
+	NumberPadMode,
+	SizeMode,
+} from "ui5/touch/controls/library";
 
 /**
  * One row of a test page: a caption and the controls shown next to each other.
@@ -511,26 +518,51 @@ export const cases: Record<string, () => TestRow[]> = {
 		},
 	],
 
-	VirtualKeyboard: () => [
+	Keyboard: () => [
 		{
-			caption: "the ready-made modes",
+			caption: "the arrangements",
 			controls: [
-				new VirtualKeyboard({ mode: KeyboardMode.Numeric, size: SizeMode.M }),
-				new VirtualKeyboard({ mode: KeyboardMode.Phone, size: SizeMode.M }),
-				new VirtualKeyboard({ mode: KeyboardMode.Calculator, size: SizeMode.M }),
+				new Keyboard({
+					mode: KeyboardMode.English,
+					displayNumbers: NumberKeys.Always,
+					size: SizeMode.M,
+				}),
+				new Keyboard({
+					mode: KeyboardMode.German,
+					displayNumbers: NumberKeys.Always,
+					size: SizeMode.M,
+				}),
 			],
 		},
 		{
-			caption: "QWERTY",
+			caption: "digits behind a key, with special characters",
 			controls: [
-				new VirtualKeyboard({ mode: KeyboardMode.QWERTY, size: SizeMode.M }),
+				new Keyboard({
+					mode: KeyboardMode.English,
+					displayNumbers: NumberKeys.Toggle,
+					showSpecialCharacters: true,
+					size: SizeMode.M,
+				}),
 			],
 		},
+	],
+
+	NumberPad: () => [
 		{
-			caption: "custom layout",
+			caption: "the digit blocks",
 			controls: [
-				new VirtualKeyboard({
-					mode: KeyboardMode.Custom,
+				new NumberPad({ mode: NumberPadMode.Simple, size: SizeMode.M }),
+				new NumberPad({ mode: NumberPadMode.Phone, size: SizeMode.M }),
+				new NumberPad({ mode: NumberPadMode.Calculator, size: SizeMode.M }),
+			],
+		},
+	],
+
+	CustomKeyboard: () => [
+		{
+			caption: "rows of your own",
+			controls: [
+				new CustomKeyboard({
 					layout: ["A B C", "D E F", "{bksp} {space} {enter}"],
 					size: SizeMode.M,
 				}),

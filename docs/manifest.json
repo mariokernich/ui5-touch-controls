@@ -11,7 +11,7 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "applicationVersion": {
-      "version": "1.3.0"
+      "version": "2.0.0"
     }
   },
   "sap.ui": {
@@ -171,9 +171,19 @@
           "target": "QuickDialog"
         },
         {
-          "name": "VirtualKeyboard",
-          "pattern": "control/VirtualKeyboard",
-          "target": "VirtualKeyboard"
+          "name": "Keyboard",
+          "pattern": "control/Keyboard",
+          "target": "Keyboard"
+        },
+        {
+          "name": "NumberPad",
+          "pattern": "control/NumberPad",
+          "target": "NumberPad"
+        },
+        {
+          "name": "CustomKeyboard",
+          "pattern": "control/CustomKeyboard",
+          "target": "CustomKeyboard"
         },
         {
           "name": "BarcodeInput",
@@ -292,10 +302,20 @@
           "viewId": "QuickDialog",
           "name": "QuickDialog"
         },
-        "VirtualKeyboard": {
-          "id": "VirtualKeyboard",
-          "viewId": "VirtualKeyboard",
-          "name": "VirtualKeyboard"
+        "Keyboard": {
+          "id": "Keyboard",
+          "viewId": "Keyboard",
+          "name": "Keyboard"
+        },
+        "NumberPad": {
+          "id": "NumberPad",
+          "viewId": "NumberPad",
+          "name": "NumberPad"
+        },
+        "CustomKeyboard": {
+          "id": "CustomKeyboard",
+          "viewId": "CustomKeyboard",
+          "name": "CustomKeyboard"
         },
         "BarcodeInput": {
           "id": "BarcodeInput",

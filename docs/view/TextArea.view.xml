@@ -46,32 +46,25 @@
 							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
 							<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
 							<CheckBox
-								text="{i18n>cbVirtualKeyboard}"
-								selected="{json>/showVirtualKeyboard}" />
+								text="{i18n>cbKeyboard}"
+								selected="{json>/showKeyboard}" />
 							<CheckBox
 								text="{i18n>cbDocked}"
 								selected="{json>/keyboardDocked}"
-								enabled="{json>/showVirtualKeyboard}" />
+								enabled="{json>/showKeyboard}" />
 						</HBox>
 						<HBox alignItems="Center">
 							<Text text="{i18n>lblMode}" width="100px" />
 							<Select
 								selectedKey="{json>/keyboardMode}"
-								enabled="{json>/showVirtualKeyboard}">
-								<core:Item key="QWERTY" text="QWERTY" />
-								<core:Item key="QWERTZ" text="QWERTZ" />
-								<core:Item key="AZERTY" text="AZERTY" />
+								enabled="{json>/showKeyboard}">
+								<core:Item key="English" text="English" />
+								<core:Item key="German" text="German" />
+								<core:Item key="French" text="French" />
 								<core:Item key="Spanish" text="Spanish" />
 								<core:Item key="Ukrainian" text="Ukrainian" />
 								<core:Item key="Russian" text="Russian" />
 								<core:Item key="Hindi" text="Hindi" />
-								<core:Item key="QWERTYMobile" text="QWERTYMobile" />
-								<core:Item key="QWERTZMobile" text="QWERTZMobile" />
-								<core:Item key="Numeric" text="Numeric" />
-								<core:Item key="Decimal" text="Decimal" />
-								<core:Item key="Email" text="Email" />
-								<core:Item key="Phone" text="Phone" />
-								<core:Item key="Calculator" text="Calculator" />
 							</Select>
 						</HBox>
 						<Text text="{i18n>textAreaKeyboardHint}" class="sapUiTinyMarginTop" />
@@ -102,15 +95,15 @@
 							enabled="{json>/enabled}"
 							editable="{json>/editable}"
 							valueState="{json>/valueState}"
-							showVirtualKeyboard="{json>/showVirtualKeyboard}"
+							showKeyboard="{json>/showKeyboard}"
 							width="100%"
 							liveChange=".onLiveChange">
-							<tc:virtualKeyboard>
-								<tc:VirtualKeyboard
+							<tc:keyboard>
+								<tc:Keyboard
 									size="{json>/size}"
 									mode="{json>/keyboardMode}"
 									docked="{json>/keyboardDocked}" />
-							</tc:virtualKeyboard>
+							</tc:keyboard>
 						</tc:TextArea>
 					</VBox>
 				</f:content>

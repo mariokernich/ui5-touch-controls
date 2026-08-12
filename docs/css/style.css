@@ -215,7 +215,7 @@ body,
 	}
 }
 
-/* A docked VirtualKeyboard is placed with position: fixed, which is measured
+/* A docked keyboard is placed with position: fixed, which is measured
    against the viewport - but only as long as nothing on the way up creates a
    containing block of its own. sap.tnt.ToolPage puts will-change: transform on
    its content area, which does exactly that, and the keyboard would end up

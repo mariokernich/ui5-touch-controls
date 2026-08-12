@@ -261,7 +261,7 @@
 			</f:content>
 		</f:Card>
 
-		<!-- VirtualKeyboard -->
+		<!-- the three keyboards -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
 				<cards:Header

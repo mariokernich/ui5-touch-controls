@@ -26,55 +26,33 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
-		version: "1.3.0",
+		version: "2.0.0",
 		date: "",
 		summary:
-			"The keyboard docks to the bottom edge, carries more than one set of keys, and a picker fills the screen of a phone.",
+			"One keyboard that did everything becomes three that each do one thing.",
 		groups: [
 			{
 				kind: "Added",
 				items: [
-					"VirtualKeyboard has a docked property. A docked keyboard leaves the flow of the page and sits at the bottom edge of the screen, over the content, the way the on-screen keyboard of a phone does. On a phone or a tablet it takes the full width of the screen and the width property is not looked at.",
-					"docked works on a field as well: with a keyboard in the virtualKeyboard aggregation of an Input or a TextArea, the popover that carries it is docked instead of being placed at the field. That keyboard is in the static area, so it covers a modal dialog too - which is what makes a field inside a dialog typeable.",
-					"KeyboardMode QWERTZ, the German arrangement of the letters: Z and Y are swapped against QWERTY.",
-					"KeyboardMode QWERTYMobile and QWERTZMobile, the two as a phone draws them: no row of digits over the letters, which would make every key narrow, but the digits behind a key of their own. They are built from sets, so the capitals and the digits are sets the keyboard switches to.",
-					"The display aggregation says what a single key reads, where the sign the keyboard would pick is not the right one - the display option of simple-keyboard. It works on any key and in every set. The braces of a special key are left out, because UI5 reads a string beginning with one as a binding.",
-					"A keyboard can carry more than one set of keys, in the layout concept of simple-keyboard. The sets are KeyboardLayout elements in the new layouts aggregation, each with a name and its rows and nothing else: every set stands on its own and says in full what is on it, upper case included, which is a set of capitals rather than a state of the keyboard. A key named after a set switches to it, and a key that names the set it is already on leads back out of it - that is what makes the {shift} in a set of capitals come back. A layout written for simple-keyboard can be used as it stands: {backspace} and {ent} are understood, and {abc} leads back to default.",
-					"The QWERTY and the QWERTZ layout have a tab key and a caps lock, where a keyboard of keys has them. {lock} stays on until it is pressed again, {shift} falls away after one letter, and shift while the lock is on writes lower case. Both are special keys like the others, so a layout of your own can use {tab} and {lock} as well.",
-					"KeyboardMode Decimal and Email. Decimal is the number pad with a decimal point and a minus, Email is letters as a phone draws them with what an address is made of at hand - the @ and the dot on the letters.",
-					"KeyboardMode AZERTY, Spanish, Ukrainian, Russian and Hindi - the arrangements of those keyboards next to QWERTY and QWERTZ. AZERTY is the French one, Spanish is QWERTY with an N with a tilde, Ukrainian and Russian are the two of ЙЦУКЕН, and Hindi is Devanagari in the InScript arrangement, the Indian standard. InScript has more consonants than a keyboard has keys, so the rest are on a set of their own that the shift key leads to - a set, not upper case, since Devanagari has no case.",
-					"Select and ComboBox have a pickerTitle. It is the heading over the list on a phone, where the list takes the whole screen and the field it belongs to is behind it; an empty title reads Select, the way sap.m does it. Nothing is shown of it on a larger screen.",
-					"An escape event, fired by an {esc} key and by the Escape key of a real keyboard while hardwareKeys is on. The keyboard does nothing about it by itself and leaves to the application what it should mean; a field that shows a keyboard closes its popover on it.",
-					"emphasizedKeys says which keys are drawn as emphasized - the one that ends what is being done, usually. A modifier stays emphasized while it is on, whatever the property says.",
-					"Select and ComboBox open their list over the whole screen on a phone, the way sap.m does, instead of in a popover on the field. A picker that fills the screen cannot be left by tapping beside it, so it brings a bar of its own: Cancel in the Select, and in the ComboBox a field to go on typing in next to OK - the field of the control itself is behind the picker there, and without one the list could only be picked from, not filtered.",
+					"Keyboard - an on-screen keyboard of letters, said in one line. The mode is the arrangement of a country, by the language it is used for: English, German, French, Spanish, Ukrainian, Russian and Hindi. There is no layout to write out.",
+					"displayNumbers decides what becomes of the digits. Always puts a row of them over the letters, the way a keyboard of keys has it. Toggle leaves the letters to themselves and puts the digits behind a key, the way a phone does it. ToggleOnMobile, the default, is the first on a computer and a tablet and the second on a phone - which of the two it is is decided once, by the device the page was opened on. Never leaves them off.",
+					"showSpecialCharacters adds a set of brackets, signs and currencies. Where the digits are behind a key of their own the set sits behind them, the way a phone goes from its letters to its digits to its symbols and back; otherwise a key of its own leads there.",
+					"letterCase pins the keyboard to one case. Upper and Lower leave the shift key and the caps lock off - there is nothing to switch, which is what a field with a case of its own wants: a material number, a licence plate, a batch.",
+					"showCapsLock adds a {lock} next to the shift key, showEscape an {esc} key, and enterText says what the Enter key reads - Search, Next, whatever it does.",
+					"NumberPad - a pad of digits in three columns. The mode picks the block: Simple is the pad of a computer with 7 8 9 on top, Phone the pad of a telephone with a star and a hash, Calculator adds the four basic operations. The block keeps its shape whatever else is switched on: a minus and a decimal separator go into the row of the zero, everything else into the row of function keys under it.",
+					"showDecimalSeparator and decimalSeparator on the NumberPad. The separator is the one of the current language unless another one is named - a comma in German, a point in English.",
+					"showSpecialCharacters on the NumberPad too: a set of signs in the three columns of the pad, for a code that is more than digits.",
+					"CustomKeyboard - the keyboard whose keys are handed to it, row by row. It carries what was the layout property, the layouts aggregation and the display aggregation, and is the answer to everything the other two do not cover.",
+					"KeyboardBase - the machine behind all three: the value and how keys change it, the sets and the switching between them, shift and the caps lock, the keys of a real keyboard, the size, the width and the docking. It is the type the keyboard aggregation of a field is typed to, so any of the three fits in there.",
 				],
 			},
 			{
 				kind: "Changed",
 				items: [
-					"The default mode of the VirtualKeyboard is QWERTY. A keyboard that is asked for without saying more is a keyboard of letters, not a number pad.",
-					"A key that leads to another set says what that set is called by convention rather than the name of the set: {numbers} reads 123, {abc} reads ABC, {symbols} reads #+=. A display entry still overrules it.",
-				],
-			},
-			{
-				kind: "Fixed",
-				items: [
-					"A Toolbar or an OverflowToolbar in the footer of a sap.m.Dialog is no longer cut off at the lower edge. A dialog keeps its footer out of the flow and reserves 2.75rem for it - the height of a toolbar of sap.m - and clips what reaches past that. The toolbars now hand the dialog the height they have, so the room grows with the size and the content above the footer keeps the height it was given.",
-					"A VirtualKeyboard is no longer scrollable sideways when the room is tight, which is of no use to a thumb. The keys give up the padding at their sides and share what there is, as they already did when docked. The height still comes from the size, so a key stays as easy to hit.",
-					"The popover a field opens its keyboard in was placed at the start of the field, so a keyboard narrower than the field hung off to one side. It is centred on the field now.",
-					"A key is as wide as it is tall again, which is the width a keyboard brings along where nothing constrains it. Letting the keys shrink had taken that width with it: they had come out as narrow as their labels.",
-					"A title or a text on a Toolbar sat against its upper edge instead of in the middle of the line, and was cut off there when the toolbar was the height of a small size.",
-				],
-			},
-			{
-				kind: "Demo",
-				items: [
-					"The VirtualKeyboard page has a Docked switch and QWERTZ in its mode list.",
-					"The Input and the TextArea page have a Docked switch for the keyboard of the field, and QWERTZ in their mode list.",
-					"The mode lists of the VirtualKeyboard, the Input and the TextArea page carry the new layouts.",
-					"The header of the demo has a link to the npm package next to the one to GitHub.",
-					"On a phone that mark is the first thing to move behind the overflow button of the header, where there is no room for both. It is a button rather than a link for that reason: a link says of itself that it cannot overflow, so a toolbar keeps it where it is.",
-					"The playground of the VirtualKeyboard page starts on QWERTY, and its code card shows the display aggregation, emphasizedKeys and the escape event.",
+					"VirtualKeyboard is gone, and with it a mode property that mixed languages (QWERTZ), device shapes (QWERTZMobile), purposes (Email) and pads (Numeric, Decimal, Phone, Calculator) in one list of fifteen values. Use Keyboard for letters, NumberPad for digits and CustomKeyboard for keys of your own; the modes map as follows: QWERTY, QWERTZ and AZERTY are the arrangements English, German and French, QWERTYMobile and QWERTZMobile are those two with displayNumbers=Toggle, Numeric and Decimal are the NumberPad, Phone and Calculator are its modes of the same name, and Custom is the CustomKeyboard.",
+					"The keyboard aggregation of Input and TextArea was called virtualKeyboard and is now called keyboard; showVirtualKeyboard is showKeyboard. Its type is KeyboardBase, so a Keyboard, a NumberPad and a CustomKeyboard all fit.",
+					"KeyboardMode carries the arrangements of the countries and nothing else. NumberKeys, LetterCase and NumberPadMode are the new types beside it.",
+					"The CSS classes of a keyboard are touchKeyboard, touchKeyboardRow, touchKeyboardDocked and touchKeyboardDisabled - they were named after the control that is gone.",
 				],
 			},
 		],

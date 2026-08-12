@@ -22,7 +22,7 @@ declare module "./KeyboardLayout" {
                      * The rows of the set. Each entry is one row, keys are separated by
                      * spaces, and a key in curly braces is a special one - the keys of
                      *
-        {@link ui5.touch.controls.VirtualKeyboard}
+        {@link ui5.touch.controls.CustomKeyboard}
          plus the name of any
                      * other set of this keyboard.
          */
@@ -58,7 +58,7 @@ declare module "./KeyboardLayout" {
                      * The rows of the set. Each entry is one row, keys are separated by
                      * spaces, and a key in curly braces is a special one - the keys of
                      *
-        {@link ui5.touch.controls.VirtualKeyboard}
+        {@link ui5.touch.controls.CustomKeyboard}
          plus the name of any
                      * other set of this keyboard.
          */
@@ -69,7 +69,7 @@ declare module "./KeyboardLayout" {
                      * The rows of the set. Each entry is one row, keys are separated by
                      * spaces, and a key in curly braces is a special one - the keys of
                      *
-        {@link ui5.touch.controls.VirtualKeyboard}
+        {@link ui5.touch.controls.CustomKeyboard}
          plus the name of any
                      * other set of this keyboard.
          */

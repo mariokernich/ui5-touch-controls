@@ -3,192 +3,17 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
 import Button from "./Button";
-import type KeyboardKey from "./KeyboardKey";
-import type KeyboardLayout from "./KeyboardLayout";
-import { ISized, KeyboardMode, SizeMode } from "./library";
+import { ISized, SizeMode } from "./library";
 
 /**
- * The rows of the ready-made layouts, by the mode that selects them.
+ * One set of keys of a keyboard: the name it is switched to by, and its rows.
  *
- * <code>Custom</code> is not in here on purpose: it is the mode that has no
- * layout of its own and reads the <code>layout</code> property instead.
+ * A keyboard shows one set at a time. Where the set comes from is what tells
+ * the keyboards of this library apart - {@link ui5.touch.controls.Keyboard}
+ * and {@link ui5.touch.controls.NumberPad} build theirs from a few
+ * properties, {@link ui5.touch.controls.CustomKeyboard} is handed them.
  */
-type LayoutSet = { name: string; rows: string[] };
-
-/**
- * The rows of a set of letters as a phone draws them: no row of digits, and a
- * key that leads to them instead. Everything but the two letters that tell
- * QWERTY and QWERTZ apart is the same, so both are built from here.
- */
-function mobileSets(lower: string, upper: string): LayoutSet[] {
-	const [lowerRow2, lowerRow4] = lower.split("|");
-	const [upperRow2, upperRow4] = upper.split("|");
-
-	return [
-		{
-			name: "default",
-			rows: [
-				lowerRow2,
-				"a s d f g h j k l",
-				`{shift} ${lowerRow4} {bksp}`,
-				"{numbers} {space} {enter}",
-			],
-		},
-		{
-			name: "shift",
-			rows: [
-				upperRow2,
-				"A S D F G H J K L",
-				`{shift} ${upperRow4} {bksp}`,
-				"{numbers} {space} {enter}",
-			],
-		},
-		{
-			name: "numbers",
-			rows: ["1 2 3", "4 5 6", "7 8 9", "{abc} 0 {bksp}"],
-		},
-	];
-}
-
-/**
- * The modes that show more than one set of keys, and what those sets are.
- */
-const LAYOUT_SETS: Partial<Record<KeyboardMode, LayoutSet[]>> = {
-	[KeyboardMode.QWERTYMobile]: mobileSets(
-		"q w e r t y u i o p|z x c v b n m",
-		"Q W E R T Y U I O P|Z X C V B N M",
-	),
-	[KeyboardMode.QWERTZMobile]: mobileSets(
-		"q w e r t z u i o p|y x c v b n m",
-		"Q W E R T Z U I O P|Y X C V B N M",
-	),
-	// what an address is made of, on the keys instead of behind them
-	[KeyboardMode.Email]: [
-		{
-			name: "default",
-			rows: [
-				"q w e r t y u i o p",
-				"a s d f g h j k l",
-				"{shift} z x c v b n m {bksp}",
-				"{numbers} @ . {space} {enter}",
-			],
-		},
-		{
-			name: "shift",
-			rows: [
-				"Q W E R T Y U I O P",
-				"A S D F G H J K L",
-				"{shift} Z X C V B N M {bksp}",
-				"{numbers} @ . {space} {enter}",
-			],
-		},
-		{
-			name: "numbers",
-			rows: ["1 2 3 4 5 6 7 8 9 0", "- _ . @ + {bksp}", "{abc} {space} {enter}"],
-		},
-	],
-	// Devanagari in the InScript arrangement, the Indian standard. It does not
-	// fit on one set: the script has more consonants than a keyboard has keys,
-	// and the rest sit on the shifted positions - which is a set of its own
-	// here, not upper case, because Devanagari has no case to switch to.
-	[KeyboardMode.Hindi]: [
-		{
-			name: "default",
-			rows: [
-				"१ २ ३ ४ ५ ६ ७ ८ ९ ०",
-				"ौ ै ा ी ू ब ह ग द ज ड",
-				"ो े ् ि ु प र क त च ट",
-				"{shift} ॉ ं म न व ल स य {bksp}",
-				"{numbers} {space} {enter}",
-			],
-		},
-		{
-			name: "shift",
-			rows: [
-				"१ २ ३ ४ ५ ६ ७ ८ ९ ०",
-				"औ ऐ आ ई ऊ भ ङ घ ध झ ढ",
-				"ओ ए अ इ उ फ ऱ ख थ छ ठ",
-				"{shift} ऑ ँ ण ऩ ळ श ष य़ {bksp}",
-				"{numbers} {space} {enter}",
-			],
-		},
-		{
-			name: "numbers",
-			rows: ["1 2 3 4 5 6 7 8 9 0", "। , . ? ! - {bksp}", "{abc} {space} {enter}"],
-		},
-	],
-};
-
-const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
-	[KeyboardMode.QWERTY]: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"{tab} q w e r t y u i o p",
-		"{lock} a s d f g h j k l",
-		"{shift} z x c v b n m {bksp}",
-		"{space} {enter}",
-	],
-	[KeyboardMode.QWERTZ]: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"{tab} q w e r t z u i o p",
-		"{lock} a s d f g h j k l",
-		"{shift} y x c v b n m {bksp}",
-		"{space} {enter}",
-	],
-	[KeyboardMode.AZERTY]: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"{tab} a z e r t y u i o p",
-		"{lock} q s d f g h j k l m",
-		"{shift} w x c v b n {bksp}",
-		"{space} {enter}",
-	],
-	[KeyboardMode.Spanish]: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"{tab} q w e r t y u i o p",
-		"{lock} a s d f g h j k l ñ",
-		"{shift} z x c v b n m {bksp}",
-		"{space} {enter}",
-	],
-	[KeyboardMode.Ukrainian]: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"{tab} й ц у к е н г ш щ з х ї",
-		"{lock} ф і в а п р о л д ж є",
-		"{shift} я ч с м и т ь б ю {bksp}",
-		"{space} {enter}",
-	],
-	[KeyboardMode.Russian]: [
-		"1 2 3 4 5 6 7 8 9 0",
-		"{tab} й ц у к е н г ш щ з х ъ",
-		"{lock} ф ы в а п р о л д ж э",
-		"{shift} я ч с м и т ь б ю {bksp}",
-		"{space} {enter}",
-	],
-	[KeyboardMode.Hindi]: LAYOUT_SETS[KeyboardMode.Hindi]![0].rows,
-	[KeyboardMode.QWERTYMobile]: LAYOUT_SETS[KeyboardMode.QWERTYMobile]![0].rows,
-	[KeyboardMode.QWERTZMobile]: LAYOUT_SETS[KeyboardMode.QWERTZMobile]![0].rows,
-	[KeyboardMode.Email]: LAYOUT_SETS[KeyboardMode.Email]![0].rows,
-	[KeyboardMode.Numeric]: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
-	[KeyboardMode.Decimal]: [
-		"7 8 9",
-		"4 5 6",
-		"1 2 3",
-		"- 0 .",
-		"{bksp} {enter}",
-	],
-	[KeyboardMode.Phone]: [
-		"1 2 3",
-		"4 5 6",
-		"7 8 9",
-		"* 0 #",
-		"{bksp} {enter}",
-	],
-	[KeyboardMode.Calculator]: [
-		"7 8 9 /",
-		"4 5 6 *",
-		"1 2 3 -",
-		"0 . = +",
-		"{bksp} {enter}",
-	],
-};
+export type LayoutSet = { name: string; rows: string[] };
 
 /**
  * The key names of simple-keyboard that mean the same as one of ours, so a
@@ -213,30 +38,33 @@ const SET_KEY_TEXTS: Record<string, string> = {
 };
 
 /**
- * An on-screen keyboard optimized for touch devices, built natively from
- * the library's own {@link ui5.touch.controls.Button} controls — no
- * third-party keyboard dependency.
+ * Base class of the on-screen keyboards of this library - the machine behind
+ * all three, built natively from the library's own
+ * {@link ui5.touch.controls.Button} controls with no third-party dependency.
  *
- * Which keys it shows is a matter of the {@link #getMode mode} property. The
- * arrangements of the countries are ready-made - <code>QWERTY</code>,
- * <code>QWERTZ</code>, <code>AZERTY</code>, <code>Spanish</code>,
- * <code>Ukrainian</code>, <code>Russian</code> and <code>Hindi</code> - as are
- * the two a phone draws in <code>QWERTYMobile</code> and
- * <code>QWERTZMobile</code> and the pads <code>Numeric</code>,
- * <code>Decimal</code>, <code>Email</code>, <code>Phone</code> and
- * <code>Calculator</code>. <code>Custom</code> hands the keyboard over to the
- * {@link #getLayout layout} property or to the sets in its
- * <code>layouts</code> aggregation.
+ * It is not used directly. What it does not know is which keys to show; that
+ * is what tells its three subclasses apart:
+ * <ul>
+ * <li>{@link ui5.touch.controls.Keyboard} - a keyboard of letters, built from
+ * a language and a handful of switches</li>
+ * <li>{@link ui5.touch.controls.NumberPad} - a pad of digits, likewise</li>
+ * <li>{@link ui5.touch.controls.CustomKeyboard} - the keys are handed to it,
+ * row by row</li>
+ * </ul>
  *
- * A layout is written row by row: each entry is one row, keys are separated
- * by spaces and special keys are wrapped in curly braces
- * (<code>{bksp}</code>, <code>{enter}</code>, <code>{esc}</code>,
- * <code>{space}</code>, <code>{tab}</code>, <code>{shift}</code> and
- * <code>{lock}</code>, the caps lock).
+ * Everything else lives here: the value and how keys change it, the sets of
+ * keys and the switching between them, shift and the caps lock, the keys of a
+ * real keyboard, the size, the width and the docking.
+ *
+ * A row is a string of keys separated by spaces. A special key is wrapped in
+ * curly braces - <code>{bksp}</code>, <code>{enter}</code>,
+ * <code>{esc}</code>, <code>{space}</code>, <code>{tab}</code>,
+ * <code>{shift}</code> and <code>{lock}</code>, the caps lock - and a key
+ * written as the name of one of the sets switches to that set.
  *
  * However narrow the room is, the keyboard never has to be scrolled sideways:
- * the keys give up the padding at their sides and share what there is. Their
- * height comes from the size and stays as it is.
+ * a key would like to be as wide as it is tall, and gives that width up when
+ * the room is tight. Its height comes from the size and stays as it is.
  *
  * When {@link #getHardwareKeys hardwareKeys} is enabled, the keyboard also
  * accepts input from a real (physical) keyboard while it has the focus.
@@ -245,9 +73,10 @@ const SET_KEY_TEXTS: Record<string, string> = {
  * sits at the bottom edge of the screen, over the content - the way the
  * on-screen keyboard of a phone does.
  *
+ * @abstract
  * @namespace ui5.touch.controls
  */
-export default class VirtualKeyboard extends Control implements ISized {
+export default class KeyboardBase extends Control implements ISized {
 	/**
 	 * Signature of the currently built button set, used to rebuild the
 	 * buttons only when the layout changes.
@@ -302,41 +131,13 @@ export default class VirtualKeyboard extends Control implements ISized {
 	private keyAnimationTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
 	static readonly metadata: MetadataOptions = {
+		"abstract": true,
 		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
 			/**
 			 * The current input value of the keyboard.
 			 */
 			value: { type: "string", group: "Data", defaultValue: "" },
-			/**
-			 * Which keys the keyboard shows.
-			 *
-			 * All values but <code>Custom</code> are ready-made layouts that
-			 * the control brings along. <code>Custom</code> is the one that
-			 * reads the {@link #getLayout layout} property.
-			 */
-			mode: {
-				type: "ui5.touch.controls.KeyboardMode",
-				group: "Appearance",
-				defaultValue: KeyboardMode.QWERTY,
-			},
-			/**
-			 * The keyboard layout rows, for
-			 * {@link ui5.touch.controls.KeyboardMode.Custom}. Each entry
-			 * represents one row, keys are separated by spaces. Special keys
-			 * are wrapped in curly braces, e.g. <code>{bksp}</code>,
-			 * <code>{enter}</code>, <code>{space}</code> or
-			 * <code>{shift}</code>.
-			 *
-			 * It is only looked at when {@link #getMode mode} is
-			 * <code>Custom</code>; with any other mode the layout of that mode
-			 * is shown.
-			 */
-			layout: {
-				type: "string[]",
-				group: "Appearance",
-				defaultValue: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
-			},
 			/**
 			 * The keys that are drawn as emphasized, written the way they stand
 			 * in the layout - <code>{enter}</code>, <code>a</code> - with the
@@ -399,7 +200,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 			 * or a tablet it takes the full width of the screen and
 			 * {@link #getWidth width} is not looked at.
 			 *
-			 * It works the same way in the <code>virtualKeyboard</code>
+			 * It works the same way in the <code>keyboard</code>
 			 * aggregation of an {@link ui5.touch.controls.Input} or an
 			 * {@link ui5.touch.controls.TextArea}: the popover that carries
 			 * the keyboard is docked instead of being placed at the field.
@@ -416,40 +217,6 @@ export default class VirtualKeyboard extends Control implements ISized {
 			docked: { type: "boolean", group: "Appearance", defaultValue: false },
 		},
 		aggregations: {
-			/**
-			 * The sets of keys the keyboard can show, for
-			 * {@link ui5.touch.controls.KeyboardMode.Custom}.
-			 *
-			 * A keyboard with more than one set shows one of them at a time -
-			 * the one called <code>default</code> to begin with - and a key
-			 * written as the name of another set switches to it. That is how a
-			 * keyboard of a phone gets from its letters to its digits and back
-			 * without any code around it.
-			 *
-			 * Sets take precedence over the {@link #getLayout layout}
-			 * property, which is the shorter way of writing a keyboard that
-			 * only ever shows one set.
-			 */
-			layouts: {
-				type: "ui5.touch.controls.KeyboardLayout",
-				multiple: true,
-				singularName: "layout_",
-			},
-			/**
-			 * What single keys say, where the sign the keyboard would pick is
-			 * not the right one.
-			 *
-			 * The keyboard has a sign for every key it knows and shows the
-			 * plain name of one it does not, which is enough for most
-			 * keyboards. An entry here overrules that for one key, whichever
-			 * set it appears in - the <code>display</code> option of
-			 * simple-keyboard.
-			 */
-			display: {
-				type: "ui5.touch.controls.KeyboardKey",
-				multiple: true,
-				singularName: "displayKey",
-			},
 			/**
 			 * Internal key buttons, in layout order.
 			 */
@@ -515,9 +282,9 @@ export default class VirtualKeyboard extends Control implements ISized {
 		},
 	};
 
-	constructor(idOrSettings?: string | $VirtualKeyboardSettings);
-	constructor(id?: string, settings?: $VirtualKeyboardSettings);
-	constructor(id?: string, settings?: $VirtualKeyboardSettings) {
+	constructor(idOrSettings?: string | $KeyboardBaseSettings);
+	constructor(id?: string, settings?: $KeyboardBaseSettings);
+	constructor(id?: string, settings?: $KeyboardBaseSettings) {
 		super(id, settings);
 	}
 
@@ -789,7 +556,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 
 		// what was said about this key in the display aggregation comes first:
 		// it is there to overrule the sign the keyboard would pick
-		const said = this.getDisplayText(key);
+		const said = this.getKeyText(key);
 		if (said) {
 			button.setText(said);
 			return button;
@@ -820,7 +587,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 				break;
 			case "{space}":
 				button.setText("Space");
-				button.addStyleClass("touchVirtualKeyboardSpaceKey");
+				button.addStyleClass("touchKeyboardSpaceKey");
 				break;
 			default: {
 				const setName = this.getLayoutSetFor(key)
@@ -836,19 +603,51 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
-	 * The rows this keyboard shows: the layout of its mode, or the one from
-	 * the <code>layout</code> property when the mode is <code>Custom</code>.
+	 * The rows that are on screen right now - the set the keyboard currently
+	 * shows.
 	 */
 	public getEffectiveLayout(): string[] {
-		const mode = this.getMode();
+		return this.getCurrentLayoutSet()?.rows ?? [];
+	}
 
-		const set = this.getCurrentLayoutSet();
+	/**
+	 * The sets of keys this keyboard shows.
+	 *
+	 * This is the one thing the base class does not know. A subclass says here
+	 * what is on its keyboard - built from its properties, or handed to it -
+	 * and gets everything else in return.
+	 *
+	 * @returns the sets, the first one or the one called <code>default</code>
+	 *   being the one the keyboard starts on
+	 */
+	protected getKeySets(): LayoutSet[] {
+		return [];
+	}
 
-		if (mode !== KeyboardMode.Custom && !set) {
-			return LAYOUTS[mode];
-		}
+	/**
+	 * What a single key says, where the sign the keyboard would pick is not
+	 * the right one. An empty text leaves the key as it is.
+	 *
+	 * The base class asks for every key it draws; a subclass answers for the
+	 * ones it has something to say about.
+	 *
+	 * @param key the key as it stands in the layout
+	 */
+	protected getKeyText(key: string): string {
+		void key;
 
-		return set ? set.rows : this.getLayout();
+		return "";
+	}
+
+	/**
+	 * Everything besides the rows that changes what the keys look like.
+	 *
+	 * The buttons are built anew when the rows change, which is what keeps a
+	 * keyboard from rebuilding on every rendering. A subclass whose properties
+	 * change the text of a key without changing the rows says so here.
+	 */
+	protected getKeySignature(): string {
+		return "";
 	}
 
 	/**
@@ -859,22 +658,6 @@ export default class VirtualKeyboard extends Control implements ISized {
 		return KEY_ALIASES[key] ?? key;
 	}
 
-	/**
-	 * What was said about a key in the <code>display</code> aggregation, if
-	 * anything was. The key is looked up as it stands in the layout and under
-	 * the name the control knows it by, so a display written for
-	 * simple-keyboard reaches a key of ours as well.
-	 */
-	private getDisplayText(key: string): string {
-		const entries =
-			(this.getAggregation("display") as KeyboardKey[] | null) ?? [];
-		const wanted = this.plainKeyName(key);
-		const entry = entries.find(
-			(candidate) => this.plainKeyName(candidate.getKey()) === wanted,
-		);
-
-		return entry?.getText() ?? "";
-	}
 
 	/**
 	 * Whether this key was named in {@link #getEmphasizedKeys emphasizedKeys}.
@@ -896,7 +679,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 	 * one as a binding, so a key could not be written as
 	 * <code>key="{numbers}"</code> in a view without escaping it.
 	 */
-	private plainKeyName(key: string): string {
+	protected plainKeyName(key: string): string {
 		const braced = key.startsWith("{") ? key : `{${key}}`;
 
 		return this.normalizeKey(braced).replace(/^\{|\}$/g, "");
@@ -917,7 +700,7 @@ export default class VirtualKeyboard extends Control implements ISized {
 			return undefined;
 		}
 
-		const sets = this.getLayoutSets();
+		const sets = this.getKeySets();
 
 		return (
 			sets.find((set) => set.name === name) ??
@@ -927,30 +710,13 @@ export default class VirtualKeyboard extends Control implements ISized {
 		);
 	}
 
-	/**
-	 * The sets of keys this keyboard shows: the ones its mode brings along, or
-	 * the ones it was given. A mode with sets of its own is not open to the
-	 * aggregation, the same way a ready-made mode does not read the layout
-	 * property.
-	 */
-	private getLayoutSets(): LayoutSet[] {
-		const ofMode = LAYOUT_SETS[this.getMode()];
-
-		if (ofMode) {
-			return ofMode;
-		}
-
-		return (
-			(this.getAggregation("layouts") as KeyboardLayout[] | null) ?? []
-		).map((set) => ({ name: set.getName(), rows: set.getRows() }));
-	}
 
 	/**
 	 * The set that is on screen: the one that was switched to, the one called
 	 * <code>default</code>, or the first one there is.
 	 */
 	private getCurrentLayoutSet(): LayoutSet | undefined {
-		const sets = this.getLayoutSets();
+		const sets = this.getKeySets();
 
 		if (sets.length === 0) {
 			return undefined;
@@ -984,22 +750,11 @@ export default class VirtualKeyboard extends Control implements ISized {
 	}
 
 	/**
-	 * The rows of one of the ready-made layouts - a starting point for a
-	 * custom one, and what the documentation of the library lists.
-	 *
-	 * @param mode the mode to look up; <code>Custom</code> has no layout of
-	 *   its own and yields an empty list
-	 */
-	public static getLayoutForMode(mode: KeyboardMode): string[] {
-		return mode === KeyboardMode.Custom ? [] : [...LAYOUTS[mode]];
-	}
-
-	/**
 	 * (Re)builds the key buttons if the layout has changed.
 	 */
 	private buildButtons(): void {
 		const layout = this.getEffectiveLayout();
-		const signature = layout.join("\n");
+		const signature = `${layout.join("\n")}\u0000${this.getKeySignature()}`;
 
 		if (signature === this.builtLayoutSignature) {
 			return;
@@ -1059,40 +814,56 @@ export default class VirtualKeyboard extends Control implements ISized {
 		this.clearKeyAnimations();
 	}
 
-	static renderer = {
-		apiVersion: 2,
-		render(rm: RenderManager, control: VirtualKeyboard) {
-			rm.openStart("div", control);
-			rm.class("touchVirtualKeyboard");
+	/**
+	 * Draws a keyboard: the set of keys that is on screen, row by row.
+	 *
+	 * It is a method of its own rather than only the body of the renderer
+	 * because every keyboard of this library draws the same way, and a
+	 * subclass has to be able to point its own renderer here - UI5 keeps a
+	 * renderer in the metadata of a control, not on the class, so there is
+	 * nothing to inherit from there.
+	 *
+	 * @param rm the render manager
+	 * @param control the keyboard to draw
+	 */
+	public static renderKeyboard(rm: RenderManager, control: KeyboardBase): void {
+		rm.openStart("div", control);
+		rm.class("touchKeyboard");
 
-			if (!control.getEnabled()) {
-				rm.class("touchVirtualKeyboardDisabled");
-			}
-			if (control.getDocked()) {
-				rm.class("touchVirtualKeyboardDocked");
-			}
-			if (control.getWidth()) {
-				rm.style("width", control.getWidth());
-			}
-			if (control.getHardwareKeys() && control.getEnabled()) {
-				rm.attr("tabindex", "0");
-			}
+		if (!control.getEnabled()) {
+			rm.class("touchKeyboardDisabled");
+		}
+		if (control.getDocked()) {
+			rm.class("touchKeyboardDocked");
+		}
+		if (control.getWidth()) {
+			rm.style("width", control.getWidth());
+		}
+		if (control.getHardwareKeys() && control.getEnabled()) {
+			rm.attr("tabindex", "0");
+		}
 
+		rm.openEnd();
+
+		for (const row of control.getRows()) {
+			rm.openStart("div");
+			rm.class("touchKeyboardRow");
 			rm.openEnd();
 
-			for (const row of control.getRows()) {
-				rm.openStart("div");
-				rm.class("touchVirtualKeyboardRow");
-				rm.openEnd();
-
-				for (const button of row) {
-					rm.renderControl(button);
-				}
-
-				rm.close("div");
+			for (const button of row) {
+				rm.renderControl(button);
 			}
 
 			rm.close("div");
+		}
+
+		rm.close("div");
+	}
+
+	static renderer = {
+		apiVersion: 2,
+		render(rm: RenderManager, control: KeyboardBase) {
+			KeyboardBase.renderKeyboard(rm, control);
 		},
 	};
 }

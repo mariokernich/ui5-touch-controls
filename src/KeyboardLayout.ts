@@ -1,7 +1,7 @@
 import Element, { MetadataOptions } from "sap/ui/core/Element";
 
 /**
- * One set of keys of a {@link ui5.touch.controls.VirtualKeyboard}.
+ * One set of keys of a {@link ui5.touch.controls.CustomKeyboard}.
  *
  * A keyboard of keys has more on it than fits under ten fingers at once: the
  * letters, the digits, the symbols. A keyboard on a screen solves that the way
@@ -18,7 +18,7 @@ import Element, { MetadataOptions } from "sap/ui/core/Element";
  * code around them:
  *
  * <pre>
- * &lt;tc:VirtualKeyboard mode="Custom"&gt;
+ * &lt;tc:CustomKeyboard&gt;
  *     &lt;tc:layouts&gt;
  *         &lt;tc:KeyboardLayout
  *             name="default"
@@ -36,7 +36,7 @@ import Element, { MetadataOptions } from "sap/ui/core/Element";
  *             name="numbers"
  *             rows="1 2 3, 4 5 6, 7 8 9, {abc} 0 {backspace}" /&gt;
  *     &lt;/tc:layouts&gt;
- * &lt;/tc:VirtualKeyboard&gt;
+ * &lt;/tc:CustomKeyboard&gt;
  * </pre>
  *
  * The keyboard starts with the set named <code>default</code>, or with the
@@ -62,7 +62,7 @@ export default class KeyboardLayout extends Element {
 			/**
 			 * The rows of the set. Each entry is one row, keys are separated by
 			 * spaces, and a key in curly braces is a special one - the keys of
-			 * {@link ui5.touch.controls.VirtualKeyboard} plus the name of any
+			 * {@link ui5.touch.controls.CustomKeyboard} plus the name of any
 			 * other set of this keyboard.
 			 */
 			rows: { type: "string[]", group: "Appearance", defaultValue: [] },

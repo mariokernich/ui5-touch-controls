@@ -2,7 +2,7 @@ import Event from "sap/ui/base/Event";
 import { ValueState } from "sap/ui/core/library";
 import { CSSSize } from "sap/ui/core/library";
 import { SizeMode } from "ui5/touch/controls/library";
-import VirtualKeyboard from "ui5/touch/controls/VirtualKeyboard";
+import KeyboardBase from "ui5/touch/controls/KeyboardBase";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ControlSettings } from "sap/ui/core/Control";
 
@@ -68,19 +68,19 @@ declare module "./TextArea" {
          * /**
                      * Indicates whether the keyboard in the
                      *
-        {@link #getVirtualKeyboard virtualKeyboard}
+        {@link #getKeyboard keyboard}
          aggregation is shown in
                      * a popover below the field while the field has the focus.
                      *
                      * Without a keyboard in that aggregation the property has no effect.
          */
-        showVirtualKeyboard?: boolean | PropertyBindingInfo | `{${string}}`;
+        showKeyboard?: boolean | PropertyBindingInfo | `{${string}}`;
 
         /**
          * /**
                      * The on-screen keyboard shown while the field has the focus, if
                      *
-        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+        {@link #getShowKeyboard showKeyboard}
          is set.
                      *
                      * The keyboard types into this field: its value is replaced with the
@@ -89,7 +89,7 @@ declare module "./TextArea" {
                      * as Enter does in a multi-line field. The <code>maxLength</code> of
                      * the field is handed down to it.
          */
-        virtualKeyboard?: VirtualKeyboard;
+        keyboard?: KeyboardBase;
 
         /**
          * Fired when the value of the text area has changed and the focus
@@ -228,39 +228,39 @@ declare module "./TextArea" {
          */
         setSize(size: SizeMode): this;
 
-        // property: showVirtualKeyboard
+        // property: showKeyboard
 
         /**
          * /**
                      * Indicates whether the keyboard in the
                      *
-        {@link #getVirtualKeyboard virtualKeyboard}
+        {@link #getKeyboard keyboard}
          aggregation is shown in
                      * a popover below the field while the field has the focus.
                      *
                      * Without a keyboard in that aggregation the property has no effect.
          */
-        getShowVirtualKeyboard(): boolean;
+        getShowKeyboard(): boolean;
 
         /**
          * /**
                      * Indicates whether the keyboard in the
                      *
-        {@link #getVirtualKeyboard virtualKeyboard}
+        {@link #getKeyboard keyboard}
          aggregation is shown in
                      * a popover below the field while the field has the focus.
                      *
                      * Without a keyboard in that aggregation the property has no effect.
          */
-        setShowVirtualKeyboard(showVirtualKeyboard: boolean): this;
+        setShowKeyboard(showKeyboard: boolean): this;
 
-        // aggregation: virtualKeyboard
+        // aggregation: keyboard
 
         /**
          * /**
                      * The on-screen keyboard shown while the field has the focus, if
                      *
-        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+        {@link #getShowKeyboard showKeyboard}
          is set.
                      *
                      * The keyboard types into this field: its value is replaced with the
@@ -269,13 +269,13 @@ declare module "./TextArea" {
                      * as Enter does in a multi-line field. The <code>maxLength</code> of
                      * the field is handed down to it.
          */
-        getVirtualKeyboard(): VirtualKeyboard;
+        getKeyboard(): KeyboardBase;
 
         /**
          * /**
                      * The on-screen keyboard shown while the field has the focus, if
                      *
-        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+        {@link #getShowKeyboard showKeyboard}
          is set.
                      *
                      * The keyboard types into this field: its value is replaced with the
@@ -284,13 +284,13 @@ declare module "./TextArea" {
                      * as Enter does in a multi-line field. The <code>maxLength</code> of
                      * the field is handed down to it.
          */
-        setVirtualKeyboard(virtualKeyboard: VirtualKeyboard): this;
+        setKeyboard(keyboard: KeyboardBase): this;
 
         /**
          * /**
                      * The on-screen keyboard shown while the field has the focus, if
                      *
-        {@link #getShowVirtualKeyboard showVirtualKeyboard}
+        {@link #getShowKeyboard showKeyboard}
          is set.
                      *
                      * The keyboard types into this field: its value is replaced with the
@@ -299,7 +299,7 @@ declare module "./TextArea" {
                      * as Enter does in a multi-line field. The <code>maxLength</code> of
                      * the field is handed down to it.
          */
-        destroyVirtualKeyboard(): this;
+        destroyKeyboard(): this;
 
         // event: change
 

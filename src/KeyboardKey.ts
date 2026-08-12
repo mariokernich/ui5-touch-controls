@@ -1,7 +1,7 @@
 import Element, { MetadataOptions } from "sap/ui/core/Element";
 
 /**
- * What one key of a {@link ui5.touch.controls.VirtualKeyboard} says.
+ * What one key of a {@link ui5.touch.controls.CustomKeyboard} says.
  *
  * The keyboard has a sign for every key it knows - an arrow for
  * <code>{shift}</code>, an icon for <code>{bksp}</code> - and shows the plain

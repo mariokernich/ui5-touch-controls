@@ -47,12 +47,17 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 			keyboard: [
 				{
 					code: `
-<tc:VirtualKeyboard
-	value="{/quantity}"
+<!-- letters: the arrangement of a country, and nothing else to say -->
+<tc:Keyboard value="{/text}" size="XL" mode="German" change=".onChange" />
+
+<!-- digits -->
+<tc:NumberPad value="{/quantity}" size="XL" showDecimalSeparator="true" />
+
+<!-- and keys of your own, row by row -->
+<tc:CustomKeyboard
+	value="{/code}"
 	size="XL"
-	width="700px"
-	layout="7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}"
-	change=".onChange"
+	layout="A B C, D E F, {bksp} {space} {enter}"
 	enter=".onEnter" />
 `,
 				},

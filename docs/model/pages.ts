@@ -88,10 +88,12 @@ export const portedPages: PageInfo[] = [
 
 /** the controls that have no sap.m equivalent */
 export const additionalPages: PageInfo[] = [
+	{ key: "Keyboard", text: "Keyboard", icon: "sap-icon://keyboard-and-mouse" },
+	{ key: "NumberPad", text: "NumberPad", icon: "sap-icon://numbered-text" },
 	{
-		key: "VirtualKeyboard",
-		text: "VirtualKeyboard",
-		icon: "sap-icon://keyboard-and-mouse",
+		key: "CustomKeyboard",
+		text: "CustomKeyboard",
+		icon: "sap-icon://developer-settings",
 	},
 	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
 	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },

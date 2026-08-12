@@ -24,7 +24,7 @@ import { ISized, SizeMode, sizeClass } from "./library";
  * free text, and what is typed filters the list. The list is the same popover
  * of the library's own buttons, so a row is as high as the field and can be
  * hit with a finger - which also makes the control work together with
- * {@link ui5.touch.controls.VirtualKeyboard} on a device without a keyboard.
+ * {@link ui5.touch.controls.Keyboard} on a device without a keyboard.
  *
  * The items are plain <code>sap.ui.core.Item</code> elements, so an existing
  * <code>sap.m.ComboBox</code> can be exchanged without touching them. With

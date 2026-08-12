@@ -97,7 +97,7 @@ const controls: ControlDoc[] = [
 		original:
 			"A drop-down the user can also type into: what is typed filters the list, and a value that is not in the list is allowed.",
 		description:
-			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states, width and showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of a row. On a phone the list takes the whole screen and brings a field of its own to go on typing in, as it does in sap.m. Fires change and selectionChange.",
+			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with the keyboards of this library on a device without one. Supports value, selectedKey, placeholder, editable, value states, width and showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of a row. On a phone the list takes the whole screen and brings a field of its own to go on typing in, as it does in sap.m. Fires change and selectionChange.",
 	},
 	{
 		name: "DatePicker",
@@ -121,7 +121,7 @@ const controls: ControlDoc[] = [
 		original:
 			"The standard single-line input of sap.m, with placeholder, maximum length, value states and suggestions.",
 		description:
-			"Single-line input with configurable size. A tc:VirtualKeyboard can be put into its virtualKeyboard aggregation; with showVirtualKeyboard it then opens in a popover below the field while the field has the focus and types into it.",
+			"Single-line input with configurable size. A keyboard of this library - tc:Keyboard, tc:NumberPad or tc:CustomKeyboard - can be put into its keyboard aggregation; with showKeyboard it then opens in a popover below the field while the field has the focus and types into it.",
 	},
 	{
 		name: "TextArea",
@@ -129,7 +129,7 @@ const controls: ControlDoc[] = [
 		original:
 			"The standard multi-line input of sap.m, with rows, a maximum length and value states.",
 		description:
-			"Multi-line input with configurable size, rows, max length and value states. Takes a VirtualKeyboard in its virtualKeyboard aggregation just like the Input does; there the Enter key adds a line break. Fires change / liveChange.",
+			"Multi-line input with configurable size, rows, max length and value states. Takes a keyboard in its keyboard aggregation just like the Input does; there the Enter key adds a line break. Fires change / liveChange.",
 	},
 	{
 		name: "Text",
@@ -177,10 +177,22 @@ const controls: ControlDoc[] = [
 			"Input field that tells a barcode scanner from a person typing: a run of at least minLength characters whose gaps stay below scanTimeout and that is closed by Enter fires scan, everything else fires change. prefix and suffix are cut off the code, clearOnScan empties the field for the next one.",
 	},
 	{
-		name: "VirtualKeyboard",
+		name: "Keyboard",
 		replaces: NEW_CONTROL,
 		description:
-			"On-screen keyboard built from the library's own buttons. The mode property picks one of the ready-made layouts (QWERTY, Numeric, Phone, Calculator); mode Custom reads a layout of your own from the layout property (incl. {shift}, {space}, {bksp}, {enter}). Optional hardware key input, value binding and change / keyPress / enter events.",
+			"On-screen keyboard of letters, built from the library's own buttons. The mode property picks the arrangement of a country - English, German, French, Spanish, Ukrainian, Russian, Hindi - and a handful of switches say what else is on it: displayNumbers puts the digits over the letters or behind a key, showSpecialCharacters adds a set of signs, letterCase pins the keyboard to capitals or lower case, showCapsLock and showEscape add a key each. Optional hardware key input, value binding and change / keyPress / enter / escape events.",
+	},
+	{
+		name: "NumberPad",
+		replaces: NEW_CONTROL,
+		description:
+			"On-screen pad of digits in three columns. The mode property picks the block - Simple (the pad of a computer), Phone (the pad of a telephone) or Calculator (with the four basic operations) - and showDecimalSeparator, decimalSeparator, showSign and showSpecialCharacters add what a field needs beyond the digits. Shares its value handling, sizing and docking with the other keyboards.",
+	},
+	{
+		name: "CustomKeyboard",
+		replaces: NEW_CONTROL,
+		description:
+			"On-screen keyboard whose keys are handed to it: the layout property is the rows of one set, the layouts aggregation carries as many sets as are needed, and a key written as the name of a set switches to it. The display aggregation says what a single key reads. This is the keyboard for everything the ready-made ones do not cover.",
 	},
 	{
 		name: "SignaturePad",

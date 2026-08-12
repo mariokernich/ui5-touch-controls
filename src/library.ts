@@ -31,51 +31,77 @@ export enum SizeMode {
 }
 
 /**
- * The keyboard layouts a {@link ui5.touch.controls.VirtualKeyboard} brings
- * along.
- *
- * Everything but <code>Custom</code> is a ready-made layout - the control
- * knows its rows and the <code>layout</code> property is not looked at. Only
- * <code>Custom</code> hands the keyboard over to that property.
+ * The arrangement of the letters of a {@link ui5.touch.controls.Keyboard} -
+ * the keyboard of a country, by the language it is used for.
  */
 export enum KeyboardMode {
-	/** letters and digits, in the arrangement of an English keyboard */
-	QWERTY = "QWERTY",
-	/** the German arrangement: Z and Y are swapped against QWERTY */
-	QWERTZ = "QWERTZ",
-	/** the French arrangement: A and Q, Z and W are swapped, M moves */
-	AZERTY = "AZERTY",
+	/** the English arrangement, QWERTY */
+	English = "English",
+	/** the German arrangement, QWERTZ: Z and Y are swapped against English */
+	German = "German",
+	/** the French arrangement, AZERTY */
+	French = "French",
 	/** the Spanish arrangement: QWERTY with an Ñ next to the L */
 	Spanish = "Spanish",
-	/** the Ukrainian arrangement, ЙЦУКЕН */
+	/** the Ukrainian arrangement, ЙЦУКЕН, with І, Ї and Є */
 	Ukrainian = "Ukrainian",
-	/** the Russian arrangement, ЙЦУКЕН with Ы, Э and Ъ */
+	/** the Russian arrangement, ЙЦУКЕН, with Ы, Э and Ъ */
 	Russian = "Russian",
 	/**
 	 * Devanagari in the InScript arrangement, the Indian standard. The
 	 * consonants that are not on the first set are one shift away, which is
-	 * a set of its own rather than upper case - Devanagari has no case.
+	 * a set of its own rather than upper case - Devanagari has no case, and
+	 * {@link ui5.touch.controls.LetterCase} is therefore not looked at.
 	 */
 	Hindi = "Hindi",
+}
+
+/**
+ * Whether a {@link ui5.touch.controls.Keyboard} shows digits, and how.
+ */
+export enum NumberKeys {
+	/** no digits, and no way to them */
+	Never = "Never",
+	/** a row of digits over the letters, the way a keyboard of keys has it */
+	Always = "Always",
 	/**
-	 * QWERTY as a phone draws it: letters only, with the digits behind a
-	 * key of their own instead of a row that makes every key narrow
+	 * letters only, with the digits behind a key of their own - the way a
+	 * phone does it, where a row of digits would make every key narrow
 	 */
-	QWERTYMobile = "QWERTYMobile",
-	/** the same in the German arrangement */
-	QWERTZMobile = "QWERTZMobile",
-	/** the digits of a number pad, 7 8 9 on top */
-	Numeric = "Numeric",
-	/** a number pad that also writes a decimal point and a minus */
-	Decimal = "Decimal",
-	/** letters as a phone draws them, with the parts of an address at hand */
-	Email = "Email",
-	/** the digits of a telephone, 1 2 3 on top, with * and # */
+	Toggle = "Toggle",
+	/**
+	 * <code>Always</code> on a computer and a tablet, <code>Toggle</code> on
+	 * a phone. Which of the two it is is decided once, by the device the page
+	 * was opened on.
+	 */
+	ToggleOnMobile = "ToggleOnMobile",
+}
+
+/**
+ * The case a {@link ui5.touch.controls.Keyboard} writes its letters in.
+ *
+ * A field that has a case of its own - a material number, a licence plate, a
+ * batch - gets a keyboard that writes it, and no key that would change it.
+ */
+export enum LetterCase {
+	/** lower case, with a shift key and a caps lock to write capitals */
+	Mixed = "Mixed",
+	/** capitals only, and no key to switch the case */
+	Upper = "Upper",
+	/** lower case only, and no key to switch the case */
+	Lower = "Lower",
+}
+
+/**
+ * The digit block of a {@link ui5.touch.controls.NumberPad}.
+ */
+export enum NumberPadMode {
+	/** the pad of a computer: 7 8 9 on top, and a zero under it */
+	Simple = "Simple",
+	/** the pad of a telephone: 1 2 3 on top, with * and # beside the zero */
 	Phone = "Phone",
-	/** the digits of a number pad with the four basic operations */
+	/** the pad of a computer with the four basic operations and an equals */
 	Calculator = "Calculator",
-	/** the rows come from the <code>layout</code> property */
-	Custom = "Custom",
 }
 
 /**
@@ -127,16 +153,26 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		// keep in sync with the ui5.yaml and .library files
 		"sap.ui.core",
 	],
-	types: ["ui5.touch.controls.SizeMode"],
+	types: [
+		"ui5.touch.controls.SizeMode",
+		"ui5.touch.controls.KeyboardMode",
+		"ui5.touch.controls.NumberKeys",
+		"ui5.touch.controls.LetterCase",
+		"ui5.touch.controls.NumberPadMode",
+	],
 	interfaces: ["ui5.touch.controls.ISized"],
 	controls: [
 		"ui5.touch.controls.BarcodeInput",
 		"ui5.touch.controls.Button",
 		"ui5.touch.controls.CheckBox",
 		"ui5.touch.controls.ComboBox",
+		"ui5.touch.controls.CustomKeyboard",
 		"ui5.touch.controls.DatePicker",
 		"ui5.touch.controls.Input",
+		"ui5.touch.controls.Keyboard",
+		"ui5.touch.controls.KeyboardBase",
 		"ui5.touch.controls.Link",
+		"ui5.touch.controls.NumberPad",
 		"ui5.touch.controls.OverflowToolbar",
 		"ui5.touch.controls.RadioButton",
 		"ui5.touch.controls.RadioButtonGroup",
@@ -149,7 +185,6 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"ui5.touch.controls.TextArea",
 		"ui5.touch.controls.TimePicker",
 		"ui5.touch.controls.Toolbar",
-		"ui5.touch.controls.VirtualKeyboard",
 	],
 	elements: [
 		"ui5.touch.controls.KeyboardKey",
@@ -161,6 +196,9 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 
 thisLib.SizeMode = SizeMode;
 thisLib.KeyboardMode = KeyboardMode;
+thisLib.NumberKeys = NumberKeys;
+thisLib.LetterCase = LetterCase;
+thisLib.NumberPadMode = NumberPadMode;
 
 // Register the library's own icon font so its SVG-based icons (backspace,
 // enter) render as real font glyphs and therefore inherit the current text

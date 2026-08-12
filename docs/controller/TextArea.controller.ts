@@ -24,8 +24,8 @@ export default class TextArea extends BaseController {
 				enabled: true,
 				editable: true,
 				valueState: "None",
-				showVirtualKeyboard: false,
-				keyboardMode: KeyboardMode.QWERTY,
+				showKeyboard: false,
+				keyboardMode: KeyboardMode.English,
 				keyboardDocked: false,
 			},
 			true,
@@ -51,10 +51,10 @@ export default class TextArea extends BaseController {
 		value="{/remark}"
 		rows="4"
 		size="XL"
-		showVirtualKeyboard="true">
-		<tc:virtualKeyboard>
-			<tc:VirtualKeyboard size="XL" mode="QWERTY" />
-		</tc:virtualKeyboard>
+		showKeyboard="true">
+		<tc:keyboard>
+			<tc:Keyboard size="XL" mode="English" />
+		</tc:keyboard>
 	</tc:TextArea>
 
 	<!-- docked: the keyboard sits at the bottom edge of the screen instead
@@ -63,10 +63,10 @@ export default class TextArea extends BaseController {
 		value="{/note}"
 		rows="4"
 		size="XL"
-		showVirtualKeyboard="true">
-		<tc:virtualKeyboard>
-			<tc:VirtualKeyboard size="XL" mode="QWERTZ" docked="true" />
-		</tc:virtualKeyboard>
+		showKeyboard="true">
+		<tc:keyboard>
+			<tc:Keyboard size="XL" mode="German" docked="true" />
+		</tc:keyboard>
 	</tc:TextArea>
 </mvc:View>
 `);
