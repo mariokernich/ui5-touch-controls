@@ -33,7 +33,7 @@ export default class BarcodeInput extends BaseController {
 				prefix: "",
 				suffix: "",
 				clearOnScan: true,
-				size: SizeMode.XL,
+				size: SizeMode.L,
 				enabled: true,
 				editable: true,
 				valueState: "None",
