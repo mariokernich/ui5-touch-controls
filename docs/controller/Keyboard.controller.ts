@@ -5,7 +5,11 @@ import type {
 	KeyboardBase$EnterEvent,
 	KeyboardBase$EscapeEvent,
 } from "ui5/touch/controls/KeyboardBase";
-import { KeyboardMode, LetterCase, NumberKeys } from "ui5/touch/controls/library";
+import {
+	KeyboardMode,
+	LetterCase,
+	NumberKeys,
+} from "ui5/touch/controls/library";
 import type { KeyboardModeDoc } from "../model/keyboardModes";
 import { keyboardModeDocs } from "../model/keyboardModes";
 import BaseController from "./BaseController";
@@ -31,7 +35,7 @@ export default class Keyboard extends BaseController {
 				showCapsLock: false,
 				showEscape: false,
 				enterText: "",
-				size: "L",
+				size: "2XL",
 				enabled: true,
 				hardwareKeys: true,
 				docked: false,

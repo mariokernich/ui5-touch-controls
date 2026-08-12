@@ -31,7 +31,7 @@ export default class NumberPad extends BaseController {
 				showSpecialCharacters: false,
 				showEscape: false,
 				enterText: "",
-				size: "L",
+				size: "2XL",
 				enabled: true,
 				hardwareKeys: true,
 				docked: false,

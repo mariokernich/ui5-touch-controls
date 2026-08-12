@@ -10,7 +10,8 @@ import BaseController from "./BaseController";
 
 /** the layouts the example select offers, as they would stand in a view */
 const EXAMPLES: Record<string, string> = {
-	plate: "A B C D E F G H I J,\nK L M N O P Q R S T,\nU V W X Y Z,\n1 2 3 4 5 6 7 8 9 0,\n{bksp} {space} {enter}",
+	plate:
+		"A B C D E F G H I,\nJ K L M N O P Q R,\nS T U V W X Y Z,\n1 2 3 4 5 6 7 8 9 0,\n{bksp} {space} {enter}",
 	sizes: "XS S M L,\nXL 2XL 3XL,\n{bksp} {enter}",
 	sets: "",
 };
@@ -167,10 +168,7 @@ applyLayout() {
 			return;
 		}
 
-		this.model.setProperty(
-			"/layoutText",
-			this.getText("phLayoutSets"),
-		);
+		this.model.setProperty("/layoutText", this.getText("phLayoutSets"));
 
 		const keyboard = this.getKeyboard();
 		keyboard.destroyLayouts();

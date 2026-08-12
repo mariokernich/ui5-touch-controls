@@ -18,7 +18,7 @@ export default class SignaturePad extends BaseController {
 				preview: "",
 				placeholder: "Sign here",
 				height: "12rem",
-				size: SizeMode.XL,
+				size: SizeMode.L,
 				enabled: true,
 				showClearButton: true,
 				valueState: "None",
