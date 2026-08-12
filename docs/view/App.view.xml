@@ -75,11 +75,22 @@
 					href="https://github.com/mariokernich/ui5-touch-controls"
 					target="_blank"
 					class="touchControlsHeaderGithub" />
-				<Link
+				<!-- On a phone the header has no room for both marks, so this one
+				     is the first to move behind the overflow button. That is why
+				     it is a button and not a link like the one beside it: a link
+				     says of itself that it cannot overflow, so a toolbar keeps it
+				     where it is. An OverflowToolbarButton shows its text only in
+				     the overflow, where the bare mark would say little. -->
+				<OverflowToolbarButton
+					type="Transparent"
+					text="npm"
 					tooltip="{i18n>npmTooltip}"
-					href="https://www.npmjs.com/package/ui5.touch.controls"
-					target="_blank"
-					class="touchControlsHeaderNpm" />
+					press=".onNpmPress"
+					class="touchControlsHeaderNpm">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="Low" />
+					</layoutData>
+				</OverflowToolbarButton>
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:sideContent>

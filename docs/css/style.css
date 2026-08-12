@@ -73,24 +73,37 @@ body,
 	mask: url("../github.svg") no-repeat center / contain;
 }
 
-/* the same for the npm mark, which is wider than it is tall */
-.touchControlsHeaderNpm.sapMLnk {
-	display: inline-flex;
+/* The same for the npm mark, which is wider than it is tall. It sits on a
+   button, not on a link: only a button may be moved into the overflow of a
+   toolbar, which is where it goes when the header of a phone runs out of room.
+   The mark is drawn in front of the label of the button - which an
+   OverflowToolbarButton only shows once it is in that overflow. */
+.touchControlsHeaderNpm.sapMBtn .sapMBtnInner::before {
+	content: "";
+	display: inline-block;
 	/* the npm mark is a wide one, so it gets the room to stay legible next to
 	   the square of the other */
 	width: 1.75rem;
 	height: 1.25rem;
-	margin-inline-start: 0.75rem;
-	color: var(--sapShell_TextColor, currentColor);
-}
-
-.touchControlsHeaderNpm.sapMLnk::before {
-	content: "";
-	width: 100%;
-	height: 100%;
 	background-color: currentColor;
 	-webkit-mask: url("../npm.svg") no-repeat center / contain;
 	mask: url("../npm.svg") no-repeat center / contain;
+	vertical-align: middle;
+}
+
+.touchControlsHeaderNpm.sapMBtn .sapMBtnInner {
+	color: var(--sapShell_TextColor, currentColor);
+}
+
+/* A box in a card is told to be as wide as the card and given margins on top
+   of that: the two together reach past its edge, and a card clips what sticks
+   out. The margins are what keeps the content off that edge, so it is the
+   width that gives way. Nothing shows of it until something inside really
+   takes the full width - a keyboard on a narrow screen, for instance. */
+.sapFCardContent > .sapMFlexBox.sapUiSmallMarginBegin.sapUiSmallMarginEnd {
+	/* the width of a FlexBox is written as an inline style, so this is what it
+	   takes to correct it from here */
+	width: calc(100% - 2rem) !important;
 }
 
 /* ---------------------------------------------------------------------------

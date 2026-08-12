@@ -1,6 +1,7 @@
 import ResponsivePopover from "sap/m/ResponsivePopover";
 import Device from "sap/ui/Device";
 import Text from "sap/m/Text";
+import Title from "sap/m/Title";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import VBox from "sap/m/VBox";
 import { FlexRendertype, PlacementType } from "sap/m/library";
@@ -9,7 +10,7 @@ import type Item from "sap/ui/core/Item";
 import type ListItem from "sap/ui/core/ListItem";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { ValueState } from "sap/ui/core/library";
+import { TitleLevel, ValueState } from "sap/ui/core/library";
 import Button from "./Button";
 import Input from "./Input";
 import Toolbar from "./Toolbar";
@@ -114,6 +115,16 @@ export default class ComboBox extends Control implements ISized {
 				group: "Misc",
 				defaultValue: false,
 			},
+			/**
+			 * The heading over the list on a phone, where the list takes the
+			 * whole screen and the field it belongs to is behind it. An empty
+			 * title falls back to <code>Select</code>, the way
+			 * <code>sap.m.ComboBox</code> does.
+			 *
+			 * Nothing is shown of it on a larger screen: there the list is a
+			 * popover on the field and needs no heading to say what it is.
+			 */
+			pickerTitle: { type: "string", group: "Misc", defaultValue: "" },
 			/**
 			 * Touch size of the field and of the rows in the list.
 			 */
@@ -409,16 +420,22 @@ export default class ComboBox extends Control implements ISized {
 	}
 
 	/**
-	 * The bar a phone picker is left by.
+	 * The bar over a phone picker: what it is, and the way out of it.
 	 *
-	 * A picker that fills the screen cannot be left by tapping beside it, so it
-	 * needs a way out of its own. It says OK rather than Cancel because what is
-	 * typed into the field below is taken over as it is typed - there is
-	 * nothing left to undo by then.
+	 * A picker that fills the screen cannot be left by tapping beside it, and
+	 * the field it belongs to is behind it - so it says what is being picked
+	 * and brings its own way back, both the way <code>sap.m.ComboBox</code>
+	 * does. It says OK rather than Cancel because what is typed into the field
+	 * below is taken over as it is typed - there is nothing left to undo by
+	 * then.
 	 */
 	private createPickerHeader(): Toolbar {
 		return new Toolbar({
 			content: [
+				new Title({
+					text: this.getPickerTitle() || "Select",
+					level: TitleLevel.H2,
+				}),
 				new ToolbarSpacer(),
 				new Button({
 					text: "OK",

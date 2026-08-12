@@ -102,9 +102,25 @@ On a shop floor terminal, a kiosk or a device operated with gloves there is ofte
 
 ![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
 
-Which keys it shows is one property: `mode` picks one of the ready-made layouts — `QWERTY` (the default), `QWERTZ` (the German arrangement, Z and Y swapped), `QWERTYMobile` and `QWERTZMobile` (the same two as a phone draws them: letters only, the digits behind a key of their own instead of a row that makes every key narrow), `Numeric`, `Decimal` (the number pad with a decimal point and a minus), `PIN` (the digits alone), `Email` and `URL` (letters as a phone draws them, with what an address is made of at hand), `Phone` or `Calculator`.
+Which keys it shows is one property: `mode` picks one of the ready-made layouts.
 
-A keyboard is never scrolled sideways. Where the room is tight the keys share what there is and give up the padding at their sides first; the height comes from `size` and stays as it is, so a key is as easy to hit as it was.
+| Mode | What is on it |
+| --- | --- |
+| `QWERTY` | letters and digits, in the arrangement of an English keyboard — the default |
+| `QWERTZ` | the German arrangement: Z and Y swapped |
+| `AZERTY` | the French arrangement: A and Q, Z and W swapped, M at the end of the home row |
+| `Spanish` | QWERTY with an Ñ next to the L |
+| `Ukrainian` | ЙЦУКЕН, the Ukrainian arrangement with І, Ї and Є |
+| `Russian` | ЙЦУКЕН with Ы, Э and Ъ |
+| `Hindi` | Devanagari in the InScript arrangement, the Indian standard. The consonants that are not on the first set are one `{shift}` away — a set of its own, not upper case, since Devanagari has no case |
+| `QWERTYMobile`, `QWERTZMobile` | the same two as a phone draws them: letters only, the digits behind a key of their own instead of a row that makes every key narrow |
+| `Numeric` | a number pad, 7 8 9 on top |
+| `Decimal` | the number pad with a decimal point and a minus |
+| `Email` | letters as a phone draws them, with the @ and the dot at hand |
+| `Phone` | the digits of a telephone, 1 2 3 on top, with \* and # |
+| `Calculator` | a number pad with the four basic operations |
+
+A key would like to be as wide as it is tall — a square target under a thumb, and the width the keyboard brings along when nothing constrains it. That width is also the first thing to give: a keyboard is never scrolled sideways, so where the room is tight the keys share what there is instead. The height comes from `size` and stays as it is, so a key is as easy to hit as it was. Setting `width` on the keyboard has the same effect as a narrow screen.
 
 ```xml
 <tc:VirtualKeyboard
@@ -384,8 +400,8 @@ These are rebuilds of standard controls. They keep the properties, aggregations 
 | `tc:CheckBox` | `sap.m.CheckBox` | Check box whose box, check mark, label and hit area scale together. Supports `selected`, `partiallySelected`, `text`, `editable`, `wrapping`, value states and `width`. Fires `select`. |
 | `tc:RadioButton` / `tc:RadioButtonGroup` | `sap.m.RadioButton` / `sap.m.RadioButtonGroup` | Circle, dot, label and hit area scale together. Buttons sharing a `groupName` are mutually exclusive; the group arranges them in `columns` and hands its `size`, `enabled`, `editable` and value state down to them. Fires `select`. |
 | `tc:Switch` | `sap.m.Switch` | Track, handle and label scale together, where `sap.m.Switch` is fixed at 4rem x 2rem. Supports `state`, `customTextOn`, `customTextOff` and the `AcceptReject` type. Fires `change`. |
-| `tc:Select` | `sap.m.Select` | Drop-down filled with plain `sap.ui.core.Item` elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of `sap.m.Select` keeps its standard row height however large the field is. Supports `selectedKey`, `editable`, `forceSelection`, value states and `width`. On a phone the list takes the whole screen, as it does in `sap.m`. Fires `change`. |
-| `tc:ComboBox` | `sap.m.ComboBox` | A `tc:Select` the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with `tc:VirtualKeyboard` on a device without a keyboard. Supports `value`, `selectedKey`, `placeholder`, `editable`, value states, `width` and `showSecondaryValues`, which puts the `additionalText` of a `sap.ui.core.ListItem` at the end of a row. On a phone the list takes the whole screen and brings a field of its own to go on typing in, as it does in `sap.m`. Fires `change` and `selectionChange`. |
+| `tc:Select` | `sap.m.Select` | Drop-down filled with plain `sap.ui.core.Item` elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of `sap.m.Select` keeps its standard row height however large the field is. Supports `selectedKey`, `editable`, `forceSelection`, value states and `width`. On a phone the list takes the whole screen, as it does in `sap.m`, under the heading of `pickerTitle`. Fires `change`. |
+| `tc:ComboBox` | `sap.m.ComboBox` | A `tc:Select` the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with `tc:VirtualKeyboard` on a device without a keyboard. Supports `value`, `selectedKey`, `placeholder`, `editable`, value states, `width` and `showSecondaryValues`, which puts the `additionalText` of a `sap.ui.core.ListItem` at the end of a row. On a phone the list takes the whole screen under the heading of `pickerTitle` and brings a field of its own to go on typing in, as it does in `sap.m`. Fires `change` and `selectionChange`. |
 | `tc:DatePicker` | `sap.m.DatePicker` | Field with a calendar built from the library's own buttons, so a day is a square that grows with `size` instead of the fixed grid of `sap.ui.unified.Calendar`. Days and months view, `minDate` / `maxDate`, `valueFormat` and `displayFormat`. Fires `change`. |
 | `tc:TimePicker` | `sap.m.TimePicker` | Field with two columns of buttons — hours and minutes — so a time is picked with one tap on a target that grows with `size`, where `sap.m.TimePicker` uses a slider that has to be dragged. Supports `minutesStep`, `valueFormat` and `displayFormat`. Fires `change`. |
 | `tc:Input` | `sap.m.Input` | Single-line input with configurable size. A `tc:VirtualKeyboard` can be put into its `virtualKeyboard` aggregation; with `showVirtualKeyboard` it then opens in a popover below the field while the field has the focus and types into it. |

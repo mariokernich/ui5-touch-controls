@@ -39,10 +39,24 @@ export enum SizeMode {
  * <code>Custom</code> hands the keyboard over to that property.
  */
 export enum KeyboardMode {
-	/** letters and digits, in the arrangement of a computer keyboard */
+	/** letters and digits, in the arrangement of an English keyboard */
 	QWERTY = "QWERTY",
-	/** the same, in the German arrangement: Z and Y are swapped */
+	/** the German arrangement: Z and Y are swapped against QWERTY */
 	QWERTZ = "QWERTZ",
+	/** the French arrangement: A and Q, Z and W are swapped, M moves */
+	AZERTY = "AZERTY",
+	/** the Spanish arrangement: QWERTY with an Ñ next to the L */
+	Spanish = "Spanish",
+	/** the Ukrainian arrangement, ЙЦУКЕН */
+	Ukrainian = "Ukrainian",
+	/** the Russian arrangement, ЙЦУКЕН with Ы, Э and Ъ */
+	Russian = "Russian",
+	/**
+	 * Devanagari in the InScript arrangement, the Indian standard. The
+	 * consonants that are not on the first set are one shift away, which is
+	 * a set of its own rather than upper case - Devanagari has no case.
+	 */
+	Hindi = "Hindi",
 	/**
 	 * QWERTY as a phone draws it: letters only, with the digits behind a
 	 * key of their own instead of a row that makes every key narrow
@@ -54,12 +68,8 @@ export enum KeyboardMode {
 	Numeric = "Numeric",
 	/** a number pad that also writes a decimal point and a minus */
 	Decimal = "Decimal",
-	/** the digits alone, for a code or a PIN */
-	PIN = "PIN",
 	/** letters as a phone draws them, with the parts of an address at hand */
 	Email = "Email",
-	/** the same for a web address */
-	URL = "URL",
 	/** the digits of a telephone, 1 2 3 on top, with * and # */
 	Phone = "Phone",
 	/** the digits of a number pad with the four basic operations */

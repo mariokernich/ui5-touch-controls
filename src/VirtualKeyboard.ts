@@ -87,28 +87,34 @@ const LAYOUT_SETS: Partial<Record<KeyboardMode, LayoutSet[]>> = {
 			rows: ["1 2 3 4 5 6 7 8 9 0", "- _ . @ + {bksp}", "{abc} {space} {enter}"],
 		},
 	],
-	[KeyboardMode.URL]: [
+	// Devanagari in the InScript arrangement, the Indian standard. It does not
+	// fit on one set: the script has more consonants than a keyboard has keys,
+	// and the rest sit on the shifted positions - which is a set of its own
+	// here, not upper case, because Devanagari has no case to switch to.
+	[KeyboardMode.Hindi]: [
 		{
 			name: "default",
 			rows: [
-				"q w e r t y u i o p",
-				"a s d f g h j k l",
-				"{shift} z x c v b n m {bksp}",
-				"{numbers} . / {space} {enter}",
+				"१ २ ३ ४ ५ ६ ७ ८ ९ ०",
+				"ौ ै ा ी ू ब ह ग द ज ड",
+				"ो े ् ि ु प र क त च ट",
+				"{shift} ॉ ं म न व ल स य {bksp}",
+				"{numbers} {space} {enter}",
 			],
 		},
 		{
 			name: "shift",
 			rows: [
-				"Q W E R T Y U I O P",
-				"A S D F G H J K L",
-				"{shift} Z X C V B N M {bksp}",
-				"{numbers} . / {space} {enter}",
+				"१ २ ३ ४ ५ ६ ७ ८ ९ ०",
+				"औ ऐ आ ई ऊ भ ङ घ ध झ ढ",
+				"ओ ए अ इ उ फ ऱ ख थ छ ठ",
+				"{shift} ऑ ँ ण ऩ ळ श ष य़ {bksp}",
+				"{numbers} {space} {enter}",
 			],
 		},
 		{
 			name: "numbers",
-			rows: ["1 2 3 4 5 6 7 8 9 0", "- _ . / : ? = & {bksp}", "{abc} {space} {enter}"],
+			rows: ["1 2 3 4 5 6 7 8 9 0", "। , . ? ! - {bksp}", "{abc} {space} {enter}"],
 		},
 	],
 };
@@ -128,10 +134,38 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 		"{shift} y x c v b n m {bksp}",
 		"{space} {enter}",
 	],
+	[KeyboardMode.AZERTY]: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"{tab} a z e r t y u i o p",
+		"{lock} q s d f g h j k l m",
+		"{shift} w x c v b n {bksp}",
+		"{space} {enter}",
+	],
+	[KeyboardMode.Spanish]: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"{tab} q w e r t y u i o p",
+		"{lock} a s d f g h j k l ñ",
+		"{shift} z x c v b n m {bksp}",
+		"{space} {enter}",
+	],
+	[KeyboardMode.Ukrainian]: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"{tab} й ц у к е н г ш щ з х ї",
+		"{lock} ф і в а п р о л д ж є",
+		"{shift} я ч с м и т ь б ю {bksp}",
+		"{space} {enter}",
+	],
+	[KeyboardMode.Russian]: [
+		"1 2 3 4 5 6 7 8 9 0",
+		"{tab} й ц у к е н г ш щ з х ъ",
+		"{lock} ф ы в а п р о л д ж э",
+		"{shift} я ч с м и т ь б ю {bksp}",
+		"{space} {enter}",
+	],
+	[KeyboardMode.Hindi]: LAYOUT_SETS[KeyboardMode.Hindi]![0].rows,
 	[KeyboardMode.QWERTYMobile]: LAYOUT_SETS[KeyboardMode.QWERTYMobile]![0].rows,
 	[KeyboardMode.QWERTZMobile]: LAYOUT_SETS[KeyboardMode.QWERTZMobile]![0].rows,
 	[KeyboardMode.Email]: LAYOUT_SETS[KeyboardMode.Email]![0].rows,
-	[KeyboardMode.URL]: LAYOUT_SETS[KeyboardMode.URL]![0].rows,
 	[KeyboardMode.Numeric]: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
 	[KeyboardMode.Decimal]: [
 		"7 8 9",
@@ -140,7 +174,6 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 		"- 0 .",
 		"{bksp} {enter}",
 	],
-	[KeyboardMode.PIN]: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 {enter}"],
 	[KeyboardMode.Phone]: [
 		"1 2 3",
 		"4 5 6",
@@ -184,11 +217,14 @@ const SET_KEY_TEXTS: Record<string, string> = {
  * the library's own {@link ui5.touch.controls.Button} controls — no
  * third-party keyboard dependency.
  *
- * Which keys it shows is a matter of the {@link #getMode mode} property:
- * <code>QWERTY</code> and <code>QWERTZ</code>, the two as a phone draws them
- * in <code>QWERTYMobile</code> and <code>QWERTZMobile</code>,
- * <code>Numeric</code>, <code>Phone</code> and <code>Calculator</code> are
- * ready-made; <code>Custom</code> hands the keyboard over to the
+ * Which keys it shows is a matter of the {@link #getMode mode} property. The
+ * arrangements of the countries are ready-made - <code>QWERTY</code>,
+ * <code>QWERTZ</code>, <code>AZERTY</code>, <code>Spanish</code>,
+ * <code>Ukrainian</code>, <code>Russian</code> and <code>Hindi</code> - as are
+ * the two a phone draws in <code>QWERTYMobile</code> and
+ * <code>QWERTZMobile</code> and the pads <code>Numeric</code>,
+ * <code>Decimal</code>, <code>Email</code>, <code>Phone</code> and
+ * <code>Calculator</code>. <code>Custom</code> hands the keyboard over to the
  * {@link #getLayout layout} property or to the sets in its
  * <code>layouts</code> aggregation.
  *

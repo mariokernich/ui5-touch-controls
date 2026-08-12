@@ -15,13 +15,16 @@ export interface KeyboardModeDoc {
 const readyMade = [
 	KeyboardMode.QWERTY,
 	KeyboardMode.QWERTZ,
+	KeyboardMode.AZERTY,
+	KeyboardMode.Spanish,
+	KeyboardMode.Ukrainian,
+	KeyboardMode.Russian,
+	KeyboardMode.Hindi,
 	KeyboardMode.QWERTYMobile,
 	KeyboardMode.QWERTZMobile,
 	KeyboardMode.Numeric,
 	KeyboardMode.Decimal,
-	KeyboardMode.PIN,
 	KeyboardMode.Email,
-	KeyboardMode.URL,
 	KeyboardMode.Phone,
 	KeyboardMode.Calculator,
 ];

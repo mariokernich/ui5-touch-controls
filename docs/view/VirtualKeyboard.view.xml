@@ -36,13 +36,16 @@
 							<Select selectedKey="{json>/mode}">
 								<core:Item key="QWERTY" text="QWERTY" />
 								<core:Item key="QWERTZ" text="QWERTZ" />
+								<core:Item key="AZERTY" text="AZERTY" />
+								<core:Item key="Spanish" text="Spanish" />
+								<core:Item key="Ukrainian" text="Ukrainian" />
+								<core:Item key="Russian" text="Russian" />
+								<core:Item key="Hindi" text="Hindi" />
 								<core:Item key="QWERTYMobile" text="QWERTYMobile" />
 								<core:Item key="QWERTZMobile" text="QWERTZMobile" />
 								<core:Item key="Numeric" text="Numeric" />
 								<core:Item key="Decimal" text="Decimal" />
-								<core:Item key="PIN" text="PIN" />
 								<core:Item key="Email" text="Email" />
-								<core:Item key="URL" text="URL" />
 								<core:Item key="Phone" text="Phone" />
 								<core:Item key="Calculator" text="Calculator" />
 								<core:Item key="Custom" text="Custom" />

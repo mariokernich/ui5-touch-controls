@@ -66,6 +66,17 @@ declare module "./ComboBox" {
         showSecondaryValues?: boolean | PropertyBindingInfo | `{${string}}`;
 
         /**
+         * The heading over the list on a phone, where the list takes the
+        whole screen and the field it belongs to is behind it. An empty
+        title falls back to <code>Select</code>, the way
+        <code>sap.m.ComboBox</code> does.
+        
+        Nothing is shown of it on a larger screen: there the list is a
+        popover on the field and needs no heading to say what it is.
+         */
+        pickerTitle?: string | PropertyBindingInfo;
+
+        /**
          * Touch size of the field and of the rows in the list.
          */
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
@@ -206,6 +217,30 @@ declare module "./ComboBox" {
         supported here.
          */
         setShowSecondaryValues(showSecondaryValues: boolean): this;
+
+        // property: pickerTitle
+
+        /**
+         * The heading over the list on a phone, where the list takes the
+        whole screen and the field it belongs to is behind it. An empty
+        title falls back to <code>Select</code>, the way
+        <code>sap.m.ComboBox</code> does.
+        
+        Nothing is shown of it on a larger screen: there the list is a
+        popover on the field and needs no heading to say what it is.
+         */
+        getPickerTitle(): string;
+
+        /**
+         * The heading over the list on a phone, where the list takes the
+        whole screen and the field it belongs to is behind it. An empty
+        title falls back to <code>Select</code>, the way
+        <code>sap.m.ComboBox</code> does.
+        
+        Nothing is shown of it on a larger screen: there the list is a
+        popover on the field and needs no heading to say what it is.
+         */
+        setPickerTitle(pickerTitle: string): this;
 
         // property: size
 

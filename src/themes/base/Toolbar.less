@@ -2,4 +2,10 @@
     background: var(--sapToolbar_Background);
     padding: 0 0.5rem;
 	overflow: hidden;
+	/* everything on a toolbar stands on one line: what has a height of its own
+	   keeps it, and what has not - a title, a text - is put in the middle of
+	   the line rather than against its upper edge */
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }

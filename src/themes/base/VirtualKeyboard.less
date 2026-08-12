@@ -22,14 +22,19 @@
 	gap: 0.3125rem;
 }
 
-/* Keys stretch evenly across the row, and shrink with it: a row of ten keys
-   is wider than a narrow screen, and a keyboard that has to be scrolled
-   sideways is of no use to a thumb. What keeps a key from getting narrower is
-   the padding it carries left and right - a key cannot be smaller than its own
-   frame - so that is what gives way first. The height comes from the size and
-   stays as it is, which is what a key has to be hit by. */
+/* A key would like to be as wide as it is tall - a square target under a
+   thumb, and the width the keyboard brings along when nothing constrains it.
+   That width is also the first thing to give: a row of ten keys is wider than
+   a narrow screen, and a keyboard that has to be scrolled sideways is of no
+   use to a thumb, so the keys share what room there is instead. The height
+   comes from the size and stays as it is, which is what a key has to be hit
+   by. */
 .touchVirtualKeyboardRow > .sizedButton {
-	flex: 1 1 0;
+	/* the width a key would like to have, which is also what the keyboard is
+	   measured by where nothing constrains it - a width on the flex shorthand
+	   would be a flex basis, and a flex basis is not counted towards that */
+	width: var(--sized-height);
+	flex: 1 1 auto;
 	min-width: 0;
 	margin: 0;
 	padding-left: 0.25rem;

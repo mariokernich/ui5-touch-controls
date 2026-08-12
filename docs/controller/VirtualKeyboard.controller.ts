@@ -25,7 +25,7 @@ export default class VirtualKeyboard extends BaseController {
 		this.model = new JSONModel(
 			{
 				value: "",
-				mode: KeyboardMode.Numeric,
+				mode: KeyboardMode.QWERTY,
 				// what the Custom mode shows: the rows of a layout, comma
 				// separated, the way they are written in an XML view
 				layoutText: "7 8 9, 4 5 6, 1 2 3, {bksp} 0 {enter}",
@@ -84,6 +84,29 @@ export default class VirtualKeyboard extends BaseController {
 				rows="1 2 3, 4 5 6, 7 8 9, {abc} 0 {backspace}" />
 		</tc:layouts>
 	</tc:VirtualKeyboard>
+
+	<!-- display says what a single key reads, where the sign the keyboard
+	     would pick is not the right one. The braces are left out: UI5 reads
+	     a string that begins with one as a binding -->
+	<tc:VirtualKeyboard value="{/text}" size="XL" mode="QWERTZMobile">
+		<tc:display>
+			<tc:KeyboardKey key="numbers" text="?123" />
+			<tc:KeyboardKey key="abc" text="Abc" />
+			<tc:KeyboardKey key="ent" text="return" />
+			<tc:KeyboardKey key="space" text="Leerzeichen" />
+		</tc:display>
+	</tc:VirtualKeyboard>
+
+	<!-- emphasizedKeys draws the keys it names as emphasized, and escape is
+	     fired by an {esc} key - the application decides what it means -->
+	<tc:VirtualKeyboard
+		value="{/pin}"
+		size="XL"
+		mode="Custom"
+		layout="1 2 3, 4 5 6, 7 8 9, {esc} 0 {enter}"
+		emphasizedKeys="enter"
+		escape=".onEscape"
+		enter=".onEnter" />
 
 	<!-- docked: at the bottom edge of the screen, over everything else,
 	     and the full width of a phone or a tablet -->
