@@ -22,7 +22,9 @@ import { NumberPadMode } from "./library";
  * pad of a telephone, or a calculator with the four basic operations. The
  * block keeps its shape whatever else is switched on: a minus and a decimal
  * separator go into the row of the zero, everything else into the row of
- * function keys under it.
+ * function keys under it. Where neither of the two was asked for, the
+ * backspace and the enter come into the row of the zero instead, and the pad
+ * is the four rows of a plain number pad.
  *
  * @namespace ui5.touch.controls
  */

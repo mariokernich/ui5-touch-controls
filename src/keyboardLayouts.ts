@@ -205,24 +205,39 @@ export interface NumberPadOptions {
  * The digit block comes from the mode and is not touched by anything else;
  * what was additionally asked for goes into the row under it or into the row
  * of function keys, so that the block keeps its shape whatever is switched on.
+ *
+ * The <code>Simple</code> block has a row of its own for the zero, and there
+ * the minus and the decimal separator sit beside it. Where neither was asked
+ * for, the backspace and the enter come into that row instead - a zero on a
+ * line of its own would be a key three columns wide, and the pad would be a
+ * row taller than it has anything to show.
  */
 export function buildNumberPadSets(options: NumberPadOptions): LayoutSet[] {
+	// the two blocks that fill their fourth row themselves have no row for the
+	// zero, so their function keys stay where they are
+	const zero =
+		options.mode === NumberPadMode.Simple
+			? row(options.sign && "-", "0", options.decimalSeparator)
+			: "";
+	const zeroIsAlone = zero === "0";
+
 	const functionRow = row(
 		options.specialCharacters && "{symbols}",
 		options.escape && "{esc}",
-		"{bksp}",
-		"{enter}",
+		!zeroIsAlone && "{bksp}",
+		!zeroIsAlone && "{enter}",
 	);
-
-	const zeroRow =
-		options.mode === NumberPadMode.Simple
-			? [row(options.sign && "-", "0", options.decimalSeparator)]
-			: [];
 
 	const sets: LayoutSet[] = [
 		{
 			name: "numbers",
-			rows: [...PAD_ROWS[options.mode], ...zeroRow, functionRow],
+			rows: [
+				...PAD_ROWS[options.mode],
+				zeroIsAlone ? "{bksp} 0 {enter}" : zero,
+				functionRow,
+				// a pad without a row for the zero has none to write, and one
+				// that took the function keys into that row may have none left
+			].filter(Boolean),
 		},
 	];
 
