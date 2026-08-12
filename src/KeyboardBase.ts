@@ -16,8 +16,8 @@ import { ISized, SizeMode } from "./library";
 export type LayoutSet = { name: string; rows: string[] };
 
 /**
- * The key names of simple-keyboard that mean the same as one of ours, so a
- * layout written for that library can be used as it stands.
+ * The other spellings a key is known by, so a layout that was written
+ * elsewhere can be used as it stands.
  */
 const KEY_ALIASES: Record<string, string> = {
 	"{backspace}": "{bksp}",
@@ -34,6 +34,7 @@ const SET_KEY_TEXTS: Record<string, string> = {
 	numbers: "123",
 	abc: "ABC",
 	symbols: "#+=",
+	emojis: "\u{1F642}",
 	shift: "\u21E7",
 };
 
@@ -377,13 +378,17 @@ export default class KeyboardBase extends Control implements ISized {
 
 	/**
 	 * Removes the last character from the value.
+	 *
+	 * A character is what is written, not what a string is measured in: a face
+	 * is one key press and two of the units a string counts, and cutting one of
+	 * them off would leave half a character behind.
 	 */
 	private removeLastChar(): void {
 		const oldValue = this.getValue();
 		if (!oldValue.length) {
 			return;
 		}
-		const newValue = oldValue.slice(0, -1);
+		const newValue = [...oldValue].slice(0, -1).join("");
 		this.setProperty("value", newValue, true);
 		this.fireChange({ value: newValue });
 	}
@@ -651,8 +656,8 @@ export default class KeyboardBase extends Control implements ISized {
 	}
 
 	/**
-	 * The key as the control knows it: what a layout of simple-keyboard calls
-	 * <code>{backspace}</code> is the <code>{bksp}</code> of this one.
+	 * The key as the control knows it: a layout that writes
+	 * <code>{backspace}</code> means the <code>{bksp}</code> of this one.
 	 */
 	private normalizeKey(key: string): string {
 		return KEY_ALIASES[key] ?? key;
@@ -689,9 +694,9 @@ export default class KeyboardBase extends Control implements ISized {
 	 * The set a key leads to, if it leads to one.
 	 *
 	 * A key is the name of a set in curly braces. <code>{abc}</code> is the
-	 * one exception: it is what a layout of simple-keyboard uses to get back
-	 * to the letters, so it leads to the set called <code>default</code> when
-	 * there is no set of its own name.
+	 * one exception: it is the conventional way back to the letters, so it
+	 * leads to the set called <code>default</code> when there is no set of its
+	 * own name.
 	 */
 	private getLayoutSetFor(key: string): LayoutSet | undefined {
 		const name = /^\{(\w+)\}$/.exec(key)?.[1];

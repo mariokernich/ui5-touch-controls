@@ -45,8 +45,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         display?: KeyboardKey[] | KeyboardKey | AggregationBindingInfo | `{${string}}`;
     }
@@ -205,8 +204,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         getDisplay(): KeyboardKey[];
 
@@ -217,8 +215,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         addDisplayKey(display: KeyboardKey): this;
 
@@ -229,8 +226,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         insertDisplayKey(display: KeyboardKey, index: number): this;
 
@@ -241,8 +237,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         removeDisplayKey(display: number | string | KeyboardKey): KeyboardKey | null;
 
@@ -253,8 +248,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         removeAllDisplay(): KeyboardKey[];
 
@@ -265,8 +259,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         indexOfDisplayKey(display: KeyboardKey): number;
 
@@ -277,8 +270,7 @@ declare module "./CustomKeyboard" {
         The keyboard has a sign for every key it knows and shows the
         plain name of one it does not, which is enough for most
         keyboards. An entry here overrules that for one key, whichever
-        set it appears in - the <code>display</code> option of
-        simple-keyboard.
+        set it appears in.
          */
         destroyDisplay(): this;
     }

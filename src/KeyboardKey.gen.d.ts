@@ -16,7 +16,7 @@ declare module "./KeyboardKey" {
         out in a view: UI5 reads a string that begins with a brace as a
         binding, so <code>key="{numbers}"</code> would have to be
         escaped to be read as a text. Both spellings mean the same key,
-        as do the names of simple-keyboard - <code>ent</code> and
+        as do the other spellings of a key - <code>ent</code> and
         <code>enter</code> are one key.
          */
         key?: string | PropertyBindingInfo;
@@ -40,7 +40,7 @@ declare module "./KeyboardKey" {
         out in a view: UI5 reads a string that begins with a brace as a
         binding, so <code>key="{numbers}"</code> would have to be
         escaped to be read as a text. Both spellings mean the same key,
-        as do the names of simple-keyboard - <code>ent</code> and
+        as do the other spellings of a key - <code>ent</code> and
         <code>enter</code> are one key.
          */
         getKey(): string;
@@ -53,7 +53,7 @@ declare module "./KeyboardKey" {
         out in a view: UI5 reads a string that begins with a brace as a
         binding, so <code>key="{numbers}"</code> would have to be
         escaped to be read as a text. Both spellings mean the same key,
-        as do the names of simple-keyboard - <code>ent</code> and
+        as do the other spellings of a key - <code>ent</code> and
         <code>enter</code> are one key.
          */
         setKey(key: string): this;

@@ -174,11 +174,11 @@ A keyboard of keys has more on it than fits under ten fingers at once. A keyboar
 
 The keys the control knows keep their own sign — `{shift}` is the key with the arrow whether it switches a set or not, `{bksp}` and `{enter}` are their icons, `{space}` says Space. The names that are conventional for a set have a text of their own as well: `{numbers}` reads 123, `{abc}` reads ABC and `{symbols}` reads #+=. A key that is none of these says what it is written as.
 
-This is the layout concept of [simple-keyboard](https://github.com/hodgef/simple-keyboard), and a layout written for it can be used as it stands: `{backspace}` and `{ent}` mean the same as `{bksp}` and `{enter}`, and `{abc}` leads back to `default` unless a set of that name exists.
+A layout written elsewhere can usually be used as it stands: `{backspace}` and `{ent}` mean the same as `{bksp}` and `{enter}`, and `{abc}` leads back to `default` unless a set of that name exists.
 
 #### What a key says
 
-Every key the control knows comes with a sign of its own, and one it does not know says what it is written as. Where that is not the right text, the `display` aggregation puts one of your own on a key — the `display` option of simple-keyboard:
+Every key the control knows comes with a sign of its own, and one it does not know says what it is written as. Where that is not the right text, the `display` aggregation puts one of your own on a key:
 
 ```xml
 <tc:VirtualKeyboard mode="QWERTZMobile" size="XL">
@@ -191,7 +191,7 @@ Every key the control knows comes with a sign of its own, and one it does not kn
 </tc:VirtualKeyboard>
 ```
 
-It works on any key — a special one, a letter, a digit — and in every set of the keyboard. Note that the braces are left out: UI5 reads a string that begins with one as a binding, so `key="{numbers}"` would have to be escaped in a view. Both spellings mean the same key, and so do the names of simple-keyboard: `ent` and `enter` are one key.
+It works on any key — a special one, a letter, a digit — and in every set of the keyboard. Note that the braces are left out: UI5 reads a string that begins with one as a binding, so `key="{numbers}"` would have to be escaped in a view. Both spellings mean the same key, and so do the other names of one: `ent` and `enter` are the same key.
 
 The `layout` property is the short form of the same thing for a keyboard that only ever shows one set; a keyboard with `layouts` does not look at it.
 

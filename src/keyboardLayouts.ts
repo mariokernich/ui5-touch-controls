@@ -64,8 +64,22 @@ const DIGITS = "1 2 3 4 5 6 7 8 9 0";
 /** what a keyboard of a phone puts on its second set, besides the digits */
 const NUMBER_ROWS = ["- / : ; ( ) & @ \"", ". , ? ! '"];
 
-/** and on the one behind that */
-const SYMBOL_ROWS = ["[ ] { } # % ^ * + =", "_ \\ | ~ < > € £ ¥", ". , ? ! '"];
+/** and on the one behind that. The at sign is here because a keyboard that
+    shows its digits in a row of their own has no other set to put it on */
+const SYMBOL_ROWS = ["[ ] { } # % ^ * + =", "@ _ \\ | ~ < > € £ ¥", ". , ? ! '"];
+
+/**
+ * The faces a keyboard shows behind its emoji key.
+ *
+ * Every one of them is a single character - a face put together from several,
+ * a family or a flag, would be taken apart again by the backspace.
+ */
+const EMOJI_ROWS = [
+	"😀 😃 😄 😁 😆 😅 😂 🙂 😉 😊",
+	"😍 😘 😛 🤔 😐 😴 😢 😭 😡 🤯",
+	"👍 👎 👌 👋 🙏 💪 👏 🤝 🤞 🎉",
+	"💖 🔥 ⭐ ✅ ❌ 🚨 💡 📌 🕐",
+];
 
 /** the rows of the digit block of a number pad, by the mode that picks it */
 const PAD_ROWS: Record<NumberPadMode, string[]> = {
@@ -75,7 +89,7 @@ const PAD_ROWS: Record<NumberPadMode, string[]> = {
 };
 
 /** the signs of a number pad, in the three columns of the pad */
-const PAD_SYMBOL_ROWS = ["! / #", "$ % ^", "& * ("];
+const PAD_SYMBOL_ROWS = ["! / #", "$ % ^", "& * @"];
 
 /**
  * Joins what is there and leaves out what is not, so a row can be written as
@@ -103,9 +117,12 @@ export interface KeyboardOptions {
 	/** already resolved: <code>ToggleOnMobile</code> has been decided */
 	numbers: NumberKeys.Never | NumberKeys.Always | NumberKeys.Toggle;
 	specialCharacters: boolean;
+	emojis: boolean;
 	capsLock: boolean;
 	letterCase: LetterCase;
 	escape: boolean;
+	/** keys that ride along beside the space bar, in every set */
+	extraKeys: string[];
 }
 
 /**
@@ -129,10 +146,14 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 	const modifiers = !hasLetterSets && letterCase === LetterCase.Mixed;
 	const toggle = options.numbers === NumberKeys.Toggle;
 
+	// what stands beside the space bar, on every set: the way to the other sets
+	// and the keys the application asked to have at hand
 	const functionRow = row(
 		toggle && "{numbers}",
 		!toggle && options.specialCharacters && "{symbols}",
+		options.emojis && "{emojis}",
 		options.escape && "{esc}",
+		...options.extraKeys,
 		"{space}",
 		"{enter}",
 	);
@@ -169,7 +190,14 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 				DIGITS,
 				NUMBER_ROWS[0],
 				row(options.specialCharacters && "{symbols}", NUMBER_ROWS[1], "{bksp}"),
-				row("{abc}", options.escape && "{esc}", "{space}", "{enter}"),
+				row(
+					"{abc}",
+					options.emojis && "{emojis}",
+					options.escape && "{esc}",
+					...options.extraKeys,
+					"{space}",
+					"{enter}",
+				),
 			],
 		});
 	}
@@ -181,7 +209,33 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 				SYMBOL_ROWS[0],
 				SYMBOL_ROWS[1],
 				row(toggle && "{numbers}", SYMBOL_ROWS[2], "{bksp}"),
-				row("{abc}", options.escape && "{esc}", "{space}", "{enter}"),
+				row(
+					"{abc}",
+					options.emojis && "{emojis}",
+					options.escape && "{esc}",
+					...options.extraKeys,
+					"{space}",
+					"{enter}",
+				),
+			],
+		});
+	}
+
+	if (options.emojis) {
+		sets.push({
+			name: "emojis",
+			rows: [
+				EMOJI_ROWS[0],
+				EMOJI_ROWS[1],
+				EMOJI_ROWS[2],
+				row(EMOJI_ROWS[3], "{bksp}"),
+				row(
+					"{abc}",
+					options.escape && "{esc}",
+					...options.extraKeys,
+					"{space}",
+					"{enter}",
+				),
 			],
 		});
 	}

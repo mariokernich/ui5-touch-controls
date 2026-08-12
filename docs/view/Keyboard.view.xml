@@ -81,6 +81,14 @@
 							</Select>
 						</HBox>
 						<HBox alignItems="Center">
+							<Text text="{i18n>lblExtraKeys}" width="130px" />
+							<Input
+								value="{json>/extraKeys}"
+								placeholder="{i18n>phExtraKeys}"
+								change=".applyExtraKeys"
+								width="150px" />
+						</HBox>
+						<HBox alignItems="Center">
 							<Text text="{i18n>lblEnterText}" width="130px" />
 							<Input
 								value="{json>/enterText}"
@@ -101,6 +109,7 @@
 							<CheckBox
 								text="{i18n>cbSpecialCharacters}"
 								selected="{json>/showSpecialCharacters}" />
+							<CheckBox text="{i18n>cbEmojis}" selected="{json>/showEmojis}" />
 							<CheckBox text="{i18n>cbCapsLock}" selected="{json>/showCapsLock}" />
 							<CheckBox text="{i18n>cbEscape}" selected="{json>/showEscape}" />
 						</HBox>
@@ -142,6 +151,7 @@
 							displayNumbers="{json>/displayNumbers}"
 							letterCase="{json>/letterCase}"
 							showSpecialCharacters="{json>/showSpecialCharacters}"
+							showEmojis="{json>/showEmojis}"
 							showCapsLock="{json>/showCapsLock}"
 							showEscape="{json>/showEscape}"
 							enterText="{json>/enterText}"

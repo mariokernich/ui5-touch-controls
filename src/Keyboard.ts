@@ -101,6 +101,35 @@ export default class Keyboard extends KeyboardBase {
 				defaultValue: LetterCase.Mixed,
 			},
 			/**
+			 * Whether a set of faces is reachable from the keyboard.
+			 *
+			 * A key of its own leads to them and the <code>{abc}</code> key
+			 * leads back, the same way the digits and the special characters
+			 * are reached. Only faces of a single character are on it: one put
+			 * together from several - a family, a flag - would be taken apart
+			 * again by the backspace.
+			 */
+			showEmojis: {
+				type: "boolean",
+				group: "Appearance",
+				defaultValue: false,
+			},
+			/**
+			 * Keys that stand beside the space bar on every set of the
+			 * keyboard, whichever one is on screen.
+			 *
+			 * This is where a key goes that a field needs at hand rather than
+			 * behind a switch - the at sign of an address, the dot of a domain,
+			 * a unit. They are written as they should be typed:
+			 * <code>extraKeys="@,."</code> in a view, which UI5 reads as the
+			 * two keys <code>@</code> and <code>.</code>
+			 */
+			extraKeys: {
+				type: "string[]",
+				group: "Appearance",
+				defaultValue: [],
+			},
+			/**
 			 * Whether the keyboard has an <code>{esc}</code> key.
 			 *
 			 * The key fires {@link #event:escape escape} and does nothing else;
@@ -161,9 +190,11 @@ export default class Keyboard extends KeyboardBase {
 			mode: this.getMode(),
 			numbers: this.getNumberKeys(),
 			specialCharacters: this.getShowSpecialCharacters(),
+			emojis: this.getShowEmojis(),
 			capsLock: this.getShowCapsLock(),
 			letterCase: this.getLetterCase(),
 			escape: this.getShowEscape(),
+			extraKeys: this.getExtraKeys(),
 		});
 	}
 
@@ -188,9 +219,11 @@ export default class Keyboard extends KeyboardBase {
 				mode: mode,
 				numbers: NumberKeys.Always,
 				specialCharacters: false,
+				emojis: false,
 				capsLock: false,
 				letterCase: LetterCase.Mixed,
 				escape: false,
+				extraKeys: [],
 			})[0].rows,
 		];
 	}

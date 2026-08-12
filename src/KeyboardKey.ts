@@ -16,8 +16,7 @@ import Element, { MetadataOptions } from "sap/ui/core/Element";
  * &lt;/tc:display&gt;
  * </pre>
  *
- * It is the <code>display</code> option of simple-keyboard, and it works on
- * any key - a special one, a letter, a digit.
+ * It works on any key - a special one, a letter, a digit.
  *
  * @namespace ui5.touch.controls
  */
@@ -32,7 +31,7 @@ export default class KeyboardKey extends Element {
 			 * out in a view: UI5 reads a string that begins with a brace as a
 			 * binding, so <code>key="{numbers}"</code> would have to be
 			 * escaped to be read as a text. Both spellings mean the same key,
-			 * as do the names of simple-keyboard - <code>ent</code> and
+			 * as do the other spellings of a key - <code>ent</code> and
 			 * <code>enter</code> are one key.
 			 */
 			key: { type: "string", group: "Misc", defaultValue: "" },

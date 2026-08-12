@@ -41,10 +41,10 @@ import Element, { MetadataOptions } from "sap/ui/core/Element";
  *
  * The keyboard starts with the set named <code>default</code>, or with the
  * first one when there is none by that name. <code>{abc}</code> leads back to
- * <code>default</code> unless a set of that name exists, and the key names of
- * simple-keyboard are understood as they are written there:
- * <code>{backspace}</code> and <code>{ent}</code> mean the same as
- * <code>{bksp}</code> and <code>{enter}</code>.
+ * <code>default</code> unless a set of that name exists, and the other
+ * spellings of a key are understood as well: <code>{backspace}</code> and
+ * <code>{ent}</code> mean the same as <code>{bksp}</code> and
+ * <code>{enter}</code>.
  *
  * @namespace ui5.touch.controls
  */

@@ -1,5 +1,6 @@
 import type { Link$PressEvent } from "sap/m/Link";
 import JSONModel from "sap/ui/model/json/JSONModel";
+import type SizedKeyboard from "ui5/touch/controls/Keyboard";
 import type {
 	KeyboardBase$ChangeEvent,
 	KeyboardBase$EnterEvent,
@@ -32,6 +33,8 @@ export default class Keyboard extends BaseController {
 				displayNumbers: NumberKeys.ToggleOnMobile,
 				letterCase: LetterCase.Mixed,
 				showSpecialCharacters: false,
+				showEmojis: false,
+				extraKeys: "",
 				showCapsLock: false,
 				showEscape: false,
 				enterText: "",
@@ -116,6 +119,29 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
+					title: this.getText("exampleKeyboardExtra"),
+					code: `
+<!-- an address field: the at sign and the dot stand beside the space bar
+     rather than behind a switch, and everything is written in lower case -->
+<tc:Keyboard
+	value="{/email}"
+	mode="English"
+	extraKeys="@,."
+	letterCase="Lower"
+	enterText="Send"
+	size="XL" />
+
+<!-- a note: faces behind a key of their own, next to the special
+     characters -->
+<tc:Keyboard
+	value="{/note}"
+	mode="German"
+	showEmojis="true"
+	showSpecialCharacters="true"
+	size="XL" />
+`,
+				},
+				{
 					title: this.getText("exampleKeyboardField"),
 					code: `
 <!-- on a field: the keyboard opens in a popover while the field has the
@@ -148,6 +174,19 @@ onEscape() {
 				},
 			],
 		});
+	}
+
+	/**
+	 * Hands the typed keys to the keyboard. They are an array, so they cannot
+	 * be bound to the text field directly; a comma and a space both separate
+	 * them here, and in a view it is the comma, which is what UI5 splits a
+	 * list of strings on.
+	 */
+	public applyExtraKeys(): void {
+		const keyboard = this.byId("keyboard") as SizedKeyboard;
+		const text = this.model.getProperty("/extraKeys") as string;
+
+		keyboard.setExtraKeys(text.split(/[\s,]+/).filter(Boolean));
 	}
 
 	/**

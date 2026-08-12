@@ -67,6 +67,29 @@ declare module "./Keyboard" {
         letterCase?: LetterCase | PropertyBindingInfo | `{${string}}`;
 
         /**
+         * Whether a set of faces is reachable from the keyboard.
+        
+        A key of its own leads to them and the <code>{abc}</code> key
+        leads back, the same way the digits and the special characters
+        are reached. Only faces of a single character are on it: one put
+        together from several - a family, a flag - would be taken apart
+        again by the backspace.
+         */
+        showEmojis?: boolean | PropertyBindingInfo | `{${string}}`;
+
+        /**
+         * Keys that stand beside the space bar on every set of the
+        keyboard, whichever one is on screen.
+        
+        This is where a key goes that a field needs at hand rather than
+        behind a switch - the at sign of an address, the dot of a domain,
+        a unit. They are written as they should be typed:
+        <code>extraKeys="@,."</code> in a view, which UI5 reads as the
+        two keys <code>@</code> and <code>.</code>
+         */
+        extraKeys?: string[] | PropertyBindingInfo | `{${string}}`;
+
+        /**
          * /**
                      * Whether the keyboard has an <code>{esc}</code> key.
                      *
@@ -213,6 +236,56 @@ declare module "./Keyboard" {
         set of letters instead of capitals.
          */
         setLetterCase(letterCase: LetterCase): this;
+
+        // property: showEmojis
+
+        /**
+         * Whether a set of faces is reachable from the keyboard.
+        
+        A key of its own leads to them and the <code>{abc}</code> key
+        leads back, the same way the digits and the special characters
+        are reached. Only faces of a single character are on it: one put
+        together from several - a family, a flag - would be taken apart
+        again by the backspace.
+         */
+        getShowEmojis(): boolean;
+
+        /**
+         * Whether a set of faces is reachable from the keyboard.
+        
+        A key of its own leads to them and the <code>{abc}</code> key
+        leads back, the same way the digits and the special characters
+        are reached. Only faces of a single character are on it: one put
+        together from several - a family, a flag - would be taken apart
+        again by the backspace.
+         */
+        setShowEmojis(showEmojis: boolean): this;
+
+        // property: extraKeys
+
+        /**
+         * Keys that stand beside the space bar on every set of the
+        keyboard, whichever one is on screen.
+        
+        This is where a key goes that a field needs at hand rather than
+        behind a switch - the at sign of an address, the dot of a domain,
+        a unit. They are written as they should be typed:
+        <code>extraKeys="@,."</code> in a view, which UI5 reads as the
+        two keys <code>@</code> and <code>.</code>
+         */
+        getExtraKeys(): string[];
+
+        /**
+         * Keys that stand beside the space bar on every set of the
+        keyboard, whichever one is on screen.
+        
+        This is where a key goes that a field needs at hand rather than
+        behind a switch - the at sign of an address, the dot of a domain,
+        a unit. They are written as they should be typed:
+        <code>extraKeys="@,."</code> in a view, which UI5 reads as the
+        two keys <code>@</code> and <code>.</code>
+         */
+        setExtraKeys(extraKeys: string[]): this;
 
         // property: showEscape
 
