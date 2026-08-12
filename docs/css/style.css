@@ -73,6 +73,26 @@ body,
 	mask: url("../github.svg") no-repeat center / contain;
 }
 
+/* the same for the npm mark, which is wider than it is tall */
+.touchControlsHeaderNpm.sapMLnk {
+	display: inline-flex;
+	/* the npm mark is a wide one, so it gets the room to stay legible next to
+	   the square of the other */
+	width: 1.75rem;
+	height: 1.25rem;
+	margin-inline-start: 0.75rem;
+	color: var(--sapShell_TextColor, currentColor);
+}
+
+.touchControlsHeaderNpm.sapMLnk::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: currentColor;
+	-webkit-mask: url("../npm.svg") no-repeat center / contain;
+	mask: url("../npm.svg") no-repeat center / contain;
+}
+
 /* ---------------------------------------------------------------------------
    responsive behaviour
 

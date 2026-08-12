@@ -62,6 +62,55 @@ const LAYOUT_SETS: Partial<Record<KeyboardMode, LayoutSet[]>> = {
 		"q w e r t z u i o p|y x c v b n m",
 		"Q W E R T Z U I O P|Y X C V B N M",
 	),
+	// what an address is made of, on the keys instead of behind them
+	[KeyboardMode.Email]: [
+		{
+			name: "default",
+			rows: [
+				"q w e r t y u i o p",
+				"a s d f g h j k l",
+				"{shift} z x c v b n m {bksp}",
+				"{numbers} @ . {space} {enter}",
+			],
+		},
+		{
+			name: "shift",
+			rows: [
+				"Q W E R T Y U I O P",
+				"A S D F G H J K L",
+				"{shift} Z X C V B N M {bksp}",
+				"{numbers} @ . {space} {enter}",
+			],
+		},
+		{
+			name: "numbers",
+			rows: ["1 2 3 4 5 6 7 8 9 0", "- _ . @ + {bksp}", "{abc} {space} {enter}"],
+		},
+	],
+	[KeyboardMode.URL]: [
+		{
+			name: "default",
+			rows: [
+				"q w e r t y u i o p",
+				"a s d f g h j k l",
+				"{shift} z x c v b n m {bksp}",
+				"{numbers} . / {space} {enter}",
+			],
+		},
+		{
+			name: "shift",
+			rows: [
+				"Q W E R T Y U I O P",
+				"A S D F G H J K L",
+				"{shift} Z X C V B N M {bksp}",
+				"{numbers} . / {space} {enter}",
+			],
+		},
+		{
+			name: "numbers",
+			rows: ["1 2 3 4 5 6 7 8 9 0", "- _ . / : ? = & {bksp}", "{abc} {space} {enter}"],
+		},
+	],
 };
 
 const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
@@ -81,7 +130,17 @@ const LAYOUTS: Record<Exclude<KeyboardMode, KeyboardMode.Custom>, string[]> = {
 	],
 	[KeyboardMode.QWERTYMobile]: LAYOUT_SETS[KeyboardMode.QWERTYMobile]![0].rows,
 	[KeyboardMode.QWERTZMobile]: LAYOUT_SETS[KeyboardMode.QWERTZMobile]![0].rows,
+	[KeyboardMode.Email]: LAYOUT_SETS[KeyboardMode.Email]![0].rows,
+	[KeyboardMode.URL]: LAYOUT_SETS[KeyboardMode.URL]![0].rows,
 	[KeyboardMode.Numeric]: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {enter}"],
+	[KeyboardMode.Decimal]: [
+		"7 8 9",
+		"4 5 6",
+		"1 2 3",
+		"- 0 .",
+		"{bksp} {enter}",
+	],
+	[KeyboardMode.PIN]: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 {enter}"],
 	[KeyboardMode.Phone]: [
 		"1 2 3",
 		"4 5 6",

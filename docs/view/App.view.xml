@@ -75,6 +75,11 @@
 					href="https://github.com/mariokernich/ui5-touch-controls"
 					target="_blank"
 					class="touchControlsHeaderGithub" />
+				<Link
+					tooltip="{i18n>npmTooltip}"
+					href="https://www.npmjs.com/package/ui5.touch.controls"
+					target="_blank"
+					class="touchControlsHeaderNpm" />
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:sideContent>

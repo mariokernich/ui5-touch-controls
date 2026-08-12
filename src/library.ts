@@ -52,6 +52,14 @@ export enum KeyboardMode {
 	QWERTZMobile = "QWERTZMobile",
 	/** the digits of a number pad, 7 8 9 on top */
 	Numeric = "Numeric",
+	/** a number pad that also writes a decimal point and a minus */
+	Decimal = "Decimal",
+	/** the digits alone, for a code or a PIN */
+	PIN = "PIN",
+	/** letters as a phone draws them, with the parts of an address at hand */
+	Email = "Email",
+	/** the same for a web address */
+	URL = "URL",
 	/** the digits of a telephone, 1 2 3 on top, with * and # */
 	Phone = "Phone",
 	/** the digits of a number pad with the four basic operations */

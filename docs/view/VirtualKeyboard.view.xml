@@ -39,6 +39,10 @@
 								<core:Item key="QWERTYMobile" text="QWERTYMobile" />
 								<core:Item key="QWERTZMobile" text="QWERTZMobile" />
 								<core:Item key="Numeric" text="Numeric" />
+								<core:Item key="Decimal" text="Decimal" />
+								<core:Item key="PIN" text="PIN" />
+								<core:Item key="Email" text="Email" />
+								<core:Item key="URL" text="URL" />
 								<core:Item key="Phone" text="Phone" />
 								<core:Item key="Calculator" text="Calculator" />
 								<core:Item key="Custom" text="Custom" />

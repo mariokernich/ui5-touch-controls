@@ -18,6 +18,10 @@ const readyMade = [
 	KeyboardMode.QWERTYMobile,
 	KeyboardMode.QWERTZMobile,
 	KeyboardMode.Numeric,
+	KeyboardMode.Decimal,
+	KeyboardMode.PIN,
+	KeyboardMode.Email,
+	KeyboardMode.URL,
 	KeyboardMode.Phone,
 	KeyboardMode.Calculator,
 ];

@@ -1,4 +1,5 @@
 import Popover from "sap/m/Popover";
+import { centerKeyboardPopover } from "./centerKeyboardPopover";
 import { InputType, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import { MetadataOptions } from "sap/ui/core/Element";
@@ -371,6 +372,12 @@ export default class Input extends Control implements ISized {
 					"mousedown",
 					this.keepFocus,
 				);
+				// a docked keyboard is placed by the stylesheet, so it is left
+				// alone here
+				const opened = this.getAggregation("_popover") as Popover | null;
+				if (opened && !this.getKeyboard()?.getDocked()) {
+					centerKeyboardPopover(this, opened);
+				}
 			});
 			popover.attachBeforeClose(() => {
 				this.getPopoverDomRef()?.removeEventListener(
