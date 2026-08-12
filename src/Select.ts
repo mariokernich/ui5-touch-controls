@@ -1,4 +1,6 @@
-import Popover from "sap/m/Popover";
+import ResponsivePopover from "sap/m/ResponsivePopover";
+import Device from "sap/ui/Device";
+import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import VBox from "sap/m/VBox";
 import { FlexRendertype, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
@@ -7,6 +9,8 @@ import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import Button from "./Button";
+import Toolbar from "./Toolbar";
+import { fitDialogBars } from "./fitDialogBars";
 import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
@@ -33,9 +37,11 @@ import { ISized, SizeMode, sizeClass } from "./library";
  * <li>the items are grouped neither by <code>sap.ui.core.SeparatorItem</code>
  * nor by <code>sap.ui.core.ListItem</code>: only <code>key</code> and
  * <code>text</code> are evaluated</li>
- * <li>the list is a popover on every device, there is no full screen dialog on
- * a phone</li>
  * </ul>
+ *
+ * On a phone the list takes the whole screen, the way
+ * <code>sap.m.Select</code> does, and is left again by the Cancel button in
+ * its bar.
  *
  * @namespace ui5.touch.controls
  */
@@ -109,7 +115,7 @@ export default class Select extends Control implements ISized {
 			 * The popover carrying the list.
 			 */
 			_popover: {
-				type: "sap.m.Popover",
+				type: "sap.m.ResponsivePopover",
 				multiple: false,
 				visibility: "hidden",
 			},
@@ -207,14 +213,45 @@ export default class Select extends Control implements ISized {
 
 		popover.destroyContent();
 		popover.addContent(this.createList());
-		// the list should be at least as wide as the field, like in sap.m
-		popover.setContentMinWidth(`${dom.offsetWidth}px`);
+
+		if (Device.system.phone) {
+			// the header is built anew every time, so it carries the size the
+			// control has now
+			popover.setCustomHeader(this.createPickerHeader());
+		} else {
+			// the list should be at least as wide as the field, like in sap.m -
+			// on a phone the picker takes the screen and there is nothing to
+			// widen
+			popover.setContentWidth(`${dom.offsetWidth}px`);
+		}
 
 		this.expanded = true;
 		dom.setAttribute("aria-expanded", "true");
 		dom.classList.add("sizedSelectExpanded");
 
 		popover.openBy(this);
+	}
+
+	/**
+	 * The bar a phone picker is closed by.
+	 *
+	 * A picker that fills the screen cannot be left by tapping beside it, so it
+	 * needs a way out of its own - the place <code>sap.m.Select</code> puts its
+	 * Cancel button as well.
+	 */
+	private createPickerHeader(): Toolbar {
+		return new Toolbar({
+			content: [
+				new ToolbarSpacer(),
+				new Button({
+					text: "Cancel",
+					size: this.getSize(),
+					press: () => {
+						this.getPopover().close();
+					},
+				}),
+			],
+		});
 	}
 
 	/**
@@ -260,14 +297,19 @@ export default class Select extends Control implements ISized {
 		}
 	}
 
-	private getPopover(): Popover {
-		let popover = this.getAggregation("_popover") as Popover | null;
+	private getPopover(): ResponsivePopover {
+		let popover = this.getAggregation("_popover") as ResponsivePopover | null;
 
 		if (!popover) {
-			popover = new Popover(this.getId() + "-popover", {
-				showHeader: false,
+			popover = new ResponsivePopover(this.getId() + "-popover", {
+				// a phone gets a dialog over the whole screen, like sap.m does,
+				// and that one is closed by a bar of its own
+				showHeader: Device.system.phone,
 				showArrow: false,
 				placement: PlacementType.VerticalPreferredBottom,
+				afterOpen: () => {
+					fitDialogBars(this.getPopover());
+				},
 				afterClose: () => {
 					this.onPopoverClosed();
 				},

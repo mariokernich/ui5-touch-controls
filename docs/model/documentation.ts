@@ -89,7 +89,7 @@ const controls: ControlDoc[] = [
 		original:
 			"A drop-down filled with sap.ui.core.Item elements. The list it opens keeps the standard row height, however large the field is.",
 		description:
-			"Drop-down filled with plain sap.ui.core.Item elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of sap.m.Select keeps its standard row height however large the field is. Supports selectedKey, editable, forceSelection, value states and width. Fires change.",
+			"Drop-down filled with plain sap.ui.core.Item elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of sap.m.Select keeps its standard row height however large the field is. Supports selectedKey, editable, forceSelection, value states and width. On a phone the list takes the whole screen, as it does in sap.m. Fires change.",
 	},
 	{
 		name: "ComboBox",
@@ -97,7 +97,7 @@ const controls: ControlDoc[] = [
 		original:
 			"A drop-down the user can also type into: what is typed filters the list, and a value that is not in the list is allowed.",
 		description:
-			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states, width and showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of a row. Fires change and selectionChange.",
+			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states, width and showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of a row. On a phone the list takes the whole screen and brings a field of its own to go on typing in, as it does in sap.m. Fires change and selectionChange.",
 	},
 	{
 		name: "DatePicker",

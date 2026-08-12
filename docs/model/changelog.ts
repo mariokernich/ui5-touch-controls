@@ -28,7 +28,8 @@ export const releases: Release[] = [
 	{
 		version: "1.3.0",
 		date: "",
-		summary: "The keyboard docks to the bottom edge, and knows QWERTZ.",
+		summary:
+			"The keyboard docks to the bottom edge, carries more than one set of keys, and a picker fills the screen of a phone.",
 		groups: [
 			{
 				kind: "Added",
@@ -40,12 +41,25 @@ export const releases: Release[] = [
 					"The display aggregation says what a single key reads, where the sign the keyboard would pick is not the right one - the display option of simple-keyboard. It works on any key and in every set. The braces of a special key are left out, because UI5 reads a string beginning with one as a binding.",
 					"A keyboard can carry more than one set of keys, in the layout concept of simple-keyboard. The sets are KeyboardLayout elements in the new layouts aggregation, each with a name and its rows and nothing else: every set stands on its own and says in full what is on it, upper case included, which is a set of capitals rather than a state of the keyboard. A key named after a set switches to it, and a key that names the set it is already on leads back out of it - that is what makes the {shift} in a set of capitals come back. A layout written for simple-keyboard can be used as it stands: {backspace} and {ent} are understood, and {abc} leads back to default.",
 					"The QWERTY and the QWERTZ layout have a tab key and a caps lock, where a keyboard of keys has them. {lock} stays on until it is pressed again, {shift} falls away after one letter, and shift while the lock is on writes lower case. Both are special keys like the others, so a layout of your own can use {tab} and {lock} as well.",
+					"KeyboardMode Decimal, PIN, Email and URL. Decimal is the number pad with a decimal point and a minus, PIN the digits alone for a code, and Email and URL are letters as a phone draws them with what an address is made of at hand - the @ and the dot on the letters of the one, the dot and the slash on the other.",
+					"An escape event, fired by an {esc} key and by the Escape key of a real keyboard while hardwareKeys is on. The keyboard does nothing about it by itself and leaves to the application what it should mean; a field that shows a keyboard closes its popover on it.",
+					"emphasizedKeys says which keys are drawn as emphasized - the one that ends what is being done, usually. A modifier stays emphasized while it is on, whatever the property says.",
+					"Select and ComboBox open their list over the whole screen on a phone, the way sap.m does, instead of in a popover on the field. A picker that fills the screen cannot be left by tapping beside it, so it brings a bar of its own: Cancel in the Select, and in the ComboBox a field to go on typing in next to OK - the field of the control itself is behind the picker there, and without one the list could only be picked from, not filtered.",
+				],
+			},
+			{
+				kind: "Changed",
+				items: [
+					"The default mode of the VirtualKeyboard is QWERTY. A keyboard that is asked for without saying more is a keyboard of letters, not a number pad.",
+					"A key that leads to another set says what that set is called by convention rather than the name of the set: {numbers} reads 123, {abc} reads ABC, {symbols} reads #+=. A display entry still overrules it.",
 				],
 			},
 			{
 				kind: "Fixed",
 				items: [
 					"A Toolbar or an OverflowToolbar in the footer of a sap.m.Dialog is no longer cut off at the lower edge. A dialog keeps its footer out of the flow and reserves 2.75rem for it - the height of a toolbar of sap.m - and clips what reaches past that. The toolbars now hand the dialog the height they have, so the room grows with the size and the content above the footer keeps the height it was given.",
+					"A VirtualKeyboard is no longer scrollable sideways when the room is tight, which is of no use to a thumb. The keys give up the padding at their sides and share what there is, as they already did when docked. The height still comes from the size, so a key stays as easy to hit.",
+					"The popover a field opens its keyboard in was placed at the start of the field, so a keyboard narrower than the field hung off to one side. It is centred on the field now.",
 				],
 			},
 			{
@@ -53,6 +67,8 @@ export const releases: Release[] = [
 				items: [
 					"The VirtualKeyboard page has a Docked switch and QWERTZ in its mode list.",
 					"The Input and the TextArea page have a Docked switch for the keyboard of the field, and QWERTZ in their mode list.",
+					"The mode lists of the VirtualKeyboard, the Input and the TextArea page carry the new layouts.",
+					"The header of the demo has a link to the npm package next to the one to GitHub.",
 				],
 			},
 		],

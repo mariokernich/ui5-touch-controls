@@ -1,5 +1,7 @@
-import Popover from "sap/m/Popover";
+import ResponsivePopover from "sap/m/ResponsivePopover";
+import Device from "sap/ui/Device";
 import Text from "sap/m/Text";
+import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import VBox from "sap/m/VBox";
 import { FlexRendertype, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
@@ -9,6 +11,9 @@ import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import Button from "./Button";
+import Input from "./Input";
+import Toolbar from "./Toolbar";
+import { fitDialogBars } from "./fitDialogBars";
 import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
@@ -35,14 +40,18 @@ import { ISized, SizeMode, sizeClass } from "./library";
  * <code>textDirection</code> and <code>required</code> are not supported</li>
  * <li>the filter always matches anywhere in the text, not only at the
  * beginning, and it is case insensitive</li>
- * <li>the list is a popover on every device, there is no full screen dialog on
- * a phone</li>
  * </ul>
+ *
+ * On a phone the list takes the whole screen, the way
+ * <code>sap.m.ComboBox</code> does. The field is behind it there, so the
+ * picker brings a field of its own to go on typing in, and the OK button in
+ * its bar leads back.
  *
  * @namespace ui5.touch.controls
  */
 export default class ComboBox extends Control implements ISized {
 	private expanded = false;
+	private valueOnOpen = "";
 	private inputListener: ((event: globalThis.Event) => void) | null = null;
 	private changeListener: ((event: globalThis.Event) => void) | null = null;
 
@@ -128,7 +137,7 @@ export default class ComboBox extends Control implements ISized {
 			 * The popover carrying the list.
 			 */
 			_popover: {
-				type: "sap.m.Popover",
+				type: "sap.m.ResponsivePopover",
 				multiple: false,
 				visibility: "hidden",
 			},
@@ -367,16 +376,88 @@ export default class ComboBox extends Control implements ISized {
 
 		const popover = this.getPopover();
 
-		popover.destroyContent();
-		popover.addContent(this.createList(this.getFilteredItems(showAll)));
-		popover.setContentMinWidth(`${dom.offsetWidth}px`);
+		this.renderList(showAll);
+		// on a phone the picker is a dialog of its own and takes the screen
+		if (!Device.system.phone) {
+			popover.setContentWidth(`${dom.offsetWidth}px`);
+		}
 
 		if (!this.expanded) {
+			if (Device.system.phone) {
+				// built anew for every opening, so both carry the size the
+				// control has now and the field starts on its current value
+				popover.setCustomHeader(this.createPickerHeader());
+				popover.setSubHeader(this.createPickerFilter());
+			}
+
 			this.expanded = true;
+			this.valueOnOpen = this.getValue();
 			dom.setAttribute("aria-expanded", "true");
 			dom.classList.add("sizedComboBoxExpanded");
 			popover.openBy(this);
 		}
+	}
+
+	/**
+	 * Puts the items matching the current value into the popover.
+	 */
+	private renderList(showAll: boolean): void {
+		const popover = this.getPopover();
+
+		popover.destroyContent();
+		popover.addContent(this.createList(this.getFilteredItems(showAll)));
+	}
+
+	/**
+	 * The bar a phone picker is left by.
+	 *
+	 * A picker that fills the screen cannot be left by tapping beside it, so it
+	 * needs a way out of its own. It says OK rather than Cancel because what is
+	 * typed into the field below is taken over as it is typed - there is
+	 * nothing left to undo by then.
+	 */
+	private createPickerHeader(): Toolbar {
+		return new Toolbar({
+			content: [
+				new ToolbarSpacer(),
+				new Button({
+					text: "OK",
+					size: this.getSize(),
+					press: () => {
+						this.getPopover().close();
+					},
+				}),
+			],
+		});
+	}
+
+	/**
+	 * The field a phone picker is typed into.
+	 *
+	 * The field of the control itself is behind the picker there, so without
+	 * one of its own the list could only be picked from, not filtered - which
+	 * is what tells a combo box from a select.
+	 */
+	private createPickerFilter(): Toolbar {
+		return new Toolbar({
+			content: [
+				new Input({
+					value: this.getValue(),
+					placeholder: this.getPlaceholder(),
+					size: this.getSize(),
+					width: "100%",
+					liveChange: (event) => {
+						this.setValue(event.getParameter("value") ?? "");
+						this.setProperty(
+							"selectedKey",
+							this.getSelectedItem()?.getKey() ?? "",
+							true,
+						);
+						this.renderList(false);
+					},
+				}),
+			],
+		});
 	}
 
 	/**
@@ -453,6 +534,9 @@ export default class ComboBox extends Control implements ISized {
 	private selectItem(item: Item): void {
 		this.setValue(item.getText());
 		this.setProperty("selectedKey", item.getKey(), true);
+		// the picker has just handed the value over, so closing it has nothing
+		// left to report
+		this.valueOnOpen = item.getText();
 		this.getPopover().close();
 
 		this.fireSelectionChange({ selectedItem: item, selectedKey: item.getKey() });
@@ -462,20 +546,32 @@ export default class ComboBox extends Control implements ISized {
 			selectedItem: item,
 		});
 
-		this.getInnerInput()?.focus();
+		// on a phone the focus would bring up the keyboard of the device over
+		// the list the user has just picked from
+		if (!Device.system.phone) {
+			this.getInnerInput()?.focus();
+		}
 	}
 
-	private getPopover(): Popover {
-		let popover = this.getAggregation("_popover") as Popover | null;
+	private getPopover(): ResponsivePopover {
+		let popover = this.getAggregation("_popover") as ResponsivePopover | null;
 
 		if (!popover) {
-			popover = new Popover(this.getId() + "-popover", {
-				showHeader: false,
+			const phone = Device.system.phone;
+
+			popover = new ResponsivePopover(this.getId() + "-popover", {
+				// a phone gets a dialog over the whole screen, like sap.m does,
+				// with a bar of its own to type in and to leave by
+				showHeader: phone,
 				showArrow: false,
 				placement: PlacementType.VerticalPreferredBottom,
 				// the field keeps the focus, so the user can go on typing while
-				// the list is open
-				initialFocus: this,
+				// the list is open - on a phone it is behind the picker, which
+				// brings a field of its own instead
+				initialFocus: phone ? undefined : this,
+				afterOpen: () => {
+					fitDialogBars(this.getPopover());
+				},
 				afterClose: () => {
 					this.onPopoverClosed();
 				},
@@ -493,6 +589,13 @@ export default class ComboBox extends Control implements ISized {
 		const dom = this.getDomRef();
 		dom?.setAttribute("aria-expanded", "false");
 		dom?.classList.remove("sizedComboBoxExpanded");
+
+		// what was typed into the picker of a phone never reaches the field
+		// itself, so the change it stands for is reported from here
+		if (Device.system.phone && this.getValue() !== this.valueOnOpen) {
+			this.valueOnOpen = this.getValue();
+			this.fireChangeEvent();
+		}
 	}
 
 	static renderer = {
