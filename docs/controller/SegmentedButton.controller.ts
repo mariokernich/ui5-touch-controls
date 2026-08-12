@@ -69,9 +69,11 @@ export default class SegmentedButton extends BaseController {
 		MessageToast.show(`ui5.touch.controls: ${event.getParameter("key") ?? ""}`);
 	}
 
-	public onStandardSelectionChange(
-		event: StandardSelectionChangeEvent,
-	): void {
-		MessageToast.show(`sap.m: ${event.getParameter("item")?.getKey() ?? ""}`);
+	/**
+	 * Opens the page of the OverflowToolbar, the control that lets a control
+	 * of this library live in the bar of a page or a dialog.
+	 */
+	public onNavToOverflowToolbar(): void {
+		this.getRouter().navTo("OverflowToolbar");
 	}
 }

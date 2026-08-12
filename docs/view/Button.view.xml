@@ -6,6 +6,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:editor="sap.ui.codeeditor"
 	xmlns:tc="ui5.touch.controls"
+	core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
 	height="100%">
 	<!-- Alternative page concept: instead of a sap.m.Page filled with a row of
 	     sap.f.Cards, the page of a control is an ObjectPageLayout. The anchor
@@ -40,62 +41,46 @@
 						enabled="{= !!${control>/extendsUrl} }" />
 				</m:customContent>
 			</m:ObjectAttribute>
-			<m:ObjectAttribute
-				title="{i18n>introSince}"
-				text="{control>/since}" />
+			<!-- the link to the demo kit reads like the attribute beside it -
+			     "Original: sap.m.Button" - instead of being a bare "read more" -->
+			<m:ObjectAttribute title="{i18n>introOriginalLabel}">
+				<m:customContent>
+					<m:Link
+						text="{control>/replaces}"
+						href="{control>/docUrl}"
+						target="_blank"
+						enabled="{= !!${control>/docUrl} }" />
+				</m:customContent>
+			</m:ObjectAttribute>
+			<m:ObjectAttribute title="{i18n>introSince}" text="{control>/since}" />
 			<m:ObjectAttribute
 				title="{i18n>introVisibility}"
 				text="{control>/visibility}" />
-			<!-- the one place the link to the original lives; the sections
-			     below do not repeat it -->
-			<m:Link
-				text="{i18n>introDocLink}"
-				href="{control>/docUrl}"
-				target="_blank" />
 		</headerContent>
 
 		<sections>
-			<!-- Overview: what the sap.m original is and what this library made
-			     of it, the two next to each other -->
+			<!-- Overview: the control in running text, longer than the summary in
+			     the head of the page -->
 			<ObjectPageSection title="{i18n>sectionOverview}">
 				<subSections>
 					<ObjectPageSubSection>
 						<blocks>
-							<m:HBox width="100%" wrap="Wrap" class="touchControlsCardRow">
-								<m:VBox>
-									<m:layoutData>
-										<m:FlexItemData growFactor="1" baseSize="0" />
-									</m:layoutData>
-									<m:Title
-										text="{i18n>introOriginal}"
-										level="H3"
-										wrapping="true" />
-									<m:Text
-										text="{control>/replaces}"
-										class="sapUiTinyMarginTop" />
-									<m:Text
-										text="{control>/original}"
-										class="sapUiTinyMarginTop" />
-								</m:VBox>
-								<m:VBox>
-									<m:layoutData>
-										<m:FlexItemData growFactor="1" baseSize="0" />
-									</m:layoutData>
-									<m:Title
-										text="{i18n>introTouch}"
-										level="H3"
-										wrapping="true" />
-									<m:Text
-										text="{control>/fullName}"
-										class="sapUiTinyMarginTop" />
-									<m:Text
-										text="{control>/description}"
-										class="sapUiTinyMarginTop" />
-									<m:Text
-										text="{i18n>introSizeNote}"
-										class="sapUiTinyMarginTop" />
-								</m:VBox>
-                <m:MessageStrip
+							<!-- running text rather than two columns: the headings
+							     "The original" and "The touch version" were on every
+							     page and said less than the sentences below them -->
+							<m:VBox width="100%">
+								<m:Text text="{control>/description}" />
+								<m:Text
+									text="{
+										parts: ['i18n>overviewReplaces', 'control>/replaces', 'control>/original'],
+										formatter: 'formatMessage'
+									}"
+									class="sapUiSmallMarginTop" />
+								<m:Text
+									text="{i18n>introSizeNote}"
+									class="sapUiSmallMarginTop" />
+
+							<m:MessageStrip
 								text="{i18n>overviewBarHint}"
 								type="Information"
 								showIcon="true"
@@ -106,12 +91,7 @@
 										press=".onNavToOverflowToolbar" />
 								</m:link>
 							</m:MessageStrip>
-							</m:HBox>
-							<!-- a button in a bar of a page or a dialog is the one
-							     place the touch version needs a partner control,
-							     so the hint closes the section the control is
-							     explained in -->
-
+              </m:VBox>
 						</blocks>
 					</ObjectPageSubSection>
 				</subSections>
