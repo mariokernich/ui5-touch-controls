@@ -69,4 +69,12 @@ export default class Button extends BaseController {
 			event.getParameter("selected") ? "Button" : "",
 		);
 	}
+
+	/**
+	 * Opens the page of the OverflowToolbar, the control that lets a
+	 * tc:Button live in the bar of a page or a dialog.
+	 */
+	public onNavToOverflowToolbar(): void {
+		this.getRouter().navTo("OverflowToolbar");
+	}
 }

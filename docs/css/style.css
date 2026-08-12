@@ -32,6 +32,14 @@ body,
 	padding: 1rem;
 }
 
+/* The alternative page concept: a control page built as an ObjectPageLayout
+   rather than as a sap.m.Page with a row of cards. A NavContainer sizes its
+   pages by their own height, and an object page scrolls inside itself, so it
+   has to be told to take the whole area it is placed in. */
+.touchControlsObjectPage {
+	height: 100%;
+}
+
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
    collapse inside the flow of the surrounding page */
 .touchControlsDemoPage {
@@ -73,26 +81,151 @@ body,
 	mask: url("../github.svg") no-repeat center / contain;
 }
 
-/* The same for the npm mark, which is wider than it is tall. It sits on a
-   button, not on a link: only a button may be moved into the overflow of a
-   toolbar, which is where it goes when the header of a phone runs out of room.
-   The mark is drawn in front of the label of the button - which an
-   OverflowToolbarButton only shows once it is in that overflow. */
-.touchControlsHeaderNpm.sapMBtn .sapMBtnInner::before {
-	content: "";
-	display: inline-block;
-	/* the npm mark is a wide one, so it gets the room to stay legible next to
-	   the square of the other */
-	width: 1.75rem;
-	height: 1.25rem;
-	background-color: currentColor;
-	-webkit-mask: url("../npm.svg") no-repeat center / contain;
-	mask: url("../npm.svg") no-repeat center / contain;
-	vertical-align: middle;
+/* A box in a card is told to be as wide as the card and given margins on top
+   of that: the two together reach past its edge, and a card clips what sticks
+   out. The margins are what keeps the content off that edge, so it is the
+   width that gives way. Nothing shows of it until something inside really
+   takes the full width - a keyboard on a narrow screen, for instance. */
+.sapFCardContent > .sapMFlexBox.sapUiSmallMarginBegin.sapUiSmallMarginEnd {
+	/* the width of a FlexBox is written as an inline style, so this is what it
+	   takes to correct it from here */
+	width: calc(100% - 2rem) !important;
 }
 
-.touchControlsHeaderNpm.sapMBtn .sapMBtnInner {
+/* ---------------------------------------------------------------------------
+   responsive behaviour
+
+   The pages are built from rows of cards next to each other. On a narrow
+   window they must not squeeze into unusable columns, so the rows wrap and a
+   card never gets smaller than a card is useful at.
+   --------------------------------------------------------------------------- */
+.touchControlsCardRow {
+	flex-wrap: wrap;
+}
+
+/* The rule cannot use the child combinator: an HBox wraps every child in a
+   flex item of its own, so the card is a grandchild. A percentage would be
+   circular here - it would resolve against the flex item, whose width is what
+   the bound is meant to decide - so the bound is absolute, and small enough to
+   fit a phone. */
+.touchControlsCardRow .sapFCard {
+	min-width: 16rem;
+}
+
+/* the rows of a playground put a label next to a field; when they do not fit
+   side by side any more the field moves to a line of its own */
+.touchControlsPage .sapMHBox {
+	flex-wrap: wrap;
+}
+
+/* a bullet belongs to its line: the rule above would put the text of an entry
+   below its bullet as soon as the two do not fit on one line */
+.touchControlsPage .touchControlsBullet.sapMHBox {
+	flex-wrap: nowrap;
+}
+
+/* the name of a control in the head of its page reads as what it is: an API
+   name, not prose */
+.touchControlsIntroName {
+	font-family: "72Mono", "Courier New", monospace;
+	font-weight: bold;
+}
+
+/* ---------------------------------------------------------------------------
+   the playground of a control page
+
+   The three columns are told to share the row equally - flex: 1 1 0 on every
+   item, which is what an HBox of growFactor="1" and baseSize="0" comes down
+   to. Equal shares only read as columns while every column can live with its
+   share. On a tablet they cannot: the options column carries a label of 100px
+   beside a field of up to 300px and needs some 400px, while the two demo
+   columns hold nothing wider than a button. The row hands all three the same
+   ~220px anyway, so the options wrap into a ragged stack while the demo
+   columns sit half empty beside them.
+
+   Letting the row wrap does not fix it either. A wrapped row breaks wherever
+   the next item stops fitting, and here that is between the two demo columns:
+   the options column pairs up with the first demo column and the second is
+   left alone on a line below. The two demo columns are the comparison the
+   playground is for, so they are the last pair that may be split.
+
+   Hence a grid rather than a wrapped row: it breaks where the layout says, not
+   where the content happens to run out of room. Three columns while there is
+   room for three, then the options across the top with the comparison kept
+   side by side underneath, and only on a phone one column after the other.
+
+   The overrides are marked !important because sap.m writes the display and the
+   flex settings of the box and its items into their style attributes, where
+   nothing but an important declaration can reach them. */
+.touchControlsPlaygroundRow {
+	display: grid !important;
+	grid-template-columns: minmax(25rem, 1.4fr) 1fr 1fr;
+	align-items: start;
+}
+
+/* A grid item is min-content wide at its smallest, and the demo columns hold
+   buttons that do not break, so without this the track floor is a button and
+   the grid pushes the page sideways instead of shrinking. */
+.touchControlsPlaygroundRow > .sapMFlexItem {
+	min-width: 0 !important;
+}
+
+/* no room for three columns: the options move across the top, so the two demo
+   columns stay next to each other - they are there to be compared */
+@media (max-width: 1119px) {
+	.touchControlsPlaygroundRow {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.touchControlsPlaygroundRow > .sapMFlexItem:first-child {
+		grid-column: 1 / -1;
+	}
+}
+
+/* a phone fits one column, the comparison included */
+@media (max-width: 599px) {
+	.touchControlsPlaygroundRow {
+		grid-template-columns: 1fr;
+	}
+
+	.touchControlsPlaygroundRow > .sapMFlexItem:first-child {
+		grid-column: auto;
+	}
+}
+
+/* the version sits next to the switches in the header, quieter than they are */
+.touchControlsHeaderVersion {
+	opacity: 0.75;
+}
+
+/* The GitHub mark is drawn as a mask rather than as an image, so its colour is
+   the colour of the link it sits on. That is what makes it work in every
+   theme, the dark and the high contrast ones included - an image would need a
+   file per theme.
+
+   The mark is not meant to read as a link, so it takes the colour of the text
+   in the header instead of the link colour: near black on the light themes,
+   near white on the dark ones, and on Fiori 3, whose header is dark blue even
+   in the light variant, white. Only the plain colour is set here - the themes
+   that recolour a focused item in their header stay in charge of that, which
+   is what keeps the mark readable on the filled background they draw. */
+.touchControlsHeaderGithub.sapMLnk {
+	display: inline-flex;
+	width: 1.25rem;
+	height: 1.25rem;
 	color: var(--sapShell_TextColor, currentColor);
+}
+
+/* the mask sits on the pseudo element, not on the link itself: a mask covers
+   everything the element draws, and on the link that would swallow the focus
+   outline */
+.touchControlsHeaderGithub.sapMLnk::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: currentColor;
+	-webkit-mask: url("../github.svg") no-repeat center / contain;
+	mask: url("../github.svg") no-repeat center / contain;
 }
 
 /* A box in a card is told to be as wide as the card and given margins on top

@@ -47,7 +47,7 @@ export default abstract class BaseController extends Controller {
 	 *
 	 * The texts come from the control table of the documentation page, so the
 	 * two never drift apart, and the link points at the entity of the original
-	 * in the OpenUI5 demo kit.
+	 * in the UI5 demo kit.
 	 *
 	 * @param name the key of the page, which is also the name of the control
 	 */
@@ -63,6 +63,10 @@ export default abstract class BaseController extends Controller {
 				...doc,
 				fullName: `ui5.touch.controls.${doc.name}`,
 				docUrl: getApiUrl(doc.docEntity ?? doc.replaces),
+				// a base class of this library has no page in the demo kit, so
+				// the view renders the name as a plain text there
+				extendsUrl: getApiUrl(doc.extendsClass),
+				visibility: "public",
 			}),
 			"control",
 		);

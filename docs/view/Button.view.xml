@@ -1,118 +1,257 @@
 <mvc:View
 	controllerName="ui5.touch.controls.demo.controller.Button"
-	xmlns="sap.m"
+	xmlns="sap.uxap"
+	xmlns:m="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
-	xmlns:f="sap.f"
-	xmlns:cards="sap.f.cards"
-	xmlns:tc="ui5.touch.controls">
-	<Page showHeader="false" class="touchControlsPage">
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
-			type="XML" />
+	xmlns:editor="sap.ui.codeeditor"
+	xmlns:tc="ui5.touch.controls"
+	height="100%">
+	<!-- Alternative page concept: instead of a sap.m.Page filled with a row of
+	     sap.f.Cards, the page of a control is an ObjectPageLayout. The anchor
+	     bar then names the parts of the page - Overview, Playground, Example
+	     Usage - and jumps to them, which a row of cards cannot do.
 
-		<HBox width="100%" class="touchControlsCardRow">
-			<!-- playground -->
-			<f:Card class="sapUiMediumMarginBottom">
-				<f:layoutData>
-					<FlexItemData growFactor="1" baseSize="0" />
-				</f:layoutData>
-				<f:header>
-					<cards:Header title="{i18n>optionsButton}" />
-				</f:header>
-				<f:content>
-					<VBox
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-						<core:Fragment
-							fragmentName="ui5.touch.controls.demo.view.SizeOption"
-							type="XML" />
-						<HBox alignItems="Center">
-							<Text text="{i18n>lblText}" width="100px" />
-							<Input
-								value="{json>/text}"
-								placeholder="{i18n>phButtonText}"
-								valueLiveUpdate="true"
-								width="200px" />
-						</HBox>
-						<HBox alignItems="Center">
-							<Text text="{i18n>lblIcon}" width="100px" />
-							<Input
-								value="{json>/icon}"
-								placeholder="{i18n>phButtonIcon}"
-								valueLiveUpdate="true"
-								width="300px" />
-						</HBox>
-						<HBox alignItems="Center" wrap="Wrap">
-							<Text text="{i18n>lblBehavior}" width="100px" />
-							<CheckBox
-								text="{i18n>cbShowIcon}"
-								selected="{json>/showIcon}"
-								select=".onShowIconSelect" />
-							<CheckBox
-								text="{i18n>cbShowText}"
-								selected="{json>/showText}"
-								select=".onShowTextSelect" />
-							<CheckBox text="{i18n>cbIconFirst}" selected="{json>/iconFirst}" />
-							<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
-						</HBox>
-					</VBox>
-				</f:content>
-			</f:Card>
+	     The head of the page reads like an entry of the demo kit: the name of
+	     the control, one or two sentences on what it is, and beside them the
+	     facts about the class - what it extends, since when it is there and
+	     how visible it is. -->
+	<ObjectPageLayout
+		id="objectPage"
+		upperCaseAnchorBar="false"
+		class="touchControlsPage touchControlsObjectPage">
+		<!-- showTitleInHeaderContent is left off on purpose: it repeats the
+		     title and subtitle of the header title inside the header content,
+		     so the head of the page would say the same thing twice -->
+		<headerTitle>
+			<ObjectPageHeader
+				objectTitle="{control>/fullName}"
+				objectSubtitle="{control>/summary}" />
+		</headerTitle>
 
-			<!-- the library control -->
-			<f:Card class="sapUiMediumMarginBottom">
-				<f:layoutData>
-					<FlexItemData growFactor="1" baseSize="0" />
-				</f:layoutData>
-				<f:header>
-					<cards:Header
-						title="ui5.touch.controls.Button"
-						subtitle="{i18n>cardTouch}" />
-				</f:header>
-				<f:content>
-					<VBox
-						justifyContent="SpaceBetween"
-						items="{json>/types}"
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-						<tc:Button
-							text="{json>/text}"
-							type="{json>type}"
-							icon="{json>/icon}"
-							iconFirst="{json>/iconFirst}"
-							enabled="{json>/enabled}"
-							size="{json>/size}" />
-					</VBox>
-				</f:content>
-			</f:Card>
+		<headerContent>
+			<!-- the facts about the class, the way the demo kit lists them -->
+			<m:ObjectAttribute title="{i18n>introExtends}">
+				<m:customContent>
+					<m:Link
+						text="{control>/extendsClass}"
+						href="{control>/extendsUrl}"
+						target="_blank"
+						enabled="{= !!${control>/extendsUrl} }" />
+				</m:customContent>
+			</m:ObjectAttribute>
+			<m:ObjectAttribute
+				title="{i18n>introSince}"
+				text="{control>/since}" />
+			<m:ObjectAttribute
+				title="{i18n>introVisibility}"
+				text="{control>/visibility}" />
+			<!-- the one place the link to the original lives; the sections
+			     below do not repeat it -->
+			<m:Link
+				text="{i18n>introDocLink}"
+				href="{control>/docUrl}"
+				target="_blank" />
+		</headerContent>
 
-			<!-- the sap.m original -->
-			<f:Card class="sapUiMediumMarginBottom">
-				<f:layoutData>
-					<FlexItemData growFactor="1" baseSize="0" />
-				</f:layoutData>
-				<f:header>
-					<cards:Header
-						title="sap.m.Button"
-						subtitle="{i18n>cardOriginal}" />
-				</f:header>
-				<f:content>
-					<VBox
-						justifyContent="SpaceBetween"
-						items="{json>/types}"
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-						<Button
-							text="{json>/text}"
-							type="{json>type}"
-							icon="{json>/icon}"
-							iconFirst="{json>/iconFirst}"
-							enabled="{json>/enabled}" />
-					</VBox>
-				</f:content>
-			</f:Card>
-		</HBox>
+		<sections>
+			<!-- Overview: what the sap.m original is and what this library made
+			     of it, the two next to each other -->
+			<ObjectPageSection title="{i18n>sectionOverview}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<m:HBox width="100%" wrap="Wrap" class="touchControlsCardRow">
+								<m:VBox>
+									<m:layoutData>
+										<m:FlexItemData growFactor="1" baseSize="0" />
+									</m:layoutData>
+									<m:Title
+										text="{i18n>introOriginal}"
+										level="H3"
+										wrapping="true" />
+									<m:Text
+										text="{control>/replaces}"
+										class="touchControlsIntroName sapUiTinyMarginTop" />
+									<m:Text
+										text="{control>/original}"
+										class="sapUiTinyMarginTop" />
+								</m:VBox>
+								<m:VBox>
+									<m:layoutData>
+										<m:FlexItemData growFactor="1" baseSize="0" />
+									</m:layoutData>
+									<m:Title
+										text="{i18n>introTouch}"
+										level="H3"
+										wrapping="true" />
+									<m:Text
+										text="{control>/fullName}"
+										class="touchControlsIntroName sapUiTinyMarginTop" />
+									<m:Text
+										text="{control>/description}"
+										class="sapUiTinyMarginTop" />
+									<m:Text
+										text="{i18n>introSizeNote}"
+										class="sapUiTinyMarginTop" />
+								</m:VBox>
+                <m:MessageStrip
+								text="{i18n>overviewBarHint}"
+								type="Information"
+								showIcon="true"
+								class="sapUiSmallMarginTop">
+								<m:link>
+									<m:Link
+										text="{i18n>overviewBarHintLink}"
+										press=".onNavToOverflowToolbar" />
+								</m:link>
+							</m:MessageStrip>
+							</m:HBox>
+							<!-- a button in a bar of a page or a dialog is the one
+							     place the touch version needs a partner control,
+							     so the hint closes the section the control is
+							     explained in -->
 
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
-			type="XML" />
-	</Page>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			<!-- Playground: one block, three columns - what can be set, the
+			     control of this library, and the sap.m original beside it -->
+			<ObjectPageSection title="{i18n>sectionPlayground}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<m:HBox
+								width="100%"
+								wrap="Wrap"
+								class="touchControlsCardRow touchControlsPlaygroundRow">
+								<!-- column 1: what can be set -->
+								<m:VBox>
+									<m:layoutData>
+										<m:FlexItemData growFactor="1" baseSize="0" />
+									</m:layoutData>
+									<m:Title
+										text="{i18n>optionsTitle}"
+										level="H3"
+										wrapping="true"
+										class="sapUiTinyMarginBottom" />
+									<core:Fragment
+										fragmentName="ui5.touch.controls.demo.view.SizeOption"
+										type="XML" />
+									<m:HBox alignItems="Center">
+										<m:Text text="{i18n>lblText}" width="100px" />
+										<m:Input
+											value="{json>/text}"
+											placeholder="{i18n>phButtonText}"
+											valueLiveUpdate="true"
+											width="200px" />
+									</m:HBox>
+									<m:HBox alignItems="Center">
+										<m:Text text="{i18n>lblIcon}" width="100px" />
+										<m:Input
+											value="{json>/icon}"
+											placeholder="{i18n>phButtonIcon}"
+											valueLiveUpdate="true"
+											width="300px" />
+									</m:HBox>
+									<m:HBox alignItems="Center" wrap="Wrap">
+										<m:Text text="{i18n>lblBehavior}" width="100px" />
+										<m:CheckBox
+											text="{i18n>cbShowIcon}"
+											selected="{json>/showIcon}"
+											select=".onShowIconSelect" />
+										<m:CheckBox
+											text="{i18n>cbShowText}"
+											selected="{json>/showText}"
+											select=".onShowTextSelect" />
+										<m:CheckBox
+											text="{i18n>cbIconFirst}"
+											selected="{json>/iconFirst}" />
+										<m:CheckBox
+											text="{i18n>cbEnabled}"
+											selected="{json>/enabled}" />
+									</m:HBox>
+								</m:VBox>
+
+								<!-- column 2: the library control -->
+								<m:VBox>
+									<m:layoutData>
+										<m:FlexItemData growFactor="1" baseSize="0" />
+									</m:layoutData>
+									<m:Title
+										text="{control>/fullName}"
+										level="H3"
+										wrapping="true" />
+									<m:Text
+										text="{i18n>cardTouch}"
+										class="sapUiTinyMarginBottom" />
+									<m:VBox justifyContent="SpaceBetween" items="{json>/types}">
+										<tc:Button
+											text="{json>/text}"
+											type="{json>type}"
+											icon="{json>/icon}"
+											iconFirst="{json>/iconFirst}"
+											enabled="{json>/enabled}"
+											size="{json>/size}" />
+									</m:VBox>
+								</m:VBox>
+
+								<!-- column 3: the sap.m original -->
+								<m:VBox>
+									<m:layoutData>
+										<m:FlexItemData growFactor="1" baseSize="0" />
+									</m:layoutData>
+									<m:Title
+										text="{control>/replaces}"
+										level="H3"
+										wrapping="true" />
+									<m:Text
+										text="{i18n>cardOriginal}"
+										class="sapUiTinyMarginBottom" />
+									<m:VBox justifyContent="SpaceBetween" items="{json>/types}">
+										<m:Button
+											text="{json>/text}"
+											type="{json>type}"
+											icon="{json>/icon}"
+											iconFirst="{json>/iconFirst}"
+											enabled="{json>/enabled}" />
+									</m:VBox>
+								</m:VBox>
+							</m:HBox>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			<!-- Example Usage: the snippets come from the "example" model, not
+			     from the view - curly braces in an XML view would be parsed as
+			     binding syntax -->
+			<ObjectPageSection title="{i18n>sectionExample}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<m:VBox width="100%" items="{example>/main}">
+								<m:VBox width="100%">
+									<m:Title
+										text="{= ${example>title} || (${example>language} === 'xml' ? ${i18n>exampleUsageXml} : ${i18n>exampleUsageController}) }"
+										level="H3"
+										wrapping="true"
+										class="sapUiTinyMarginBottom" />
+									<editor:CodeEditor
+										value="{example>code}"
+										type="{example>language}"
+										height="{example>height}"
+										width="100%"
+										editable="false"
+										lineNumbers="true" />
+								</m:VBox>
+							</m:VBox>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
 </mvc:View>
