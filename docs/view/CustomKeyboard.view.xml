@@ -154,7 +154,7 @@
 						</columns>
 						<items>
 							<ColumnListItem>
-								<Text text="{json>key}" class="touchControlsIntroName" />
+								<Text text="{json>key}" />
 								<Text text="{json>meaning}" />
 							</ColumnListItem>
 						</items>

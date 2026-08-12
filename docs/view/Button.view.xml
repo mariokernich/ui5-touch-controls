@@ -72,7 +72,7 @@
 										wrapping="true" />
 									<m:Text
 										text="{control>/replaces}"
-										class="touchControlsIntroName sapUiTinyMarginTop" />
+										class="sapUiTinyMarginTop" />
 									<m:Text
 										text="{control>/original}"
 										class="sapUiTinyMarginTop" />
@@ -87,7 +87,7 @@
 										wrapping="true" />
 									<m:Text
 										text="{control>/fullName}"
-										class="touchControlsIntroName sapUiTinyMarginTop" />
+										class="sapUiTinyMarginTop" />
 									<m:Text
 										text="{control>/description}"
 										class="sapUiTinyMarginTop" />

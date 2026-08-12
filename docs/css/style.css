@@ -124,13 +124,6 @@ body,
 	flex-wrap: nowrap;
 }
 
-/* the name of a control in the head of its page reads as what it is: an API
-   name, not prose */
-.touchControlsIntroName {
-	font-family: "72Mono", "Courier New", monospace;
-	font-weight: bold;
-}
-
 /* ---------------------------------------------------------------------------
    the playground of a control page
 
@@ -269,13 +262,6 @@ body,
    below its bullet as soon as the two do not fit on one line */
 .touchControlsPage .touchControlsBullet.sapMHBox {
 	flex-wrap: nowrap;
-}
-
-/* the name of a control in the head of its page reads as what it is: an API
-   name, not prose */
-.touchControlsIntroName {
-	font-family: "72Mono", "Courier New", monospace;
-	font-weight: bold;
 }
 
 /* The rows are flex boxes and their items are sized by their content, so a

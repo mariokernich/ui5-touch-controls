@@ -26,7 +26,7 @@
 					<Title text="{i18n>introOriginal}" level="H3" wrapping="true" />
 					<Text
 						text="{control>/replaces}"
-						class="touchControlsIntroName sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop" />
 					<Text text="{control>/original}" class="sapUiTinyMarginTop" />
 					<Link
 						text="{i18n>introDocLink}"
@@ -41,7 +41,7 @@
 					<Title text="{i18n>introTouch}" level="H3" wrapping="true" />
 					<Text
 						text="{control>/fullName}"
-						class="touchControlsIntroName sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop" />
 					<Text text="{control>/description}" class="sapUiTinyMarginTop" />
 					<Text text="{i18n>introSizeNote}" class="sapUiTinyMarginTop" />
 				</VBox>
