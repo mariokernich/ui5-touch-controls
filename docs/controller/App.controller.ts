@@ -115,19 +115,6 @@ export default class App extends BaseController {
 		this.getRouter().navTo(allPages[0].key);
 	}
 
-	/**
-	 * Opens the npm package page. The mark is a button rather than a link so
-	 * that the toolbar may move it into its overflow, and a button has to be
-	 * told where to go.
-	 */
-	public onNpmPress(): void {
-		window.open(
-			"https://www.npmjs.com/package/ui5.touch.controls",
-			"_blank",
-			"noopener",
-		);
-	}
-
 	public onNavigationSelect(event: SideNavigation$ItemSelectEvent): void {
 		const key = event.getParameter("item")?.getProperty("key") as
 			| string
