@@ -90,7 +90,14 @@ export default abstract class BaseController extends Controller {
 			data[key] = snippets.map((snippet) => {
 				const normalized: Snippet =
 					typeof snippet === "string" ? { code: snippet } : snippet;
-				const code = normalized.code.trim();
+				// The sources are written as template literals in tab-indented
+				// files, so the samples arrive tab-indented too. A tab in a
+				// <pre> is rendered at the browser's tab stop - eight columns -
+				// which reads far too deep for a short snippet. Two spaces per
+				// level is what the code cards show instead.
+				const code = normalized.code
+					.trim()
+					.replace(/^\t+/gm, (tabs) => "  ".repeat(tabs.length));
 				const language = normalized.language ?? "xml";
 
 				return {

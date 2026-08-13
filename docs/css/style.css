@@ -201,82 +201,16 @@ body,
 	}
 }
 
-/* the version sits next to the switches in the header, quieter than they are */
-.touchControlsHeaderVersion {
-	opacity: 0.75;
-}
-
-/* The GitHub mark is drawn as a mask rather than as an image, so its colour is
-   the colour of the link it sits on. That is what makes it work in every
-   theme, the dark and the high contrast ones included - an image would need a
-   file per theme.
-
-   The mark is not meant to read as a link, so it takes the colour of the text
-   in the header instead of the link colour: near black on the light themes,
-   near white on the dark ones, and on Fiori 3, whose header is dark blue even
-   in the light variant, white. Only the plain colour is set here - the themes
-   that recolour a focused item in their header stay in charge of that, which
-   is what keeps the mark readable on the filled background they draw. */
-.touchControlsHeaderGithub.sapMLnk {
-	display: inline-flex;
-	width: 1.25rem;
-	height: 1.25rem;
-	color: var(--sapShell_TextColor, currentColor);
-}
-
-/* the mask sits on the pseudo element, not on the link itself: a mask covers
-   everything the element draws, and on the link that would swallow the focus
-   outline */
-.touchControlsHeaderGithub.sapMLnk::before {
-	content: "";
-	width: 100%;
-	height: 100%;
-	background-color: currentColor;
-	-webkit-mask: url("../github.svg") no-repeat center / contain;
-	mask: url("../github.svg") no-repeat center / contain;
-}
-
-/* A box in a card is told to be as wide as the card and given margins on top
-   of that: the two together reach past its edge, and a card clips what sticks
-   out. The margins are what keeps the content off that edge, so it is the
-   width that gives way. Nothing shows of it until something inside really
-   takes the full width - a keyboard on a narrow screen, for instance. */
-.sapFCardContent > .sapMFlexBox.sapUiSmallMarginBegin.sapUiSmallMarginEnd {
-	/* the width of a FlexBox is written as an inline style, so this is what it
-	   takes to correct it from here */
-	width: calc(100% - 2rem) !important;
-}
-
-/* ---------------------------------------------------------------------------
-   responsive behaviour
-
-   The pages are built from rows of cards next to each other. On a narrow
-   window they must not squeeze into unusable columns, so the rows wrap and a
-   card never gets smaller than a card is useful at.
-   --------------------------------------------------------------------------- */
-.touchControlsCardRow {
-	flex-wrap: wrap;
-}
-
-/* The rule cannot use the child combinator: an HBox wraps every child in a
-   flex item of its own, so the card is a grandchild. A percentage would be
-   circular here - it would resolve against the flex item, whose width is what
-   the bound is meant to decide - so the bound is absolute, and small enough to
-   fit a phone. */
-.touchControlsCardRow .sapFCard {
-	min-width: 16rem;
-}
-
-/* the rows of a playground put a label next to a field; when they do not fit
-   side by side any more the field moves to a line of its own */
-.touchControlsPage .sapMHBox {
-	flex-wrap: wrap;
-}
-
-/* a bullet belongs to its line: the rule above would put the text of an entry
-   below its bullet as soon as the two do not fit on one line */
-.touchControlsPage .touchControlsBullet.sapMHBox {
-	flex-wrap: nowrap;
+/* The floor of the card above has to be repeated on the flex item around it.
+   A flex item may not shrink below the content it holds - min-width: auto,
+   which sap.m even writes into the style attribute - and a code block holds
+   lines that do not break, so one long line would widen the item until two
+   cards no longer fit beside each other and the row wraps for no visible
+   reason. Pinning the item to the same 16rem as the card frees the row to
+   divide its width by the layout; what is longer than a card scrolls inside
+   its code block. The !important is against the inline min-width: auto. */
+.touchControlsCardRow > .sapMFlexItem {
+	min-width: 16rem !important;
 }
 
 /* The rows are flex boxes and their items are sized by their content, so a
@@ -379,5 +313,6 @@ body,
 	min-width: 0;
 	max-width: 100%;
 	font-size: 14px;
+	width:100%;
 }
 
