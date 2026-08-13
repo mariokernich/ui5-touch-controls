@@ -108,6 +108,7 @@
                     <f:content>
                         <List
                             items="{json>/subclasses}"
+                            itemPress=".onNavToSubclass"
                             class="sapUiSmallMarginBottom"
                         >
                             <StandardListItem
@@ -115,7 +116,6 @@
                                 description="{json>text}"
                                 icon="{json>icon}"
                                 type="Navigation"
-                                press=".onNavToSubclass"
                             />
                         </List>
                     </f:content>
