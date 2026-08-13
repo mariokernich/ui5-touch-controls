@@ -1,400 +1,392 @@
 <mvc:View
 	controllerName="ui5.touch.controls.demo.controller.general.Documentation"
-	xmlns="sap.uxap"
-	xmlns:m="sap.m"
+	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards"
 	xmlns:control="ui5.touch.controls.demo.control"
 	height="100%">
-	<!-- The reference is the longest page of the demo: eight topics, several of
-	     them with a table or a code snippet. As a stack of cards in a
-	     sap.m.Page it could only be read by scrolling from the top - there was
-	     no way to see what the page holds, and no way to jump to a topic.
+	<f:DynamicPage toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>docTitle}" />
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<Text text="{i18n>docSubtitle}" />
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox width="100%">
+				<!-- touch versions of sap.m controls -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docPortedTitle}"
+							subtitle="{i18n>docPortedSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docPortedText}"
+								width="100%" />
+							<Table items="{docs>/ported}" class="sapUiSmallMarginTop">
+								<columns>
+									<Column width="12rem">
+										<Label text="{i18n>colControl}" />
+									</Column>
+									<Column
+										width="14rem"
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colReplaces}" />
+									</Column>
+									<Column
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colDescription}" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<Link
+											text="tc:{docs>name}"
+											tooltip="{i18n>tooltipOpenControlPage}"
+											press=".onControlPress" />
+										<Text text="{docs>replaces}" />
+										<Text text="{docs>description}" />
+									</ColumnListItem>
+								</items>
+							</Table>
+						</VBox>
+					</f:content>
+				</f:Card>
 
-	     As an ObjectPageLayout the topics become sections, so the anchor bar
-	     names all eight and jumps to them. The card headers turn into the
-	     titles of those sections, and their subtitles into the line that opens
-	     each one - a subsection title would have gone into the anchor bar
-	     instead of the section title, because a section with a single
-	     subsection is named after that subsection. -->
-	<ObjectPageLayout
-		id="objectPage"
-		upperCaseAnchorBar="false"
-		showFooter="true"
-		class="touchControlsPage touchControlsObjectPage">
-		<headerTitle>
-			<ObjectPageHeader
-				objectTitle="{i18n>docTitle}"
-				objectSubtitle="{i18n>docSubtitle}" />
-		</headerTitle>
+				<!-- additional controls for touch, with no sap.m equivalent -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docNewTitle}"
+							subtitle="{i18n>docNewSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docNewText}"
+								width="100%" />
+							<!-- the Replaces column would say the same thing in every
+							     row, so it is left out here -->
+							<Table items="{docs>/new}" class="sapUiSmallMarginTop">
+								<columns>
+									<Column width="12rem">
+										<Label text="{i18n>colControl}" />
+									</Column>
+									<Column
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colDescription}" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<Link
+											text="tc:{docs>name}"
+											tooltip="{i18n>tooltipOpenControlPage}"
+											press=".onControlPress" />
+										<Text text="{docs>description}" />
+									</ColumnListItem>
+								</items>
+							</Table>
+						</VBox>
+					</f:content>
+				</f:Card>
 
-		<sections>
-			<!-- touch versions of sap.m controls -->
-			<ObjectPageSection title="{i18n>docPortedTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docPortedSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docPortedText}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<m:Table items="{docs>/ported}" class="sapUiSmallMarginTop">
-									<m:columns>
-										<m:Column width="12rem">
-											<m:Label text="{i18n>colControl}" />
-										</m:Column>
-										<m:Column
-											width="14rem"
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i188n>colReplaces}" />
-										</m:Column>
-										<m:Column
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colDescription}" />
-										</m:Column>
-									</m:columns>
-									<m:items>
-										<m:ColumnListItem>
-											<m:Link
-												text="tc:{docs>name}"
-												tooltip="{i18n>tooltipOpenControlPage}"
-												press=".onControlPress" />
-											<m:Text text="{docs>replaces}" />
-											<m:Text text="{docs>description}" />
-										</m:ColumnListItem>
-									</m:items>
-								</m:Table>
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
+				<!-- what is called from a controller instead of put into a view -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docClassesTitle}"
+							subtitle="{i18n>docClassesSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docClassesText}"
+								width="100%" />
+							<Table items="{docs>/classes}" class="sapUiSmallMarginTop">
+								<columns>
+									<Column width="12rem">
+										<Label text="{i18n>colClass}" />
+									</Column>
+									<Column
+										width="14rem"
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colReplaces}" />
+									</Column>
+									<Column
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colDescription}" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<Link
+											text="tc:{docs>name}"
+											tooltip="{i18n>tooltipOpenControlPage}"
+											press=".onControlPress" />
+										<Text text="{docs>replaces}" />
+										<Text text="{docs>description}" />
+									</ColumnListItem>
+								</items>
+							</Table>
+						</VBox>
+					</f:content>
+				</f:Card>
 
-			<!-- additional controls for touch, with no sap.m equivalent -->
-			<ObjectPageSection title="{i18n>docNewTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docNewSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docNewText}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<!-- the Replaces column would say the same thing in every
-								     row, so it is left out here -->
-								<m:Table items="{docs>/new}" class="sapUiSmallMarginTop">
-									<m:columns>
-										<m:Column width="12rem">
-											<m:Label text="{i18n>colControl}" />
-										</m:Column>
-										<m:Column
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colDescription}" />
-										</m:Column>
-									</m:columns>
-									<m:items>
-										<m:ColumnListItem>
-											<m:Link
-												text="tc:{docs>name}"
-												tooltip="{i18n>tooltipOpenControlPage}"
-												press=".onControlPress" />
-											<m:Text text="{docs>description}" />
-										</m:ColumnListItem>
-									</m:items>
-								</m:Table>
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
+				<!-- theme compatibility -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docThemesTitle}"
+							subtitle="{i18n>docThemesSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docThemesText1}"
+								width="100%" />
+							<Table items="{docs>/themes}" class="sapUiSmallMarginTop">
+								<columns>
+									<Column width="18rem">
+										<Label text="{i18n>colTheme}" />
+									</Column>
+									<Column
+										width="14rem"
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colThemeId}" />
+									</Column>
+									<Column
+										width="10rem"
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colSupported}" />
+									</Column>
+									<Column
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline">
+										<Label text="{i18n>colRemark}" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<Text text="{docs>name}" />
+										<Text text="{docs>id}" />
+										<ObjectStatus
+											text="{= ${docs>supported} ? ${i18n>yes} : ${i18n>no} }"
+											state="{= ${docs>supported} ? 'Success' : 'Error' }"
+											icon="{= ${docs>supported} ? 'sap-icon://accept' : 'sap-icon://decline' }" />
+										<Text text="{docs>note}" />
+									</ColumnListItem>
+								</items>
+							</Table>
+							<FormattedText
+								htmlText="{i18n>docThemesText2}"
+								width="100%"
+								class="sapUiSmallMarginTop" />
+						</VBox>
+					</f:content>
+				</f:Card>
 
-			<!-- what is called from a controller instead of put into a view -->
-			<ObjectPageSection title="{i18n>docClassesTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docClassesSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docClassesText}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<m:Table items="{docs>/classes}" class="sapUiSmallMarginTop">
-									<m:columns>
-										<m:Column width="12rem">
-											<m:Label text="{i18n>colClass}" />
-										</m:Column>
-										<m:Column
-											width="14rem"
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colReplaces}" />
-										</m:Column>
-										<m:Column
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colDescription}" />
-										</m:Column>
-									</m:columns>
-									<m:items>
-										<m:ColumnListItem>
-											<m:Link
-												text="tc:{docs>name}"
-												tooltip="{i18n>tooltipOpenControlPage}"
-												press=".onControlPress" />
-											<m:Text text="{docs>replaces}" />
-											<m:Text text="{docs>description}" />
-										</m:ColumnListItem>
-									</m:items>
-								</m:Table>
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
+				<!-- sizes -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docSizesTitle}"
+							subtitle="{i18n>docSizesSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docSizesText1}"
+								width="100%" />
+							<FormattedText
+								htmlText="{i18n>docSizesText2}"
+								width="100%"
+								class="sapUiSmallMarginTop" />
+							<!-- the snippets keep their card: it is what sets code
+							     apart from the prose around it -->
+							<VBox width="100%" items="{example>/sizes}">
+								<f:Card class="sapUiSmallMarginTop">
+									<f:header>
+										<cards:Header title="{i18n>docSizesExample}" />
+									</f:header>
+									<f:content>
+										<control:CodeBlock
+											text="{example>code}"
+											language="{example>language}"
+											class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+									</f:content>
+								</f:Card>
+							</VBox>
+						</VBox>
+					</f:content>
+				</f:Card>
 
-			<!-- theme compatibility -->
-			<ObjectPageSection title="{i18n>docThemesTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docThemesSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docThemesText1}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<m:Table items="{docs>/themes}" class="sapUiSmallMarginTop">
-									<m:columns>
-										<m:Column width="18rem">
-											<m:Label text="{i18n>colTheme}" />
-										</m:Column>
-										<m:Column
-											width="14rem"
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colThemeId}" />
-										</m:Column>
-										<m:Column
-											width="10rem"
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colSupported}" />
-										</m:Column>
-										<m:Column
-											demandPopin="true"
-											minScreenWidth="Tablet"
-											popinDisplay="Inline">
-											<m:Label text="{i18n>colRemark}" />
-										</m:Column>
-									</m:columns>
-									<m:items>
-										<m:ColumnListItem>
-											<m:Text text="{docs>name}" />
-											<m:Text text="{docs>id}" />
-											<m:ObjectStatus
-												text="{= ${docs>supported} ? ${i18n>yes} : ${i18n>no} }"
-												state="{= ${docs>supported} ? 'Success' : 'Error' }"
-												icon="{= ${docs>supported} ? 'sap-icon://accept' : 'sap-icon://decline' }" />
-											<m:Text text="{docs>note}" />
-										</m:ColumnListItem>
-									</m:items>
-								</m:Table>
-								<m:FormattedText
-									htmlText="{i18n>docThemesText2}"
-									width="100%"
-									class="sapUiSmallMarginTop" />
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
+				<!-- ISized -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docISizedTitle}"
+							subtitle="{i18n>docISizedSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docISizedText}"
+								width="100%" />
+							<VBox width="100%" items="{example>/isized}">
+								<f:Card class="sapUiSmallMarginTop">
+									<f:header>
+										<cards:Header title="{i18n>exampleUsageController}" />
+									</f:header>
+									<f:content>
+										<control:CodeBlock
+											text="{example>code}"
+											language="{example>language}"
+											class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+									</f:content>
+								</f:Card>
+							</VBox>
+						</VBox>
+					</f:content>
+				</f:Card>
 
-			<!-- sizes -->
-			<ObjectPageSection title="{i18n>docSizesTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docSizesSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docSizesText1}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<m:FormattedText
-									htmlText="{i18n>docSizesText2}"
-									width="100%"
-									class="sapUiSmallMarginTop" />
-								<!-- the snippets keep their card: it is what sets code
-								     apart from the prose around it now that the topic
-								     itself is no longer wrapped in one -->
-								<m:VBox width="100%" items="{example>/sizes}">
-									<f:Card class="sapUiSmallMarginTop">
-										<f:header>
-											<cards:Header title="{i18n>docSizesExample}" />
-										</f:header>
-										<f:content>
-											<control:CodeBlock
-												text="{example>code}"
-												language="{example>language}"
-												class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
-										</f:content>
-									</f:Card>
-								</m:VBox>
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
+				<!-- the three keyboards -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docKeyboardTitle}"
+							subtitle="{i18n>docKeyboardSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<FormattedText
+								htmlText="{i18n>docKeyboardText1}"
+								width="100%" />
+							<FormattedText
+								htmlText="{i18n>docKeyboardText2}"
+								width="100%"
+								class="sapUiSmallMarginTop" />
+							<VBox width="100%" items="{example>/keyboard}">
+								<f:Card class="sapUiSmallMarginTop">
+									<f:header>
+										<cards:Header title="{i18n>exampleUsageXml}" />
+									</f:header>
+									<f:content>
+										<control:CodeBlock
+											text="{example>code}"
+											language="{example>language}"
+											class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+									</f:content>
+								</f:Card>
+							</VBox>
+						</VBox>
+					</f:content>
+				</f:Card>
 
-			<!-- ISized -->
-			<ObjectPageSection title="{i18n>docISizedTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docISizedSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docISizedText}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<m:VBox width="100%" items="{example>/isized}">
-									<f:Card class="sapUiSmallMarginTop">
-										<f:header>
-											<cards:Header title="{i18n>exampleUsageController}" />
-										</f:header>
-										<f:content>
-											<control:CodeBlock
-												text="{example>code}"
-												language="{example>language}"
-												class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
-										</f:content>
-									</f:Card>
-								</m:VBox>
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-
-			<!-- the three keyboards -->
-			<ObjectPageSection title="{i18n>docKeyboardTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docKeyboardSubtitle}"
-									class="touchControlsSectionLead" />
-								<m:FormattedText
-									htmlText="{i18n>docKeyboardText1}"
-									width="100%"
-									class="sapUiTinyMarginTop" />
-								<m:FormattedText
-									htmlText="{i18n>docKeyboardText2}"
-									width="100%"
-									class="sapUiSmallMarginTop" />
-								<m:VBox width="100%" items="{example>/keyboard}">
-									<f:Card class="sapUiSmallMarginTop">
-										<f:header>
-											<cards:Header title="{i18n>exampleUsageXml}" />
-										</f:header>
-										<f:content>
-											<control:CodeBlock
-												text="{example>code}"
-												language="{example>language}"
-												class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
-										</f:content>
-									</f:Card>
-								</m:VBox>
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-
-			<!-- pitfall: aggregations that only accept sap.m.Button -->
-			<ObjectPageSection title="{i18n>docPitfallTitle}">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<m:VBox width="100%">
-								<m:Text
-									text="{i18n>docPitfallSubtitle}"
-									class="touchControlsSectionLead sapUiTinyMarginBottom" />
-								<m:MessageStrip
-									text="{i18n>docPitfallStrip}"
-									type="Warning"
-									showIcon="true" />
-								<m:FormattedText
-									htmlText="{i18n>docPitfallText1}"
-									width="100%"
-									class="sapUiSmallMarginTop" />
-								<m:VBox width="100%" items="{example>/pitfallBroken}">
-									<f:Card class="sapUiSmallMarginTop">
-										<f:header>
-											<cards:Header title="{i18n>docPitfallBrokenTitle}" />
-										</f:header>
-										<f:content>
-											<control:CodeBlock
-												text="{example>code}"
-												language="{example>language}"
-												class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
-										</f:content>
-									</f:Card>
-								</m:VBox>
-								<m:FormattedText
-									htmlText="{i18n>docPitfallText2}"
-									width="100%"
-									class="sapUiSmallMarginTop" />
-								<m:VBox width="100%" items="{example>/pitfallWorks}">
-									<f:Card class="sapUiSmallMarginTop">
-										<f:header>
-											<cards:Header title="{i18n>docPitfallWorksTitle}" />
-										</f:header>
-										<f:content>
-											<control:CodeBlock
-												text="{example>code}"
-												language="{example>language}"
-												class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
-										</f:content>
-									</f:Card>
-								</m:VBox>
-								<m:FormattedText
-									htmlText="{i18n>docPitfallText3}"
-									width="100%"
-									class="sapUiSmallMarginTop" />
-							</m:VBox>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-		</sections>
-	</ObjectPageLayout>
+				<!-- pitfall: aggregations that only accept sap.m.Button -->
+				<f:Card class="sapUiMediumMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>docPitfallTitle}"
+							subtitle="{i18n>docPitfallSubtitle}"
+							subtitleMaxLines="0" />
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<MessageStrip
+								text="{i18n>docPitfallStrip}"
+								type="Warning"
+								showIcon="true" />
+							<FormattedText
+								htmlText="{i18n>docPitfallText1}"
+								width="100%"
+								class="sapUiSmallMarginTop" />
+							<VBox width="100%" items="{example>/pitfallBroken}">
+								<f:Card class="sapUiSmallMarginTop">
+									<f:header>
+										<cards:Header title="{i18n>docPitfallBrokenTitle}" />
+									</f:header>
+									<f:content>
+										<control:CodeBlock
+											text="{example>code}"
+											language="{example>language}"
+											class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+									</f:content>
+								</f:Card>
+							</VBox>
+							<FormattedText
+								htmlText="{i18n>docPitfallText2}"
+								width="100%"
+								class="sapUiSmallMarginTop" />
+							<VBox width="100%" items="{example>/pitfallWorks}">
+								<f:Card class="sapUiSmallMarginTop">
+									<f:header>
+										<cards:Header title="{i18n>docPitfallWorksTitle}" />
+									</f:header>
+									<f:content>
+										<control:CodeBlock
+											text="{example>code}"
+											language="{example>language}"
+											class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+									</f:content>
+								</f:Card>
+							</VBox>
+							<FormattedText
+								htmlText="{i18n>docPitfallText3}"
+								width="100%"
+								class="sapUiSmallMarginTop" />
+						</VBox>
+					</f:content>
+				</f:Card>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
 </mvc:View>

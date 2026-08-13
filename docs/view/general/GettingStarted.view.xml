@@ -2,140 +2,206 @@
 	controllerName="ui5.touch.controls.demo.controller.general.GettingStarted"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards"
 	xmlns:control="ui5.touch.controls.demo.control"
-	xmlns:tc="ui5.touch.controls">
-	<Page showHeader="false" class="touchControlsPage">
+	xmlns:tc="ui5.touch.controls"
+>
+	<Page
+		showHeader="false"
+		class="touchControlsPage"
+	>
 		<!-- hero -->
-		<VBox alignItems="Center" class="sapUiMediumMarginBottom">
+		<VBox
+			alignItems="Center"
+			class="sapUiMediumMarginBottom"
+		>
 			<Image
 				src="{app>/logo}"
 				height="8rem"
 				alt="ui5-touch-controls"
 				densityAware="false"
-				class="sapUiSmallMarginBottom sapUiSmallMarginTop" />
-			<Title text="{i18n>gsTitle}" level="H1" wrapping="true" />
-			<Text text="{i18n>gsSubtitle}" class="sapUiTinyMarginTop" />
+				class="sapUiSmallMarginBottom sapUiSmallMarginTop"
+			/>
+			<Title
+				text="{i18n>gsTitle}"
+				level="H1"
+				wrapping="true"
+			/>
+			<Text
+				text="{i18n>gsSubtitle}"
+				class="sapUiTinyMarginTop"
+			/>
 		</VBox>
-
 		<!-- what the library is about -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
-				<cards:Header title="{i18n>gsWhatTitle}" subtitle="{i18n>gsWhatSubtitle}" />
+				<cards:Header
+					title="{i18n>gsWhatTitle}"
+					subtitle="{i18n>gsWhatSubtitle}"
+				/>
 			</f:header>
 			<f:content>
 				<VBox
 					width="100%"
-					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+				>
 					<FormattedText
 						htmlText="{i18n>gsWhatText1}"
 						width="100%"
-						class="sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop"
+					/>
 					<FormattedText
 						htmlText="{i18n>gsWhatText2}"
 						width="100%"
-						class="sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop"
+					/>
 				</VBox>
 			</f:content>
 		</f:Card>
-
 		<!-- live example: try the sizes -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
-				<cards:Header title="{i18n>gsSizesTitle}" subtitle="{i18n>gsSizesSubtitle}" />
+				<cards:Header
+					title="{i18n>gsSizesTitle}"
+					subtitle="{i18n>gsSizesSubtitle}"
+				/>
 			</f:header>
 			<f:content>
 				<VBox
 					width="100%"
-					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+				>
 					<FormattedText
 						htmlText="{i18n>gsSizesText}"
 						width="100%"
-						class="sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop"
+					/>
 					<HBox
 						wrap="Wrap"
 						alignItems="Center"
-						class="touchControlsButtonRow sapUiTinyMarginTop">
+						class="touchControlsButtonRow sapUiTinyMarginTop"
+					>
 						<tc:Button
 							text="S"
 							icon="sap-icon://accept"
 							type="Emphasized"
 							size="S"
-							press=".onSizePress" />
+							press=".onSizePress"
+						/>
 						<tc:Button
 							text="M"
 							icon="sap-icon://accept"
 							type="Emphasized"
 							size="M"
-							press=".onSizePress" />
+							press=".onSizePress"
+						/>
 						<tc:Button
 							text="L"
 							icon="sap-icon://accept"
 							type="Emphasized"
 							size="L"
-							press=".onSizePress" />
+							press=".onSizePress"
+						/>
 						<tc:Button
 							text="XL"
 							icon="sap-icon://accept"
 							type="Emphasized"
 							size="XL"
-							press=".onSizePress" />
+							press=".onSizePress"
+						/>
 						<tc:Button
 							text="2XL"
 							icon="sap-icon://accept"
 							type="Emphasized"
 							size="2XL"
-							press=".onSizePress" />
+							press=".onSizePress"
+						/>
 						<tc:Button
 							text="3XL"
 							icon="sap-icon://accept"
 							type="Emphasized"
 							size="3XL"
-							press=".onSizePress" />
+							press=".onSizePress"
+						/>
 					</HBox>
 				</VBox>
 			</f:content>
 		</f:Card>
-
 		<!-- before / after -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
 				<cards:Header
 					title="{i18n>gsDropInTitle}"
-					subtitle="{i18n>gsDropInSubtitle}" />
+					subtitle="{i18n>gsDropInSubtitle}"
+				/>
 			</f:header>
 			<f:content>
 				<VBox
 					width="100%"
-					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+				>
 					<FormattedText
 						htmlText="{i18n>gsDropInText}"
 						width="100%"
-						class="sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop"
+					/>
 					<HBox
 						width="100%"
 						wrap="Wrap"
+						alignItems="Center"
 						class="touchControlsCardRow"
-						items="{example>/comparison}">
+					>
 						<f:Card class="sapUiMediumMarginTop">
 							<f:layoutData>
-								<FlexItemData growFactor="1" baseSize="0" />
+								<FlexItemData
+									growFactor="1"
+									baseSize="0"
+								/>
 							</f:layoutData>
 							<f:header>
-								<cards:Header title="{example>title}" />
+								<cards:Header title="{example>/comparison/0/title}" />
 							</f:header>
 							<f:content>
 								<control:CodeBlock
-									text="{example>code}"
-									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+									text="{example>/comparison/0/code}"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+								/>
+							</f:content>
+						</f:Card>
+						<!-- the arrow that reads "this becomes that" -->
+						<core:Icon
+							src="sap-icon://arrow-right"
+							size="2rem"
+							decorative="true"
+							class="sapUiMediumMarginTop"
+						>
+							<core:layoutData>
+								<FlexItemData styleClass="touchControlsCardRowArrow" />
+							</core:layoutData>
+						</core:Icon>
+						<f:Card class="sapUiMediumMarginTop">
+							<f:layoutData>
+								<FlexItemData
+									growFactor="1"
+									baseSize="0"
+								/>
+							</f:layoutData>
+							<f:header>
+								<cards:Header title="{example>/comparison/1/title}" />
+							</f:header>
+							<f:content>
+								<control:CodeBlock
+									text="{example>/comparison/1/code}"
+									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+								/>
 							</f:content>
 						</f:Card>
 					</HBox>
 				</VBox>
 			</f:content>
 		</f:Card>
-
 		<!-- requirements -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
@@ -144,50 +210,61 @@
 			<f:content>
 				<VBox
 					width="100%"
-					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+				>
 					<MessageStrip
 						text="{i18n>gsRequirementsStrip}"
 						type="Information"
-						showIcon="true" />
+						showIcon="true"
+					/>
 					<FormattedText
 						htmlText="{i18n>gsRequirementsText}"
 						width="100%"
-						class="sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop"
+					/>
 				</VBox>
 			</f:content>
 		</f:Card>
-
 		<!-- next steps -->
 		<f:Card class="sapUiMediumMarginBottom">
 			<f:header>
-				<cards:Header title="{i18n>gsNextTitle}" subtitle="{i18n>gsNextSubtitle}" />
+				<cards:Header
+					title="{i18n>gsNextTitle}"
+					subtitle="{i18n>gsNextSubtitle}"
+				/>
 			</f:header>
 			<f:content>
 				<VBox
 					width="100%"
-					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+				>
 					<FormattedText
 						htmlText="{i18n>gsNextText}"
 						width="100%"
-						class="sapUiTinyMarginTop" />
+						class="sapUiTinyMarginTop"
+					/>
 					<HBox
 						wrap="Wrap"
 						alignItems="Center"
-						class="touchControlsButtonRow sapUiSmallMarginTop">
+						class="touchControlsButtonRow sapUiSmallMarginTop"
+					>
 						<Button
 							text="{i18n>navSetup}"
 							icon="sap-icon://wrench"
 							type="Emphasized"
-							press=".onSetupPress" />
+							press=".onSetupPress"
+						/>
 						<Button
 							text="{i18n>navDocumentation}"
 							icon="sap-icon://documents"
-							press=".onDocumentationPress" />
+							press=".onDocumentationPress"
+						/>
 						<Button
 							text="{i18n>btnExploreButton}"
 							icon="sap-icon://navigation-right-arrow"
 							iconFirst="false"
-							press=".onButtonPress" />
+							press=".onButtonPress"
+						/>
 					</HBox>
 				</VBox>
 			</f:content>

@@ -213,6 +213,12 @@ body,
 	min-width: 16rem !important;
 }
 
+/* The arrow between the before/after cards is not a card: it only needs the
+   width of its glyph, so the 16rem floor above must not apply to it. */
+.touchControlsCardRow > .touchControlsCardRowArrow {
+	min-width: 0 !important;
+}
+
 /* The rows are flex boxes and their items are sized by their content, so a
    fixed-width field inside one widens the row instead of being cut down by it.
    Capping the item is what makes the caps below work at all: a percentage
