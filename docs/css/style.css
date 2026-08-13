@@ -301,10 +301,6 @@ body,
 	will-change: auto;
 }
 
-.sapUxAPObjectPageSectionTitleUppercase {
-	text-transform: none !important;
-}
-
 .ui5tcCodeBlockWrapper {
 	/* anchor for the copy button in the corner; takes over the flex duties
 	   of the block so that the <pre> inside can still scroll */

@@ -1,0 +1,291 @@
+<mvc:View
+    controllerName="ui5.touch.controls.demo.controller.new.KeyboardBase"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:cards="sap.f.cards"
+    height="100%"
+>
+    <f:DynamicPage
+        headerExpanded="true"
+        class="touchControlsPage"
+    >
+        <!-- the head of the page reads like an entry of the demo kit: the name
+		     of the class, one or two sentences on what it is, and beside them
+		     the facts about the class -->
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title
+                        text="{control>/fullName}"
+                        wrapping="true"
+                    />
+                </f:heading>
+                <f:expandedContent>
+                    <Text text="{control>/summary}" />
+                </f:expandedContent>
+                <f:snappedContent>
+                    <Text text="{control>/summary}" />
+                </f:snappedContent>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <!-- the facts about the class, the way the demo kit lists them.
+                     This one extends a class of sap.ui.core, so its "Extends"
+                     leads into the demo kit -->
+                <HBox wrap="Wrap">
+                    <ObjectAttribute
+                        title="{i18n>introExtends}"
+                        class="sapUiMediumMarginEnd"
+                    >
+                        <customContent>
+                            <Link
+                                text="{control>/extendsClass}"
+                                href="{control>/extendsUrl}"
+                                target="_blank"
+                            />
+                        </customContent>
+                    </ObjectAttribute>
+                    <ObjectAttribute
+                        title="{i18n>introSince}"
+                        text="{control>/since}"
+                        class="sapUiMediumMarginEnd"
+                    />
+                    <!-- restricted: the class is there to be extended, not to
+                         be used -->
+                    <ObjectAttribute
+                        title="{i18n>introVisibility}"
+                        text="{control>/visibility}"
+                    />
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox width="100%">
+                <!-- the first thing to say about this page is that the class it
+                     documents is not one to put into a view -->
+                <MessageStrip
+                    text="{i18n>baseNote}"
+                    type="Warning"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                </MessageStrip>
+                <!-- overview: the class in running text, longer than the summary
+				     in the head of the page -->
+                <Text
+                    text="{control>/description}"
+                    class="sapUiSmallMarginBottom"
+                />
+                <!-- what the three keyboards share, and why that is a class -->
+                <f:Card class="sapUiMediumMarginBottom">
+                    <f:header>
+                        <cards:Header title="{i18n>baseIntroSubtitle}" />
+                    </f:header>
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <FormattedText
+                                htmlText="{i18n>baseIntroText}"
+                                width="100%"
+                                class="sapUiTinyMarginTop"
+                            />
+                        </VBox>
+                    </f:content>
+                </f:Card>
+                <!-- the three keyboards that are built on it, each a click away -->
+                <f:Card class="sapUiMediumMarginBottom">
+                    <f:header>
+                        <cards:Header
+                            title="{i18n>baseSubclassesTitle}"
+                            subtitle="{i18n>baseSubclassesSubtitle}"
+                        />
+                    </f:header>
+                    <f:content>
+                        <List
+                            items="{json>/subclasses}"
+                            class="sapUiSmallMarginBottom"
+                        >
+                            <StandardListItem
+                                title="{json>name}"
+                                description="{json>text}"
+                                icon="{json>icon}"
+                                type="Navigation"
+                                press=".onNavToSubclass"
+                            />
+                        </List>
+                    </f:content>
+                </f:Card>
+                <!-- the properties every one of them has -->
+                <f:Card class="sapUiMediumMarginBottom">
+                    <f:header>
+                        <cards:Header
+                            title="{i18n>basePropsTitle}"
+                            subtitle="{i18n>basePropsSubtitle}"
+                        />
+                    </f:header>
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Table items="{json>/properties}">
+                                <columns>
+                                    <Column width="11rem">
+                                        <Label text="{i18n>colProperty}" />
+                                    </Column>
+                                    <Column
+                                        width="11rem"
+                                        demandPopin="true"
+                                        minScreenWidth="Tablet"
+                                        popinDisplay="Inline"
+                                    >
+                                        <Label text="{i18n>colType}" />
+                                    </Column>
+                                    <Column
+                                        width="7rem"
+                                        demandPopin="true"
+                                        minScreenWidth="Tablet"
+                                        popinDisplay="Inline"
+                                    >
+                                        <Label text="{i18n>colDefault}" />
+                                    </Column>
+                                    <Column
+                                        demandPopin="true"
+                                        minScreenWidth="Tablet"
+                                        popinDisplay="Inline"
+                                    >
+                                        <Label text="{i18n>colDescription}" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <Text text="{json>name}" />
+                                        <Text text="{json>type}" />
+                                        <Text text="{json>default}" />
+                                        <Text text="{json>text}" />
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                            <Text
+                                text="{i18n>basePropsText}"
+                                class="sapUiSmallMarginTop"
+                            />
+                        </VBox>
+                    </f:content>
+                </f:Card>
+                <!-- and the events -->
+                <f:Card class="sapUiMediumMarginBottom">
+                    <f:header>
+                        <cards:Header
+                            title="{i18n>baseEventsTitle}"
+                            subtitle="{i18n>baseEventsSubtitle}"
+                        />
+                    </f:header>
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Table items="{json>/events}">
+                                <columns>
+                                    <Column width="11rem">
+                                        <Label text="{i18n>colEvent}" />
+                                    </Column>
+                                    <Column
+                                        width="9rem"
+                                        demandPopin="true"
+                                        minScreenWidth="Tablet"
+                                        popinDisplay="Inline"
+                                    >
+                                        <Label text="{i18n>colParameters}" />
+                                    </Column>
+                                    <Column
+                                        demandPopin="true"
+                                        minScreenWidth="Tablet"
+                                        popinDisplay="Inline"
+                                    >
+                                        <Label text="{i18n>colDescription}" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <Text text="{json>name}" />
+                                        <Text text="{json>parameters}" />
+                                        <Text text="{json>text}" />
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </f:content>
+                </f:Card>
+                <!-- the keys that mean something on every one of them -->
+                <f:Card class="sapUiMediumMarginBottom">
+                    <f:header>
+                        <cards:Header
+                            title="{i18n>baseKeysTitle}"
+                            subtitle="{i18n>baseKeysSubtitle}"
+                        />
+                    </f:header>
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Text
+                                text="{i18n>baseKeysText}"
+                                class="sapUiTinyMarginTop"
+                            />
+                            <Table items="{json>/specialKeys}">
+                                <columns>
+                                    <Column width="8rem">
+                                        <Label text="{i18n>colKey}" />
+                                    </Column>
+                                    <Column
+                                        demandPopin="true"
+                                        minScreenWidth="Tablet"
+                                        popinDisplay="Inline"
+                                    >
+                                        <Label text="{i18n>colKeyMeaning}" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <Text text="{json>key}" />
+                                        <Text text="{json>meaning}" />
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </f:content>
+                </f:Card>
+                <!-- how wide a key gets, and what docking does -->
+                <f:Card class="sapUiMediumMarginBottom">
+                    <f:header>
+                        <cards:Header title="{i18n>baseHowTitle}" />
+                    </f:header>
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <FormattedText
+                                htmlText="{i18n>baseHowText}"
+                                width="100%"
+                                class="sapUiTinyMarginTop"
+                            />
+                        </VBox>
+                    </f:content>
+                </f:Card>
+                <core:Fragment
+                    fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+                    type="XML"
+                />
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

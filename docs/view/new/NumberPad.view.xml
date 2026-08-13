@@ -35,13 +35,13 @@
       <f:DynamicPageHeader pinnable="false">
         <!-- the facts about the class, the way the demo kit lists them -->
         <HBox wrap="Wrap">
-          <!-- a base class of this library has no page in the demo kit, so
-               its name is rendered as plain text instead of a dead link -->
+          <!-- the base class is either one of sap.ui.core - then it links into
+               the demo kit - or one of this library, which has a page here -->
           <ObjectAttribute
             title="{i18n>introExtends}"
             text="{control>/extendsClass}"
             class="sapUiMediumMarginEnd"
-            visible="{= !${control>/extendsUrl} }"
+            visible="{= !${control>/extendsUrl} &amp;&amp; !${control>/extendsKey} }"
           />
           <ObjectAttribute
             title="{i18n>introExtends}"
@@ -53,6 +53,18 @@
                 text="{control>/extendsClass}"
                 href="{control>/extendsUrl}"
                 target="_blank"
+              />
+            </customContent>
+          </ObjectAttribute>
+          <ObjectAttribute
+            title="{i18n>introExtends}"
+            class="sapUiMediumMarginEnd"
+            visible="{= !${control>/extendsUrl} &amp;&amp; !!${control>/extendsKey} }"
+          >
+            <customContent>
+              <Link
+                text="{control>/extendsClass}"
+                press=".onNavToExtends"
               />
             </customContent>
           </ObjectAttribute>

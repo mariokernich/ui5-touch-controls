@@ -58,15 +58,23 @@ export default abstract class BaseController extends Controller {
 			return;
 		}
 
+		// a base class of this library that has a page of its own is linked to
+		// that page instead of to the demo kit, which does not know it
+		const extendsDoc = getControlDoc(
+			doc.extendsClass.replace("ui5.touch.controls.", ""),
+		);
+
 		this.getView()?.setModel(
 			new JSONModel({
 				...doc,
 				fullName: `ui5.touch.controls.${doc.name}`,
 				docUrl: getApiUrl(doc.docEntity ?? doc.replaces),
-				// a base class of this library has no page in the demo kit, so
-				// the view renders the name as a plain text there
+				// a base class that is not in the demo kit gets no link there;
+				// if it has a page here, extendsKey points at it, and where
+				// there is neither the view renders the name as plain text
 				extendsUrl: getApiUrl(doc.extendsClass),
-				visibility: "public",
+				extendsKey: extendsDoc?.name ?? "",
+				visibility: doc.visibility ?? "public",
 				// a control without a sap.m original has no "Original" fact
 				showOriginal: doc.replaces !== NEW_CONTROL,
 			}),
@@ -129,5 +137,19 @@ export default abstract class BaseController extends Controller {
 		this.setSnippets({
 			main: [{ code: code, language: language, title: title }],
 		});
+	}
+
+	/**
+	 * Opens the page of the base class the control extends. Bound by the pages
+	 * whose base class is one of this library.
+	 */
+	public onNavToExtends(): void {
+		const key = (
+			this.getView()?.getModel("control") as JSONModel | undefined
+		)?.getProperty("/extendsKey") as string | undefined;
+
+		if (key) {
+			this.getRouter().navTo(key);
+		}
 	}
 }

@@ -35,6 +35,17 @@ export interface ControlDoc {
 	 * navigation as well as in the tables of the documentation page.
 	 */
 	isClass?: boolean;
+	/**
+	 * Whether this is a base class that is not used directly. It has a page of
+	 * its own - the subclasses link to it - but it is left out of the tables of
+	 * the documentation page, which list what can be put into a view.
+	 */
+	isBase?: boolean;
+	/**
+	 * How the class is meant to be used, the way the demo kit says it. Defaults
+	 * to <code>public</code>; a base class is <code>restricted</code>.
+	 */
+	visibility?: string;
 }
 
 export interface ThemeDoc {
@@ -284,6 +295,18 @@ const controls: ControlDoc[] = [
 			"On-screen keyboard whose keys are handed to it: the layout property is the rows of one set, the layouts aggregation carries as many sets as are needed, and a key written as the name of a set switches to it. The display aggregation says what a single key reads. This is the keyboard for everything the ready-made ones do not cover.",
 	},
 	{
+		name: "KeyboardBase",
+		replaces: NEW_CONTROL,
+		extendsClass: "sap.ui.core.Control",
+		since: "2.0.0",
+		isBase: true,
+		visibility: "restricted",
+		summary:
+			"The machine behind all three keyboards. It is not put into a view itself - what it does not know is which keys to show, and that is what tells its subclasses apart.",
+		description:
+			"Base class of the on-screen keyboards of this library, built natively from the library's own Button controls with no third-party dependency. Everything that is not about which keys to show lives here: the value and how a key changes it, the sets of keys and the switching between them, shift and the caps lock, the keys of a real keyboard through hardwareKeys, the size, the width and the docking. It is the type the keyboard aggregation of an Input or a TextArea is typed to, so a Keyboard, a NumberPad and a CustomKeyboard all fit in there.",
+	},
+	{
 		name: "SignaturePad",
 		replaces: NEW_CONTROL,
 		extendsClass: "sap.ui.core.Control",
@@ -318,7 +341,7 @@ export const classControls: ControlDoc[] = controls.filter(
 
 /** the controls that exist only in this library */
 export const newControls: ControlDoc[] = controls.filter(
-	(control) => control.replaces === NEW_CONTROL,
+	(control) => control.replaces === NEW_CONTROL && !control.isBase,
 );
 
 export const themes: ThemeDoc[] = [
