@@ -3,57 +3,120 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
-	xmlns:tc="ui5.touch.controls">
-	<Page showHeader="false" class="touchControlsPage">
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
-			type="XML" />
+	xmlns:f="sap.f"
+	xmlns:tc="ui5.touch.controls"
+	height="100%">
+	<f:DynamicPage
+		headerExpanded="true"
+		class="touchControlsPage">
+		<!-- the head of the page reads like an entry of the demo kit: the name
+		     of the class, one or two sentences on what it is, and beside them
+		     the facts about the class -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{control>/fullName}" wrapping="true" />
+				</f:heading>
+				<f:expandedContent>
+					<Text text="{control>/summary}" />
+				</f:expandedContent>
+				<f:snappedContent>
+					<Text text="{control>/summary}" />
+				</f:snappedContent>
+			</f:DynamicPageTitle>
+		</f:title>
 
-		<HBox alignItems="Center" class="sapUiSmallMarginBottom">
-			<Text text="{i18n>lblButtonSize}" width="100px" />
-			<Select selectedKey="{json>/size}">
-				<core:Item key="S" text="S" />
-				<core:Item key="M" text="M" />
-				<core:Item key="L" text="L" />
-				<core:Item key="XL" text="XL" />
-				<core:Item key="2XL" text="2XL" />
-				<core:Item key="3XL" text="3XL" />
-				<core:Item key="4XL" text="4XL" />
-				<core:Item key="5XL" text="5XL" />
-				<core:Item key="6XL" text="6XL" />
-			</Select>
-		</HBox>
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<!-- the facts about the class, the way the demo kit lists them -->
+				<HBox wrap="Wrap">
+					<ObjectAttribute title="{i18n>introExtends}" class="sapUiMediumMarginEnd">
+						<customContent>
+							<Link
+								text="{control>/extendsClass}"
+								href="{control>/extendsUrl}"
+								target="_blank"
+								enabled="{= !!${control>/extendsUrl} }" />
+						</customContent>
+					</ObjectAttribute>
+					<ObjectAttribute
+						title="{i18n>introOriginalLabel}"
+						class="sapUiMediumMarginEnd"
+						visible="{control>/showOriginal}">
+						<customContent>
+							<Link
+								text="{control>/replaces}"
+								href="{control>/docUrl}"
+								target="_blank"
+								enabled="{= !!${control>/docUrl} }" />
+						</customContent>
+					</ObjectAttribute>
+					<ObjectAttribute
+						title="{i18n>introSince}"
+						text="{control>/since}"
+						class="sapUiMediumMarginEnd" />
+					<ObjectAttribute
+						title="{i18n>introVisibility}"
+						text="{control>/visibility}" />
+				</HBox>
+			</f:DynamicPageHeader>
+		</f:header>
 
-		<!-- the toolbar as the footer of a page; the page needs an explicit
-		     height, otherwise it collapses inside the flow of the page -->
-		<Page title="{i18n>toolbarPageTitle}" showFooter="true" class="touchControlsDemoPage">
-			<footer>
-				<tc:Toolbar size="{json>/size}">
-					<tc:Button
-						text="{i18n>btnOpenSampleDialog}"
-						type="Emphasized"
-						icon="sap-icon://add"
-						size="{json>/size}"
-						press=".onOpenDialog" />
-					<tc:Button
-						text="{i18n>btnButton2}"
-						type="Ghost"
-						icon="sap-icon://edit"
-						size="{json>/size}"
-						press=".onDummyPress" />
-					<ToolbarSpacer />
-					<tc:Button
-						text="{i18n>btnButton3}"
-						type="Reject"
-						icon="sap-icon://delete"
-						size="{json>/size}"
-						press=".onDummyPress" />
-				</tc:Toolbar>
-			</footer>
-		</Page>
+		<f:content>
+			<VBox width="100%">
+				<!-- overview: the class in running text, longer than the summary
+				     in the head of the page -->
+				<Text
+					text="{control>/description}"
+					class="sapUiSmallMarginBottom" />
 
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
-			type="XML" />
-	</Page>
+				<HBox alignItems="Center" class="sapUiSmallMarginBottom">
+					<Text text="{i18n>lblButtonSize}" width="100px" />
+					<Select selectedKey="{json>/size}">
+						<core:Item key="S" text="S" />
+						<core:Item key="M" text="M" />
+						<core:Item key="L" text="L" />
+						<core:Item key="XL" text="XL" />
+						<core:Item key="2XL" text="2XL" />
+						<core:Item key="3XL" text="3XL" />
+						<core:Item key="4XL" text="4XL" />
+						<core:Item key="5XL" text="5XL" />
+						<core:Item key="6XL" text="6XL" />
+					</Select>
+				</HBox>
+
+				<!-- the toolbar as the footer of a page; the page needs an explicit
+				     height, otherwise it collapses inside the flow of the page -->
+				<Page title="{i18n>toolbarPageTitle}" showFooter="true" class="touchControlsDemoPage sapUiSmallMarginBottom">
+					<footer>
+						<tc:Toolbar size="{json>/size}">
+							<tc:Button
+								text="{i18n>btnOpenSampleDialog}"
+								type="Emphasized"
+								icon="sap-icon://add"
+								size="{json>/size}"
+								press=".onOpenDialog" />
+							<tc:Button
+								text="{i18n>btnButton2}"
+								type="Ghost"
+								icon="sap-icon://edit"
+								size="{json>/size}"
+								press=".onDummyPress" />
+							<ToolbarSpacer />
+							<tc:Button
+								text="{i18n>btnButton3}"
+								type="Reject"
+								icon="sap-icon://delete"
+								size="{json>/size}"
+								press=".onDummyPress" />
+						</tc:Toolbar>
+					</footer>
+				</Page>
+
+				<core:Fragment
+					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+					type="XML" />
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
 </mvc:View>

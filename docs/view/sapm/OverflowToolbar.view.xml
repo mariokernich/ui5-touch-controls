@@ -6,187 +6,249 @@
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards"
 	xmlns:control="ui5.touch.controls.demo.control"
-	xmlns:tc="ui5.touch.controls">
-	<Page showHeader="false" class="touchControlsPage">
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ControlIntro"
-			type="XML" />
+	xmlns:tc="ui5.touch.controls"
+	height="100%">
+	<f:DynamicPage
+		headerExpanded="true"
+		class="touchControlsPage">
+		<!-- the head of the page reads like an entry of the demo kit: the name
+		     of the class, one or two sentences on what it is, and beside them
+		     the facts about the class -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{control>/fullName}" wrapping="true" />
+				</f:heading>
+				<f:expandedContent>
+					<Text text="{control>/summary}" />
+				</f:expandedContent>
+				<f:snappedContent>
+					<Text text="{control>/summary}" />
+				</f:snappedContent>
+			</f:DynamicPageTitle>
+		</f:title>
 
-		<HBox alignItems="Center" class="sapUiTinyMarginBottom">
-			<Text text="{i18n>lblButtonSize}" width="100px" />
-			<Select selectedKey="{json>/size}">
-				<core:Item key="S" text="S" />
-				<core:Item key="M" text="M" />
-				<core:Item key="L" text="L" />
-				<core:Item key="XL" text="XL" />
-				<core:Item key="2XL" text="2XL" />
-				<core:Item key="3XL" text="3XL" />
-				<core:Item key="4XL" text="4XL" />
-				<core:Item key="5XL" text="5XL" />
-				<core:Item key="6XL" text="6XL" />
-			</Select>
-		</HBox>
-		<HBox alignItems="Center" class="sapUiSmallMarginBottom">
-			<Text text="{i18n>lblToolbarWidth}" width="100px" />
-			<Slider
-				min="20"
-				max="100"
-				value="100"
-				width="20rem"
-				liveChange=".onWidthChange" />
-		</HBox>
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<!-- the facts about the class, the way the demo kit lists them -->
+				<HBox wrap="Wrap">
+					<ObjectAttribute title="{i18n>introExtends}" class="sapUiMediumMarginEnd">
+						<customContent>
+							<Link
+								text="{control>/extendsClass}"
+								href="{control>/extendsUrl}"
+								target="_blank"
+								enabled="{= !!${control>/extendsUrl} }" />
+						</customContent>
+					</ObjectAttribute>
+					<ObjectAttribute
+						title="{i18n>introOriginalLabel}"
+						class="sapUiMediumMarginEnd"
+						visible="{control>/showOriginal}">
+						<customContent>
+							<Link
+								text="{control>/replaces}"
+								href="{control>/docUrl}"
+								target="_blank"
+								enabled="{= !!${control>/docUrl} }" />
+						</customContent>
+					</ObjectAttribute>
+					<ObjectAttribute
+						title="{i18n>introSince}"
+						text="{control>/since}"
+						class="sapUiMediumMarginEnd" />
+					<ObjectAttribute
+						title="{i18n>introVisibility}"
+						text="{control>/visibility}" />
+				</HBox>
+			</f:DynamicPageHeader>
+		</f:header>
 
-		<!-- both toolbars live in a container whose width follows the slider,
-		     so the overflow behaviour can be compared directly -->
-		<VBox width="{json>/containerWidth}">
-			<Title text="{i18n>otWithoutPriorities}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
-			<tc:OverflowToolbar size="{json>/size}">
-				<tc:Button
-					text="{i18n>btnNew}"
-					icon="sap-icon://add"
-					type="Emphasized"
-					size="{json>/size}"
-					press=".onDemoPress" />
-				<tc:Button
-					text="{i18n>btnEdit}"
-					icon="sap-icon://edit"
-					size="{json>/size}"
-					press=".onDemoPress" />
-				<tc:Button
-					text="{i18n>btnCopy}"
-					icon="sap-icon://copy"
-					size="{json>/size}"
-					press=".onDemoPress" />
-				<tc:Button
-					text="{i18n>btnShare}"
-					icon="sap-icon://share"
-					size="{json>/size}"
-					press=".onDemoPress" />
-				<ToolbarSpacer />
-				<tc:Button
-					text="{i18n>btnDelete}"
-					icon="sap-icon://delete"
-					type="Reject"
-					size="{json>/size}"
-					press=".onDemoPress" />
-			</tc:OverflowToolbar>
-			<Text text="{i18n>overflowPlainHint}" class="sapUiTinyMarginTop" />
+		<f:content>
+			<VBox width="100%">
+				<!-- overview: the class in running text, longer than the summary
+				     in the head of the page -->
+				<Text
+					text="{control>/description}"
+					class="sapUiSmallMarginBottom" />
 
-			<Title
-				text="{i18n>otWithPriorities}"
-				class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
-			<tc:OverflowToolbar size="{json>/size}">
-				<tc:Button
-					text="{i18n>btnPrintLow}"
-					icon="sap-icon://print"
-					size="{json>/size}"
-					press=".onDemoPress">
-					<tc:layoutData>
-						<OverflowToolbarLayoutData priority="Low" />
-					</tc:layoutData>
-				</tc:Button>
-				<tc:Button
-					text="{i18n>btnExport}"
-					icon="sap-icon://excel-attachment"
-					size="{json>/size}"
-					press=".onDemoPress" />
-				<tc:Button
-					text="{i18n>btnSaveNever}"
-					icon="sap-icon://save"
-					type="Emphasized"
-					size="{json>/size}"
-					press=".onDemoPress">
-					<tc:layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow" />
-					</tc:layoutData>
-				</tc:Button>
-				<ToolbarSpacer />
-				<tc:Button
-					text="{i18n>btnAboutAlways}"
-					icon="sap-icon://hint"
-					type="Ghost"
-					size="{json>/size}"
-					press=".onDemoPress">
-					<tc:layoutData>
-						<OverflowToolbarLayoutData priority="AlwaysOverflow" />
-					</tc:layoutData>
-				</tc:Button>
-			</tc:OverflowToolbar>
-			<Text text="{i18n>overflowPriorityHint}" class="sapUiTinyMarginTop" />
-		</VBox>
+				<HBox alignItems="Center" class="sapUiTinyMarginBottom">
+					<Text text="{i18n>lblButtonSize}" width="100px" />
+					<Select selectedKey="{json>/size}">
+						<core:Item key="S" text="S" />
+						<core:Item key="M" text="M" />
+						<core:Item key="L" text="L" />
+						<core:Item key="XL" text="XL" />
+						<core:Item key="2XL" text="2XL" />
+						<core:Item key="3XL" text="3XL" />
+						<core:Item key="4XL" text="4XL" />
+						<core:Item key="5XL" text="5XL" />
+						<core:Item key="6XL" text="6XL" />
+					</Select>
+				</HBox>
+				<HBox alignItems="Center" class="sapUiSmallMarginBottom">
+					<Text text="{i18n>lblToolbarWidth}" width="100px" />
+					<Slider
+						min="20"
+						max="100"
+						value="100"
+						width="20rem"
+						liveChange=".onWidthChange" />
+				</HBox>
 
-		<Title text="{i18n>otAsFooter}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
-		<!-- the page needs an explicit height, otherwise it collapses -->
-		<Page
-			title="{i18n>otFooterPageTitle}"
-			showFooter="true"
-			class="touchControlsDemoPage">
-			<footer>
-				<tc:OverflowToolbar size="{json>/size}">
+				<!-- both toolbars live in a container whose width follows the slider,
+				     so the overflow behaviour can be compared directly -->
+				<VBox width="{json>/containerWidth}">
+					<Title text="{i18n>otWithoutPriorities}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+					<tc:OverflowToolbar size="{json>/size}">
+						<tc:Button
+							text="{i18n>btnNew}"
+							icon="sap-icon://add"
+							type="Emphasized"
+							size="{json>/size}"
+							press=".onDemoPress" />
+						<tc:Button
+							text="{i18n>btnEdit}"
+							icon="sap-icon://edit"
+							size="{json>/size}"
+							press=".onDemoPress" />
+						<tc:Button
+							text="{i18n>btnCopy}"
+							icon="sap-icon://copy"
+							size="{json>/size}"
+							press=".onDemoPress" />
+						<tc:Button
+							text="{i18n>btnShare}"
+							icon="sap-icon://share"
+							size="{json>/size}"
+							press=".onDemoPress" />
+						<ToolbarSpacer />
+						<tc:Button
+							text="{i18n>btnDelete}"
+							icon="sap-icon://delete"
+							type="Reject"
+							size="{json>/size}"
+							press=".onDemoPress" />
+					</tc:OverflowToolbar>
+					<Text text="{i18n>overflowPlainHint}" class="sapUiTinyMarginTop" />
+
+					<Title
+						text="{i18n>otWithPriorities}"
+						class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+					<tc:OverflowToolbar size="{json>/size}">
+						<tc:Button
+							text="{i18n>btnPrintLow}"
+							icon="sap-icon://print"
+							size="{json>/size}"
+							press=".onDemoPress">
+							<tc:layoutData>
+								<OverflowToolbarLayoutData priority="Low" />
+							</tc:layoutData>
+						</tc:Button>
+						<tc:Button
+							text="{i18n>btnExport}"
+							icon="sap-icon://excel-attachment"
+							size="{json>/size}"
+							press=".onDemoPress" />
+						<tc:Button
+							text="{i18n>btnSaveNever}"
+							icon="sap-icon://save"
+							type="Emphasized"
+							size="{json>/size}"
+							press=".onDemoPress">
+							<tc:layoutData>
+								<OverflowToolbarLayoutData priority="NeverOverflow" />
+							</tc:layoutData>
+						</tc:Button>
+						<ToolbarSpacer />
+						<tc:Button
+							text="{i18n>btnAboutAlways}"
+							icon="sap-icon://hint"
+							type="Ghost"
+							size="{json>/size}"
+							press=".onDemoPress">
+							<tc:layoutData>
+								<OverflowToolbarLayoutData priority="AlwaysOverflow" />
+							</tc:layoutData>
+						</tc:Button>
+					</tc:OverflowToolbar>
+					<Text text="{i18n>overflowPriorityHint}" class="sapUiTinyMarginTop" />
+				</VBox>
+
+				<Title text="{i18n>otAsFooter}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+				<!-- the page needs an explicit height, otherwise it collapses -->
+				<Page
+					title="{i18n>otFooterPageTitle}"
+					showFooter="true"
+					class="touchControlsDemoPage">
+					<footer>
+						<tc:OverflowToolbar size="{json>/size}">
+							<tc:Button
+								text="{i18n>btnSave}"
+								icon="sap-icon://save"
+								type="Emphasized"
+								size="{json>/size}"
+								press=".onDemoPress" />
+							<tc:Button
+								text="{i18n>btnCancel}"
+								icon="sap-icon://decline"
+								size="{json>/size}"
+								press=".onDemoPress" />
+							<ToolbarSpacer />
+							<tc:Button
+								text="{i18n>btnApprove}"
+								icon="sap-icon://accept"
+								type="Accept"
+								size="{json>/size}"
+								press=".onDemoPress" />
+							<tc:Button
+								text="{i18n>btnReject}"
+								icon="sap-icon://decline"
+								type="Reject"
+								size="{json>/size}"
+								press=".onDemoPress" />
+							<tc:Button
+								text="{i18n>btnHistory}"
+								icon="sap-icon://history"
+								size="{json>/size}"
+								press=".onDemoPress" />
+						</tc:OverflowToolbar>
+					</footer>
+				</Page>
+				<Text text="{i18n>overflowFooterHint}" class="sapUiTinyMarginTop" />
+
+				<Title
+					text="{i18n>otAsDialogFooter}"
+					class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+				<Text text="{i18n>overflowDialogHint}" />
+				<HBox class="touchControlsButtonRow sapUiSmallMarginTop">
 					<tc:Button
-						text="{i18n>btnSave}"
-						icon="sap-icon://save"
+						text="{i18n>btnOpenDialog}"
+						icon="sap-icon://popup-window"
 						type="Emphasized"
 						size="{json>/size}"
-						press=".onDemoPress" />
-					<tc:Button
-						text="{i18n>btnCancel}"
-						icon="sap-icon://decline"
-						size="{json>/size}"
-						press=".onDemoPress" />
-					<ToolbarSpacer />
-					<tc:Button
-						text="{i18n>btnApprove}"
-						icon="sap-icon://accept"
-						type="Accept"
-						size="{json>/size}"
-						press=".onDemoPress" />
-					<tc:Button
-						text="{i18n>btnReject}"
-						icon="sap-icon://decline"
-						type="Reject"
-						size="{json>/size}"
-						press=".onDemoPress" />
-					<tc:Button
-						text="{i18n>btnHistory}"
-						icon="sap-icon://history"
-						size="{json>/size}"
-						press=".onDemoPress" />
-				</tc:OverflowToolbar>
-			</footer>
-		</Page>
-		<Text text="{i18n>overflowFooterHint}" class="sapUiTinyMarginTop" />
+						press=".onOpenDialog" />
+				</HBox>
+				<VBox width="100%" items="{example>/dialog}" class="sapUiSmallMarginTop">
+					<f:Card class="sapUiSmallMarginBottom">
+						<f:header>
+							<!-- a fragment, not a view - the card at the bottom of the page is
+								 the one that shows the view -->
+							<cards:Header title="{i18n>otDialogExample}" />
+						</f:header>
+						<f:content>
+							<control:CodeBlock
+								text="{example>code}"
+								language="{example>language}"
+								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+						</f:content>
+					</f:Card>
+				</VBox>
 
-		<Title
-			text="{i18n>otAsDialogFooter}"
-			class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
-		<Text text="{i18n>overflowDialogHint}" />
-		<HBox class="touchControlsButtonRow sapUiSmallMarginTop">
-			<tc:Button
-				text="{i18n>btnOpenDialog}"
-				icon="sap-icon://popup-window"
-				type="Emphasized"
-				size="{json>/size}"
-				press=".onOpenDialog" />
-		</HBox>
-		<VBox width="100%" items="{example>/dialog}" class="sapUiSmallMarginTop">
-			<f:Card>
-				<f:header>
-					<!-- a fragment, not a view - the card at the bottom of the page is
-					     the one that shows the view -->
-					<cards:Header title="{i18n>otDialogExample}" />
-				</f:header>
-				<f:content>
-					<control:CodeBlock
-						text="{example>code}"
-						language="{example>language}"
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
-				</f:content>
-			</f:Card>
-		</VBox>
-
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
-			type="XML" />
-	</Page>
+				<core:Fragment
+					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+					type="XML" />
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
 </mvc:View>

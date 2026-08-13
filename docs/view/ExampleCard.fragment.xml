@@ -8,7 +8,7 @@
 	     into the view: curly braces in an XML view would be parsed as binding
 	     syntax, so binding examples would swallow half of the code. -->
 	<VBox width="100%" items="{example>/main}">
-		<f:Card>
+		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<!-- without an explicit title the card falls back to a translated
 				     default; binding it here instead of resolving it in the

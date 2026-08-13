@@ -4,7 +4,7 @@ import type Router from "sap/ui/core/routing/Router";
 import type UIComponent from "sap/ui/core/UIComponent";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type ResourceModel from "sap/ui/model/resource/ResourceModel";
-import { getApiUrl, getControlDoc } from "../model/documentation";
+import { getApiUrl, getControlDoc, NEW_CONTROL } from "../model/documentation";
 
 /** a code snippet shown in a card of a page */
 export interface Snippet {
@@ -67,6 +67,8 @@ export default abstract class BaseController extends Controller {
 				// the view renders the name as a plain text there
 				extendsUrl: getApiUrl(doc.extendsClass),
 				visibility: "public",
+				// a control without a sap.m original has no "Original" fact
+				showOriginal: doc.replaces !== NEW_CONTROL,
 			}),
 			"control",
 		);

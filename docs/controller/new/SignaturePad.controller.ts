@@ -12,6 +12,8 @@ export default class SignaturePad extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("SignaturePad");
+
 		this.model = new JSONModel(
 			{
 				value: "",

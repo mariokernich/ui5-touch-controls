@@ -1,135 +1,274 @@
 <mvc:View
-	controllerName="ui5.touch.controls.demo.controller.classes.QuickDialog"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core"
-	xmlns:f="sap.f"
-	xmlns:cards="sap.f.cards"
-	xmlns:tc="ui5.touch.controls">
-	<Page showHeader="false" class="touchControlsPage">
-		<!-- playground: the options every dialog below is opened with -->
-		<f:Card class="sapUiMediumMarginBottom">
-			<f:header>
-				<cards:Header title="{i18n>optionsQuickDialog}" />
-			</f:header>
-			<f:content>
-				<VBox
-					width="100%"
-					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-					<core:Fragment
-						fragmentName="ui5.touch.controls.demo.view.SizeOption"
-						type="XML" />
-					<HBox alignItems="Center">
-						<Text text="{i18n>lblTitle}" width="100px" />
-						<Input
-							value="{json>/title}"
-							placeholder="{i18n>phDialogTitle}"
-							valueLiveUpdate="true"
-							width="200px" />
-					</HBox>
-					<HBox alignItems="Center">
-						<Text text="{i18n>lblMessage}" width="100px" />
-						<Input
-							value="{json>/message}"
-							placeholder="{i18n>phDialogMessage}"
-							valueLiveUpdate="true"
-							width="300px" />
-					</HBox>
-					<HBox alignItems="Center">
-						<Text text="{i18n>lblState}" width="100px" />
-						<Select selectedKey="{json>/state}">
-							<core:Item key="None" text="{i18n>vsNone}" />
-							<core:Item key="Information" text="{i18n>vsInformation}" />
-							<core:Item key="Success" text="{i18n>vsSuccess}" />
-							<core:Item key="Warning" text="{i18n>vsWarning}" />
-							<core:Item key="Error" text="{i18n>vsError}" />
-						</Select>
-					</HBox>
-					<CheckBox
-						selected="{json>/toolbarSpacer}"
-						text="{i18n>cbToolbarSpacer}"
-						tooltip="{i18n>cbToolbarSpacerTooltip}" />
-					<HBox alignItems="Center" class="sapUiSmallMarginTop">
-						<Text text="{i18n>lblLastResult}" width="100px" />
-						<MessageStrip text="{json>/lastResult}" showIcon="true" />
-					</HBox>
-				</VBox>
-			</f:content>
-		</f:Card>
-
-		<HBox width="100%" class="touchControlsCardRow">
-			<f:Card class="sapUiMediumMarginBottom">
-				<f:layoutData>
-					<FlexItemData growFactor="1" baseSize="0" />
-				</f:layoutData>
-				<f:header>
-					<cards:Header title="QuickDialog.show" />
-				</f:header>
-				<f:content>
-					<VBox
-						width="100%"
-						items="{json>/showButtons}"
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-						<VBox class="sapUiTinyMarginBottom">
-							<Text text="{json>description}" class="sapUiTinyMarginBottom" />
-							<tc:Button
-								text="{json>text}"
-								size="{json>/size}"
-								press=".onDemoPress" />
-						</VBox>
-					</VBox>
-				</f:content>
-			</f:Card>
-
-			<f:Card class="sapUiMediumMarginBottom">
-				<f:layoutData>
-					<FlexItemData growFactor="1" baseSize="0" />
-				</f:layoutData>
-				<f:header>
-					<cards:Header title="{i18n>qdOtherMethods}" />
-				</f:header>
-				<f:content>
-					<VBox
-						width="100%"
-						items="{json>/otherButtons}"
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-						<VBox class="sapUiTinyMarginBottom">
-							<Text text="{json>description}" class="sapUiTinyMarginBottom" />
-							<tc:Button
-								text="{json>text}"
-								size="{json>/size}"
-								press=".onDemoPress" />
-						</VBox>
-					</VBox>
-				</f:content>
-			</f:Card>
-
-			<f:Card class="sapUiMediumMarginBottom">
-				<f:layoutData>
-					<FlexItemData growFactor="1" baseSize="0" />
-				</f:layoutData>
-				<f:header>
-					<cards:Header title="{i18n>qdCustomActions}" />
-				</f:header>
-				<f:content>
-					<VBox
-						width="100%"
-						items="{json>/customButtons}"
-						class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-						<VBox class="sapUiTinyMarginBottom">
-							<Text text="{json>description}" class="sapUiTinyMarginBottom" />
-							<tc:Button
-								text="{json>text}"
-								size="{json>/size}"
-								press=".onDemoPress" />
-						</VBox>
-					</VBox>
-				</f:content>
-			</f:Card>
-		</HBox>
-
-		<core:Fragment
-			fragmentName="ui5.touch.controls.demo.view.ExampleCard"
-			type="XML" />
-	</Page>
+  controllerName="ui5.touch.controls.demo.controller.classes.QuickDialog"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:f="sap.f"
+  xmlns:cards="sap.f.cards"
+  xmlns:tc="ui5.touch.controls"
+  height="100%"
+>
+  <f:DynamicPage
+    headerExpanded="true"
+    class="touchControlsPage"
+  >
+    <!-- the head of the page reads like an entry of the demo kit: the name
+		     of the class, one or two sentences on what it is, and beside them
+		     the facts about the class - what it extends, what it replaces,
+		     since when it is there and how visible it is -->
+    <f:title>
+      <f:DynamicPageTitle>
+        <f:heading>
+          <Title
+            text="{control>/fullName}"
+            wrapping="true"
+          />
+        </f:heading>
+        <f:expandedContent>
+          <Text text="{control>/summary}" />
+        </f:expandedContent>
+        <f:snappedContent>
+          <Text text="{control>/summary}" />
+        </f:snappedContent>
+      </f:DynamicPageTitle>
+    </f:title>
+    <f:header>
+      <f:DynamicPageHeader pinnable="false">
+        <!-- the facts about the class, the way the demo kit lists them -->
+        <HBox wrap="Wrap">
+          <ObjectAttribute
+            title="{i18n>introExtends}"
+            class="sapUiMediumMarginEnd"
+          >
+            <customContent>
+              <Link
+                text="{control>/extendsClass}"
+                href="{control>/extendsUrl}"
+                target="_blank"
+                enabled="{= !!${control>/extendsUrl} }"
+              />
+            </customContent>
+          </ObjectAttribute>
+          <ObjectAttribute
+            title="{i18n>introOriginalLabel}"
+            class="sapUiMediumMarginEnd"
+          >
+            <customContent>
+              <Link
+                text="{control>/replaces}"
+                href="{control>/docUrl}"
+                target="_blank"
+                enabled="{= !!${control>/docUrl} }"
+              />
+            </customContent>
+          </ObjectAttribute>
+          <ObjectAttribute
+            title="{i18n>introSince}"
+            text="{control>/since}"
+            class="sapUiMediumMarginEnd"
+          />
+          <ObjectAttribute
+            title="{i18n>introVisibility}"
+            text="{control>/visibility}"
+          />
+        </HBox>
+      </f:DynamicPageHeader>
+    </f:header>
+    <f:content>
+      <VBox width="100%">
+        <!-- overview: the class in running text, longer than the summary
+				     in the head of the page -->
+        <Text
+          text="{control>/description}"
+          class="sapUiSmallMarginBottom"
+        />
+        <!-- playground: the options every dialog below is opened with -->
+        <f:Card class="sapUiMediumMarginBottom">
+          <f:header>
+            <cards:Header title="{i18n>optionsQuickDialog}" />
+          </f:header>
+          <f:content>
+            <VBox
+              width="100%"
+              class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+            >
+              <core:Fragment
+                fragmentName="ui5.touch.controls.demo.view.SizeOption"
+                type="XML"
+              />
+              <HBox alignItems="Center">
+                <Text
+                  text="{i18n>lblTitle}"
+                  width="100px"
+                />
+                <Input
+                  value="{json>/title}"
+                  placeholder="{i18n>phDialogTitle}"
+                  valueLiveUpdate="true"
+                  width="200px"
+                />
+              </HBox>
+              <HBox alignItems="Center">
+                <Text
+                  text="{i18n>lblMessage}"
+                  width="100px"
+                />
+                <Input
+                  value="{json>/message}"
+                  placeholder="{i18n>phDialogMessage}"
+                  valueLiveUpdate="true"
+                  width="300px"
+                />
+              </HBox>
+              <HBox alignItems="Center">
+                <Text
+                  text="{i18n>lblState}"
+                  width="100px"
+                />
+                <Select selectedKey="{json>/state}">
+                  <core:Item
+                    key="None"
+                    text="{i18n>vsNone}"
+                  />
+                  <core:Item
+                    key="Information"
+                    text="{i18n>vsInformation}"
+                  />
+                  <core:Item
+                    key="Success"
+                    text="{i18n>vsSuccess}"
+                  />
+                  <core:Item
+                    key="Warning"
+                    text="{i18n>vsWarning}"
+                  />
+                  <core:Item
+                    key="Error"
+                    text="{i18n>vsError}"
+                  />
+                </Select>
+              </HBox>
+              <CheckBox
+                selected="{json>/toolbarSpacer}"
+                text="{i18n>cbToolbarSpacer}"
+                tooltip="{i18n>cbToolbarSpacerTooltip}"
+              />
+              <HBox
+                alignItems="Center"
+                class="sapUiSmallMarginTop"
+              >
+                <Text
+                  text="{i18n>lblLastResult}"
+                  width="100px"
+                />
+                <MessageStrip
+                  text="{json>/lastResult}"
+                  showIcon="true"
+                />
+              </HBox>
+            </VBox>
+          </f:content>
+        </f:Card>
+        <HBox
+          width="100%"
+          class="touchControlsCardRow"
+        >
+          <f:Card class="sapUiMediumMarginBottom">
+            <f:layoutData>
+              <FlexItemData
+                growFactor="1"
+                baseSize="0"
+              />
+            </f:layoutData>
+            <f:header>
+              <cards:Header title="QuickDialog.show" />
+            </f:header>
+            <f:content>
+              <VBox
+                width="100%"
+                items="{json>/showButtons}"
+                class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+              >
+                <VBox class="sapUiTinyMarginBottom">
+                  <Text
+                    text="{json>description}"
+                    class="sapUiTinyMarginBottom"
+                  />
+                  <tc:Button
+                    text="{json>text}"
+                    size="{json>/size}"
+                    press=".onDemoPress"
+                  />
+                </VBox>
+              </VBox>
+            </f:content>
+          </f:Card>
+          <f:Card class="sapUiMediumMarginBottom">
+            <f:layoutData>
+              <FlexItemData
+                growFactor="1"
+                baseSize="0"
+              />
+            </f:layoutData>
+            <f:header>
+              <cards:Header title="{i18n>qdOtherMethods}" />
+            </f:header>
+            <f:content>
+              <VBox
+                width="100%"
+                items="{json>/otherButtons}"
+                class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+              >
+                <VBox class="sapUiTinyMarginBottom">
+                  <Text
+                    text="{json>description}"
+                    class="sapUiTinyMarginBottom"
+                  />
+                  <tc:Button
+                    text="{json>text}"
+                    size="{json>/size}"
+                    press=".onDemoPress"
+                  />
+                </VBox>
+              </VBox>
+            </f:content>
+          </f:Card>
+          <f:Card class="sapUiMediumMarginBottom">
+            <f:layoutData>
+              <FlexItemData
+                growFactor="1"
+                baseSize="0"
+              />
+            </f:layoutData>
+            <f:header>
+              <cards:Header title="{i18n>qdCustomActions}" />
+            </f:header>
+            <f:content>
+              <VBox
+                width="100%"
+                items="{json>/customButtons}"
+                class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+              >
+                <VBox class="sapUiTinyMarginBottom">
+                  <Text
+                    text="{json>description}"
+                    class="sapUiTinyMarginBottom"
+                  />
+                  <tc:Button
+                    text="{json>text}"
+                    size="{json>/size}"
+                    press=".onDemoPress"
+                  />
+                </VBox>
+              </VBox>
+            </f:content>
+          </f:Card>
+        </HBox>
+        <core:Fragment
+          fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+          type="XML"
+        />
+      </VBox>
+    </f:content>
+  </f:DynamicPage>
 </mvc:View>

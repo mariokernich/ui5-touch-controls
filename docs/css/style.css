@@ -58,7 +58,7 @@ body,
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
    collapse inside the flow of the surrounding page */
 .touchControlsDemoPage {
-	height: 20rem;
+	height: 150px;
 }
 
 /* the version sits next to the switches in the header, quieter than they are */
@@ -306,7 +306,7 @@ body,
 }
 
 .ui5tcCodeBlock {
-	background: #f5f5f5;
+	background: #f7f8fa;
 	padding: 10px;
 	/* A <pre> keeps every line unbroken, so its narrowest width is its longest
 	   line - and a flex item is not allowed to shrink below the content of

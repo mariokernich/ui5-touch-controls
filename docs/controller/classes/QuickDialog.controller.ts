@@ -63,7 +63,8 @@ const otherButtons: DemoButton[] = [
 	{
 		key: "error",
 		text: "error",
-		description: "Error dialog with Error state, error icon and a Close button.",
+		description:
+			"Error dialog with Error state, error icon and a Close button.",
 	},
 	{
 		key: "information",
@@ -114,6 +115,8 @@ export default class QuickDialog extends BaseController {
 	private model!: JSONModel;
 
 	public onInit(): void {
+		this.setControlIntro("QuickDialog");
+
 		this.model = new JSONModel(
 			{
 				title: "QuickDialog",
@@ -156,7 +159,9 @@ if (action === MessageAction.Delete) {
 	 * Opens the dialog the pressed button stands for.
 	 */
 	public onDemoPress(event: Event<object, SizedButton>): void {
-		const button = event.getSource().getBindingContext("json")
+		const button = event
+			.getSource()
+			.getBindingContext("json")
 			?.getObject() as DemoButton;
 
 		switch (button.key) {
@@ -200,10 +205,13 @@ if (action === MessageAction.Delete) {
 				void this.runConfirm();
 				break;
 			case "input":
-				void this.runInput("Your name", "Enter a value…", "", [
+				void this.runInput(
+					"Your name",
+					"Enter a value…",
+					"",
+					[MessageAction.Ok, MessageAction.Cancel],
 					MessageAction.Ok,
-					MessageAction.Cancel,
-				], MessageAction.Ok);
+				);
 				break;
 			case "rename":
 				void this.runInput(
