@@ -116,7 +116,7 @@
 								<HBox alignItems="Center" wrap="Wrap">
 									<Text text="{i18n>lblBehavior}" width="100px" />
 									<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
-									<CheckBox text="{i188n>cbEditable}" selected="{json>/editable}" />
+									<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
 									<CheckBox
 										text="{i18n>cbKeyboard}"
 										selected="{json>/showKeyboard}" />

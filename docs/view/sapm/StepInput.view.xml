@@ -113,7 +113,7 @@
 										width="100px" />
 								</HBox>
 								<HBox alignItems="Center">
-									<Text text="{i188>lblButtonType}" width="100px" />
+									<Text text="{i18n>lblButtonType}" width="100px" />
 									<Select selectedKey="{json>/buttonType}">
 										<core:Item key="Default" text="Default" />
 										<core:Item key="Emphasized" text="Emphasized" />

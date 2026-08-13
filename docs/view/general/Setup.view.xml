@@ -82,7 +82,7 @@
 					<f:header>
 						<cards:Header
 							title="{i18n>setupMiddlewareTitle}"
-							subtitle="{i188n>setupMiddlewareSubtitle}"
+							subtitle="{i18n>setupMiddlewareSubtitle}"
 							subtitleMaxLines="0" />
 					</f:header>
 					<f:content>

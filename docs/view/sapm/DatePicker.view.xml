@@ -158,7 +158,7 @@
 						<f:header>
 							<cards:Header
 								title="{control>/replaces}"
-								subtitle="{i188>cardOriginal}" />
+								subtitle="{i18n>cardOriginal}" />
 						</f:header>
 						<f:content>
 							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
