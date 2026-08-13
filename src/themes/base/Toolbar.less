@@ -4,10 +4,11 @@
 	overflow: hidden;
 	/* everything on a toolbar stands on one line: what has a height of its own
 	   keeps it, and what has not - a title, a text - is put in the middle of
-	   the line rather than against its upper edge */
+	   the line rather than against its upper edge. No gap of our own: the
+	   spacing between the children comes from the sap.m bar styles
+	   (sapMBarChild), the same as with the original toolbar. */
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
 }
 
 /* A Ghost button is the outlined one meant to sit on a picture or a coloured
