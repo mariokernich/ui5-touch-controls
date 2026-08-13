@@ -4,7 +4,7 @@
 	xmlns:m="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
-	xmlns:editor="sap.ui.codeeditor"
+	xmlns:control="ui5.touch.controls.demo.control"
 	xmlns:tc="ui5.touch.controls"
 	core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
 	height="100%">
@@ -121,6 +121,20 @@
 										fragmentName="ui5.touch.controls.demo.view.SizeOption"
 										type="XML" />
 									<m:HBox alignItems="Center">
+										<m:Text text="{i18n>lblType}" width="100px" />
+										<!-- the type is a plain list of the sap.m.ButtonType
+										     values, so the same key can be set on both
+										     buttons and compared -->
+										<m:Select
+											selectedKey="{json>/type}"
+											items="{
+												path: 'json>/types',
+												templateShareable: false
+											}">
+											<core:Item key="{json>type}" text="{json>type}" />
+										</m:Select>
+									</m:HBox>
+									<m:HBox alignItems="Center">
 										<m:Text text="{i18n>lblText}" width="100px" />
 										<m:Input
 											value="{json>/text}"
@@ -167,10 +181,14 @@
 									<m:Text
 										text="{i18n>cardTouch}"
 										class="sapUiTinyMarginBottom" />
-									<m:VBox justifyContent="SpaceBetween" items="{json>/types}">
+									<!-- one button, the type comes from the option beside it:
+									     the two columns are there to be compared, and a list
+									     of every type on both sides makes that harder, not
+									     easier -->
+									<m:VBox alignItems="Start">
 										<tc:Button
 											text="{json>/text}"
-											type="{json>type}"
+											type="{json>/type}"
 											icon="{json>/icon}"
 											iconFirst="{json>/iconFirst}"
 											enabled="{json>/enabled}"
@@ -190,10 +208,10 @@
 									<m:Text
 										text="{i18n>cardOriginal}"
 										class="sapUiTinyMarginBottom" />
-									<m:VBox justifyContent="SpaceBetween" items="{json>/types}">
+									<m:VBox alignItems="Start">
 										<m:Button
 											text="{json>/text}"
-											type="{json>type}"
+											type="{json>/type}"
 											icon="{json>/icon}"
 											iconFirst="{json>/iconFirst}"
 											enabled="{json>/enabled}" />
@@ -219,13 +237,9 @@
 										level="H3"
 										wrapping="true"
 										class="sapUiTinyMarginBottom" />
-									<editor:CodeEditor
-										value="{example>code}"
-										type="{example>language}"
-										height="{example>height}"
-										width="100%"
-										editable="false"
-										lineNumbers="true" />
+									<control:CodeBlock
+										text="{example>code}"
+										language="{example>language}" />
 								</m:VBox>
 							</m:VBox>
 						</blocks>

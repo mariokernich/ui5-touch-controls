@@ -10,7 +10,7 @@ import { getApiUrl, getControlDoc } from "../model/documentation";
 export interface Snippet {
 	/** the code itself */
 	code: string;
-	/** the CodeEditor language, e.g. "xml", "json", "sh" or "typescript" */
+	/** the highlight.js language, e.g. "xml", "json", "sh" or "typescript" */
 	language?: string;
 	/** card title; without one the view falls back to a translated default */
 	title?: string;
@@ -96,9 +96,6 @@ export default abstract class BaseController extends Controller {
 				return {
 					code: code,
 					language: language,
-					// the CodeEditor does not grow with its content, so the height is
-					// derived from the number of lines
-					height: `${code.split("\n").length + 2}rem`,
 					// an empty title means "use the default", which the view derives
 					// from the language - resolving it here would freeze it in the
 					// language that was active when the page was built
@@ -115,7 +112,7 @@ export default abstract class BaseController extends Controller {
 	 * snippet group with the key "main", which the ExampleCard fragment binds.
 	 *
 	 * @param code the snippet to display
-	 * @param language the CodeEditor language, defaults to "xml"
+	 * @param language the highlight.js language, defaults to "xml"
 	 * @param title card title, defaults to the one the view derives from the
 	 *   language
 	 */

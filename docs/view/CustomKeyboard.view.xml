@@ -26,7 +26,6 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-
 		<HBox width="100%" class="touchControlsCardRow">
 			<!-- playground -->
 			<f:Card class="sapUiMediumMarginBottom">

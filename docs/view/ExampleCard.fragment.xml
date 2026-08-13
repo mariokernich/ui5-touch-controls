@@ -3,7 +3,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards"
-	xmlns:editor="sap.ui.codeeditor">
+	xmlns:control="ui5.touch.controls.demo.control">
 	<!-- The snippets come from the "example" model instead of being written
 	     into the view: curly braces in an XML view would be parsed as binding
 	     syntax, so binding examples would swallow half of the code. -->
@@ -17,13 +17,9 @@
 					title="{= ${example>title} || (${example>language} === 'xml' ? ${i18n>exampleUsageXml} : ${i18n>exampleUsageController}) }" />
 			</f:header>
 			<f:content>
-				<editor:CodeEditor
-					value="{example>code}"
-					type="{example>language}"
-					height="{example>height}"
-					width="100%"
-					editable="false"
-					lineNumbers="true"
+				<control:CodeBlock
+					text="{example>code}"
+					language="{example>language}"
 					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
 			</f:content>
 		</f:Card>

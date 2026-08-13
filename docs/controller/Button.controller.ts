@@ -1,4 +1,5 @@
 import type { CheckBox$SelectEvent } from "sap/m/CheckBox";
+import { ButtonType } from "sap/m/library";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { SizeMode } from "ui5/touch/controls/library";
 import BaseController from "./BaseController";
@@ -25,18 +26,16 @@ export default class Button extends BaseController {
 				iconFirst: true,
 				enabled: true,
 				size: SizeMode.L,
-				// one button per sap.m.ButtonType, so the types can be compared
-				// side by side
-				types: [
-					{ type: "Ghost" },
-					{ type: "Accept" },
-					{ type: "Attention" },
-					{ type: "Reject" },
-					{ type: "Critical" },
-					{ type: "Emphasized" },
-					{ type: "Success" },
-					{ type: "Negative" },
-				],
+				type: ButtonType.Default,
+				// the choices of the type option: the enum itself rather than a
+				// hand-written list, so a type that UI5 adds later shows up here
+				// without the page having to be touched
+				types: Object.keys(ButtonType)
+					.map((type) => ({ type }))
+					.filter(
+						(t) =>
+							t.type !== "Unstyled" && t.type !== "Back" && t.type !== "Up",
+					),
 			},
 			true,
 		);

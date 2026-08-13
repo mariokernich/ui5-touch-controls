@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
-	xmlns:editor="sap.ui.codeeditor"
+	xmlns:control="ui5.touch.controls.demo.control"
 	xmlns:uxap="sap.uxap"
 	xmlns:tc="ui5.touch.controls"
 	core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
@@ -227,13 +227,9 @@
 										level="H3"
 										wrapping="true"
 										class="sapUiTinyMarginBottom" />
-									<editor:CodeEditor
-										value="{example>code}"
-										type="{example>language}"
-										height="{example>height}"
-										width="100%"
-										editable="false"
-										lineNumbers="true" />
+									<control:CodeBlock
+										text="{example>code}"
+										language="{example>language}" />
 								</VBox>
 							</VBox>
 						</uxap:blocks>

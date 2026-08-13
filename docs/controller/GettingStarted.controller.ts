@@ -16,18 +16,18 @@ export default class GettingStarted extends BaseController {
 					title: "Before — plain sap.m",
 					code: `
 <mvc:View
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m">
-	<Page title="Order">
-		<footer>
-			<OverflowToolbar>
-				<Button text="Save" type="Emphasized" press=".onSave" />
-				<Button text="Cancel" press=".onCancel" />
-				<ToolbarSpacer />
-				<Button text="Approve" type="Accept" press=".onApprove" />
-			</OverflowToolbar>
-		</footer>
-	</Page>
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m">
+  <Page title="Order">
+	<footer>
+	  <OverflowToolbar>
+		<Button text="Save" type="Emphasized" press=".onSave" />
+		<Button text="Cancel" press=".onCancel" />
+		<ToolbarSpacer />
+		<Button text="Approve" type="Accept" press=".onApprove" />
+	  </OverflowToolbar>
+	</footer>
+  </Page>
 </mvc:View>
 `,
 				},

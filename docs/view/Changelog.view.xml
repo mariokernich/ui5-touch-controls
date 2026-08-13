@@ -4,15 +4,23 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards">
-	<Page showHeader="false" class="touchControlsPage">
-		<!-- the texts of this page are English only, see model/changelog.ts -->
-		<VBox class="sapUiSmallMarginBottom">
-			<Title text="Changelog" level="H1" wrapping="true" />
-			<Text
-				text="What changed in every release of the library, the newest first."
-				class="sapUiTinyMarginTop" />
-		</VBox>
 
+		<f:DynamicPage>
+      <f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="Changelog"/>
+					</f:heading>
+          </f:DynamicPageTitle>
+          </f:title>
+<f:header>
+				<f:DynamicPageHeader pinnable="false">
+					<!-- the texts of this page are English only, see model/changelog.ts -->
+					<Text
+						text="What changed in every release of the library, the newest first." />
+				</f:DynamicPageHeader>
+		</f:header>
+      <f:content>
 		<VBox width="100%" items="{changelog>/releases}">
 			<f:Card class="sapUiMediumMarginBottom">
 				<f:header>
@@ -49,5 +57,6 @@
 				</f:content>
 			</f:Card>
 		</VBox>
-	</Page>
+    </f:content>
+	</f:DynamicPage>
 </mvc:View>

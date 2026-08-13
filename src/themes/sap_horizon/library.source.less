@@ -1,3 +1,14 @@
 @import "../base/library.source.less";
 @import "/resources/sap/ui/core/themes/sap_horizon/base.less";
 @import "/resources/sap/ui/core/themes/sap_horizon/global.less";
+
+/* Horizon overrules the transparent Ghost button and gives it the ordinary
+   button background on a plain page - sap.m does the very same thing in its
+   Horizon stylesheet, while Fiori 3 and the high contrast themes leave the
+   type transparent. The base rule in Button.less reads the Lite background,
+   which is what every other theme wants; only these two need the correction,
+   so it stands here rather than as a guard in the shared file. Inside a bar
+   the outlined look stays untouched - see Toolbar.less. */
+.sizedButtonGhost {
+	background-color: @sapButton_Background;
+}

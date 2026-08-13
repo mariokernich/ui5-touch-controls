@@ -31,7 +31,6 @@
         "sap.f": {},
         "sap.tnt": {},
         "sap.uxap": {},
-        "sap.ui.codeeditor": {},
         "ui5.touch.controls": {}
       }
     },
@@ -340,6 +339,9 @@
       "css": [
         {
           "uri": "css/style.css"
+        },
+        {
+          "uri": "css/vs.css"
         }
       ]
     },

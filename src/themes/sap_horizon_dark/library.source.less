@@ -1,3 +1,9 @@
 @import "../base/library.source.less";
 @import "/resources/sap/ui/core/themes/sap_horizon_dark/base.less";
 @import "/resources/sap/ui/core/themes/sap_horizon_dark/global.less";
+
+/* see the note in sap_horizon: the Horizon defaults give Ghost the ordinary
+   button background on a plain page, unlike every other theme */
+.sizedButtonGhost {
+	background-color: @sapButton_Background;
+}

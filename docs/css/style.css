@@ -40,6 +40,21 @@ body,
 	height: 100%;
 }
 
+/* The line that opens a section of the reference. It used to be the subtitle
+   of a card header; as a subsection title it would have replaced the section
+   title in the anchor bar, so it is plain text set apart by its colour. */
+.touchControlsSectionLead {
+	color: var(--sapContent_LabelColor);
+}
+
+/* The facts about the class read as a row of "label: value" pairs. They are
+   an HBox, so they wrap on a narrow window like every other row of a page,
+   and once they do they need a gap of their own - between the columns to keep
+   the pairs apart, and a smaller one between the lines. */
+.touchControlsHeaderFacts.sapMHBox {
+	gap: 0.25rem 2rem;
+}
+
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
    collapse inside the flow of the surrounding page */
 .touchControlsDemoPage {
@@ -345,3 +360,24 @@ body,
 .sapTntToolPageMain {
 	will-change: auto;
 }
+
+.sapUxAPObjectPageSectionTitleUppercase {
+	text-transform: none !important;
+}
+
+.ui5tcCodeBlock {
+	background: #f5f5f5;
+	padding: 10px;
+	/* A <pre> keeps every line unbroken, so its narrowest width is its longest
+	   line - and a flex item is not allowed to shrink below the content of
+	   what it holds. A long snippet would therefore widen its card until two
+	   of them no longer fit on one row, and the comparison of the landing
+	   page lives on them sitting side by side. Scrolling inside the block
+	   takes the code out of that calculation: the block yields to its
+	   container and the long line scrolls instead of pushing. */
+	overflow-x: auto;
+	min-width: 0;
+	max-width: 100%;
+	font-size: 14px;
+}
+
