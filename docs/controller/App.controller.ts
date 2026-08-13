@@ -9,6 +9,10 @@ import type { PageInfo } from "../model/pages";
 import { allPages } from "../model/pages";
 import BaseController from "./BaseController";
 
+/** where a report ends up, and what the footer links to */
+const ISSUE_URL =
+	"https://github.com/mariokernich/ui5-touch-controls/issues/new";
+
 /**
  * Controller of the shell: side navigation, theme switch and the
  * previous/next buttons in the header.
@@ -85,11 +89,32 @@ export default class App extends BaseController {
 		this.model.setProperty("/previousText", this.getPageText(previous));
 		this.model.setProperty("/nextKey", next?.key ?? "");
 		this.model.setProperty("/nextText", this.getPageText(next));
+		this.model.setProperty("/issueUrl", this.getIssueUrl(key));
 
 		document.title =
 			index >= 0
 				? `ui5.touch.controls — ${this.getPageText(allPages[index])}`
 				: "ui5.touch.controls";
+	}
+
+	/**
+	 * The address of a new issue, carrying the page it is reported from. A
+	 * report that names its page is worth more than one that does not, and
+	 * nobody types that in by hand.
+	 */
+	private getIssueUrl(key: string): string {
+		if (!key) {
+			return ISSUE_URL;
+		}
+
+		const parameters = new URLSearchParams({
+			title: `[${key}] `,
+			body: `<!-- ${this.getText("footerIssueBody")} -->\n\nPage: ${key}\nVersion: ${
+				(this.model.getProperty("/version") as string) ?? ""
+			}\n\n`,
+		});
+
+		return `${ISSUE_URL}?${parameters.toString()}`;
 	}
 
 	/**

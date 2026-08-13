@@ -32,6 +32,59 @@ body,
 	padding: 1rem;
 }
 
+/* ---------------------------------------------------------------------------
+   the footer of the shell
+
+   It sits below the pages, outside the area that scrolls, so it is always
+   there. A footer is not where the eye should go: it takes the page
+   background rather than the raised one of a toolbar, and a hairline is what
+   sets it apart from the content above it. */
+.touchControlsMain {
+	/* a flex child is as tall as its content unless it is told otherwise -
+	   without this the NavContainer pushes the footer off the screen */
+	min-height: 0;
+}
+
+.touchControlsFooter.sapMTB {
+	border-top: 1px solid var(--sapGroup_ContentBorderColor);
+	background: var(--sapBackgroundColor);
+	padding: 0 1rem;
+}
+
+/* the credits are a note, not a message: they read in the colour of a label,
+   while the links beside them keep the link colour and stay findable. The
+   credits themselves are a FormattedText - it carries the two profile links -
+   so both classes are named here. */
+.touchControlsFooterText.sapMText,
+.touchControlsFooterText.sapMFT {
+	color: var(--sapContent_LabelColor);
+	font-size: var(--sapFontSmallSize);
+}
+
+/* a FormattedText wraps its content in a <div>, which would take a line of
+   its own in the toolbar */
+.touchControlsFooter .sapMFT,
+.touchControlsFooter .sapMFT > div {
+	display: inline;
+	white-space: nowrap;
+}
+
+/* the profile links sit inside the label-coloured sentence, so they have to
+   come back to the link colour to read as links at all */
+.touchControlsFooter .sapMLnk,
+.touchControlsFooter .sapMFT a {
+	font-size: var(--sapFontSmallSize);
+	color: var(--sapLinkColor);
+}
+
+/* on a phone the footer would eat a line of the content for the credits, and
+   the ask is the part that can go - the issue link is what stays useful */
+@media (max-width: 599px) {
+	.touchControlsFooter .touchControlsFooterText {
+		display: none;
+	}
+}
+
 /* The alternative page concept: a control page built as an ObjectPageLayout
    rather than as a sap.m.Page with a row of cards. A NavContainer sizes its
    pages by their own height, and an object page scrolls inside itself, so it

@@ -1,0 +1,46 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<!-- The footer of the shell. It sits below the NavContainer rather than
+	     inside a page, so it is written once and shows on every page - the two
+	     that are no DynamicPage included.
+
+	     An OverflowToolbar is what carries it: on a narrow window the entries
+	     that do not fit move into its overflow menu by themselves, which is
+	     what keeps the footer from wrapping into three lines on a phone. -->
+	<OverflowToolbar
+		height="2.5rem"
+		class="touchControlsFooter">
+		<FormattedText
+			htmlText="{i18n>footerCredits}"
+			class="touchControlsFooterText" />
+		<Link
+			text="{i18n>footerLicense}"
+			href="https://github.com/mariokernich/ui5-touch-controls/blob/main/LICENSE"
+			target="_blank"
+			class="sapUiTinyMarginBegin" />
+		<Text
+			text="{i18n>footerBuiltWith}"
+			class="touchControlsFooterText sapUiTinyMarginBegin" />
+
+		<ToolbarSpacer />
+
+		<!-- the ask: a star or a follow, said plainly and without a badge -->
+		<Text
+			text="{i18n>footerLikeIt}"
+			class="touchControlsFooterText" />
+		<Link
+			text="{i18n>footerStar}"
+			href="https://github.com/mariokernich/ui5-touch-controls"
+			target="_blank"
+			class="sapUiTinyMarginBegin" />
+
+		<!-- and the way back: an issue, prefilled with the page it was opened
+		     from, so a report arrives with its context -->
+		<Link
+			text="{i18n>footerIssue}"
+			href="{app>/issueUrl}"
+			target="_blank"
+			class="sapUiSmallMarginBegin" />
+	</OverflowToolbar>
+</core:FragmentDefinition>
