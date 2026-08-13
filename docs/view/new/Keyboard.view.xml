@@ -245,7 +245,7 @@
                 </HBox>
                 <HBox alignItems="Center">
                   <Text
-                    text="{i188>lblEnterText}"
+                    text="{i18n>lblEnterText}"
                     width="130px"
                   />
                   <Input
