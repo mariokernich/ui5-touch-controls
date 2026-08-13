@@ -58,6 +58,19 @@ export const releases: Release[] = [
 					"The CSS classes of a keyboard are touchKeyboard, touchKeyboardRow, touchKeyboardDocked and touchKeyboardDisabled - they were named after the control that is gone.",
 				],
 			},
+			{
+				kind: "Fixed",
+				items: [
+					"A Ghost button looks like its sap.m original in the two Horizon themes. Those themes give the type the ordinary button background, border and text colour on a plain page, where every other theme leaves it outlined and transparent - the library only picked up the background and kept the outline and the hover of the transparent look.",
+				],
+			},
+			{
+				kind: "Demo",
+				items: [
+					"The code examples on the control pages carry a copy button, which puts the snippet on the clipboard.",
+					"The code blocks follow the dark theme: dark background, and a highlighting palette to match.",
+				],
+			},
 		],
 	},
 	{
