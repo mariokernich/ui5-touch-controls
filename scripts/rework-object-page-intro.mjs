@@ -19,7 +19,20 @@
  *
  * Usage: node scripts/rework-object-page-intro.mjs Button CheckBox ...
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+
+/** the views live in subdirectories by category, see docs/view */
+function viewPath(name) {
+	for (const dir of ["sapm", "new", "classes", "general"]) {
+		const path = `docs/view/${dir}/${name}.view.xml`;
+
+		if (existsSync(path)) {
+			return path;
+		}
+	}
+
+	throw new Error(`${name}: view not found in docs/view/*/`);
+}
 
 /**
  * The pages do not agree on which namespace is the default one: the Button page
@@ -86,7 +99,7 @@ function overviewBlocks({ m, u }, extra) {
 }
 
 function rework(name) {
-	const path = `docs/view/${name}.view.xml`;
+	const path = viewPath(name);
 	let xml = readFileSync(path, "utf8");
 
 	if (!xml.includes("ObjectPageLayout")) {

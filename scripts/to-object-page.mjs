@@ -16,7 +16,20 @@
  *
  * Usage: node scripts/to-object-page.mjs CheckBox RadioButton ...
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+
+/** the views live in subdirectories by category, see docs/view */
+function viewPath(name) {
+	for (const dir of ["sapm", "new", "classes", "general"]) {
+		const path = `docs/view/${dir}/${name}.view.xml`;
+
+		if (existsSync(path)) {
+			return path;
+		}
+	}
+
+	throw new Error(`${name}: view not found in docs/view/*/`);
+}
 
 /** pulls the body out of one <f:Card>…</f:Card>, without its header */
 function splitCards(xml) {
@@ -28,14 +41,12 @@ function splitCards(xml) {
 		// find the matching close tag, counting nested cards (there are none
 		// today, but a wrong slice would be silent damage)
 		let depth = 1;
-		let index = open.lastIndex;
 		const tag = /<(\/?)f:Card\b/g;
-		tag.lastIndex = index;
+		tag.lastIndex = open.lastIndex;
 		let t;
 
 		while (depth > 0 && (t = tag.exec(xml))) {
 			depth += t[1] ? -1 : 1;
-			index = t.index;
 		}
 
 		cards.push(xml.slice(m.index, xml.indexOf(">", tag.lastIndex) + 1));
@@ -79,7 +90,7 @@ function reindent(block, spaces) {
 }
 
 function convert(name) {
-	const path = `docs/view/${name}.view.xml`;
+	const path = viewPath(name);
 	const xml = readFileSync(path, "utf8");
 
 	if (xml.includes("ObjectPageLayout")) {
@@ -95,7 +106,7 @@ function convert(name) {
 	const [options, touch, original] = cards.map(cardContent);
 
 	const view = `<mvc:View
-	controllerName="ui5.touch.controls.demo.controller.${name}"
+	controllerName="ui5.touch.controls.demo.controller.${path.split("/")[2]}.${name}"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
@@ -227,7 +238,7 @@ ${reindent(options, 9)}
 										level="H3"
 										wrapping="true" />
 									<Text
-										text="{i18n>cardTouch}"
+										text="{i188>cardTouch}"
 										class="sapUiTinyMarginBottom" />
 ${reindent(touch, 9)}
 								</VBox>

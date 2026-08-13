@@ -1,6 +1,5 @@
 import type { CheckBox$SelectEvent } from "sap/m/CheckBox";
 import MessageToast from "sap/m/MessageToast";
-import type { SegmentedButton$SelectionChangeEvent as StandardSelectionChangeEvent } from "sap/m/SegmentedButton";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { SizeMode } from "ui5/touch/controls/library";
 import type { SegmentedButton$SelectionChangeEvent } from "ui5/touch/controls/SegmentedButton";

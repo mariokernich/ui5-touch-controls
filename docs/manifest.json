@@ -200,137 +200,137 @@
         "GettingStarted": {
           "id": "GettingStarted",
           "viewId": "GettingStarted",
-          "name": "GettingStarted"
+          "name": "general.GettingStarted"
         },
         "Setup": {
           "id": "Setup",
           "viewId": "Setup",
-          "name": "Setup"
+          "name": "general.Setup"
         },
         "Documentation": {
           "id": "Documentation",
           "viewId": "Documentation",
-          "name": "Documentation"
+          "name": "general.Documentation"
         },
         "Changelog": {
           "id": "Changelog",
           "viewId": "Changelog",
-          "name": "Changelog"
+          "name": "general.Changelog"
         },
         "Button": {
           "id": "Button",
           "viewId": "Button",
-          "name": "Button"
+          "name": "sapm.Button"
         },
         "SegmentedButton": {
           "id": "SegmentedButton",
           "viewId": "SegmentedButton",
-          "name": "SegmentedButton"
+          "name": "sapm.SegmentedButton"
         },
         "CheckBox": {
           "id": "CheckBox",
           "viewId": "CheckBox",
-          "name": "CheckBox"
+          "name": "sapm.CheckBox"
         },
         "RadioButton": {
           "id": "RadioButton",
           "viewId": "RadioButton",
-          "name": "RadioButton"
+          "name": "sapm.RadioButton"
         },
         "Switch": {
           "id": "Switch",
           "viewId": "Switch",
-          "name": "Switch"
+          "name": "sapm.Switch"
         },
         "Select": {
           "id": "Select",
           "viewId": "Select",
-          "name": "Select"
+          "name": "sapm.Select"
         },
         "ComboBox": {
           "id": "ComboBox",
           "viewId": "ComboBox",
-          "name": "ComboBox"
+          "name": "sapm.ComboBox"
         },
         "DatePicker": {
           "id": "DatePicker",
           "viewId": "DatePicker",
-          "name": "DatePicker"
+          "name": "sapm.DatePicker"
         },
         "TimePicker": {
           "id": "TimePicker",
           "viewId": "TimePicker",
-          "name": "TimePicker"
+          "name": "sapm.TimePicker"
         },
         "Input": {
           "id": "Input",
           "viewId": "Input",
-          "name": "Input"
+          "name": "sapm.Input"
         },
         "TextArea": {
           "id": "TextArea",
           "viewId": "TextArea",
-          "name": "TextArea"
+          "name": "sapm.TextArea"
         },
         "StepInput": {
           "id": "StepInput",
           "viewId": "StepInput",
-          "name": "StepInput"
+          "name": "sapm.StepInput"
         },
         "Text": {
           "id": "Text",
           "viewId": "Text",
-          "name": "Text"
+          "name": "sapm.Text"
         },
         "Link": {
           "id": "Link",
           "viewId": "Link",
-          "name": "Link"
+          "name": "sapm.Link"
         },
         "Toolbar": {
           "id": "Toolbar",
           "viewId": "Toolbar",
-          "name": "Toolbar"
+          "name": "sapm.Toolbar"
         },
         "OverflowToolbar": {
           "id": "OverflowToolbar",
           "viewId": "OverflowToolbar",
-          "name": "OverflowToolbar"
+          "name": "sapm.OverflowToolbar"
         },
         "QuickDialog": {
           "id": "QuickDialog",
           "viewId": "QuickDialog",
-          "name": "QuickDialog"
+          "name": "classes.QuickDialog"
         },
         "Keyboard": {
           "id": "Keyboard",
           "viewId": "Keyboard",
-          "name": "Keyboard"
+          "name": "new.Keyboard"
         },
         "NumberPad": {
           "id": "NumberPad",
           "viewId": "NumberPad",
-          "name": "NumberPad"
+          "name": "new.NumberPad"
         },
         "CustomKeyboard": {
           "id": "CustomKeyboard",
           "viewId": "CustomKeyboard",
-          "name": "CustomKeyboard"
+          "name": "new.CustomKeyboard"
         },
         "BarcodeInput": {
           "id": "BarcodeInput",
           "viewId": "BarcodeInput",
-          "name": "BarcodeInput"
+          "name": "new.BarcodeInput"
         },
         "SignaturePad": {
           "id": "SignaturePad",
           "viewId": "SignaturePad",
-          "name": "SignaturePad"
+          "name": "new.SignaturePad"
         },
         "NotFound": {
           "id": "NotFound",
           "viewId": "NotFound",
-          "name": "NotFound",
+          "name": "general.NotFound",
           "transition": "show"
         }
       }
