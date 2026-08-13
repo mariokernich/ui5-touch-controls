@@ -105,7 +105,7 @@
 										width="300px" />
 								</HBox>
 								<HBox alignItems="Center">
-									<Text text="{i188>lblRows}" width="100px" />
+									<Text text="{i18n>lblRows}" width="100px" />
 									<StepInput value="{json>/rows}" min="1" max="20" />
 								</HBox>
 								<HBox alignItems="Center">

@@ -168,7 +168,7 @@
 									valueFormat="HH:mm"
 									displayFormat="{json>/displayFormat}"
 									minutesStep="{json>/minutesStep}"
-									placeholder="{i188n>phPickTime}"
+									placeholder="{i18n>phPickTime}"
 									enabled="{json>/enabled}"
 									editable="{json>/editable}"
 									valueState="{json>/valueState}"

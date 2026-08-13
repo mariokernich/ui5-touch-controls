@@ -335,7 +335,7 @@
                     minScreenWidth="Tablet"
                     popinDisplay="Inline"
                   >
-                    <Label text="{i188n>colModeKeys}" />
+                    <Label text="{i18n>colModeKeys}" />
                   </Column>
                 </columns>
                 <items>

@@ -167,7 +167,7 @@
 									showSecondaryValues="{json>/showSecondaryValues}"
 									value="{json>/value}"
 									selectedKey="{json>/selectedKey}"
-									placeholder="{i188n>phSearchMaterial}"
+									placeholder="{i18n>phSearchMaterial}"
 									enabled="{json>/enabled}"
 									editable="{json>/editable}"
 									valueState="{json>/valueState}"
