@@ -12,7 +12,7 @@ export function isDarkTheme(theme: string): boolean {
  */
 export function getLogoUrl(theme: string): string {
 	return sap.ui.require.toUrl(
-		`ui5/touch/controls/demo/logo${isDarkTheme(theme) || theme === "sap_fiori_3" ? "-dark" : ""}.svg`,
+		`ui5/touch/controls/demo/img/logo${isDarkTheme(theme) || theme === "sap_fiori_3" ? "-dark" : ""}.svg`,
 	);
 }
 
@@ -21,5 +21,5 @@ export function getLogoUrl(theme: string): string {
  * same in every theme, so unlike {@link getLogoUrl} it takes no theme.
  */
 export function getLogoMarkUrl(): string {
-	return sap.ui.require.toUrl("ui5/touch/controls/demo/logo-mark.svg");
+	return sap.ui.require.toUrl("ui5/touch/controls/demo/img/logo-mark.svg");
 }

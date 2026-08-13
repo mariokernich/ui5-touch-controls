@@ -1,6 +1,9 @@
 import { MetadataOptions } from "sap/ui/core/Element";
 import Control from "sap/ui/core/Control";
 import type RenderManager from "sap/ui/core/RenderManager";
+import Button from "sap/m/Button";
+import MessageToast from "sap/m/MessageToast";
+import type ResourceModel from "sap/ui/model/resource/ResourceModel";
 import hljs from "highlight.js/lib/common";
 
 /**
@@ -11,6 +14,14 @@ export default class CodeBlock extends Control {
 		properties: {
 			text: { type: "string", defaultValue: "" },
 			language: { type: "string", defaultValue: "" },
+			showCopyButton: { type: "boolean", defaultValue: false },
+		},
+		aggregations: {
+			_copyButton: {
+				type: "sap.m.Button",
+				multiple: false,
+				visibility: "hidden",
+			},
 		},
 	};
 
@@ -18,6 +29,37 @@ export default class CodeBlock extends Control {
 	constructor(id?: string, settings?: $CodeBlockSettings);
 	constructor(id?: string, settings?: $CodeBlockSettings) {
 		super(id, settings);
+	}
+
+	init() {
+		this.setAggregation(
+			"_copyButton",
+			new Button({
+				icon: "sap-icon://copy",
+				type: "Transparent",
+				press: () => void this.onCopy(),
+			}).addStyleClass("ui5tcCodeBlockCopy"),
+		);
+	}
+
+	private async onCopy() {
+		const text = this.getText();
+		try {
+			await navigator.clipboard.writeText(text);
+		} catch {
+			// the async clipboard API needs a focused, secure document - fall
+			// back to the selection based way when it refuses
+			const helper = document.createElement("textarea");
+			helper.value = text;
+			helper.style.position = "fixed";
+			helper.style.opacity = "0";
+			document.body.appendChild(helper);
+			helper.select();
+			document.execCommand("copy");
+			helper.remove();
+		}
+		const model = this.getModel("i18n") as ResourceModel | undefined;
+		MessageToast.show((model?.getProperty("copied") as string) ?? "Copied");
 	}
 
 	onAfterRendering() {
@@ -48,7 +90,13 @@ export default class CodeBlock extends Control {
 	static renderer = {
 		apiVersion: 2,
 		render(rm: RenderManager, control: CodeBlock) {
-			rm.openStart("pre", control);
+			rm.openStart("div", control);
+			rm.class("ui5tcCodeBlockWrapper");
+			rm.openEnd();
+			if (control.getShowCopyButton()) {
+				rm.renderControl(control.getAggregation("_copyButton") as Button);
+			}
+			rm.openStart("pre");
 			rm.class("ui5tcCodeBlock");
 			rm.openEnd();
 			rm.openStart("code");
@@ -56,6 +104,7 @@ export default class CodeBlock extends Control {
 			rm.text(control.getText());
 			rm.close("code");
 			rm.close("pre");
+			rm.close("div");
 		},
 	};
 }

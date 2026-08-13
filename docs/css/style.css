@@ -92,8 +92,8 @@ body,
 	width: 100%;
 	height: 100%;
 	background-color: currentColor;
-	-webkit-mask: url("../github.svg") no-repeat center / contain;
-	mask: url("../github.svg") no-repeat center / contain;
+	-webkit-mask: url("../img/github.svg") no-repeat center / contain;
+	mask: url("../img/github.svg") no-repeat center / contain;
 }
 
 /* A box in a card is told to be as wide as the card and given margins on top
@@ -305,8 +305,24 @@ body,
 	text-transform: none !important;
 }
 
+.ui5tcCodeBlockWrapper {
+	/* anchor for the copy button in the corner; takes over the flex duties
+	   of the block so that the <pre> inside can still scroll */
+	position: relative;
+	min-width: 0;
+	max-width: 100%;
+	width: 100%;
+}
+
+.ui5tcCodeBlockWrapper .ui5tcCodeBlockCopy {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+}
+
 .ui5tcCodeBlock {
 	background: #f7f8fa;
+	color: #1d2d3e;
 	padding: 10px;
 	/* A <pre> keeps every line unbroken, so its narrowest width is its longest
 	   line - and a flex item is not allowed to shrink below the content of
@@ -320,5 +336,93 @@ body,
 	max-width: 100%;
 	font-size: 14px;
 	width:100%;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------------
+   CodeBlock in the dark themes. The UI5 theme is a class on <html>
+   (sapUiTheme-<name>), and every dark rendering theme of the demo ends in
+   _dark or _hcb - the same rule isDarkTheme() in model/theme.ts applies.
+   The palette mirrors the Visual Studio Dark colours, group for group the
+   counterpart of the light vs.css.
+   --------------------------------------------------------------------------- */
+html[class*="_dark"] .ui5tcCodeBlock,
+html[class*="_hcb"] .ui5tcCodeBlock {
+	background: #1e1e1e;
+	color: #d4d4d4;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-comment,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-quote,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-variable,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-comment,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-quote,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-variable {
+	color: #6a9955;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-keyword,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-selector-tag,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-built_in,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-name,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-tag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-keyword,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-selector-tag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-built_in,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-name,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-tag {
+	color: #569cd6;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-string,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-title,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-section,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-attribute,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-literal,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-template-tag,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-template-variable,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-type,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-addition,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-string,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-title,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-section,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-attribute,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-literal,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-template-tag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-template-variable,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-type,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-addition {
+	color: #ce9178;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-deletion,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-selector-attr,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-selector-pseudo,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-meta,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-deletion,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-selector-attr,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-selector-pseudo,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-meta {
+	color: #4ec9b0;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-doctag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-doctag {
+	color: #9b9b9b;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-attr,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-attr {
+	color: #9cdcfe;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-symbol,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-bullet,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-link,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-symbol,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-bullet,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-link {
+	color: #4fc1ff;
 }
 

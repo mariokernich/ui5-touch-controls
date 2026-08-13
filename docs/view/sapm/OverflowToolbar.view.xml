@@ -240,6 +240,7 @@
 							<control:CodeBlock
 								text="{example>code}"
 								language="{example>language}"
+								showCopyButton="true"
 								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom" />
 						</f:content>
 					</f:Card>
