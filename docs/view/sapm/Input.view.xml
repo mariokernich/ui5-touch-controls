@@ -1,0 +1,237 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.sapm.Input"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:control="ui5.touch.controls.demo.control"
+	xmlns:uxap="sap.uxap"
+	xmlns:tc="ui5.touch.controls"
+	core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
+	height="100%">
+	<!-- The page of a control is an ObjectPageLayout: the anchor bar names the
+	     parts of the page - Overview, Playground, Example Usage - and jumps to
+	     them, which a row of cards cannot do.
+
+	     The head of the page reads like an entry of the demo kit: the name of
+	     the control, one or two sentences on what it is, and beside them the
+	     facts about the class - what it extends, since when it is there and
+	     how visible it is. -->
+	<uxap:ObjectPageLayout
+		id="objectPage"
+		upperCaseAnchorBar="false"
+		class="touchControlsPage touchControlsObjectPage">
+		<!-- showTitleInHeaderContent is left off on purpose: it repeats the
+		     title and subtitle of the header title inside the header content,
+		     so the head of the page would say the same thing twice -->
+		<uxap:headerTitle>
+			<uxap:ObjectPageHeader
+				objectTitle="{control>/fullName}"
+				objectSubtitle="{control>/summary}" />
+		</uxap:headerTitle>
+
+		<uxap:headerContent>
+			<!-- the facts about the class, the way the demo kit lists them -->
+			<ObjectAttribute title="{i18n>introExtends}">
+				<customContent>
+					<Link
+						text="{control>/extendsClass}"
+						href="{control>/extendsUrl}"
+						target="_blank"
+						enabled="{= !!${control>/extendsUrl} }" />
+				</customContent>
+			</ObjectAttribute>
+			<!-- the link to the demo kit reads like the attribute beside it -
+			     "Original: sap.m.Button" - instead of being a bare "read more" -->
+			<ObjectAttribute title="{i18n>introOriginalLabel}">
+				<customContent>
+					<Link
+						text="{control>/replaces}"
+						href="{control>/docUrl}"
+						target="_blank"
+						enabled="{= !!${control>/docUrl} }" />
+				</customContent>
+			</ObjectAttribute>
+			<ObjectAttribute title="{i18n>introSince}" text="{control>/since}" />
+			<ObjectAttribute
+				title="{i18n>introVisibility}"
+				text="{control>/visibility}" />
+		</uxap:headerContent>
+
+		<uxap:sections>
+			<!-- Overview: the control in running text, longer than the summary in
+			     the head of the page -->
+			<uxap:ObjectPageSection title="{i18n>sectionOverview}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<!-- running text rather than two columns: the headings
+							     "The original" and "The touch version" were on every
+							     page and said less than the sentences below them -->
+							<VBox width="100%">
+								<Text text="{control>/description}" />
+								<Text
+									text="{
+										parts: ['i18n>overviewReplaces', 'control>/replaces', 'control>/original'],
+										formatter: 'formatMessage'
+									}"
+									class="sapUiSmallMarginTop" />
+								<Text
+									text="{i18n>introSizeNote}"
+									class="sapUiSmallMarginTop" />
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<!-- Playground: one block, three columns - what can be set, the
+			     control of this library, and the sap.m original beside it -->
+			<uxap:ObjectPageSection title="{i18n>sectionPlayground}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<HBox
+								width="100%"
+								wrap="Wrap"
+								class="touchControlsCardRow touchControlsPlaygroundRow">
+								<!-- column 1: what can be set -->
+								<VBox>
+									<layoutData>
+										<FlexItemData growFactor="1" baseSize="0" />
+									</layoutData>
+									<Title
+										text="{i18n>optionsTitle}"
+										level="H3"
+										wrapping="true"
+										class="sapUiTinyMarginBottom" />
+									<core:Fragment fragmentName="ui5.touch.controls.demo.view.SizeOption" type="XML" />
+									<HBox alignItems="Center">
+										<Text text="{i18n>lblValue}" width="100px" />
+										<Input
+											value="{json>/value}"
+											placeholder="{i18n>lblValue}"
+											valueLiveUpdate="true"
+											width="300px" />
+									</HBox>
+									<HBox alignItems="Center">
+										<Text text="{i18n>lblPlaceholder}" width="100px" />
+										<Input
+											value="{json>/placeholder}"
+											placeholder="{i18n>lblPlaceholder}"
+											valueLiveUpdate="true"
+											width="300px" />
+									</HBox>
+									<core:Fragment fragmentName="ui5.touch.controls.demo.view.ValueStateOption" type="XML" />
+									<HBox alignItems="Center" wrap="Wrap">
+										<Text text="{i18n>lblBehavior}" width="100px" />
+										<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+										<CheckBox text="{i18n>cbEditable}" selected="{json>/editable}" />
+										<CheckBox
+											text="{i18n>cbKeyboard}"
+											selected="{json>/showKeyboard}" />
+										<CheckBox
+											text="{i18n>cbDocked}"
+											selected="{json>/keyboardDocked}"
+											enabled="{json>/showKeyboard}" />
+									</HBox>
+									<HBox alignItems="Center">
+										<Text text="{i18n>lblMode}" width="100px" />
+										<Select
+											selectedKey="{json>/keyboardMode}"
+											enabled="{json>/showKeyboard}">
+											<core:Item key="English" text="English" />
+											<core:Item key="German" text="German" />
+											<core:Item key="French" text="French" />
+											<core:Item key="Spanish" text="Spanish" />
+											<core:Item key="Ukrainian" text="Ukrainian" />
+											<core:Item key="Russian" text="Russian" />
+											<core:Item key="Hindi" text="Hindi" />
+										</Select>
+									</HBox>
+									<Text text="{i18n>inputKeyboardHint}" class="sapUiTinyMarginTop" />
+								</VBox>
+
+								<!-- column 2: the library control -->
+								<VBox>
+									<layoutData>
+										<FlexItemData growFactor="1" baseSize="0" />
+									</layoutData>
+									<Title
+										text="{control>/fullName}"
+										level="H3"
+										wrapping="true" />
+									<Text
+										text="{i18n>cardTouch}"
+										class="sapUiTinyMarginBottom" />
+									<tc:Input
+										value="{json>/value}"
+										placeholder="{json>/placeholder}"
+										size="{json>/size}"
+										enabled="{json>/enabled}"
+										editable="{json>/editable}"
+										valueState="{json>/valueState}"
+										showKeyboard="{json>/showKeyboard}"
+										width="100%"
+										liveChange=".onLiveChange">
+										<tc:keyboard>
+											<tc:Keyboard
+												size="{json>/size}"
+												mode="{json>/keyboardMode}"
+												docked="{json>/keyboardDocked}" />
+										</tc:keyboard>
+									</tc:Input>
+								</VBox>
+
+								<!-- column 3: the sap.m original -->
+								<VBox>
+									<layoutData>
+										<FlexItemData growFactor="1" baseSize="0" />
+									</layoutData>
+									<Title
+										text="{control>/replaces}"
+										level="H3"
+										wrapping="true" />
+									<Text
+										text="{i18n>cardOriginal}"
+										class="sapUiTinyMarginBottom" />
+									<Input
+										value="{json>/value}"
+										placeholder="{json>/placeholder}"
+										enabled="{json>/enabled}"
+										editable="{json>/editable}"
+										valueState="{json>/valueState}"
+										valueLiveUpdate="true"
+										width="100%" />
+								</VBox>
+							</HBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<!-- Example Usage: the snippets come from the "example" model, not
+			     from the view - curly braces in an XML view would be parsed as
+			     binding syntax -->
+			<uxap:ObjectPageSection title="{i18n>sectionExample}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<VBox width="100%" items="{example>/main}">
+								<VBox width="100%">
+									<Title
+										text="{= ${example>title} || (${example>language} === 'xml' ? ${i18n>exampleUsageXml} : ${i18n>exampleUsageController}) }"
+										level="H3"
+										wrapping="true"
+										class="sapUiTinyMarginBottom" />
+									<control:CodeBlock
+										text="{example>code}"
+										language="{example>language}" />
+								</VBox>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>
