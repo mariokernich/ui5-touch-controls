@@ -354,22 +354,53 @@ export function getApiUrl(entity: string): string {
 const SOURCE_BASE =
 	"https://github.com/mariokernich/ui5-touch-controls/blob/main/src";
 
-/**
- * The file a class is written in, e.g. <code>Button.ts</code>.
- *
- * Every class of the library lives in a file of its own that carries its
- * name, so the name is all it takes to find it.
- */
-export function getSourceFile(name: string): string {
-	return `${name}.ts`;
+/** one file a class is written in, as the head of its page links it */
+export interface SourceFile {
+	/** the name of the file, e.g. <code>Button.less</code> */
+	file: string;
+	/** where it is read on GitHub */
+	url: string;
 }
 
 /**
- * Link to the source of a class on GitHub.
+ * The style sheet a control is drawn by, where that is not the sheet carrying
+ * its own name.
  *
- * It points at the branch rather than at a tag: the demo runs from main, and
- * a link to a fixed release would age with every version.
+ * The three keyboards are drawn by the sheet of the class they descend from -
+ * a key looks the same whichever of them put it there - and a class that
+ * builds its user interface from other controls has no sheet of its own,
+ * which the empty string says.
  */
-export function getSourceUrl(name: string): string {
-	return `${SOURCE_BASE}/${getSourceFile(name)}`;
+const STYLE_SHEETS: Record<string, string> = {
+	Keyboard: "Keyboard",
+	NumberPad: "Keyboard",
+	CustomKeyboard: "Keyboard",
+	KeyboardBase: "Keyboard",
+	QuickDialog: "",
+};
+
+/**
+ * The files a class is written in: the TypeScript it is implemented in and
+ * the style sheet it is drawn by, both linked into the repository.
+ *
+ * Every class of the library lives in a file that carries its name, so the
+ * name is all it takes to find it; only the style sheet is not always the one
+ * of the same name, see {@link STYLE_SHEETS}.
+ *
+ * The links point at the branch rather than at a tag: the demo runs from
+ * main, and a link to a fixed release would age with every version.
+ */
+export function getSources(name: string): SourceFile[] {
+	const sheet = name in STYLE_SHEETS ? STYLE_SHEETS[name] : name;
+	const paths = [`${name}.ts`];
+
+	if (sheet) {
+		paths.push(`themes/base/${sheet}.less`);
+	}
+
+	return paths.map((path) => ({
+		// the path is what finds the file, its last segment is what names it
+		file: path.slice(path.lastIndexOf("/") + 1),
+		url: `${SOURCE_BASE}/${path}`,
+	}));
 }

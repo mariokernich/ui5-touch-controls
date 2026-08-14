@@ -185,6 +185,34 @@ body,
 	gap: 0.25rem 2rem;
 }
 
+/* ---------------------------------------------------------------------------
+   the files a class is written in, in the head of its page
+
+   The fact is built by hand instead of from an ObjectAttribute like the ones
+   beside it - see the views for why - so what the theme gives those is given
+   here: the name of the fact reads in the colour of a label, the files read as
+   links, and the space between them is what separates them. */
+.touchControlsSource.sapMFlexBox {
+	column-gap: 0.375rem;
+	row-gap: 0.125rem;
+}
+
+.touchControlsSourceTitle.sapMText {
+	color: var(--sapContent_LabelColor);
+}
+
+.touchControlsSourceLinks.sapMFlexBox {
+	column-gap: 0.75rem;
+	row-gap: 0.125rem;
+}
+
+/* a file name is short enough to be worth a line of its own: it keeps its
+   length and the row breaks around it rather than truncating it */
+.touchControlsSourceLinks .sapMLnk {
+	max-width: none;
+	flex-shrink: 0;
+}
+
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
    collapse inside the flow of the surrounding page */
 .touchControlsDemoPage {

@@ -92,15 +92,32 @@
                         title="{i18n>introVisibility}"
                         text="{control>/visibility}"
                         class="sapUiMediumMarginEnd" />
-                    <!-- where the class is written, for reading along in the repository -->
-                    <ObjectAttribute title="{i18n>introSource}">
-                        <customContent>
-                            <Link
-                                text="{control>/sourceFile}"
-                                href="{control>/sourceUrl}"
-                                target="_blank" />
-                        </customContent>
-                    </ObjectAttribute>
+                    <!-- A class is written in more than one file - what it does and what
+                         it looks like - so the fact carries a link per file.
+
+                         It is built by hand rather than from an ObjectAttribute like the
+                         facts beside it: that one takes a single sap.m.Link in its
+                         customContent and rejects a row of them at runtime, and one
+                         attribute per file would either repeat the name of the fact or,
+                         left without a title, hide itself. The name takes the colour a
+                         label has, which is the one an attribute title takes too. -->
+                    <HBox
+                    	alignItems="Center"
+                    	wrap="Wrap"
+                    	class="touchControlsSource">
+                    	<Text
+                    		text="{= ${i18n>introSource} + ':' }"
+                    		class="touchControlsSourceTitle" />
+                    	<HBox
+                    		items="{control>/sources}"
+                    		wrap="Wrap"
+                    		class="touchControlsSourceLinks">
+                    		<Link
+                    			text="{control>file}"
+                    			href="{control>url}"
+                    			target="_blank" />
+                    	</HBox>
+                    </HBox>
                 </HBox>
             </f:DynamicPageHeader>
         </f:header>

@@ -8,8 +8,7 @@ import type ResourceModel from "sap/ui/model/resource/ResourceModel";
 import {
 	getApiUrl,
 	getControlDoc,
-	getSourceFile,
-	getSourceUrl,
+	getSources,
 	NEW_CONTROL,
 } from "../model/documentation";
 
@@ -136,9 +135,8 @@ export default abstract class BaseController extends Controller {
 				extendsUrl: getApiUrl(doc.extendsClass),
 				extendsKey: extendsDoc?.name ?? "",
 				visibility: doc.visibility ?? "public",
-				// the file the class is written in, and where to read it
-				sourceFile: getSourceFile(doc.name),
-				sourceUrl: getSourceUrl(doc.name),
+				// the files the class is written in, and where to read them
+				sources: getSources(doc.name),
 				// a control without a sap.m original has no "Original" fact
 				showOriginal: doc.replaces !== NEW_CONTROL,
 			}),
