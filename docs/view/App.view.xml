@@ -33,17 +33,17 @@
 					tooltip="{i18n>versionTooltip}"
 					class="touchControlsHeaderVersion sapUiTinyMarginEnd" />
 				<!-- a spacer on either side is what puts the search in the middle:
-				     it takes what the two groups beside it leave over, and both
-				     sides get the same share of it -->
+				     the two of them share whatever the groups beside them leave
+				     over, so the field sits between them -->
 				<ToolbarSpacer />
 				<SearchField
+					width="22rem"
 					placeholder="{i18n>searchPlaceholder}"
 					tooltip="{i18n>searchTooltip}"
 					enableSuggestions="true"
 					suggest=".onSearchSuggest"
 					search=".onSearch"
-					suggestionItems="{app>/searchSuggestions}"
-					class="touchControlsHeaderSearch">
+					suggestionItems="{app>/searchSuggestions}">
 					<SuggestionItem
 						key="{app>key}"
 						text="{app>text}"
