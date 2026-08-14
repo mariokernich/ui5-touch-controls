@@ -35,19 +35,20 @@
         <ToolbarSpacer />
 				<!-- the languages are named in their own language, so the entries
 				     read the same whichever one is active -->
-				<Select
+				<ComboBox
 					tooltip="{i18n>language}"
 					selectedKey="{app>/language}"
-          width="150px"
+                    width="150px"
+                    showSecondaryValues="true"
 					change=".onLanguageChange">
-					<core:Item key="en" text="English" />
-					<core:Item key="de" text="Deutsch" />
-					<core:Item key="hi" text="हिन्दी" />
-				</Select>
+					<core:ListItem key="en" text="English" additionalText="EN" />
+					<core:ListItem key="de" text="Deutsch" additionalText="DE" />
+					<core:ListItem key="hi" text="हिन्दी" additionalText="HI" />
+				</ComboBox>
 				<Select
 					tooltip="{i18n>theme}"
 					selectedKey="{app>/theme}"
-          width="150px"
+                    width="150px"
 					change=".onThemeChange">
 					<core:Item key="sap_horizon" text="Horizon" />
 					<core:Item key="sap_horizon_dark" text="Horizon Dark" />

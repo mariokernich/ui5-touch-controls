@@ -8,6 +8,7 @@ import type JSONModel from "sap/ui/model/json/JSONModel";
 import type { PageInfo } from "../model/pages";
 import { allPages } from "../model/pages";
 import BaseController from "./BaseController";
+import { ComboBox$ChangeEvent } from "sap/m/ComboBox";
 
 /** where a report ends up, and what the footer links to */
 const ISSUE_URL =
@@ -153,8 +154,8 @@ export default class App extends BaseController {
 	 * Switches the language of the whole demo. UI5 reloads the resource bundle
 	 * and re-renders everything, so nothing else has to be done here.
 	 */
-	public onLanguageChange(event: Select$ChangeEvent): void {
-		const language = event.getParameter("selectedItem")?.getKey();
+	public onLanguageChange(event: ComboBox$ChangeEvent): void {
+		const language = event.getSource().getSelectedKey();
 		if (language) {
 			Localization.setLanguage(language);
 		}
