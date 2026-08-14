@@ -144,7 +144,14 @@
 			<VBox height="100%" class="touchControlsMain">
 				<NavContainer id="pages" height="100%" autoFocus="false">
 					<layoutData>
-						<FlexItemData growFactor="1" shrinkFactor="1" baseSize="0" />
+						<!-- the class is on the layout data because that is where the
+						     box puts it: on the element it wraps the page area in. The
+						     stylesheet needs it to rank the pages above the footer. -->
+						<FlexItemData
+							growFactor="1"
+							shrinkFactor="1"
+							baseSize="0"
+							styleClass="touchControlsPages" />
 					</layoutData>
 				</NavContainer>
 				<core:Fragment

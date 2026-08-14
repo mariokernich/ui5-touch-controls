@@ -48,6 +48,26 @@ body,
 	min-height: 0;
 }
 
+/* The pages rank above the footer - and with them everything a page puts at
+   the bottom edge of the screen.
+
+   A docked keyboard is what needs this. It is position: fixed and carries a
+   z-index far above anything UI5 hands out, but a z-index only ranks within
+   the stacking context it is in, and the page around it opens one of its own:
+   sap.f.DynamicPage sets position: relative with z-index: 0 on its content.
+   The keyboard is therefore ranked inside its page, the page ranks as a plain
+   0, and the footer - which comes after it - was painted over the last row of
+   the keyboard. Lifting the whole page area above the footer settles it in the
+   one place where the two can be compared.
+
+   position: relative is deliberate: a transform or a filter would rank it just
+   as well, but they would also make the keyboard fix itself against this box
+   instead of against the screen. */
+.touchControlsPages {
+	position: relative;
+	z-index: 1;
+}
+
 /* The height is a floor and not a fixture: while everything fits on one line
    the footer is the 2.5rem it used to be, and when the window gets too narrow
    for that it grows by a line instead of cutting its content. The row gap is
