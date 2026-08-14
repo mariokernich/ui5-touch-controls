@@ -226,7 +226,7 @@
 			</f:content>
 		</f:Card>
 		<!-- next steps -->
-		<f:Card class="sapUiMediumMarginBottom">
+		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<cards:Header
 					title="{i18n>gsNextTitle}"
