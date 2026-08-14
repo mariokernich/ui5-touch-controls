@@ -36,11 +36,6 @@
 				text="{i18n>footerLicense}"
 				href="https://github.com/mariokernich/ui5-touch-controls/blob/main/LICENSE"
 				target="_blank" />
-			<!-- a note, not information: it is the first thing to go when the
-			     footer runs out of room -->
-			<Text
-				text="{i18n>footerBuiltWith}"
-				class="touchControlsFooterText touchControlsFooterAside" />
 		</FlexBox>
 
 		<!-- the ask: a star or a follow, said plainly and without a badge -->
