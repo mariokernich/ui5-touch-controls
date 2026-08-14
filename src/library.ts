@@ -43,6 +43,35 @@ export enum KeyboardMode {
 	French = "French",
 	/** the Spanish arrangement: QWERTY with an Ñ next to the L */
 	Spanish = "Spanish",
+	/** the Italian arrangement: QWERTY with the accented vowels on the right */
+	Italian = "Italian",
+	/**
+	 * the Portuguese arrangement: QWERTY with a Ç next to the L. Brazil
+	 * writes the letters the same way, so this is the arrangement of both.
+	 * The accented vowels sit on a set of their own - on a keyboard of keys
+	 * they are written with a dead key, which a key that is tapped once
+	 * cannot be.
+	 */
+	Portuguese = "Portuguese",
+	/**
+	 * the Swedish arrangement: QWERTY with Å, Ä and Ö on the right. Finland
+	 * uses the same keyboard, so this is the arrangement of both. Denmark and
+	 * Norway differ - they have Æ and Ø where this has Ä and Ö.
+	 */
+	Swedish = "Swedish",
+	/**
+	 * the Turkish arrangement, Q: the dotless I sits where QWERTY has its I,
+	 * and the dotted one moved down beside the L. The two are letters of
+	 * their own, and {@link ui5.touch.controls.LetterCase} treats them the
+	 * Turkish way - i becomes İ, and I becomes ı.
+	 */
+	Turkish = "Turkish",
+	/**
+	 * the Romanian arrangement, the standard one: Ă, Î, Ș, Ț and Â sit on
+	 * keys of their own, with the comma-below Ș and Ț the standard asks for
+	 * rather than the cedilla ones.
+	 */
+	Romanian = "Romanian",
 	/** the Ukrainian arrangement, ЙЦУКЕН, with І, Ї and Є */
 	Ukrainian = "Ukrainian",
 	/** the Russian arrangement, ЙЦУКЕН, with Ы, Э and Ъ */

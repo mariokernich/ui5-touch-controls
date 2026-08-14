@@ -34,6 +34,7 @@ const SET_KEY_TEXTS: Record<string, string> = {
 	numbers: "123",
 	abc: "ABC",
 	symbols: "#+=",
+	accents: "áàâ",
 	emojis: "\u{1F642}",
 	shift: "\u21E7",
 };
@@ -294,11 +295,35 @@ export default class KeyboardBase extends Control implements ISized {
 	}
 
 	/**
+	 * The language whose rules the case of a letter follows, or nothing where
+	 * the ordinary rules are the right ones.
+	 *
+	 * A keyboard that knows its language says so here, and the case of every
+	 * letter on it is then changed the way that language changes it. Turkish
+	 * is what this is for: its two i's keep their dot through the change - i
+	 * becomes İ and I becomes ı - where the ordinary rules would write I for
+	 * both and turn one letter into the other.
+	 */
+	protected getCaseLocale(): string | undefined {
+		return undefined;
+	}
+
+	/** the key in upper case, by the rules of the keyboard's language */
+	private upper(key: string): string {
+		return key.toLocaleUpperCase(this.getCaseLocale());
+	}
+
+	/** the key in lower case, by the rules of the keyboard's language */
+	private lower(key: string): string {
+		return key.toLocaleLowerCase(this.getCaseLocale());
+	}
+
+	/**
 	 * Returns whether the given key is a single letter that can be
 	 * shifted to uppercase.
 	 */
 	private isShiftableKey(key: string): boolean {
-		return key.length === 1 && key.toLowerCase() !== key.toUpperCase();
+		return key.length === 1 && this.lower(key) !== this.upper(key);
 	}
 
 	/**
@@ -355,7 +380,7 @@ export default class KeyboardBase extends Control implements ISized {
 						: ButtonType.Default,
 				);
 			} else if (this.isShiftableKey(key)) {
-				buttons[i].setText(upperCase ? key.toUpperCase() : key);
+				buttons[i].setText(upperCase ? this.upper(key) : key);
 			}
 		}
 	}
@@ -444,7 +469,7 @@ export default class KeyboardBase extends Control implements ISized {
 			default: {
 				const char =
 					this.isUpperCase() && this.isShiftableKey(key)
-						? key.toUpperCase()
+						? this.upper(key)
 						: key;
 				this.fireKeyPress({ key: char });
 				this.insertChar(char);
@@ -461,9 +486,9 @@ export default class KeyboardBase extends Control implements ISized {
 	 * visually reflected on the on-screen keyboard.
 	 */
 	private animateKeyButton(key: string): void {
-		const lowerKey = key.toLowerCase();
+		const lowerKey = this.lower(key);
 		const index = this.layoutKeys.findIndex(
-			(layoutKey) => layoutKey.toLowerCase() === lowerKey,
+			(layoutKey) => this.lower(layoutKey) === lowerKey,
 		);
 		if (index < 0) {
 			return;
@@ -536,7 +561,7 @@ export default class KeyboardBase extends Control implements ISized {
 			}
 			return;
 		}
-		if (key.length === 1 && this.layoutKeySet.has(key.toLowerCase())) {
+		if (key.length === 1 && this.layoutKeySet.has(this.lower(key))) {
 			this.animateKeyButton(key);
 			this.fireKeyPress({ key });
 			this.insertChar(key);
@@ -780,7 +805,7 @@ export default class KeyboardBase extends Control implements ISized {
 			for (const key of keys) {
 				this.addAggregation("_buttons", this.createKeyButton(key, index), true);
 				this.layoutKeys.push(key);
-				this.layoutKeySet.add(key.toLowerCase());
+				this.layoutKeySet.add(this.lower(key));
 				index++;
 			}
 		}

@@ -2,7 +2,7 @@ import Device from "sap/ui/Device";
 import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import KeyboardBase, { LayoutSet } from "./KeyboardBase";
-import { buildKeyboardSets } from "./keyboardLayouts";
+import { buildKeyboardSets, caseLocaleForMode } from "./keyboardLayouts";
 import { KeyboardMode, LetterCase, NumberKeys } from "./library";
 
 /**
@@ -198,6 +198,16 @@ export default class Keyboard extends KeyboardBase {
 			escape: this.getShowEscape(),
 			extraKeys: this.getExtraKeys(),
 		});
+	}
+
+	/**
+	 * The arrangement says which language the keyboard writes, and with it
+	 * whose rules the case of a letter follows. Turkish is the one that
+	 * differs from the ordinary ones - see
+	 * {@link ui5.touch.controls.KeyboardMode.Turkish}.
+	 */
+	protected getCaseLocale(): string | undefined {
+		return caseLocaleForMode(this.getMode());
 	}
 
 	protected getKeyText(key: string): string {

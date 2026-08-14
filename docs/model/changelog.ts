@@ -43,7 +43,9 @@ export const releases: Release[] = [
 			{
 				kind: "Added",
 				items: [
-					"[Keyboard] - an on-screen keyboard of letters. The `mode` is the arrangement of a country: English, German, French, Spanish, Ukrainian, Russian or Hindi.",
+					"[Keyboard] - an on-screen keyboard of letters. The `mode` is the arrangement of a country: English, German, French, Spanish, Italian, Portuguese, Swedish, Turkish, Romanian, Ukrainian, Russian or Hindi.",
+					"`Turkish` is the Q arrangement, and its case is Turkish too: i becomes İ and I becomes ı, which the ordinary change of case gets wrong. `Swedish` is the arrangement Finland writes on as well; `Romanian` is the standard one, with the comma-below Ș and Ț rather than the cedilla ones.",
+					"The letters a keyboard of keys writes with a dead key - the accented vowels of Portuguese and Italian - sit on a set of their own, reached by a key beside the space bar the way the digits are. A key that is tapped once has nowhere for a dead key to wait.",
 					"`displayNumbers` decides where the digits go: in a row above the letters, behind a key of their own, or not at all. By default it is the first on a computer and the second on a phone.",
 					"`showSpecialCharacters` adds a set of brackets, signs and currencies, and `showEmojis` a set of faces behind a key of its own.",
 					"`letterCase` pins the keyboard to upper or lower case - for a field with a case of its own, like a material number or a licence plate.",

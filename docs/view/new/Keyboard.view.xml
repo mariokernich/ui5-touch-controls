@@ -202,6 +202,26 @@
                       text="Spanish"
                     />
                     <core:Item
+                      key="Italian"
+                      text="Italian"
+                    />
+                    <core:Item
+                      key="Portuguese"
+                      text="Portuguese"
+                    />
+                    <core:Item
+                      key="Swedish"
+                      text="Swedish"
+                    />
+                    <core:Item
+                      key="Turkish"
+                      text="Turkish"
+                    />
+                    <core:Item
+                      key="Romanian"
+                      text="Romanian"
+                    />
+                    <core:Item
                       key="Ukrainian"
                       text="Ukrainian"
                     />

@@ -12,6 +12,19 @@ import { KeyboardMode, LetterCase, NumberKeys, NumberPadMode } from "./library";
 interface Letters {
 	rows: [string, string, string];
 	shiftRows?: [string, string, string];
+	/**
+	 * The letters that a keyboard of keys writes with a dead key - press the
+	 * accent, then the vowel. A key of this keyboard is tapped once and
+	 * writes what it says, so there is nowhere for a dead key to wait: the
+	 * ready-made letters sit on a set of their own instead, reached by
+	 * <code>&#123;accents&#125;</code> the way the digits are reached by
+	 * <code>&#123;numbers&#125;</code>.
+	 *
+	 * Only for the arrangements that need it. Where the letters of a language
+	 * are all on keys of their own - Turkish, Swedish, Romanian - there is
+	 * nothing to put here.
+	 */
+	accentRows?: string[];
 }
 
 const LETTERS: Record<KeyboardMode, Letters> = {
@@ -26,6 +39,50 @@ const LETTERS: Record<KeyboardMode, Letters> = {
 	},
 	[KeyboardMode.Spanish]: {
 		rows: ["q w e r t y u i o p", "a s d f g h j k l ñ", "z x c v b n m"],
+	},
+	// The accented vowels sit where the Italian keyboard has them, at the end
+	// of the first two rows. The ì is the one exception: a keyboard of keys
+	// puts it on the number row, which is the digits here, so it joins the è
+	// it belongs with - a language cannot be written without it.
+	[KeyboardMode.Italian]: {
+		rows: [
+			"q w e r t y u i o p è ì",
+			"a s d f g h j k l ò à ù",
+			"z x c v b n m",
+		],
+		accentRows: ["á é í ó ú", "â ê î ô û"],
+	},
+	// Portugal and Brazil write the letters the same way; the ç is the only
+	// one of them that has a key of its own. Everything the language accents
+	// is written with a dead key there, and is a set of its own here.
+	[KeyboardMode.Portuguese]: {
+		rows: ["q w e r t y u i o p", "a s d f g h j k l ç", "z x c v b n m"],
+		accentRows: ["á é í ó ú", "â ê ô ã õ", "à ò ü"],
+	},
+	[KeyboardMode.Swedish]: {
+		rows: ["q w e r t y u i o p å", "a s d f g h j k l ö ä", "z x c v b n m"],
+	},
+	// The Q arrangement, the one Turkey writes on. The dotless ı is where
+	// QWERTY has its i; the dotted i moved down beside the l. They are two
+	// letters, not two shapes of one, which is what makes the case of this
+	// keyboard a Turkish question - see LOCALES.
+	[KeyboardMode.Turkish]: {
+		rows: [
+			"q w e r t y u ı o p ğ ü",
+			"a s d f g h j k l ş i",
+			"z x c v b n m ö ç",
+		],
+	},
+	// The standard arrangement, with the comma-below ș and ț. The older
+	// keyboards carry the cedilla ş and ţ in those places; the standard has
+	// asked for the comma ones since 2005, and they are what a Romanian text
+	// is written with.
+	[KeyboardMode.Romanian]: {
+		rows: [
+			"q w e r t y u i o p ă î",
+			"a s d f g h j k l ș ț",
+			"z x c v b n m â",
+		],
 	},
 	[KeyboardMode.Ukrainian]: {
 		rows: [
@@ -99,13 +156,38 @@ function row(...keys: (string | false | undefined)[]): string {
 	return keys.filter(Boolean).join(" ");
 }
 
+/**
+ * The language whose rules decide what the upper case of a letter is, for the
+ * arrangements where those rules are not the ordinary ones.
+ *
+ * Turkish is the one that matters here: it has two i's, a dotted and a
+ * dotless one, and they keep their dot through the change of case - i becomes
+ * İ and I becomes ı. The plain change of case knows nothing of that and would
+ * write I for both, which turns one letter into the other.
+ */
+const LOCALES: Partial<Record<KeyboardMode, string>> = {
+	[KeyboardMode.Turkish]: "tr",
+};
+
+/**
+ * The language a mode changes the case of its letters by, or nothing where
+ * the ordinary rules are the right ones.
+ */
+export function caseLocaleForMode(mode: KeyboardMode): string | undefined {
+	return LOCALES[mode];
+}
+
 /** the letters of a set in the case the keyboard writes them in */
-function inCase(rows: string[], letterCase: LetterCase): string[] {
+function inCase(
+	rows: string[],
+	letterCase: LetterCase,
+	locale?: string,
+): string[] {
 	if (letterCase === LetterCase.Upper) {
-		return rows.map((entry) => entry.toUpperCase());
+		return rows.map((entry) => entry.toLocaleUpperCase(locale));
 	}
 	if (letterCase === LetterCase.Lower) {
-		return rows.map((entry) => entry.toLowerCase());
+		return rows.map((entry) => entry.toLocaleLowerCase(locale));
 	}
 
 	return rows;
@@ -145,12 +227,17 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 	// shift key is there for that, a caps lock would do nothing
 	const modifiers = !hasLetterSets && letterCase === LetterCase.Mixed;
 	const toggle = options.numbers === NumberKeys.Toggle;
+	const locale = caseLocaleForMode(options.mode);
+	// the accented letters of the language, where they are not on keys of
+	// their own; the set is only worth a key if there is a set
+	const accents = letters.accentRows;
 
 	// what stands beside the space bar, on every set: the way to the other sets
 	// and the keys the application asked to have at hand
 	const functionRow = row(
 		toggle && "{numbers}",
 		!toggle && options.specialCharacters && "{symbols}",
+		accents && "{accents}",
 		options.emojis && "{emojis}",
 		...options.extraKeys,
 		"{space}",
@@ -165,7 +252,7 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 		options.escape ? [row("{esc}", rows[0]), ...rows.slice(1)] : rows;
 
 	const lettersSet = (name: string, rows: string[]): LayoutSet => {
-		const [first, home, last] = inCase(rows, letterCase);
+		const [first, home, last] = inCase(rows, letterCase, locale);
 
 		return {
 			name: name,
@@ -198,6 +285,34 @@ export function buildKeyboardSets(options: KeyboardOptions): LayoutSet[] {
 				row(options.specialCharacters && "{symbols}", NUMBER_ROWS[1], "{bksp}"),
 				row(
 					"{abc}",
+					options.emojis && "{emojis}",
+					...options.extraKeys,
+					"{space}",
+					"{enter}",
+				),
+			]),
+		});
+	}
+
+	if (accents) {
+		// The letters of the language that a keyboard of keys writes with a
+		// dead key. They follow the case of the letters, so a keyboard pinned
+		// to capitals writes Ç here as well.
+		const rows = inCase(accents, letterCase, locale);
+
+		sets.push({
+			name: "accents",
+			rows: withEscape([
+				...rows.slice(0, -1),
+				row(
+					(modifiers || hasLetterSets) && "{shift}",
+					rows[rows.length - 1],
+					"{bksp}",
+				),
+				row(
+					"{abc}",
+					toggle && "{numbers}",
+					options.specialCharacters && "{symbols}",
 					options.emojis && "{emojis}",
 					...options.extraKeys,
 					"{space}",
