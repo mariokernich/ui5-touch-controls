@@ -36,19 +36,41 @@ body,
    the footer of the shell
 
    It sits below the pages, outside the area that scrolls, so it is always
-   there. A footer is not where the eye should go: it takes the page
-   background rather than the raised one of a toolbar, and a hairline is what
-   sets it apart from the content above it. */
+   there. A footer is not where the eye should go: it takes the background of
+   the page rather than a raised one of its own, and a hairline is what sets it
+   apart from the content above it.
+
+   It is a wrapping row and not a toolbar - see the fragment for why - so what
+   does not fit beside something stands below it. */
 .touchControlsMain {
 	/* a flex child is as tall as its content unless it is told otherwise -
 	   without this the NavContainer pushes the footer off the screen */
 	min-height: 0;
 }
 
-.touchControlsFooter.sapMTB {
+/* The height is a floor and not a fixture: while everything fits on one line
+   the footer is the 2.5rem it used to be, and when the window gets too narrow
+   for that it grows by a line instead of cutting its content. The row gap is
+   the smaller of the two - entries that belong together read closer than
+   entries that merely follow each other. */
+.touchControlsFooter.sapMFlexBox {
+	box-sizing: border-box;
+	min-height: 2.5rem;
 	border-top: 1px solid var(--sapGroup_ContentBorderColor);
 	background: var(--sapBackgroundColor);
-	padding: 0 1rem;
+	padding: 0.25rem 1rem;
+	column-gap: 1rem;
+	row-gap: 0.125rem;
+}
+
+/* The entries of a group. The space between them is what separates them: a
+   punctuation mark cannot do it here, because it belongs to a line and the
+   entries are free to move to the next one - a middle dot written into the
+   texts would be left dangling at the end of a line as soon as the footer
+   wraps. */
+.touchControlsFooterGroup.sapMFlexBox {
+	column-gap: 0.75rem;
+	row-gap: 0.125rem;
 }
 
 /* the credits are a note, not a message: they read in the colour of a label,
@@ -61,8 +83,11 @@ body,
 	font-size: var(--sapFontSmallSize);
 }
 
-/* a FormattedText wraps its content in a <div>, which would take a line of
-   its own in the toolbar */
+/* A FormattedText renders its content into a <div>, which as a flex item would
+   be as wide as the line it sits on and push everything after it onto the next
+   one. Made inline it is as wide as its sentence, and the sentence stays on
+   one line as long as there is room for it - the phone rule below is what
+   lets it break. */
 .touchControlsFooter .sapMFT,
 .touchControlsFooter .sapMFT > div {
 	display: inline;
@@ -77,11 +102,43 @@ body,
 	color: var(--sapLinkColor);
 }
 
-/* on a phone the footer would eat a line of the content for the credits, and
-   the ask is the part that can go - the issue link is what stays useful */
+/* A link truncates at the width it is given, and in a wrapping footer it is
+   given whatever is left of the line - which on a narrow window is nothing.
+   The entries are short enough to be worth a line of their own, so they keep
+   their length and the line breaks around them. */
+.touchControlsFooter .sapMLnk {
+	max-width: none;
+	flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   the footer on a phone
+
+   Two groups are what keeps the two halves apart on a wide window, and on a
+   narrow one they are what wastes it: each group would break its own line and
+   the footer would stand three lines tall. Dissolved into the row they belong
+   to, the entries fill the lines they are on, and the footer reads as one
+   centred block of small print - which is what a footer is on a phone. */
 @media (max-width: 599px) {
-	.touchControlsFooter .touchControlsFooterText {
+	.touchControlsFooterGroup.sapMFlexBox {
+		display: contents;
+	}
+
+	.touchControlsFooter.sapMFlexBox {
+		justify-content: center;
+		column-gap: 0.75rem;
+	}
+
+	/* the two asides say nothing the rest does not - and here they cost a line */
+	.touchControlsFooter .touchControlsFooterAside {
 		display: none;
+	}
+
+	/* the credits may break where they have to: on the narrowest screens the
+	   sentence wraps rather than reaching past the edge */
+	.touchControlsFooter .sapMFT,
+	.touchControlsFooter .sapMFT > div {
+		white-space: normal;
 	}
 }
 
