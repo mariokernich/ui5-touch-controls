@@ -1,82 +1,82 @@
 {
-  "name": "ui5.touch.controls",
-  "version": "2.0.0",
-  "description": "UI5 Library: ui5.touch.controls — touch-friendly OpenUI5 controls with configurable sizes",
-  "author": "Mario Kernich",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mariokernich/ui5-touch-controls.git"
-  },
-  "homepage": "https://github.com/mariokernich/ui5-touch-controls#readme",
-  "bugs": {
-    "url": "https://github.com/mariokernich/ui5-touch-controls/issues"
-  },
-  "keywords": [
-    "ui5",
-    "openui5",
-    "sapui5",
-    "ui5-library",
-    "touch",
-    "controls",
-    "typescript"
-  ],
-  "types": "dist/index.d.ts",
-  "files": [
-    "README.md",
-    "ui5.yaml",
-    "tsconfig.json",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "src"
-  ],
-  "scripts": {
-    "clean": "rimraf dist coverage",
-    "build:icon-font": "node scripts/build-icon-font.mjs",
-    "prebuild": "npm run clean && npm run build:icon-font",
-    "build": "ui5 build --clean-dest",
-    "prebuild:demo": "npm run clean && npm run build:icon-font",
-    "build:demo": "ui5 build --all --config ui5-demo.yaml --clean-dest && node scripts/build-component-preload.mjs",
-    "build:ts-interfaces": "npx @ui5/ts-interface-generator",
-    "start": "ui5 serve --config ui5-docs.yaml --port 8080 -o test-resources/ui5/touch/controls/index.html",
-    "start:test": "ui5 serve --config ui5-test.yaml --port 8090 -o test-resources/ui5/touch/controls/test.html",
-    "start:test:1.116": "ui5 serve --config ui5-test.yaml --framework-version 1.116.0 --port 8095 -o test-resources/ui5/touch/controls/test.html",
-    "start:test:1.120": "ui5 serve --config ui5-test.yaml --framework-version 1.120.46 --port 8091 -o test-resources/ui5/touch/controls/test.html",
-    "start:test:1.124": "ui5 serve --config ui5-test.yaml --framework-version 1.124.2 --port 8092 -o test-resources/ui5/touch/controls/test.html",
-    "start:test:1.130": "ui5 serve --config ui5-test.yaml --framework-version 1.130.8 --port 8093 -o test-resources/ui5/touch/controls/test.html",
-    "start:test:1.140": "ui5 serve --config ui5-test.yaml --framework-version 1.140.0 --port 8094 -o test-resources/ui5/touch/controls/test.html",
-    "test:ui": "wdio run wdio.conf.js",
-    "check:ts": "tsc --noEmit",
-    "check:lint": "eslint src docs test e2e scripts wdio.conf.js",
-    "prepack": "npm run build",
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@openui5/types": "1.151.0",
-    "@ui5/cli": "4.0.60",
-    "@ui5/ts-interface-generator": "^0.11.1",
-    "@wdio/cli": "^9.30.1",
-    "@wdio/local-runner": "^9.30.1",
-    "@wdio/mocha-framework": "^9.30.1",
-    "@wdio/spec-reporter": "^9.30.1",
-    "eslint": "10.8.0",
-    "globals": "17.9.0",
-    "husky": "^9.1.7",
-    "rimraf": "6.1.3",
-    "svg2ttf": "^6.1.0",
-    "svgicons2svgfont": "^16.0.0",
-    "ttf2woff": "^3.0.0",
-    "typescript": "6.0.3",
-    "typescript-eslint": "8.66.0",
-    "ui5-middleware-livereload": "3.3.1",
-    "ui5-tooling-modules": "^3.38.0",
-    "ui5-tooling-transpile": "3.12.0",
-    "wawoff2": "^2.0.1",
-    "wdio-ui5-service": "^3.0.11"
-  },
-  "packageManager": "pnpm@11.10.0",
-  "dependencies": {
-    "highlight.js": "^11.11.2"
-  }
+    "name": "ui5.touch.controls",
+    "version": "1.3.0",
+    "description": "UI5 Library: ui5.touch.controls — touch-friendly OpenUI5 controls with configurable sizes",
+    "author": "Mario Kernich",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mariokernich/ui5-touch-controls.git"
+    },
+    "homepage": "https://github.com/mariokernich/ui5-touch-controls#readme",
+    "bugs": {
+        "url": "https://github.com/mariokernich/ui5-touch-controls/issues"
+    },
+    "keywords": [
+        "ui5",
+        "openui5",
+        "sapui5",
+        "ui5-library",
+        "touch",
+        "controls",
+        "typescript"
+    ],
+    "types": "dist/index.d.ts",
+    "files": [
+        "README.md",
+        "ui5.yaml",
+        "tsconfig.json",
+        "dist/**/*.d.ts",
+        "dist/**/*.d.ts.map",
+        "src"
+    ],
+    "scripts": {
+        "clean": "rimraf dist coverage",
+        "build:icon-font": "node scripts/build-icon-font.mjs",
+        "prebuild": "npm run clean && npm run build:icon-font",
+        "build": "ui5 build --clean-dest",
+        "prebuild:demo": "npm run clean && npm run build:icon-font",
+        "build:demo": "ui5 build --all --config ui5-demo.yaml --clean-dest && node scripts/build-component-preload.mjs",
+        "build:ts-interfaces": "npx @ui5/ts-interface-generator",
+        "start": "ui5 serve --config ui5-docs.yaml --port 8080 -o test-resources/ui5/touch/controls/index.html",
+        "start:test": "ui5 serve --config ui5-test.yaml --port 8090 -o test-resources/ui5/touch/controls/test.html",
+        "start:test:1.116": "ui5 serve --config ui5-test.yaml --framework-version 1.116.0 --port 8095 -o test-resources/ui5/touch/controls/test.html",
+        "start:test:1.120": "ui5 serve --config ui5-test.yaml --framework-version 1.120.46 --port 8091 -o test-resources/ui5/touch/controls/test.html",
+        "start:test:1.124": "ui5 serve --config ui5-test.yaml --framework-version 1.124.2 --port 8092 -o test-resources/ui5/touch/controls/test.html",
+        "start:test:1.130": "ui5 serve --config ui5-test.yaml --framework-version 1.130.8 --port 8093 -o test-resources/ui5/touch/controls/test.html",
+        "start:test:1.140": "ui5 serve --config ui5-test.yaml --framework-version 1.140.0 --port 8094 -o test-resources/ui5/touch/controls/test.html",
+        "test:ui": "wdio run wdio.conf.js",
+        "check:ts": "tsc --noEmit",
+        "check:lint": "eslint src docs test e2e scripts wdio.conf.js",
+        "prepack": "npm run build",
+        "prepare": "husky"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@openui5/types": "1.151.0",
+        "@ui5/cli": "4.0.60",
+        "@ui5/ts-interface-generator": "^0.11.1",
+        "@wdio/cli": "^9.30.1",
+        "@wdio/local-runner": "^9.30.1",
+        "@wdio/mocha-framework": "^9.30.1",
+        "@wdio/spec-reporter": "^9.30.1",
+        "eslint": "10.8.0",
+        "globals": "17.9.0",
+        "husky": "^9.1.7",
+        "rimraf": "6.1.3",
+        "svg2ttf": "^6.1.0",
+        "svgicons2svgfont": "^16.0.0",
+        "ttf2woff": "^3.0.0",
+        "typescript": "6.0.3",
+        "typescript-eslint": "8.66.0",
+        "ui5-middleware-livereload": "3.3.1",
+        "ui5-tooling-modules": "^3.38.0",
+        "ui5-tooling-transpile": "3.12.0",
+        "wawoff2": "^2.0.1",
+        "wdio-ui5-service": "^3.0.11"
+    },
+    "packageManager": "pnpm@11.10.0",
+    "dependencies": {
+        "highlight.js": "^11.11.2"
+    }
 }

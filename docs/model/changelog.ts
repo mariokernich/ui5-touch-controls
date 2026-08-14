@@ -35,7 +35,7 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
-		version: "2.0.0",
+		version: "1.3.0",
 		date: "",
 		summary:
 			"One keyboard that did everything becomes three that each do one thing.",

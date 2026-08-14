@@ -5,13 +5,28 @@
         "type": "application",
         "i18n": {
             "bundleUrl": "i18n/i18n.properties",
-            "supportedLocales": ["", "de", "es", "fr", "hi", "it", "ja", "nl", "pl", "pt", "ru", "tr", "uk", "zh"],
+            "supportedLocales": [
+                "",
+                "de",
+                "es",
+                "fr",
+                "hi",
+                "it",
+                "ja",
+                "nl",
+                "pl",
+                "pt",
+                "ru",
+                "tr",
+                "uk",
+                "zh"
+            ],
             "fallbackLocale": ""
         },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",
         "applicationVersion": {
-            "version": "2.0.0"
+            "version": "1.3.0"
         }
     },
     "sap.ui": {
@@ -44,7 +59,22 @@
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
                     "bundleName": "ui5.touch.controls.demo.i18n.i18n",
-                    "supportedLocales": ["", "de", "es", "fr", "hi", "it", "ja", "nl", "pl", "pt", "ru", "tr", "uk", "zh"],
+                    "supportedLocales": [
+                        "",
+                        "de",
+                        "es",
+                        "fr",
+                        "hi",
+                        "it",
+                        "ja",
+                        "nl",
+                        "pl",
+                        "pt",
+                        "ru",
+                        "tr",
+                        "uk",
+                        "zh"
+                    ],
                     "fallbackLocale": ""
                 }
             }
