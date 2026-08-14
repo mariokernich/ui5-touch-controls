@@ -31,6 +31,12 @@ builder:
           configuration:
               generateTsInterfaces: true # always generate the TS interfaces in build
         - name: ui5-tooling-modules-task
-          afterTask: replaceVersion
+          # after the transpile task, not after replaceVersion: this task finds
+          # the npm imports by scanning the JS, and until the TypeScript is
+          # transpiled there is no JS to scan. Hanging both tasks on
+          # replaceVersion put this one first, and the bundle for highlight.js
+          # was never written - the demo then died on a 404 for
+          # resources/highlight.js/lib/common.js.
+          afterTask: ui5-tooling-transpile-task
           configuration:
               addToNamespace: true

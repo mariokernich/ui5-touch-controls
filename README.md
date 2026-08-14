@@ -29,11 +29,7 @@ The library does two things about that:
 
 1. **It rebuilds the most important `sap.m` controls** on their original structure and opens them up for sizing through one central `size` property (`S`–`6XL`) that works the same way on every control. You do not have to rebuild your app: the controls keep the familiar properties, aggregations and events of their originals for the common cases, so you can use them as a drop-in replacement — add the namespace, put `tc:` in front of the control, set a size. Everything else stays the way it is.
 
-2. **It adds controls that `sap.m` does not have at all**, for situations that only come up on touch devices. The prime example is [`tc:VirtualKeyboard`](#new-controls-for-touch) — a terminal without a hardware keyboard needs an on-screen keyboard, and OpenUI5 does not ship one.
-
-![Screenshot of the ui5.touch.controls library](assets/screenshot.png)
-
-**Link of full documentation:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
+2. **It adds controls that `sap.m` does not have at all**, for situations that only come up on touch devices. The prime example is [`tc:Keyboard`](#new-controls-for-touch) — a terminal without a hardware keyboard needs an on-screen keyboard, and OpenUI5 does not ship one.
 
 ## Drop-in replacement — before and after
 
@@ -96,60 +92,112 @@ Bind `size` to a model to switch the size of the whole app at runtime:
 
 Not everything a touch app needs exists in `sap.m`. Where that is the case, the library adds a control of its own — built from the same sized building blocks, themed through the same theme parameters, so it fits in with the rest.
 
-### `tc:VirtualKeyboard`
+### The keyboards
 
-On a shop floor terminal, a kiosk or a device operated with gloves there is often no hardware keyboard, and the on-screen keyboard of the operating system is either unavailable or covers half the screen. OpenUI5 has no control for this. `tc:VirtualKeyboard` is an on-screen keyboard rendered from the library's own buttons — no third-party dependency, and sized through the same `size` property as everything else.
+On a shop floor terminal, a kiosk or a device operated with gloves there is often no hardware keyboard, and the on-screen keyboard of the operating system is either unavailable or covers half the screen. OpenUI5 has no control for this. This library brings three, rendered from its own buttons — no third-party dependency, and sized through the same `size` property as everything else.
 
-![The VirtualKeyboard with a QWERTY layout](assets/virtualkeyboard.png)
+Which one you reach for follows from what the field is for:
 
-Which keys it shows is one property: `mode` picks one of the ready-made layouts.
-
-| Mode | What is on it |
+| Control | What it is |
 | --- | --- |
-| `QWERTY` | letters and digits, in the arrangement of an English keyboard — the default |
-| `QWERTZ` | the German arrangement: Z and Y swapped |
-| `AZERTY` | the French arrangement: A and Q, Z and W swapped, M at the end of the home row |
-| `Spanish` | QWERTY with an Ñ next to the L |
-| `Ukrainian` | ЙЦУКЕН, the Ukrainian arrangement with І, Ї and Є |
-| `Russian` | ЙЦУКЕН with Ы, Э and Ъ |
-| `Hindi` | Devanagari in the InScript arrangement, the Indian standard. The consonants that are not on the first set are one `{shift}` away — a set of its own, not upper case, since Devanagari has no case |
-| `QWERTYMobile`, `QWERTZMobile` | the same two as a phone draws them: letters only, the digits behind a key of their own instead of a row that makes every key narrow |
-| `Numeric` | a number pad, 7 8 9 on top |
-| `Decimal` | the number pad with a decimal point and a minus |
-| `Email` | letters as a phone draws them, with the @ and the dot at hand |
-| `Phone` | the digits of a telephone, 1 2 3 on top, with \* and # |
-| `Calculator` | a number pad with the four basic operations |
+| `tc:Keyboard` | a keyboard of letters, built from a language and a handful of switches |
+| `tc:NumberPad` | a pad of digits in three columns |
+| `tc:CustomKeyboard` | the keyboard whose keys you hand over, row by row |
+
+All three share a base class, `tc:KeyboardBase`. That is where the value, the sets of keys, shift and caps lock, the hardware keys, the size, the width and the docking live — so everything below about those applies to each of the three. It is also the type the `keyboard` aggregation of a field is typed to, so any of them fits in there.
+
+![The Keyboard with an English layout](assets/keyboard.png)
 
 A key would like to be as wide as it is tall — a square target under a thumb, and the width the keyboard brings along when nothing constrains it. That width is also the first thing to give: a keyboard is never scrolled sideways, so where the room is tight the keys share what there is instead. The height comes from `size` and stays as it is, so a key is as easy to hit as it was. Setting `width` on the keyboard has the same effect as a narrow screen.
 
+#### `tc:Keyboard` — letters
+
+`mode` is the arrangement of a country, named after the language rather than after the three letters in its top row:
+
+| Mode | The arrangement of |
+| --- | --- |
+| `English` | QWERTY — the default |
+| `German` | QWERTZ: Z and Y swapped, with Ä, Ö, Ü and ß |
+| `French` | AZERTY: A and Q, Z and W swapped, M at the end of the home row |
+| `Spanish` | QWERTY with an Ñ next to the L |
+| `Italian` | QWERTY with the accented vowels on a set of their own |
+| `Portuguese` | QWERTY with Ç, likewise with its accents on a set of their own |
+| `Swedish` | Å, Ä and Ö at the end of the rows — what Finland writes on as well |
+| `Turkish` | the Q arrangement, with the Turkish rules of case |
+| `Romanian` | the standard arrangement, with the comma-below Ș and Ț |
+| `Ukrainian` | ЙЦУКЕН with І, Ї and Є |
+| `Russian` | ЙЦУКЕН with Ы, Э and Ъ |
+| `Hindi` | Devanagari in the InScript arrangement, the Indian standard |
+
+Turkish is worth a note: there i becomes İ and I becomes ı, which the ordinary change of case gets wrong. Portuguese and Italian write their accented vowels with a dead key on a keyboard of keys; a key that is tapped once has nowhere for a dead key to wait, so those letters sit on a set of their own, reached beside the space bar the way the digits are.
+
 ```xml
-<tc:VirtualKeyboard
-	value="{/quantity}"
+<tc:Keyboard
+	value="{/article}"
 	size="XL"
-	width="700px"
-	mode="Numeric"
+	mode="German"
 	change=".onChange"
 	enter=".onEnter" />
 ```
 
-For a key set of your own there is `mode="Custom"`, and only then the `layout` property is read. A layout is a list of rows, keys separated by spaces:
+The rest of the keyboard is switches:
+
+| Property | What it does |
+| --- | --- |
+| `displayNumbers` | where the digits go: `Always` in a row above the letters, `Toggle` behind a key of their own, `Never` not at all. `ToggleOnMobile` is the default — a row on a computer, a key on a phone |
+| `showSpecialCharacters` | adds a set of brackets, signs and currencies |
+| `showEmojis` | adds a set of faces behind a key of its own |
+| `letterCase` | `Upper` or `Lower` pins the keyboard to one case and leaves shift and caps lock off — for a field with a case of its own, like a material number or a licence plate. `Mixed` is the default |
+| `showCapsLock` | adds the caps lock beside the shift key |
+| `showEscape` | adds an `{esc}` key as the first key of the top row |
+| `enterText` | what the Enter key says — Search, Next. Empty leaves it the arrow it is |
+| `extraKeys` | keys of your own beside the space bar, on every set |
+
+`extraKeys` is where a key goes that a field wants at hand rather than behind a switch — the at sign of an address, the dot of a domain, a unit:
 
 ```xml
-<tc:VirtualKeyboard
+<tc:Keyboard
+	value="{/email}"
+	size="XL"
+	mode="English"
+	extraKeys="@,."
+	enterText="Send" />
+```
+
+#### `tc:NumberPad` — digits
+
+`mode` picks the block: `Simple` is the pad of a computer with 7 8 9 on top, `Phone` the pad of a telephone with 1 2 3 on top and a star and a hash beside the zero, `Calculator` adds the four basic operations and an equals sign.
+
+```xml
+<tc:NumberPad
+	value="{/quantity}"
+	size="XL"
+	mode="Simple"
+	showDecimalSeparator="true"
+	change=".onChange" />
+```
+
+`decimalSeparator` says what that key writes; left empty it follows the current language — a comma in German, a point in English. `showSign` adds a minus for a value that may be negative. Both are only looked at in `Simple`: the other two blocks have their fourth row taken already. `showSpecialCharacters`, `showEscape` and `enterText` work as they do on the letters.
+
+#### `tc:CustomKeyboard` — keys of your own
+
+For anything the other two do not cover. `layout` is a list of rows, keys separated by spaces:
+
+```xml
+<tc:CustomKeyboard
 	value="{/article}"
 	size="XL"
-	mode="Custom"
 	layout="A B C D, E F G H, {bksp} {space} {enter}" />
 ```
 
-`{tab}`, `{shift}`, `{lock}`, `{space}`, `{bksp}` and `{enter}` are the special keys; every other key inserts its own label into the value. `{shift}` writes the next letter in upper case and then falls away, `{lock}` is the caps lock and stays on until it is pressed again — and shift while the lock is on writes lower case, the way it does on a keyboard of keys. With `hardwareKeys="true"` the control additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
+`{tab}`, `{shift}`, `{lock}`, `{space}`, `{bksp}`, `{esc}` and `{enter}` are the special keys; every other key inserts its own label into the value. `{shift}` writes the next letter in upper case and then falls away, `{lock}` is the caps lock and stays on until it is pressed again — and shift while the lock is on writes lower case, the way it does on a keyboard of keys.
 
-#### More than one set of keys
+##### More than one set of keys
 
 A keyboard of keys has more on it than fits under ten fingers at once. A keyboard on a screen does what the one of a phone does instead: it shows one set at a time and swaps it for another when a key says so. Each set is a `tc:KeyboardLayout` with a `name` and its `rows`, and that is all there is to it — **every set stands on its own and says in full what is on it**. Upper case is not a state of the keyboard but a set of its own, written out as the letters it shows:
 
 ```xml
-<tc:VirtualKeyboard value="{/code}" size="XL" mode="Custom">
+<tc:CustomKeyboard value="{/code}" size="XL">
 	<tc:layouts>
 		<tc:KeyboardLayout
 			name="default"
@@ -167,28 +215,28 @@ A keyboard of keys has more on it than fits under ten fingers at once. A keyboar
 			name="numbers"
 			rows="1 2 3, 4 5 6, 7 8 9, {abc} 0 {backspace}" />
 	</tc:layouts>
-</tc:VirtualKeyboard>
+</tc:CustomKeyboard>
 ```
 
 **A key named after a set switches to it**, so the switching is part of the layout and needs no code around it. A key that names the set it is already on leads back out of it, to whatever was there before — which is what makes the `{shift}` inside the set of capitals come back. The keyboard starts with the set called `default`, or with the first one when there is none by that name, and the value carries on across a switch: what was typed on the letters is still there on the digits.
 
-The keys the control knows keep their own sign — `{shift}` is the key with the arrow whether it switches a set or not, `{bksp}` and `{enter}` are their icons, `{space}` says Space. The names that are conventional for a set have a text of their own as well: `{numbers}` reads 123, `{abc}` reads ABC and `{symbols}` reads #+=. A key that is none of these says what it is written as.
+The keys the control knows keep their own sign — `{shift}` is the key with the arrow whether it switches a set or not, `{bksp}` and `{enter}` are their icons, `{space}` says Space. The names that are conventional for a set have a text of their own as well: `{numbers}` reads 123, `{abc}` reads ABC, `{symbols}` reads #+=, `{accents}` reads áàâ and `{emojis}` is a face. A key that is none of these says what it is written as.
 
-A layout written elsewhere can usually be used as it stands: `{backspace}` and `{ent}` mean the same as `{bksp}` and `{enter}`, and `{abc}` leads back to `default` unless a set of that name exists.
+A layout written elsewhere can usually be used as it stands: `{backspace}`, `{ent}`, `{escape}` and `{capslock}` mean the same as `{bksp}`, `{enter}`, `{esc}` and `{lock}`, and `{abc}` leads back to `default` unless a set of that name exists.
 
-#### What a key says
+##### What a key says
 
 Every key the control knows comes with a sign of its own, and one it does not know says what it is written as. Where that is not the right text, the `display` aggregation puts one of your own on a key:
 
 ```xml
-<tc:VirtualKeyboard mode="QWERTZMobile" size="XL">
+<tc:CustomKeyboard size="XL">
 	<tc:display>
 		<tc:KeyboardKey key="numbers" text="123" />
 		<tc:KeyboardKey key="abc" text="ABC" />
 		<tc:KeyboardKey key="ent" text="return" />
 		<tc:KeyboardKey key="shift" text="⇧" />
 	</tc:display>
-</tc:VirtualKeyboard>
+</tc:CustomKeyboard>
 ```
 
 It works on any key — a special one, a letter, a digit — and in every set of the keyboard. Note that the braces are left out: UI5 reads a string that begins with one as a binding, so `key="{numbers}"` would have to be escaped in a view. Both spellings mean the same key, and so do the other names of one: `ent` and `enter` are the same key.
@@ -200,7 +248,7 @@ The `layout` property is the short form of the same thing for a keyboard that on
 `emphasizedKeys` names the keys that are drawn as emphasized — the one that ends what is being done, usually:
 
 ```xml
-<tc:VirtualKeyboard mode="Numeric" size="XL" emphasizedKeys="enter,bksp" />
+<tc:NumberPad size="XL" emphasizedKeys="enter,bksp" />
 ```
 
 The braces are left out here too, for the same reason as in `display`. A modifier is emphasized while it is on whatever the property says, so a `{lock}` that is on still shows it.
@@ -210,27 +258,28 @@ The braces are left out here too, for the same reason as in `display`. A modifie
 `change` reports the value after every key, `keyPress` the key itself, and `enter` the value when the Enter key is pressed. `escape` is fired by an `{esc}` key; the keyboard does nothing about it by itself and leaves to the application what it should mean — closing a dialog, clearing the field, going back:
 
 ```xml
-<tc:VirtualKeyboard
+<tc:CustomKeyboard
 	value="{/code}"
 	size="XL"
-	mode="Custom"
 	layout="1 2 3, 4 5 6, 7 8 9, {esc} 0 {enter}"
 	escape=".onEscape"
 	enter=".onEnter" />
 ```
 
+`maxLength` caps how much can be typed, and `hardwareKeys="true"` additionally accepts input from a real keyboard, which helps when the same screen runs both on a terminal and on a desktop.
+
 #### On a field
 
-The keyboard does not have to sit on the page. Put it into the `virtualKeyboard` aggregation of a `tc:Input` and switch `showVirtualKeyboard` on, and it opens in a popover below the field while the field has the focus:
+The keyboard does not have to sit on the page. Put one into the `keyboard` aggregation of a `tc:Input` and switch `showKeyboard` on, and it opens in a popover below the field while the field has the focus:
 
 ```xml
 <tc:Input
 	value="{/quantity}"
 	size="XL"
-	showVirtualKeyboard="true">
-	<tc:virtualKeyboard>
-		<tc:VirtualKeyboard mode="Numeric" size="XL" />
-	</tc:virtualKeyboard>
+	showKeyboard="true">
+	<tc:keyboard>
+		<tc:NumberPad size="XL" />
+	</tc:keyboard>
 </tc:Input>
 ```
 
@@ -243,15 +292,15 @@ The keyboard types into the field: it is filled with the value of the field when
 `docked` takes the keyboard out of the flow of the page and puts it at the bottom edge of the screen, over the content, the way the on-screen keyboard of a phone does. On a phone or a tablet it takes the full width of the screen and `width` is not looked at; from 1024px up it keeps its own width and is centered.
 
 ```xml
-<tc:VirtualKeyboard
+<tc:Keyboard
 	value="{/code}"
 	size="XL"
-	mode="QWERTZ"
+	mode="German"
 	docked="true"
 	change=".onChange" />
 ```
 
-It works the same way on a field: put the keyboard in the `virtualKeyboard` aggregation as above and set `docked`, and the popover that carries it is docked instead of being placed at the field.
+It works the same way on a field: put the keyboard in the `keyboard` aggregation as above and set `docked`, and the popover that carries it is docked instead of being placed at the field.
 
 How high the keyboard reaches differs between the two, and that follows from where it sits. On a field it is carried into the static area by its popover, so it covers everything — a modal dialog included, which is what makes a field inside a dialog typeable. Standing on a page of its own it stays part of that page, and a page is a stacking context: it covers the content around it, but the block layer of a modal dialog still comes out on top.
 
@@ -407,11 +456,11 @@ These are rebuilds of standard controls. They keep the properties, aggregations 
 | `tc:RadioButton` / `tc:RadioButtonGroup` | `sap.m.RadioButton` / `sap.m.RadioButtonGroup` | Circle, dot, label and hit area scale together. Buttons sharing a `groupName` are mutually exclusive; the group arranges them in `columns` and hands its `size`, `enabled`, `editable` and value state down to them. Fires `select`. |
 | `tc:Switch` | `sap.m.Switch` | Track, handle and label scale together, where `sap.m.Switch` is fixed at 4rem x 2rem. Supports `state`, `customTextOn`, `customTextOff` and the `AcceptReject` type. Fires `change`. |
 | `tc:Select` | `sap.m.Select` | Drop-down filled with plain `sap.ui.core.Item` elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of `sap.m.Select` keeps its standard row height however large the field is. Supports `selectedKey`, `editable`, `forceSelection`, value states and `width`. On a phone the list takes the whole screen, as it does in `sap.m`, under the heading of `pickerTitle`. Fires `change`. |
-| `tc:ComboBox` | `sap.m.ComboBox` | A `tc:Select` the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with `tc:VirtualKeyboard` on a device without a keyboard. Supports `value`, `selectedKey`, `placeholder`, `editable`, value states, `width` and `showSecondaryValues`, which puts the `additionalText` of a `sap.ui.core.ListItem` at the end of a row. On a phone the list takes the whole screen under the heading of `pickerTitle` and brings a field of its own to go on typing in, as it does in `sap.m`. Fires `change` and `selectionChange`. |
+| `tc:ComboBox` | `sap.m.ComboBox` | A `tc:Select` the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with the keyboards of this library on a device without a hardware keyboard. Supports `value`, `selectedKey`, `placeholder`, `editable`, value states, `width` and `showSecondaryValues`, which puts the `additionalText` of a `sap.ui.core.ListItem` at the end of a row. On a phone the list takes the whole screen under the heading of `pickerTitle` and brings a field of its own to go on typing in, as it does in `sap.m`. Fires `change` and `selectionChange`. |
 | `tc:DatePicker` | `sap.m.DatePicker` | Field with a calendar built from the library's own buttons, so a day is a square that grows with `size` instead of the fixed grid of `sap.ui.unified.Calendar`. Days and months view, `minDate` / `maxDate`, `valueFormat` and `displayFormat`. Fires `change`. |
 | `tc:TimePicker` | `sap.m.TimePicker` | Field with two columns of buttons — hours and minutes — so a time is picked with one tap on a target that grows with `size`, where `sap.m.TimePicker` uses a slider that has to be dragged. Supports `minutesStep`, `valueFormat` and `displayFormat`. Fires `change`. |
-| `tc:Input` | `sap.m.Input` | Single-line input with configurable size. A `tc:VirtualKeyboard` can be put into its `virtualKeyboard` aggregation; with `showVirtualKeyboard` it then opens in a popover below the field while the field has the focus and types into it. |
-| `tc:TextArea` | `sap.m.TextArea` | Multi-line input with configurable size, rows, max length and value states. Takes a `tc:VirtualKeyboard` in its `virtualKeyboard` aggregation just like `tc:Input` does; there the Enter key adds a line break. Fires `change` / `liveChange`. |
+| `tc:Input` | `sap.m.Input` | Single-line input with configurable size. A keyboard can be put into its `keyboard` aggregation; with `showKeyboard` it then opens in a popover below the field while the field has the focus and types into it. |
+| `tc:TextArea` | `sap.m.TextArea` | Multi-line input with configurable size, rows, max length and value states. Takes a keyboard in its `keyboard` aggregation just like `tc:Input` does; there the Enter key adds a line break. Fires `change` / `liveChange`. |
 | `tc:Text` | `sap.m.Text` | Text with configurable size and color. Fires `press`. |
 | `tc:Link` | `sap.m.Link` | Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports `href`, `target`, `wrapping`, `subtle`, `emphasized` and `width`; a `target="_blank"` link automatically gets `rel="noopener noreferrer"`. Fires `press`. |
 | `tc:Toolbar` | `sap.m.Toolbar` | Toolbar container with a `content` aggregation. Usable in standard aggregations such as the footer of a `Page` or `Dialog`. |
@@ -426,7 +475,10 @@ These exist only in this library, for situations that only come up on a touch de
 | Control | Description |
 | --- | --- |
 | `tc:BarcodeInput` | Input field that tells a barcode scanner from a person typing: a run of at least `minLength` characters whose gaps stay below `scanTimeout` and that is closed by Enter fires `scan`, everything else fires `change`. `prefix` and `suffix` are cut off the code, `clearOnScan` empties the field for the next one. |
-| `tc:VirtualKeyboard` | On-screen keyboard built from the library's own buttons. `mode` picks one of the ready-made layouts (`QWERTY`, `Numeric`, `Phone`, `Calculator`); `mode="Custom"` reads a layout of your own from `layout` (incl. `{shift}`, `{space}`, `{bksp}`, `{enter}`). Optional hardware key input, value binding and `change` / `keyPress` / `enter` events. |
+| `tc:Keyboard` | On-screen keyboard of letters, built from the library's own buttons. `mode` is the arrangement of a country (`English`, `German`, `French`, `Spanish`, `Italian`, `Portuguese`, `Swedish`, `Turkish`, `Romanian`, `Ukrainian`, `Russian`, `Hindi`); `displayNumbers`, `showSpecialCharacters`, `showEmojis`, `letterCase`, `showCapsLock`, `showEscape`, `enterText` and `extraKeys` say what else is on it. |
+| `tc:NumberPad` | Pad of digits in three columns. `mode` picks the block (`Simple`, `Phone`, `Calculator`); `showDecimalSeparator`, `decimalSeparator`, `showSign` and `showSpecialCharacters` fill in the rest. |
+| `tc:CustomKeyboard` | The keyboard whose keys are handed to it: `layout` for a single set of rows, the `layouts` aggregation of `tc:KeyboardLayout` for several that switch between each other, and `display` to say what a single key reads. |
+| `tc:KeyboardBase` | Abstract base of the three. Carries `value`, `emphasizedKeys`, `maxLength`, `enabled`, `hardwareKeys`, `size`, `width` and `docked`, and fires `change` / `keyPress` / `enter` / `escape`. It is the type the `keyboard` aggregation of `tc:Input` and `tc:TextArea` takes, so any of the three fits in there. |
 | `tc:SignaturePad` | A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in `value`. Stroke width, placeholder and clear button follow `size`; the strokes survive a resize. Fires `change`. |
 
 ### Sizes
