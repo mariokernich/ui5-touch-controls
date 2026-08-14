@@ -1,6 +1,7 @@
 import { SwitchType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
+import { getText } from "./i18n";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ISized, SizeMode, sizeClass } from "./library";
 
@@ -202,7 +203,7 @@ export default class Switch extends Control implements ISized {
 			rm.class("sizedSwitchLabelOn");
 			rm.openEnd();
 			if (!acceptReject) {
-				rm.text(control.getCustomTextOn() || "ON");
+				rm.text(control.getCustomTextOn() || getText("SWITCH_ON"));
 			}
 			rm.close("span");
 
@@ -211,7 +212,7 @@ export default class Switch extends Control implements ISized {
 			rm.class("sizedSwitchLabelOff");
 			rm.openEnd();
 			if (!acceptReject) {
-				rm.text(control.getCustomTextOff() || "OFF");
+				rm.text(control.getCustomTextOff() || getText("SWITCH_OFF"));
 			}
 			rm.close("span");
 

@@ -12,6 +12,7 @@ import { SizeMode } from "ui5/touch/controls/library";
 import Button from "ui5/touch/controls/Button";
 import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
 import Link from "sap/m/Link";
+import { getText } from "./i18n";
 
 export interface IQuickDialogOptions {
 	actions?: Array<MessageAction | string>;
@@ -36,6 +37,21 @@ export enum MessageAction {
 	Ok,
 	Retry,
 	Yes,
+}
+
+/**
+ * What an action says on its button.
+ *
+ * One of the ready-made actions is named by the library, so it is named in
+ * the language the application runs in; the name of the enumeration entry is
+ * what finds the text. A string action is a text the application wrote itself
+ * and is used as it stands - what it should say is not for the library to
+ * decide.
+ */
+function actionText(action: MessageAction | string): string {
+	return typeof action === "string"
+		? action
+		: getText(`QUICKDIALOG_${MessageAction[action].toUpperCase()}`);
 }
 
 /**
@@ -67,7 +83,7 @@ export default class QuickDialog extends ManagedObject {
 
 			actions.forEach((action) => {
 				const btn = new Button({
-					text: typeof action === "string" ? action : MessageAction[action],
+					text: actionText(action),
 					press: () => {
 						dialog.close();
 						resolve(action);
@@ -129,7 +145,7 @@ export default class QuickDialog extends ManagedObject {
 
 				actions.forEach((action) => {
 					const btn = new Button({
-						text: typeof action === "string" ? action : MessageAction[action],
+						text: actionText(action),
 						press: () => {
 							dialog.close();
 							resolve({
@@ -215,7 +231,7 @@ export default class QuickDialog extends ManagedObject {
 
 			actions.forEach((action) => {
 				const btn = new Button({
-					text: typeof action === "string" ? action : MessageAction[action],
+					text: actionText(action),
 					press: () => {
 						dialog.close();
 						resolve({
@@ -306,7 +322,7 @@ export default class QuickDialog extends ManagedObject {
 		const dialog = this.getDialog(options);
 
 		const link = new Link({
-			text: "Show details",
+			text: getText("QUICKDIALOG_SHOW_DETAILS"),
 		});
 
 		const detailsText = new Text({
@@ -339,7 +355,7 @@ export default class QuickDialog extends ManagedObject {
 
 			actions.forEach((action) => {
 				const btn = new Button({
-					text: typeof action === "string" ? action : MessageAction[action],
+					text: actionText(action),
 					press: () => {
 						dialog.close();
 						resolve(action);

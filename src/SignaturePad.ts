@@ -1,5 +1,6 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
+import { getText } from "./i18n";
 import ResizeHandler from "sap/ui/core/ResizeHandler";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -42,11 +43,14 @@ export default class SignaturePad extends Control implements ISized {
 			value: { type: "string", group: "Data", defaultValue: "" },
 			/**
 			 * Hint shown on the baseline while the pad is empty.
+			 *
+			 * A pad is built with the hint of the library, in the language the
+			 * application runs in. An empty string leaves the baseline bare.
 			 */
 			placeholder: {
 				type: "string",
 				group: "Misc",
-				defaultValue: "Sign here",
+				defaultValue: "",
 			},
 			/**
 			 * Height of the pad.
@@ -129,6 +133,18 @@ export default class SignaturePad extends Control implements ISized {
 	constructor(id?: string, settings?: $SignaturePadSettings);
 	constructor(id?: string, settings?: $SignaturePadSettings) {
 		super(id, settings);
+	}
+
+	/**
+	 * Puts the hint of the library on the pad.
+	 *
+	 * It is written into the property rather than filled in while rendering,
+	 * so that an application can still take it away: init runs before the
+	 * settings of the constructor are applied, so a placeholder that was
+	 * given - an empty one included - is what stays.
+	 */
+	init(): void {
+		this.setProperty("placeholder", getText("SIGNATUREPAD_PLACEHOLDER"), true);
 	}
 
 	/**

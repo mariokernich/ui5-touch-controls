@@ -9,6 +9,7 @@ import Control from "sap/ui/core/Control";
 import type Item from "sap/ui/core/Item";
 import type ListItem from "sap/ui/core/ListItem";
 import RenderManager from "sap/ui/core/RenderManager";
+import { getText } from "./i18n";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { TitleLevel, ValueState } from "sap/ui/core/library";
 import Button from "./Button";
@@ -517,7 +518,10 @@ export default class ComboBox extends Control implements ISized {
 		if (items.length === 0) {
 			return new VBox({
 				items: [
-					new Text({ text: "No matching entry", width: "100%" }).addStyleClass(
+					new Text({
+						text: getText("COMBOBOX_NO_MATCHING_ENTRY"),
+						width: "100%",
+					}).addStyleClass(
 						"sizedPickerNoData sapUiSmallMargin",
 					),
 				],

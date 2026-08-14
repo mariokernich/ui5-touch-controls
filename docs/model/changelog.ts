@@ -53,6 +53,7 @@ export const releases: Release[] = [
 					"`showDecimalSeparator` and `decimalSeparator` on the [NumberPad], which follows the current language unless told otherwise.",
 					"[CustomKeyboard] - the keyboard whose keys are handed to it row by row. It carries what was the `layout` property and covers everything the other two do not.",
 					"[KeyboardBase] - the machine behind all three, and the type the `keyboard` aggregation of a field is typed to, so any of the three fits in there.",
+					"The texts the controls put on the screen themselves are translated: English, German, Hindi, Russian, Turkish and Ukrainian. That is the actions of a [QuickDialog], its `Show details`, the line a [ComboBox] shows when nothing matches, the hint on an empty [SignaturePad] and the on/off of a [Switch].",
 				],
 			},
 			{
@@ -62,6 +63,7 @@ export const releases: Release[] = [
 					"The aggregation of [Input] and [TextArea] is now called `keyboard` instead of `virtualKeyboard`, and `showVirtualKeyboard` is `showKeyboard`.",
 					"`KeyboardMode` carries the arrangements of the countries and nothing else. `NumberKeys`, `LetterCase` and `NumberPadMode` are the new types beside it.",
 					"The CSS classes are `touchKeyboard`, `touchKeyboardRow`, `touchKeyboardDocked` and `touchKeyboardDisabled` - they were named after the control that is gone.",
+					"The `placeholder` of a [SignaturePad] defaults to an empty string instead of `Sign here`; a pad is built with the hint of the library in the language of the application. An empty placeholder still leaves the baseline bare.",
 				],
 			},
 			{
