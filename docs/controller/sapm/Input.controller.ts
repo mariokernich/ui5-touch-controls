@@ -16,8 +16,8 @@ export default class Input extends BaseController {
 
 		this.model = new JSONModel(
 			{
-				value: "Hello World",
-				placeholder: "Enter text...",
+				value: this.getText("smpInputValue"),
+				placeholder: this.getText("phTypeText"),
 				size: SizeMode.L,
 				enabled: true,
 				editable: true,

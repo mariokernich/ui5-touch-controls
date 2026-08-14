@@ -16,14 +16,9 @@ export default class Select extends BaseController {
 
 		this.model = new JSONModel(
 			{
-				// the items both selects are filled from
-				workstations: [
-					{ key: "A1", text: "Assembly line 1" },
-					{ key: "A2", text: "Assembly line 2" },
-					{ key: "P1", text: "Packaging" },
-					{ key: "Q1", text: "Quality gate" },
-					{ key: "S1", text: "Shipping" },
-				],
+				// the items both selects are filled from; they are named below,
+				// so they can be named again when the language changes
+				workstations: [],
 				selectedKey: "P1",
 				size: SizeMode.L,
 				enabled: true,
@@ -34,6 +29,16 @@ export default class Select extends BaseController {
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+
+		this.fillOnLanguageChange(() => {
+			this.model.setProperty("/workstations", [
+				{ key: "A1", text: this.getText("smpAssembly1") },
+				{ key: "A2", text: this.getText("smpAssembly2") },
+				{ key: "P1", text: this.getText("smpPackaging") },
+				{ key: "Q1", text: this.getText("smpQualityGate") },
+				{ key: "S1", text: this.getText("smpShipping") },
+			]);
+		});
 
 		this.setExample(`
 <mvc:View

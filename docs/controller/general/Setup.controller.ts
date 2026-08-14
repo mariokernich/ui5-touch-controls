@@ -91,7 +91,6 @@ server:
 `,
 				},
 				{
-					title: "Controller Code",
 					language: "typescript",
 					code: `
 import Button from "ui5/touch/controls/Button";

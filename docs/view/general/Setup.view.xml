@@ -188,7 +188,11 @@
 							<VBox width="100%" items="{example>/typescript}">
 								<f:Card class="sapUiSmallMarginTop">
 									<f:header>
-										<cards:Header title="{example>title}" />
+										<!-- a snippet without a title of its own is named after
+										     its language, the way the example card of a control
+										     page does it - and that name follows the language -->
+										<cards:Header
+											title="{= ${example>title} || (${example>language} === 'xml' ? ${i18n>exampleUsageXml} : ${i18n>exampleUsageController}) }" />
 									</f:header>
 									<f:content>
 										<control:CodeBlock

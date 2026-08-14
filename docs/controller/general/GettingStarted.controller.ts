@@ -13,7 +13,6 @@ export default class GettingStarted extends BaseController {
 		this.setSnippets({
 			comparison: [
 				{
-					title: "Before — plain sap.m",
 					code: `
 <mvc:View
   xmlns:mvc="sap.ui.core.mvc"
@@ -32,7 +31,6 @@ export default class GettingStarted extends BaseController {
 `,
 				},
 				{
-					title: "After — ui5.touch.controls",
 					code: `
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"

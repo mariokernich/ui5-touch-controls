@@ -16,7 +16,7 @@ export default class CheckBox extends BaseController {
 
 		this.model = new JSONModel(
 			{
-				text: "Send me a copy",
+				text: this.getText("smpCheckBox"),
 				selected: true,
 				partiallySelected: false,
 				size: SizeMode.L,

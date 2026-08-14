@@ -1,4 +1,5 @@
 import type ResourceBundle from "sap/base/i18n/ResourceBundle";
+import type PropertyBinding from "sap/ui/model/PropertyBinding";
 import Controller from "sap/ui/core/mvc/Controller";
 import type Router from "sap/ui/core/routing/Router";
 import type UIComponent from "sap/ui/core/UIComponent";
@@ -30,11 +31,60 @@ export interface Snippet {
  * @namespace ui5.touch.controls.demo.controller
  */
 export default abstract class BaseController extends Controller {
+	/** what {@link fillOnLanguageChange} listens on, so it can be taken back */
+	private languageBinding?: PropertyBinding;
+
 	/**
 	 * Returns the router of the component.
 	 */
 	public getRouter(): Router {
 		return (this.getOwnerComponent() as UIComponent).getRouter();
+	}
+
+	/**
+	 * Fills a part of a page now, and again whenever the language changes.
+	 *
+	 * A text bound against the i18n model follows a language switch by itself
+	 * - UI5 re-evaluates the binding. A text read with {@link getText} does
+	 * not: it is a value in a JSON model by then, and nothing tells the model
+	 * that the bundle underneath has changed. That is what this is for.
+	 *
+	 * It is meant for what the visitor cannot edit - the entries of a list,
+	 * for instance. The value a field starts on is deliberately left out: a
+	 * playground is there to be typed in, and refilling it on a language
+	 * switch would throw that away.
+	 */
+	protected fillOnLanguageChange(fill: () => void): void {
+		fill();
+
+		const model = this.getOwnerComponent()?.getModel("i18n") as
+			| ResourceModel
+			| undefined;
+
+		if (!model) {
+			return;
+		}
+
+		// A binding against the bundle is what says that the language has
+		// changed - which is exactly the signal the views themselves listen
+		// to. The announcement of the change comes earlier than that and is of
+		// no use here: while it is being handed around, the model can still
+		// carry the bundle of the language that is on its way out, and the
+		// refill would put that one back. The value of the binding is never
+		// read; the key below is only a key that exists.
+		this.languageBinding = model.bindProperty("/appTitle");
+		this.languageBinding.attachChange(() => {
+			fill();
+		});
+	}
+
+	/**
+	 * Takes back what {@link fillOnLanguageChange} registered. A controller
+	 * that overrides this has to call it.
+	 */
+	public onExit(): void {
+		this.languageBinding?.destroy();
+		this.languageBinding = undefined;
 	}
 
 	/**

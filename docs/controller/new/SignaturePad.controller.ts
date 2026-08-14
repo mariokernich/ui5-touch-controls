@@ -18,7 +18,7 @@ export default class SignaturePad extends BaseController {
 			{
 				value: "",
 				preview: "",
-				placeholder: "Sign here",
+				placeholder: this.getText("phSignHere"),
 				height: "12rem",
 				size: SizeMode.L,
 				enabled: true,

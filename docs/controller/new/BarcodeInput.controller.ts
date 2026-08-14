@@ -67,7 +67,6 @@ export default class BarcodeInput extends BaseController {
 				},
 				{
 					language: "typescript",
-					title: "Controller Code",
 					code: `
 onScan(event: BarcodeInput$ScanEvent): void {
 	const code = event.getParameter("value");

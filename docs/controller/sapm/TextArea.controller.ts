@@ -16,8 +16,8 @@ export default class TextArea extends BaseController {
 
 		this.model = new JSONModel(
 			{
-				value: "Hello World\nThis is a multi-line text.",
-				placeholder: "Enter text...",
+				value: this.getText("smpTextAreaValue"),
+				placeholder: this.getText("phTypeText"),
 				rows: 4,
 				maxLength: 0,
 				size: SizeMode.L,

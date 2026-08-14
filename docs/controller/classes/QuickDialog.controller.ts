@@ -364,8 +364,7 @@ if (action === MessageAction.Delete) {
 			const action = await Dialog.details({
 				...this.getBaseOptions(),
 				title: this.getMessage(),
-				details:
-					"Error code: 500\nCorrelation ID: 8f3c2a1b-77d4-4e2e-9c55-0d6a1b2c3d4e\nTimestamp: 2026-08-07T10:15:30Z\nThe backend service did not respond within the configured timeout.",
+				details: this.getText("qdErrorDetails"),
 			});
 			this.setResult(`details → ${QuickDialog.label(action)}`);
 		} catch {

@@ -16,16 +16,10 @@ export default class ComboBox extends BaseController {
 
 		this.model = new JSONModel(
 			{
-				// the items both combo boxes are filled from
-				materials: [
-					{ key: "M-1001", text: "Aluminium sheet 2 mm", stock: "1,240 pcs" },
-					{ key: "M-1002", text: "Aluminium sheet 4 mm", stock: "860 pcs" },
-					{ key: "M-2001", text: "Steel bar 10 mm", stock: "312 pcs" },
-					{ key: "M-2002", text: "Steel bar 20 mm", stock: "95 pcs" },
-					{ key: "M-3001", text: "Copper wire 1.5 mm²", stock: "4,500 m" },
-					{ key: "M-3002", text: "Copper wire 2.5 mm²", stock: "2,100 m" },
-				],
-				value: "Steel bar 10 mm",
+				// the items both combo boxes are filled from; they are named
+				// below, so they can be named again when the language changes
+				materials: [],
+				value: this.getText("smpSteel10"),
 				selectedKey: "M-2001",
 				size: SizeMode.L,
 				enabled: true,
@@ -37,6 +31,41 @@ export default class ComboBox extends BaseController {
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+
+		this.fillOnLanguageChange(() => {
+			this.model.setProperty("/materials", [
+				{
+					key: "M-1001",
+					text: this.getText("smpAluminium2"),
+					stock: this.getText("smpStockAluminium2"),
+				},
+				{
+					key: "M-1002",
+					text: this.getText("smpAluminium4"),
+					stock: this.getText("smpStockAluminium4"),
+				},
+				{
+					key: "M-2001",
+					text: this.getText("smpSteel10"),
+					stock: this.getText("smpStockSteel10"),
+				},
+				{
+					key: "M-2002",
+					text: this.getText("smpSteel20"),
+					stock: this.getText("smpStockSteel20"),
+				},
+				{
+					key: "M-3001",
+					text: this.getText("smpCopper15"),
+					stock: this.getText("smpStockCopper15"),
+				},
+				{
+					key: "M-3002",
+					text: this.getText("smpCopper25"),
+					stock: this.getText("smpStockCopper25"),
+				},
+			]);
+		});
 
 		this.setExample(`
 <mvc:View

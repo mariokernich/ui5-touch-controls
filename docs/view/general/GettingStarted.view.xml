@@ -161,7 +161,7 @@
 								/>
 							</f:layoutData>
 							<f:header>
-								<cards:Header title="{example>/comparison/0/title}" />
+								<cards:Header title="{i18n>gsBeforeTitle}" />
 							</f:header>
 							<f:content>
 								<control:CodeBlock
@@ -189,7 +189,7 @@
 								/>
 							</f:layoutData>
 							<f:header>
-								<cards:Header title="{example>/comparison/1/title}" />
+								<cards:Header title="{i18n>gsAfterTitle}" />
 							</f:header>
 							<f:content>
 								<control:CodeBlock

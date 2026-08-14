@@ -22,7 +22,7 @@ export default class Text extends BaseController {
 
 		this.model = new JSONModel(
 			{
-				text: "The quick brown fox jumps over the lazy dog",
+				text: this.getText("smpText"),
 				color: "#333333",
 				size: SizeMode.L,
 			},
