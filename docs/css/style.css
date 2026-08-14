@@ -190,10 +190,12 @@ body,
 
    The fact is built by hand instead of from an ObjectAttribute like the ones
    beside it - see the views for why - so what the theme gives those is given
-   here: the name of the fact reads in the colour of a label, the files read as
-   links, and the space between them is what separates them. */
+   here: the name of the fact reads in the colour of a label and the files read
+   as links. */
 .touchControlsSource.sapMFlexBox {
-	column-gap: 0.375rem;
+	/* the width of a space at the size the header is set in - what the colon
+	   of an attribute title is followed by */
+	column-gap: 0.25rem;
 	row-gap: 0.125rem;
 }
 
@@ -201,16 +203,35 @@ body,
 	color: var(--sapContent_LabelColor);
 }
 
+/* The files are an enumeration, so what separates them is a comma and the
+   space after it - not a gap between boxes.
+
+   Which is why the row is laid out as a line of text rather than as a flex
+   row: the space of a "comma space" sits at the end of an item, and at the
+   end of a flex item it is collapsed away, leaving the next file stuck to the
+   comma. In a line of text it is an ordinary space and does what it says.
+   Wrapping comes for free with it - a line of text breaks between its words
+   anyway. */
 .touchControlsSourceLinks.sapMFlexBox {
-	column-gap: 0.75rem;
-	row-gap: 0.125rem;
+	display: block;
 }
 
-/* a file name is short enough to be worth a line of its own: it keeps its
-   length and the row breaks around it rather than truncating it */
+/* the box a flex box wraps every child in; inline, it is the comma that comes
+   between two of them rather than a line each */
+.touchControlsSourceLinks > .sapMFlexItem {
+	display: inline;
+}
+
+.touchControlsSourceLinks > .sapMFlexItem:not(:last-child)::after {
+	/* on the box around the link, not on the link: a comma is not part of the
+	   name of a file and must not be underlined or clickable with it */
+	content: ", ";
+}
+
+/* a file name is short enough to be worth its full length: it is not cut off
+   to fit, the line breaks around it instead */
 .touchControlsSourceLinks .sapMLnk {
 	max-width: none;
-	flex-shrink: 0;
 }
 
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
