@@ -36,7 +36,7 @@ export interface Release {
 export const releases: Release[] = [
 	{
 		version: "1.3.0",
-		date: "",
+		date: "2026-08-15",
 		summary:
 			"One keyboard that did everything becomes three that each do one thing.",
 		groups: [
