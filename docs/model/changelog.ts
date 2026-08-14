@@ -53,7 +53,7 @@ export const releases: Release[] = [
 					"`showDecimalSeparator` and `decimalSeparator` on the [NumberPad], which follows the current language unless told otherwise.",
 					"[CustomKeyboard] - the keyboard whose keys are handed to it row by row. It carries what was the `layout` property and covers everything the other two do not.",
 					"[KeyboardBase] - the machine behind all three, and the type the `keyboard` aggregation of a field is typed to, so any of the three fits in there.",
-					"The texts the controls put on the screen themselves are translated: English, German, Hindi, Russian, Turkish and Ukrainian. That is the actions of a [QuickDialog], its `Show details`, the line a [ComboBox] shows when nothing matches, the hint on an empty [SignaturePad] and the on/off of a [Switch].",
+					"The texts the controls put on the screen themselves are translated into fourteen languages: English, German, Spanish, French, Hindi, Italian, Japanese, Dutch, Polish, Portuguese, Russian, Turkish, Ukrainian and Chinese. That is the actions of a [QuickDialog], its `Show details`, the line a [ComboBox] shows when nothing matches, the hint on an empty [SignaturePad] and the on/off of a [Switch].",
 				],
 			},
 			{
@@ -76,6 +76,7 @@ export const releases: Release[] = [
 				kind: "Demo",
 				items: [
 					"The code examples carry a copy button, and the code blocks follow the dark theme.",
+					"The demo speaks the same fourteen languages as the library, chosen in the header - the footer, the control reference and the playgrounds included.",
 				],
 			},
 		],

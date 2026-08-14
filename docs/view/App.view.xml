@@ -43,10 +43,18 @@
 					change=".onLanguageChange">
 					<core:ListItem key="en" text="English" additionalText="EN" />
 					<core:ListItem key="de" text="Deutsch" additionalText="DE" />
+					<core:ListItem key="es" text="Español" additionalText="ES" />
+					<core:ListItem key="fr" text="Français" additionalText="FR" />
 					<core:ListItem key="hi" text="हिन्दी" additionalText="HI" />
+					<core:ListItem key="it" text="Italiano" additionalText="IT" />
+					<core:ListItem key="ja" text="日本語" additionalText="JA" />
+					<core:ListItem key="nl" text="Nederlands" additionalText="NL" />
+					<core:ListItem key="pl" text="Polski" additionalText="PL" />
+					<core:ListItem key="pt" text="Português" additionalText="PT" />
 					<core:ListItem key="ru" text="Русский" additionalText="RU" />
 					<core:ListItem key="tr" text="Türkçe" additionalText="TR" />
 					<core:ListItem key="uk" text="Українська" additionalText="UK" />
+					<core:ListItem key="zh" text="中文" additionalText="ZH" />
 				</ComboBox>
 				<Select
 					tooltip="{i18n>theme}"

@@ -1,7 +1,7 @@
 import { SwitchType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
-import { getText } from "./i18n";
+import { attachTextChange, getText } from "./i18n";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ISized, SizeMode, sizeClass } from "./library";
 
@@ -45,12 +45,14 @@ export default class Switch extends Control implements ISized {
 			 */
 			state: { type: "boolean", group: "Misc", defaultValue: false },
 			/**
-			 * Label of the on state. Defaults to "ON"; with type
+			 * Label of the on state. Empty, the switch says the "on" of the
+			 * library in the language the application runs in; with type
 			 * <code>AcceptReject</code> a check mark is shown instead.
 			 */
 			customTextOn: { type: "string", group: "Misc", defaultValue: "" },
 			/**
-			 * Label of the off state. Defaults to "OFF"; with type
+			 * Label of the off state. Empty, the switch says the "off" of the
+			 * library in the language the application runs in; with type
 			 * <code>AcceptReject</code> a cross is shown instead.
 			 */
 			customTextOff: { type: "string", group: "Misc", defaultValue: "" },
@@ -91,10 +93,30 @@ export default class Switch extends Control implements ISized {
 		},
 	};
 
+	// Written by init, which UI5 calls from the constructor of the base class
+	// - that is, before the field declarations of this class are applied.
+	// Declared, it is a type and nothing else, so nothing is written over
+	// what init put there.
+	/** ends the callback that follows the language */
+	private declare detachTextChange: () => void;
+
 	constructor(idOrSettings?: string | $SwitchSettings);
 	constructor(id?: string, settings?: $SwitchSettings);
 	constructor(id?: string, settings?: $SwitchSettings) {
 		super(id, settings);
+	}
+
+	init(): void {
+		// where the application named neither state, the two of them are the
+		// on and off of the library, read while the switch renders - so the
+		// switch has to render again when the language changes
+		this.detachTextChange = attachTextChange(() => {
+			this.invalidate();
+		});
+	}
+
+	exit(): void {
+		this.detachTextChange();
 	}
 
 	ontap(event?: MarkableEvent): void {
