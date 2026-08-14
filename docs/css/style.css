@@ -186,20 +186,25 @@ body,
 }
 
 /* ---------------------------------------------------------------------------
-   the files a class is written in, in the head of its page
+   a fact in the head of a control page whose value is a link
 
-   The row of files is a control of its own - see control/LinkList.ts - so all
-   that is left here is the name in front of it, which takes the colour of a
-   label: the colour an ObjectAttribute gives the titles of the facts beside
-   it. */
-.touchControlsSource.sapMFlexBox {
+   Those are written by hand rather than taken from an ObjectAttribute like
+   the facts whose value is a plain word: an ObjectAttribute holds a single
+   sap.m.Link in its customContent and rejects anything else at runtime, and a
+   link that leads out of the page is meant to say so - which is a mark behind
+   it, and therefore more than a single link.
+
+   The links themselves are a control - see control/LinkList.ts - so all that
+   is left here is the name in front of them, which takes the colour of a
+   label: the colour an ObjectAttribute gives its titles. */
+.touchControlsFact.sapMFlexBox {
 	/* the width of a space at the size the header is set in - what the colon
 	   of an attribute title is followed by */
 	column-gap: 0.25rem;
 	row-gap: 0.125rem;
 }
 
-.touchControlsSourceTitle.sapMText {
+.touchControlsFactTitle.sapMText {
 	color: var(--sapContent_LabelColor);
 }
 

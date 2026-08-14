@@ -44,19 +44,21 @@
             class="sapUiMediumMarginEnd"
             visible="{= !${control>/extendsUrl} &amp;&amp; !${control>/extendsKey} }"
           />
-          <ObjectAttribute
-            title="{i18n>introExtends}"
-            class="sapUiMediumMarginEnd"
-            visible="{= !!${control>/extendsUrl} }"
-          >
-            <customContent>
-              <Link
-                text="{control>/extendsClass}"
-                href="{control>/extendsUrl}"
-                target="_blank"
-              />
-            </customContent>
-          </ObjectAttribute>
+          <HBox
+          	alignItems="Center"
+          	wrap="Wrap"
+          	visible="{= !!${control>/extendsUrl} }"
+          	class="touchControlsFact sapUiMediumMarginEnd">
+          	<Text
+          		text="{= ${i18n>introExtends} + ':' }"
+          		class="touchControlsFactTitle" />
+          	<control:LinkList external="true">
+          		<Link
+          			text="{control>/extendsClass}"
+          			href="{control>/extendsUrl}"
+          			target="_blank" />
+          	</control:LinkList>
+          </HBox>
           <ObjectAttribute
             title="{i18n>introExtends}"
             class="sapUiMediumMarginEnd"
@@ -69,20 +71,22 @@
               />
             </customContent>
           </ObjectAttribute>
-          <ObjectAttribute
-            title="{i18n>introOriginalLabel}"
-            class="sapUiMediumMarginEnd"
-            visible="{control>/showOriginal}"
-          >
-            <customContent>
-              <Link
-                text="{control>/replaces}"
-                href="{control>/docUrl}"
-                target="_blank"
-                enabled="{= !!${control>/docUrl} }"
-              />
-            </customContent>
-          </ObjectAttribute>
+          <HBox
+          	alignItems="Center"
+          	wrap="Wrap"
+          	visible="{control>/showOriginal}"
+          	class="touchControlsFact sapUiMediumMarginEnd">
+          	<Text
+          		text="{= ${i18n>introOriginalLabel} + ':' }"
+          		class="touchControlsFactTitle" />
+          	<control:LinkList external="{= !!${control>/docUrl} }">
+          		<Link
+          			text="{control>/replaces}"
+          			href="{control>/docUrl}"
+          			target="_blank"
+          			enabled="{= !!${control>/docUrl} }" />
+          	</control:LinkList>
+          </HBox>
           <ObjectAttribute
             title="{i18n>introSince}"
             text="{control>/since}"
@@ -93,22 +97,15 @@
               text="{control>/visibility}"
               class="sapUiMediumMarginEnd" />
           <!-- A class is written in more than one file - what it does and what
-               it looks like - so the fact carries a link per file. The row is
-               a control of its own: it writes the links as an enumeration and
-               marks them as leading out of the page.
-
-               The name of the fact is written beside it rather than taken from
-               an ObjectAttribute like the facts before it: that one holds a
-               single sap.m.Link and rejects anything else at runtime. It takes
-               the colour of a label, which is the colour an attribute title
-               takes too. -->
+               it looks like - so this fact carries a link per file, written as
+               an enumeration. -->
           <HBox
           	alignItems="Center"
           	wrap="Wrap"
-          	class="touchControlsSource">
+          	class="touchControlsFact">
           	<Text
           		text="{= ${i18n>introSource} + ':' }"
-          		class="touchControlsSourceTitle" />
+          		class="touchControlsFactTitle" />
           	<control:LinkList external="true" links="{control>/sources}">
           		<Link
           			text="{control>file}"
