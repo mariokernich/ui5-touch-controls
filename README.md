@@ -278,7 +278,7 @@ The keyboard does not have to sit on the page. Put one into the `keyboard` aggre
 	size="XL"
 	showKeyboard="true">
 	<tc:keyboard>
-		<tc:NumberPad size="XL" />
+		<tc:Keyboard size="XL" />
 	</tc:keyboard>
 </tc:Input>
 ```
