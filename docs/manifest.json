@@ -5,7 +5,7 @@
         "type": "application",
         "i18n": {
             "bundleUrl": "i18n/i18n.properties",
-            "supportedLocales": ["", "de", "hi"],
+            "supportedLocales": ["", "de", "hi", "ru", "tr", "uk"],
             "fallbackLocale": ""
         },
         "title": "{{appTitle}}",
@@ -44,7 +44,7 @@
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
                     "bundleName": "ui5.touch.controls.demo.i18n.i18n",
-                    "supportedLocales": ["", "de", "hi"],
+                    "supportedLocales": ["", "de", "hi", "ru", "tr", "uk"],
                     "fallbackLocale": ""
                 }
             }

@@ -44,6 +44,9 @@
 					<core:ListItem key="en" text="English" additionalText="EN" />
 					<core:ListItem key="de" text="Deutsch" additionalText="DE" />
 					<core:ListItem key="hi" text="हिन्दी" additionalText="HI" />
+					<core:ListItem key="ru" text="Русский" additionalText="RU" />
+					<core:ListItem key="tr" text="Türkçe" additionalText="TR" />
+					<core:ListItem key="uk" text="Українська" additionalText="UK" />
 				</ComboBox>
 				<Select
 					tooltip="{i18n>theme}"

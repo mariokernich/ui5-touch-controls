@@ -5,7 +5,7 @@ import Localization from "sap/base/i18n/Localization";
  * i18n_*.properties files, the supportedLocales in manifest.json and the
  * items of the language select in App.view.xml.
  */
-export const supportedLanguages = ["en", "de", "hi"];
+export const supportedLanguages = ["en", "de", "hi", "ru", "tr", "uk"];
 
 /**
  * Returns the key of the language select that matches the language UI5 is
