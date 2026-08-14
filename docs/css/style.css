@@ -188,10 +188,10 @@ body,
 /* ---------------------------------------------------------------------------
    the files a class is written in, in the head of its page
 
-   The fact is built by hand instead of from an ObjectAttribute like the ones
-   beside it - see the views for why - so what the theme gives those is given
-   here: the name of the fact reads in the colour of a label and the files read
-   as links. */
+   The row of files is a control of its own - see control/LinkList.ts - so all
+   that is left here is the name in front of it, which takes the colour of a
+   label: the colour an ObjectAttribute gives the titles of the facts beside
+   it. */
 .touchControlsSource.sapMFlexBox {
 	/* the width of a space at the size the header is set in - what the colon
 	   of an attribute title is followed by */
@@ -201,37 +201,6 @@ body,
 
 .touchControlsSourceTitle.sapMText {
 	color: var(--sapContent_LabelColor);
-}
-
-/* The files are an enumeration, so what separates them is a comma and the
-   space after it - not a gap between boxes.
-
-   Which is why the row is laid out as a line of text rather than as a flex
-   row: the space of a "comma space" sits at the end of an item, and at the
-   end of a flex item it is collapsed away, leaving the next file stuck to the
-   comma. In a line of text it is an ordinary space and does what it says.
-   Wrapping comes for free with it - a line of text breaks between its words
-   anyway. */
-.touchControlsSourceLinks.sapMFlexBox {
-	display: block;
-}
-
-/* the box a flex box wraps every child in; inline, it is the comma that comes
-   between two of them rather than a line each */
-.touchControlsSourceLinks > .sapMFlexItem {
-	display: inline;
-}
-
-.touchControlsSourceLinks > .sapMFlexItem:not(:last-child)::after {
-	/* on the box around the link, not on the link: a comma is not part of the
-	   name of a file and must not be underlined or clickable with it */
-	content: ", ";
-}
-
-/* a file name is short enough to be worth its full length: it is not cut off
-   to fit, the line breaks around it instead */
-.touchControlsSourceLinks .sapMLnk {
-	max-width: none;
 }
 
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
@@ -478,6 +447,31 @@ body,
    it up costs nothing that can be noticed. */
 .sapTntToolPageMain {
 	will-change: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   LinkList: a row of links written as an enumeration
+
+   The control renders a line of text, so the space behind a comma is an
+   ordinary space and needs nothing here. What is needed is that a link keeps
+   its full length - a name is not worth cutting off to fit, the line breaks
+   around it instead - and that a link and the mark behind it are never torn
+   apart by such a break. */
+.ui5tcLinkListEntry {
+	white-space: nowrap;
+}
+
+.ui5tcLinkListEntry .sapMLnk {
+	max-width: none;
+}
+
+/* the mark of a link that leaves the page: it belongs to the link, so it
+   reads in the colour of one, and it is the quieter half of the pair, so it
+   is set smaller and kept off the last letter */
+.ui5tcLinkListIcon {
+	margin-left: 0.25rem;
+	font-size: 0.75rem;
+	color: var(--sapLinkColor);
 }
 
 .ui5tcCodeBlockWrapper {
