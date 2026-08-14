@@ -234,6 +234,8 @@ The keyboard does not have to sit on the page. Put it into the `virtualKeyboard`
 </tc:Input>
 ```
 
+<img src="assets/keyboard-aggregation.png" width="500px" />
+
 The keyboard types into the field: it is filled with the value of the field whenever the popover opens, every key fires `liveChange`, and its Enter key fires `change` and `submit` — the popover stays open, since the field still has the focus. `tc:TextArea` takes the same aggregation, where Enter adds a line break instead.
 
 #### Docked
@@ -271,6 +273,8 @@ On a shop floor or in a warehouse most input does not come from a keyboard but f
 	change=".onManualEntry" />
 ```
 
+<img src="assets/barcode-input.png" width="400px" />
+
 So a scanned code can go straight to the backend while a typed one gets a confirmation first. `prefix` and `suffix` cut off the characters scanners put around the code.
 
 ### `tc:SignaturePad`
@@ -285,6 +289,8 @@ Handing over goods, confirming a repair or acknowledging a safety briefing all e
 	size="XL"
 	change=".onSigned" />
 ```
+
+<img src="assets/signature-pad.png" width="500px" />
 
 Stroke width, placeholder and clear button follow the `size` property, and the pad keeps its strokes when it is resized.
 
