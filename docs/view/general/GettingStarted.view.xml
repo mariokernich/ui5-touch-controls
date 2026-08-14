@@ -176,6 +176,7 @@
 							size="2rem"
 							decorative="true"
 							class="sapUiMediumMarginTop"
+                            visible="{= ${app>/isPhone} ? false : true }"
 						>
 							<core:layoutData>
 								<FlexItemData styleClass="touchControlsCardRowArrow" />
