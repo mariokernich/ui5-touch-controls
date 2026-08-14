@@ -77,6 +77,7 @@ export const releases: Release[] = [
 				items: [
 					"The code examples carry a copy button, and the code blocks follow the dark theme.",
 					"The demo speaks the same fourteen languages as the library, chosen in the header - the footer, the control reference and the playgrounds included.",
+					"A search sits in the middle of the header. It finds a page by its name, by the sap.m control it steps in for - `sap.m.Select` leads to the touch Select - and by what the page is about, so `barcode` and `signature` arrive without knowing what the control is called.",
 				],
 			},
 		],

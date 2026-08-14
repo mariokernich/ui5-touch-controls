@@ -9,6 +9,11 @@ import type { PageInfo } from "../model/pages";
 import { allPages } from "../model/pages";
 import BaseController from "./BaseController";
 import { ComboBox$ChangeEvent } from "sap/m/ComboBox";
+import type {
+	SearchField$SearchEvent,
+	SearchField$SuggestEvent,
+} from "sap/m/SearchField";
+import { buildSearchIndex, findPages } from "../model/search";
 
 /** where a report ends up, and what the footer links to */
 const ISSUE_URL =
@@ -24,9 +29,18 @@ export default class App extends BaseController {
 	private model!: JSONModel;
 	/** whether the window is wide enough for the side navigation */
 	private wide = false;
+	/** the pages of the demo as the search in the header sees them */
+	private searchIndex: ReturnType<typeof buildSearchIndex> = [];
 
 	public onInit(): void {
 		this.model = this.getOwnerComponent()?.getModel("app") as JSONModel;
+
+		// the index carries translated names and sentences, so it is built
+		// again whenever the language changes
+		this.fillOnLanguageChange(() => {
+			this.searchIndex = buildSearchIndex((key) => this.getText(key));
+		});
+
 		this.getRouter().attachRouteMatched((event) => {
 			this.onRouteMatched(event);
 		});
@@ -166,6 +180,57 @@ export default class App extends BaseController {
 		if (theme) {
 			Theming.setTheme(theme);
 		}
+	}
+
+	/**
+	 * Fills the suggestion list of the search while the visitor types.
+	 *
+	 * Where nothing matches, one entry is offered that says so. It carries no
+	 * key, and {@link onSearch} leaves an entry without a key alone, so it
+	 * reads as a line rather than acting as one.
+	 */
+	public onSearchSuggest(event: SearchField$SuggestEvent): void {
+		const query = event.getParameter("suggestValue") ?? "";
+		const hits = findPages(this.searchIndex, query);
+		const items =
+			hits.length || !query.trim()
+				? hits
+				: [
+						{
+							key: "",
+							text: this.getText("searchNoResults", [query]),
+							description: "",
+							icon: "",
+						},
+					];
+
+		this.model.setProperty("/searchSuggestions", items);
+		// Filling the aggregation is not enough: a sap.m.SearchField leaves it
+		// to the application to say when the list is worth showing, because
+		// only the application knows whether what it filled in is an answer
+		// yet. The items are in by now - a JSON model updates its bindings on
+		// the spot - so the list has something to show.
+		event.getSource().suggest(items.length > 0);
+	}
+
+	/**
+	 * Opens the page that was picked from the suggestions, or - where the
+	 * visitor just pressed Enter - the best of what the query matches.
+	 */
+	public onSearch(event: SearchField$SearchEvent): void {
+		const picked = event.getParameter("suggestionItem")?.getKey();
+		const key =
+			picked ?? findPages(this.searchIndex, event.getParameter("query") ?? "")[0]?.key;
+
+		if (!key) {
+			return;
+		}
+
+		this.getRouter().navTo(key);
+		// the field has done its job; leaving the query in it would only be in
+		// the way of the page it just opened
+		event.getSource().setValue("");
+		this.model.setProperty("/searchSuggestions", []);
 	}
 
 	public onPreviousPress(): void {

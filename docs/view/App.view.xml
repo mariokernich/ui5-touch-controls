@@ -32,7 +32,25 @@
 					text="{app>/version}"
 					tooltip="{i18n>versionTooltip}"
 					class="touchControlsHeaderVersion sapUiTinyMarginEnd" />
-        <ToolbarSpacer />
+				<!-- a spacer on either side is what puts the search in the middle:
+				     it takes what the two groups beside it leave over, and both
+				     sides get the same share of it -->
+				<ToolbarSpacer />
+				<SearchField
+					placeholder="{i18n>searchPlaceholder}"
+					tooltip="{i18n>searchTooltip}"
+					enableSuggestions="true"
+					suggest=".onSearchSuggest"
+					search=".onSearch"
+					suggestionItems="{app>/searchSuggestions}"
+					class="touchControlsHeaderSearch">
+					<SuggestionItem
+						key="{app>key}"
+						text="{app>text}"
+						description="{app>description}"
+						icon="{app>icon}" />
+				</SearchField>
+				<ToolbarSpacer />
 				<!-- the languages are named in their own language, so the entries
 				     read the same whichever one is active -->
 				<ComboBox

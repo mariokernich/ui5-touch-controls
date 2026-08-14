@@ -219,6 +219,43 @@ body,
 	opacity: 0.75;
 }
 
+/* The search in the middle of the header. It is given a width to aim for
+   rather than a fixed one: once the header fills up the field is what gives
+   way, so the switches next to it keep their size instead of being pushed
+   out. */
+.touchControlsHeaderSearch.sapMSF {
+	width: 22rem;
+	min-width: 8rem;
+	flex-shrink: 1;
+}
+
+/* A spacer on either side only centres the field between the two groups, and
+   those are not the same width - the switches on the right take almost twice
+   the room of the logo on the left, which leaves the field visibly off to one
+   side. So it is placed on the middle of the header itself.
+
+   That only works while there is room for it there: the field is out of the
+   flow then, and nothing keeps it off the groups beside it. 1240px is where a
+   22rem field centred on the header clears the wider of the two - below it
+   the field goes back between the spacers, and further down the header moves
+   it into its overflow like everything else. */
+@media (min-width: 1240px) {
+	.sapTntToolHeader {
+		position: relative;
+	}
+
+	.touchControlsHeaderSearch.sapMSF {
+		position: absolute;
+		left: 50%;
+		/* The toolbar puts a gap between its items, and out of the flow there
+		   is nothing left for the field to keep its distance from - the gap
+		   would only push it off the middle by its own width. The theme sets
+		   it from further up the cascade, hence the weight. */
+		margin-inline: 0 !important;
+		transform: translateX(-50%);
+	}
+}
+
 /* The GitHub mark is drawn as a mask rather than as an image, so its colour is
    the colour of the link it sits on. That is what makes it work in every
    theme, the dark and the high contrast ones included - an image would need a
