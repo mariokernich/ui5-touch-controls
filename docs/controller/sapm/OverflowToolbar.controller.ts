@@ -128,6 +128,8 @@ export default class OverflowToolbar extends BaseController {
 	}
 
 	public onDemoPress(event: Event<object, SizedButton>): void {
-		MessageToast.show(`"${event.getSource().getText()}" pressed`);
+		MessageToast.show(
+			this.getText("msgButtonPressed", [event.getSource().getText()]),
+		);
 	}
 }

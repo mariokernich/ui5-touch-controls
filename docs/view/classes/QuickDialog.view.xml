@@ -68,9 +68,18 @@
             class="sapUiMediumMarginEnd"
           />
           <ObjectAttribute
-            title="{i18n>introVisibility}"
-            text="{control>/visibility}"
-          />
+              title="{i18n>introVisibility}"
+              text="{control>/visibility}"
+              class="sapUiMediumMarginEnd" />
+          <!-- where the class is written, for reading along in the repository -->
+          <ObjectAttribute title="{i18n>introSource}">
+              <customContent>
+                  <Link
+                      text="{control>/sourceFile}"
+                      href="{control>/sourceUrl}"
+                      target="_blank" />
+              </customContent>
+          </ObjectAttribute>
         </HBox>
       </f:DynamicPageHeader>
     </f:header>

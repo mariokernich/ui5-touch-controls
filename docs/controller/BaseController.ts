@@ -4,7 +4,13 @@ import type Router from "sap/ui/core/routing/Router";
 import type UIComponent from "sap/ui/core/UIComponent";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type ResourceModel from "sap/ui/model/resource/ResourceModel";
-import { getApiUrl, getControlDoc, NEW_CONTROL } from "../model/documentation";
+import {
+	getApiUrl,
+	getControlDoc,
+	getSourceFile,
+	getSourceUrl,
+	NEW_CONTROL,
+} from "../model/documentation";
 
 /** a code snippet shown in a card of a page */
 export interface Snippet {
@@ -67,6 +73,11 @@ export default abstract class BaseController extends Controller {
 		this.getView()?.setModel(
 			new JSONModel({
 				...doc,
+				// the entry holds the keys of its sentences; the view binds the
+				// sentences themselves
+				summary: this.getText(doc.summaryKey),
+				description: this.getText(doc.descriptionKey),
+				original: doc.originalKey ? this.getText(doc.originalKey) : "",
 				fullName: `ui5.touch.controls.${doc.name}`,
 				docUrl: getApiUrl(doc.docEntity ?? doc.replaces),
 				// a base class that is not in the demo kit gets no link there;
@@ -75,6 +86,9 @@ export default abstract class BaseController extends Controller {
 				extendsUrl: getApiUrl(doc.extendsClass),
 				extendsKey: extendsDoc?.name ?? "",
 				visibility: doc.visibility ?? "public",
+				// the file the class is written in, and where to read it
+				sourceFile: getSourceFile(doc.name),
+				sourceUrl: getSourceUrl(doc.name),
 				// a control without a sap.m original has no "Original" fact
 				showOriginal: doc.replaces !== NEW_CONTROL,
 			}),

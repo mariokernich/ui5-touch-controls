@@ -4,6 +4,15 @@
  * The texts are English only and on purpose not translated: a changelog is a
  * record of what was released, and translating it would mean maintaining the
  * same history three times over.
+ *
+ * An entry is one or two sentences - what changed, not how it works. Two
+ * markers are read by the page and turned into markup:
+ *
+ * - `[Keyboard]` becomes a link to the page of that control
+ * - `` `displayNumbers` `` becomes code
+ *
+ * Anything longer than the entry belongs on the page of the control, which is
+ * a link away.
  */
 
 /** a group of entries of one kind within a release */
@@ -34,41 +43,37 @@ export const releases: Release[] = [
 			{
 				kind: "Added",
 				items: [
-					"Keyboard - an on-screen keyboard of letters, said in one line. The mode is the arrangement of a country, by the language it is used for: English, German, French, Spanish, Ukrainian, Russian and Hindi. There is no layout to write out.",
-					"displayNumbers decides what becomes of the digits. Always puts a row of them over the letters, the way a keyboard of keys has it. Toggle leaves the letters to themselves and puts the digits behind a key, the way a phone does it. ToggleOnMobile, the default, is the first on a computer and a tablet and the second on a phone - which of the two it is is decided once, by the device the page was opened on. Never leaves them off.",
-					"showSpecialCharacters adds a set of brackets, signs and currencies. Where the digits are behind a key of their own the set sits behind them, the way a phone goes from its letters to its digits to its symbols and back; otherwise a key of its own leads there.",
-					"letterCase pins the keyboard to one case. Upper and Lower leave the shift key and the caps lock off - there is nothing to switch, which is what a field with a case of its own wants: a material number, a licence plate, a batch.",
-					"showCapsLock adds a {lock} next to the shift key, showEscape an {esc} key as the first key of the top row - where a keyboard of keys has it, and on every set - and enterText says what the Enter key reads: Search, Next, whatever it does. On the NumberPad the escape key goes into the row of function keys instead, so that the block of digits keeps its three columns.",
-					"showEmojis hangs a set of faces behind a key of its own, reached and left the same way the digits and the special characters are. Only faces of a single character are on it - one put together from several, a family or a flag, would be taken apart again by the backspace, which now removes a character rather than one of the units a string is measured in.",
-					"extraKeys are keys that stand beside the space bar on every set, whichever one is on screen: an at sign and a dot for an address field, a unit for a quantity. It is where a key goes that a field needs at hand rather than behind a switch.",
-					"The at sign is on the set of special characters as well as on the digits, so it is reachable whatever displayNumbers says - a keyboard with its digits in a row of their own had no set to find it on.",
-					"NumberPad - a pad of digits in three columns. The mode picks the block: Simple is the pad of a computer with 7 8 9 on top, Phone the pad of a telephone with a star and a hash, Calculator adds the four basic operations. The block keeps its shape whatever else is switched on: a minus and a decimal separator go into the row of the zero, everything else into the row of function keys under it - and where neither of the two was asked for, the backspace and the enter come into the row of the zero instead, so a plain pad is the four rows it has always been.",
-					"showDecimalSeparator and decimalSeparator on the NumberPad. The separator is the one of the current language unless another one is named - a comma in German, a point in English.",
-					"showSpecialCharacters on the NumberPad too: a set of signs in the three columns of the pad, for a code that is more than digits.",
-					"CustomKeyboard - the keyboard whose keys are handed to it, row by row. It carries what was the layout property, the layouts aggregation and the display aggregation, and is the answer to everything the other two do not cover.",
-					"KeyboardBase - the machine behind all three: the value and how keys change it, the sets and the switching between them, shift and the caps lock, the keys of a real keyboard, the size, the width and the docking. It is the type the keyboard aggregation of a field is typed to, so any of the three fits in there.",
+					"[Keyboard] - an on-screen keyboard of letters. The `mode` is the arrangement of a country: English, German, French, Spanish, Ukrainian, Russian or Hindi.",
+					"`displayNumbers` decides where the digits go: in a row above the letters, behind a key of their own, or not at all. By default it is the first on a computer and the second on a phone.",
+					"`showSpecialCharacters` adds a set of brackets, signs and currencies, and `showEmojis` a set of faces behind a key of its own.",
+					"`letterCase` pins the keyboard to upper or lower case - for a field with a case of its own, like a material number or a licence plate.",
+					"`showCapsLock`, `showEscape` and `enterText` add the keys a real keyboard has and say what the Enter key reads.",
+					"`extraKeys` put keys of your own beside the space bar, on every set: an at sign for an address field, a unit for a quantity.",
+					"[NumberPad] - a pad of digits in three columns. The `mode` picks the block: `Simple` like a computer, `Phone` with star and hash, `Calculator` with the four operations.",
+					"`showDecimalSeparator` and `decimalSeparator` on the [NumberPad], which follows the current language unless told otherwise.",
+					"[CustomKeyboard] - the keyboard whose keys are handed to it row by row. It carries what was the `layout` property and covers everything the other two do not.",
+					"[KeyboardBase] - the machine behind all three, and the type the `keyboard` aggregation of a field is typed to, so any of the three fits in there.",
 				],
 			},
 			{
 				kind: "Changed",
 				items: [
-					"VirtualKeyboard is gone, and with it a mode property that mixed languages (QWERTZ), device shapes (QWERTZMobile), purposes (Email) and pads (Numeric, Decimal, Phone, Calculator) in one list of fifteen values. Use Keyboard for letters, NumberPad for digits and CustomKeyboard for keys of your own; the modes map as follows: QWERTY, QWERTZ and AZERTY are the arrangements English, German and French, QWERTYMobile and QWERTZMobile are those two with displayNumbers=Toggle, Numeric and Decimal are the NumberPad, Phone and Calculator are its modes of the same name, and Custom is the CustomKeyboard.",
-					"The keyboard aggregation of Input and TextArea was called virtualKeyboard and is now called keyboard; showVirtualKeyboard is showKeyboard. Its type is KeyboardBase, so a Keyboard, a NumberPad and a CustomKeyboard all fit.",
-					"KeyboardMode carries the arrangements of the countries and nothing else. NumberKeys, LetterCase and NumberPadMode are the new types beside it.",
-					"The CSS classes of a keyboard are touchKeyboard, touchKeyboardRow, touchKeyboardDocked and touchKeyboardDisabled - they were named after the control that is gone.",
+					"`VirtualKeyboard` is gone. Its `mode` mixed languages, device shapes, purposes and pads in one list of fifteen values - use [Keyboard] for letters, [NumberPad] for digits and [CustomKeyboard] for keys of your own.",
+					"The aggregation of [Input] and [TextArea] is now called `keyboard` instead of `virtualKeyboard`, and `showVirtualKeyboard` is `showKeyboard`.",
+					"`KeyboardMode` carries the arrangements of the countries and nothing else. `NumberKeys`, `LetterCase` and `NumberPadMode` are the new types beside it.",
+					"The CSS classes are `touchKeyboard`, `touchKeyboardRow`, `touchKeyboardDocked` and `touchKeyboardDisabled` - they were named after the control that is gone.",
 				],
 			},
 			{
 				kind: "Fixed",
 				items: [
-					"A Ghost button looks like its sap.m original in the two Horizon themes. Those themes give the type the ordinary button background, border and text colour on a plain page, where every other theme leaves it outlined and transparent - the library only picked up the background and kept the outline and the hover of the transparent look.",
+					"A `Ghost` [Button] looks like its sap.m original in the two Horizon themes, which style the type differently from every other theme.",
 				],
 			},
 			{
 				kind: "Demo",
 				items: [
-					"The code examples on the control pages carry a copy button, which puts the snippet on the clipboard.",
-					"The code blocks follow the dark theme: dark background, and a highlighting palette to match.",
+					"The code examples carry a copy button, and the code blocks follow the dark theme.",
 				],
 			},
 		],
@@ -82,54 +87,45 @@ export const releases: Release[] = [
 			{
 				kind: "Added",
 				items: [
-					"CheckBox — the touch version of sap.m.CheckBox, with the tristate selection of the original.",
-					"RadioButton and RadioButtonGroup, including the column layout of the group.",
-					"Switch, with the accept/reject and on/off text variants of sap.m.Switch.",
-					"Select, whose picker is a list of touch buttons instead of a dropdown.",
-					"ComboBox, with the same filtering as sap.m.ComboBox and a picker built for fingers.",
-					"DatePicker with a touch calendar, and TimePicker with a touch clock.",
-					"Link, sized like every other control of the library.",
-					"SegmentedButton and SegmentedButtonItem.",
-					"OverflowToolbar, which moves what does not fit into an overflow area.",
-					"BarcodeInput, a field that collects the keystrokes of a barcode scanner.",
-					"SignaturePad, a canvas to sign on with a finger or a pen.",
-					"Input and TextArea show a keyboard of their own: put a VirtualKeyboard into the new virtualKeyboard aggregation and switch showVirtualKeyboard on, and the keyboard opens in a popover while the field has the focus. In the TextArea its Enter key adds a line break.",
-					"ComboBox has showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of every entry, as sap.m.ComboBox does.",
-					"QuickDialog.select() builds its field from the touch ComboBox and takes a selectSize for it.",
-					"VirtualKeyboard has a mode property with the ready-made layouts QWERTY, Numeric, Phone and Calculator. Only mode Custom reads the rows from the layout property, which is where every keyboard used to start.",
-					"OverflowToolbar takes a ToolbarSpacer.",
+					"[CheckBox], with the tristate selection of the original, plus [RadioButton] and [RadioButtonGroup].",
+					"[Switch], with the accept/reject and on/off text variants of sap.m.Switch.",
+					"[Select], whose picker is a list of touch buttons instead of a dropdown, and [ComboBox], with the same filtering as its original.",
+					"[DatePicker] with a touch calendar, and [TimePicker] with a touch clock.",
+					"[Link], [SegmentedButton] and [OverflowToolbar], which moves what does not fit into an overflow area.",
+					"[BarcodeInput], a field that collects the keystrokes of a barcode scanner, and [SignaturePad], a canvas to sign on.",
+					"[Input] and [TextArea] show a keyboard of their own: fill the `virtualKeyboard` aggregation, switch `showVirtualKeyboard` on, and it opens in a popover while the field has the focus.",
+					"[ComboBox] has `showSecondaryValues`, and [QuickDialog] `select()` builds its field from the touch [ComboBox].",
+					"`VirtualKeyboard` has a `mode` property with the ready-made layouts `QWERTY`, `Numeric`, `Phone` and `Calculator`.",
 				],
 			},
 			{
 				kind: "Changed",
 				items: [
-					"Every measurement a size stands for now comes from one stylesheet, Sizing.less, which writes the ladder of a size into custom properties on a single class per control. Sizes look and behave as before.",
-					"The oldest UI5 release the library runs on is 1.116, and the test page is checked against it. What sets the limit is sap/base/i18n/Localization, which the DatePicker reads the language from and which does not exist before 1.116.",
+					"Every measurement a `size` stands for comes from one stylesheet now. Sizes look and behave as before.",
+					"The oldest UI5 release the library runs on is 1.116 - what sets the limit is `sap/base/i18n/Localization`, which does not exist before it.",
 				],
 			},
 			{
 				kind: "Fixed",
 				items: [
-					"Input and TextArea keep the field outline of Horizon, and the TextArea sits at the height of its sap.m original.",
-					"Content marked NeverOverflow moves into the overflow area as a last resort instead of widening the toolbar, and the overflow button stays at its right end.",
-					"The library builds and draws on UI5 1.116 and later again: the theme parameters that only the newer releases define are used with a fallback, so the arrows, the tick of the CheckBox and the other icons of the library show up on every supported version.",
+					"[Input] and [TextArea] keep the field outline of Horizon, and the [TextArea] sits at the height of its sap.m original.",
+					"Content marked `NeverOverflow` moves into the overflow area as a last resort instead of widening the toolbar.",
+					"The library draws on UI5 1.116 again: theme parameters only newer releases define are used with a fallback, so the icons show up on every supported version.",
 				],
 			},
 			{
 				kind: "Demo",
 				items: [
-					"The separate test pages are gone. In their place is one application with routing, a page per control and a side navigation to walk through them. It runs on the latest UI5.",
-					"Next to it, test/ holds one plain page that shows every control - no descriptions, no navigation, nothing but the controls. The start:test scripts open it on the supported UI5 versions, and ?control=Button narrows it to one of them.",
-					"The interface is translated into German and Hindi, and the language can be switched in the header.",
-					"The application starts in the dark theme when the system is set to dark mode.",
-					"Every page works down to a phone: the cards stack, the tables fall back to pop-in and the widest keyboard layout scrolls inside its card.",
+					"The separate test pages give way to one application with routing, a page per control and a side navigation.",
+					"Beside it, `test/` holds one plain page showing every control, which the `start:test` scripts open on the supported UI5 versions.",
+					"The interface is translated into German and Hindi, it starts in the dark theme when the system is set to dark mode, and every page works down to a phone.",
 				],
 			},
 			{
 				kind: "Tests",
 				items: [
-					"The library has UI tests, written with wdi5. They run against the plain test page, so every control of the library is opened in a browser, and they check that the controls are there, that a CheckBox, a Switch, an Input and a Select react, and that a Button grows with its size.",
-					"A CI workflow runs those tests on every supported UI5 release, next to the type check, the lint run and the build. The list of releases is the one behind the start:test scripts, so the two cannot drift apart.",
+					"UI tests written with wdi5 open every control in a browser and check that it is there and reacts.",
+					"A CI workflow runs them on every supported UI5 release, next to the type check, the lint run and the build.",
 				],
 			},
 		],
@@ -142,7 +138,7 @@ export const releases: Release[] = [
 			{
 				kind: "Added",
 				items: [
-					"QuickDialog — a dialog in the spirit of sap.m.MessageBox, with show, input, select, error, information, confirm and details, all returning a promise.",
+					"[QuickDialog] - a dialog in the spirit of sap.m.MessageBox, with `show`, `input`, `select`, `error`, `information`, `confirm` and `details`, all returning a promise.",
 				],
 			},
 			{
@@ -166,7 +162,7 @@ export const releases: Release[] = [
 			{
 				kind: "Changed",
 				items: [
-					"Toolbar can be used in the aggregations that sap.m types as sap.m.Toolbar - the footer of a sap.m.Page or of a sap.m.Dialog, for instance.",
+					"[Toolbar] can be used in the aggregations that sap.m types as sap.m.Toolbar - the footer of a sap.m.Page or of a sap.m.Dialog, for instance.",
 				],
 			},
 			{
@@ -207,11 +203,11 @@ export const releases: Release[] = [
 			{
 				kind: "Added",
 				items: [
-					"Button, Text, TextArea, Input, StepInput and Toolbar, rebuilt on the structure of their sap.m originals so they can replace them one for one.",
-					"One size property on every control, from S to 6XL. It scales font size, icon size, padding and height together, so the controls stay proportional at every step.",
-					'ISized, the interface behind that property. A control can be asked for it with isA("ui5.touch.controls.ISized") and then be sized without knowing what it is.',
-					"VirtualKeyboard — a control sap.m has no equivalent for. Its layout is a plain list of rows, it comes with a QWERTY layout, and with hardwareKeys it also takes the keys of a real keyboard.",
-					"An icon font for the special keys of the VirtualKeyboard, built from SVG as part of the build.",
+					"[Button], [Text], [TextArea], [Input], [StepInput] and [Toolbar], rebuilt on the structure of their sap.m originals so they can replace them one for one.",
+					"One `size` property on every control, from `S` to `6XL`. It scales font size, icon size, padding and height together, so the controls stay proportional at every step.",
+					"`ISized`, the interface behind that property - a control can be asked for it and then be sized without knowing what it is.",
+					"`VirtualKeyboard` - a control sap.m has no equivalent for, with a QWERTY layout and, through `hardwareKeys`, the keys of a real keyboard.",
+					"An icon font for its special keys, built from SVG as part of the build.",
 				],
 			},
 		],

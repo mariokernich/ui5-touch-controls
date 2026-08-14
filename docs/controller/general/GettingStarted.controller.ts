@@ -57,7 +57,7 @@ export default class GettingStarted extends BaseController {
 
 	public onSizePress(event: Event<object, SizedButton>): void {
 		const size = event.getSource().getSize();
-		MessageToast.show(`Size ${size} pressed`);
+		MessageToast.show(this.getText("msgSizePressed", [size]));
 	}
 
 	public onSetupPress(): void {

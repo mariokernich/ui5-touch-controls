@@ -65,7 +65,9 @@ export default class SegmentedButton extends BaseController {
 	public onSizedSelectionChange(
 		event: SegmentedButton$SelectionChangeEvent,
 	): void {
-		MessageToast.show(`ui5.touch.controls: ${event.getParameter("key") ?? ""}`);
+		MessageToast.show(
+			this.getText("msgSegmentSelected", [event.getParameter("key") ?? ""]),
+		);
 	}
 
 	/**

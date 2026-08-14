@@ -475,3 +475,44 @@ html[class*="_hcb"] .ui5tcCodeBlock .hljs-link {
 	color: #4fc1ff;
 }
 
+/* ---------------------------------------------------------------------------
+   the release history
+
+   An entry is a sentence, and a list of sentences reads better with a bullet
+   in front of each. The bullet is a list marker rather than a pseudo element:
+   the markup inside a FormattedText is the text of the entry, so the bullet
+   has to come from the outside - and a marker is structure to a screen
+   reader, where a pseudo element would be read out as a row of dots. */
+.touchControlsReleaseItem.sapMFT {
+	display: list-item;
+	list-style: disc outside;
+	margin-left: 1rem;
+	margin-bottom: 0.25rem;
+	line-height: 1.5;
+}
+
+.touchControlsReleaseItem.sapMFT::marker {
+	color: var(--sapContent_LabelColor);
+}
+
+/* a name from the API is set apart by its face, not by a box: a border around
+   every second word would break the line up more than it helps */
+.touchControlsReleaseItem code {
+	font-family: var(--sapContent_FontFamily, monospace);
+	font-size: 0.875em;
+	background: var(--sapList_Background);
+	border-radius: 0.25rem;
+	padding: 0.05rem 0.25rem;
+}
+
+/* the marker of a group reads as a label: small, upright and in one colour
+   for every kind. A colour per kind made a patchwork of the page and said
+   nothing the word itself does not already say. */
+.touchControlsReleaseKind.sapMText {
+	font-size: var(--sapFontSmallSize);
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: var(--sapContent_LabelColor);
+}
+

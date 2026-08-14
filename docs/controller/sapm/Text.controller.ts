@@ -64,6 +64,6 @@ export default class Text extends BaseController {
 	}
 
 	public onTextPress(): void {
-		MessageToast.show("Text pressed");
+		MessageToast.show(this.getText("msgTextPressed"));
 	}
 }

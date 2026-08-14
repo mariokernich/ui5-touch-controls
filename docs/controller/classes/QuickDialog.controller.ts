@@ -10,99 +10,58 @@ import BaseController from "../BaseController";
 interface DemoButton {
 	/** identifies the dialog to open */
 	key: string;
+	/**
+	 * What the button says. This is the signature of the method it calls, e.g.
+	 * <code>show (Ok)</code>, so it reads the same in every language.
+	 */
 	text: string;
+	/** what that dialog is good for, in the language of the page */
 	description: string;
 }
 
-const showButtons: DemoButton[] = [
-	{
-		key: "ok",
-		text: "show (Ok)",
-		description: "Simple message dialog with a single emphasized Ok button.",
-	},
-	{
-		key: "yesNo",
-		text: "show (Yes / No)",
-		description: "Question-style dialog with Yes (emphasized) and No.",
-	},
-	{
-		key: "okCancel",
-		text: "show (Ok / Cancel)",
-		description: "Classic Ok/Cancel decision, Ok emphasized.",
-	},
+/**
+ * The buttons of the three groups. The captions are signatures and stay as
+ * they are; the descriptions are looked up when the page is built, so they
+ * follow the language.
+ */
+const showButtons: { key: string; text: string; textKey: string }[] = [
+	{ key: "ok", text: "show (Ok)", textKey: "qdOk" },
+	{ key: "yesNo", text: "show (Yes / No)", textKey: "qdYesNo" },
+	{ key: "okCancel", text: "show (Ok / Cancel)", textKey: "qdOkCancel" },
 	{
 		key: "retry",
 		text: "show (Retry / Ignore / Abort)",
-		description:
-			"Three actions, e.g. for recoverable errors; Retry emphasized.",
+		textKey: "qdRetry",
 	},
-	{
-		key: "delete",
-		text: "show (Delete / Cancel)",
-		description: "Destructive action confirmation; Delete emphasized.",
-	},
+	{ key: "delete", text: "show (Delete / Cancel)", textKey: "qdDelete" },
 ];
 
-const otherButtons: DemoButton[] = [
-	{
-		key: "confirm",
-		text: "confirm",
-		description: "Yes/No confirmation that resolves to a boolean.",
-	},
-	{
-		key: "input",
-		text: "input",
-		description: "Prompts for a text value; Enter submits as Ok.",
-	},
-	{
-		key: "select",
-		text: "select",
-		description:
-			"ComboBox selection from a list of items; resolves with the selected key.",
-	},
-	{
-		key: "error",
-		text: "error",
-		description:
-			"Error dialog with Error state, error icon and a Close button.",
-	},
+const otherButtons: { key: string; text: string; textKey: string }[] = [
+	{ key: "confirm", text: "confirm", textKey: "qdConfirm" },
+	{ key: "input", text: "input", textKey: "qdInput" },
+	{ key: "select", text: "select", textKey: "qdSelect" },
+	{ key: "error", text: "error", textKey: "qdError" },
 	{
 		key: "information",
 		text: "information",
-		description:
-			"Information dialog with Information state, info icon and an Ok button.",
+		textKey: "qdInformation",
 	},
-	{
-		key: "details",
-		text: "details",
-		description:
-			"Message with a 'Show details' link that reveals additional details on demand.",
-	},
+	{ key: "details", text: "details", textKey: "qdDetails" },
 ];
 
-const customButtons: DemoButton[] = [
+const customButtons: { key: string; text: string; textKey: string }[] = [
 	{
 		key: "saveDiscard",
 		text: "show (Save / Discard)",
-		description: "Custom string actions only; Save emphasized.",
+		textKey: "qdSaveDiscard",
 	},
 	{
 		key: "publish",
 		text: "show (Publish / Save Draft / Cancel)",
-		description:
-			"Mix of custom string actions and a MessageAction; Publish emphasized.",
+		textKey: "qdPublish",
 	},
-	{
-		key: "rename",
-		text: "input (Rename / Cancel)",
-		description: "Input dialog with a custom Rename action (emphasized).",
-	},
-	{
-		key: "theme",
-		text: "select (Apply / Reset)",
-		description:
-			"Select dialog with custom Apply/Reset actions; Apply emphasized.",
-	},
+	{ key: "rename", text: "input (Rename / Cancel)", textKey: "qdRename" },
+	{ key: "theme", text: "select (Apply / Reset)", textKey: "qdTheme" },
 ];
 
 /**
@@ -120,14 +79,14 @@ export default class QuickDialog extends BaseController {
 		this.model = new JSONModel(
 			{
 				title: "QuickDialog",
-				message: "This is a QuickDialog message.",
+				message: this.getText("qdDefaultMessage"),
 				size: SizeMode.L,
 				state: "None",
 				toolbarSpacer: false,
 				lastResult: "—",
-				showButtons: showButtons,
-				otherButtons: otherButtons,
-				customButtons: customButtons,
+				showButtons: this.describe(showButtons),
+				otherButtons: this.describe(otherButtons),
+				customButtons: this.describe(customButtons),
 			},
 			true,
 		);
@@ -153,6 +112,20 @@ if (action === MessageAction.Delete) {
 `,
 			"typescript",
 		);
+	}
+
+	/**
+	 * Turns the button lists into what the view binds: the caption is taken as
+	 * it is, the description is looked up in the bundle.
+	 */
+	private describe(
+		buttons: { key: string; text: string; textKey: string }[],
+	): DemoButton[] {
+		return buttons.map((button) => ({
+			key: button.key,
+			text: button.text,
+			description: this.getText(button.textKey),
+		}));
 	}
 
 	/**
@@ -206,8 +179,8 @@ if (action === MessageAction.Delete) {
 				break;
 			case "input":
 				void this.runInput(
-					"Your name",
-					"Enter a value…",
+					this.getText("qdLabelName"),
+					this.getText("qdPlaceholderValue"),
 					"",
 					[MessageAction.Ok, MessageAction.Cancel],
 					MessageAction.Ok,
@@ -215,8 +188,8 @@ if (action === MessageAction.Delete) {
 				break;
 			case "rename":
 				void this.runInput(
-					"New file name",
-					"Enter a name…",
+					this.getText("qdLabelFileName"),
+					this.getText("qdPlaceholderName"),
 					"report.pdf",
 					["Rename", MessageAction.Cancel],
 					"Rename",
@@ -224,12 +197,24 @@ if (action === MessageAction.Delete) {
 				break;
 			case "select":
 				void this.runSelect(
-					"Favorite fruit",
+					this.getText("qdLabelFruit"),
 					"apple",
 					[
-						{ key: "apple", text: "Apple", additionalText: "red" },
-						{ key: "banana", text: "Banana", additionalText: "yellow" },
-						{ key: "cherry", text: "Cherry", additionalText: "dark red" },
+						{
+							key: "apple",
+							text: this.getText("qdFruitApple"),
+							additionalText: this.getText("qdColorRed"),
+						},
+						{
+							key: "banana",
+							text: this.getText("qdFruitBanana"),
+							additionalText: this.getText("qdColorYellow"),
+						},
+						{
+							key: "cherry",
+							text: this.getText("qdFruitCherry"),
+							additionalText: this.getText("qdColorDarkRed"),
+						},
 					],
 					[MessageAction.Ok, MessageAction.Cancel],
 					MessageAction.Ok,
@@ -237,7 +222,7 @@ if (action === MessageAction.Delete) {
 				break;
 			case "theme":
 				void this.runSelect(
-					"Theme",
+					this.getText("qdLabelTheme"),
 					"horizon",
 					[
 						{ key: "horizon", text: "Horizon" },
@@ -297,7 +282,7 @@ if (action === MessageAction.Delete) {
 			});
 			this.setResult(`show → ${QuickDialog.label(action)}`);
 		} catch {
-			this.setResult("show → rejected (escape)");
+			this.setResult(`show → ${this.getText("qdRejected")}`);
 		}
 	}
 
@@ -309,7 +294,7 @@ if (action === MessageAction.Delete) {
 			});
 			this.setResult(`confirm → ${String(confirmed)}`);
 		} catch {
-			this.setResult("confirm → rejected (escape)");
+			this.setResult(`confirm → ${this.getText("qdRejected")}`);
 		}
 	}
 
@@ -333,7 +318,7 @@ if (action === MessageAction.Delete) {
 				`input → ${QuickDialog.label(result.action)}: "${result.value}"`,
 			);
 		} catch {
-			this.setResult("input → rejected (escape)");
+			this.setResult(`input → ${this.getText("qdRejected")}`);
 		}
 	}
 
@@ -348,7 +333,7 @@ if (action === MessageAction.Delete) {
 			const result = await Dialog.select({
 				...this.getBaseOptions(),
 				label: label,
-				placeholder: "Choose an item…",
+				placeholder: this.getText("qdPlaceholderItem"),
 				selectedKey: selectedKey,
 				items: items,
 				actions: actions,
@@ -358,7 +343,7 @@ if (action === MessageAction.Delete) {
 				`select → ${QuickDialog.label(result.action)}: "${result.selectedKey}"`,
 			);
 		} catch {
-			this.setResult("select → rejected (escape)");
+			this.setResult(`select → ${this.getText("qdRejected")}`);
 		}
 	}
 
@@ -370,7 +355,7 @@ if (action === MessageAction.Delete) {
 			});
 			this.setResult(`${kind} → ${QuickDialog.label(action)}`);
 		} catch {
-			this.setResult(`${kind} → rejected (escape)`);
+			this.setResult(`${kind} → ${this.getText("qdRejected")}`);
 		}
 	}
 
@@ -384,7 +369,7 @@ if (action === MessageAction.Delete) {
 			});
 			this.setResult(`details → ${QuickDialog.label(action)}`);
 		} catch {
-			this.setResult("details → rejected (escape)");
+			this.setResult(`details → ${this.getText("qdRejected")}`);
 		}
 	}
 }

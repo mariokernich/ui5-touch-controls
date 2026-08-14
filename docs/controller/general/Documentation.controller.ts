@@ -18,10 +18,13 @@ export default class Documentation extends BaseController {
 	public onInit(): void {
 		this.getView()?.setModel(
 			new JSONModel({
-				ported: portedControls,
-				new: newControls,
-				classes: classControls,
-				themes: themes,
+				ported: this.describe(portedControls),
+				new: this.describe(newControls),
+				classes: this.describe(classControls),
+				themes: themes.map((theme) => ({
+					...theme,
+					note: this.getText(theme.noteKey),
+				})),
 			}),
 			"docs",
 		);
@@ -92,6 +95,19 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 				},
 			],
 		});
+	}
+
+	/**
+	 * Resolves the sentences of the entries of a table. The tables bind the
+	 * description, which the entry itself only names by its key.
+	 */
+	private describe(controls: ControlDoc[]): (ControlDoc & {
+		description: string;
+	})[] {
+		return controls.map((control) => ({
+			...control,
+			description: this.getText(control.descriptionKey),
+		}));
 	}
 
 	/**

@@ -16,10 +16,7 @@ export default class Toolbar extends BaseController {
 	public onInit(): void {
 		this.setControlIntro("Toolbar");
 
-		this.getView()?.setModel(
-			new JSONModel({ size: SizeMode.L }, true),
-			"json",
-		);
+		this.getView()?.setModel(new JSONModel({ size: SizeMode.L }, true), "json");
 
 		this.setExample(`
 <mvc:View
@@ -63,6 +60,6 @@ export default class Toolbar extends BaseController {
 	}
 
 	public onDummyPress(): void {
-		MessageToast.show("Dummy button pressed");
+		MessageToast.show(this.getText("msgDummyPressed"));
 	}
 }

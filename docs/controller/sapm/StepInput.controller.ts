@@ -47,6 +47,6 @@ export default class StepInput extends BaseController {
 	public onChange(event: StepInput$ChangeEvent): void {
 		const value = event.getParameter("value");
 		this.model.setProperty("/value", value);
-		MessageToast.show(`Value changed: ${value}`);
+		MessageToast.show(this.getText("msgValueChanged", [value ?? ""]));
 	}
 }

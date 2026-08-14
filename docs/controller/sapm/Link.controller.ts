@@ -16,10 +16,9 @@ export default class Link extends BaseController {
 			new JSONModel(
 				{
 					size: SizeMode.L,
-					text: "Open the repository",
+					text: this.getText("linkSampleText"),
 					repository: "https://github.com/mariokernich/ui5-touch-controls",
-					longText:
-						"A rather long link text that does not fit into the available width",
+					longText: this.getText("linkSampleLongText"),
 					enabled: true,
 					wrapping: false,
 					subtle: false,
@@ -49,10 +48,10 @@ export default class Link extends BaseController {
 	}
 
 	public onSizedPress(): void {
-		MessageToast.show("ui5.touch.controls.Link pressed");
+		MessageToast.show(this.getText("msgTouchLinkPressed"));
 	}
 
 	public onStandardPress(): void {
-		MessageToast.show("sap.m.Link pressed");
+		MessageToast.show(this.getText("msgStandardLinkPressed"));
 	}
 }
