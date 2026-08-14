@@ -21,6 +21,9 @@ declare module "./SignaturePad" {
 
         /**
          * Hint shown on the baseline while the pad is empty.
+        
+        A pad is built with the hint of the library, in the language the
+        application runs in. An empty string leaves the baseline bare.
          */
         placeholder?: string | PropertyBindingInfo;
 
@@ -84,11 +87,17 @@ declare module "./SignaturePad" {
 
         /**
          * Hint shown on the baseline while the pad is empty.
+        
+        A pad is built with the hint of the library, in the language the
+        application runs in. An empty string leaves the baseline bare.
          */
         getPlaceholder(): string;
 
         /**
          * Hint shown on the baseline while the pad is empty.
+        
+        A pad is built with the hint of the library, in the language the
+        application runs in. An empty string leaves the baseline bare.
          */
         setPlaceholder(placeholder: string): this;
 

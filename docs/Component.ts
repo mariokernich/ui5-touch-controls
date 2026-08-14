@@ -46,6 +46,9 @@ export default class Component extends UIComponent {
 			sideExpanded: false,
 			language: getLanguageKey(),
 			version: this.getLibraryVersion(),
+			isPhone: Device.system.phone,
+			isTablet: Device.system.tablet,
+			isMobile: Device.system.phone || Device.system.tablet,
 		});
 		this.setModel(app, "app");
 

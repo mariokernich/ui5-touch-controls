@@ -1,330 +1,392 @@
 {
-  "_version": "1.65.0",
-  "sap.app": {
-    "id": "ui5.touch.controls.demo",
-    "type": "application",
-    "i18n": {
-      "bundleUrl": "i18n/i18n.properties",
-      "supportedLocales": ["", "de", "hi"],
-      "fallbackLocale": ""
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "ui5.touch.controls.demo",
+        "type": "application",
+        "i18n": {
+            "bundleUrl": "i18n/i18n.properties",
+            "supportedLocales": [
+                "",
+                "de",
+                "es",
+                "fr",
+                "hi",
+                "it",
+                "ja",
+                "nl",
+                "pl",
+                "pt",
+                "ru",
+                "tr",
+                "uk",
+                "zh"
+            ],
+            "fallbackLocale": ""
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "applicationVersion": {
+            "version": "1.3.0"
+        }
     },
-    "title": "{{appTitle}}",
-    "description": "{{appDescription}}",
-    "applicationVersion": {
-      "version": "1.2.0"
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.124.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.f": {},
+                "sap.tnt": {},
+                "ui5.touch.controls": {}
+            }
+        },
+        "rootView": {
+            "viewName": "ui5.touch.controls.demo.view.App",
+            "type": "XML",
+            "id": "app",
+            "async": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "ui5.touch.controls.demo.i18n.i18n",
+                    "supportedLocales": [
+                        "",
+                        "de",
+                        "es",
+                        "fr",
+                        "hi",
+                        "it",
+                        "ja",
+                        "nl",
+                        "pl",
+                        "pt",
+                        "ru",
+                        "tr",
+                        "uk",
+                        "zh"
+                    ],
+                    "fallbackLocale": ""
+                }
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "type": "View",
+                "viewType": "XML",
+                "path": "ui5.touch.controls.demo.view",
+                "controlId": "pages",
+                "controlAggregation": "pages",
+                "transition": "show",
+                "async": true,
+                "bypassed": {
+                    "target": "NotFound"
+                }
+            },
+            "routes": [
+                {
+                    "name": "GettingStarted",
+                    "pattern": "",
+                    "target": "GettingStarted"
+                },
+                {
+                    "name": "Setup",
+                    "pattern": "setup",
+                    "target": "Setup"
+                },
+                {
+                    "name": "Documentation",
+                    "pattern": "documentation",
+                    "target": "Documentation"
+                },
+                {
+                    "name": "Changelog",
+                    "pattern": "changelog",
+                    "target": "Changelog"
+                },
+                {
+                    "name": "Button",
+                    "pattern": "control/Button",
+                    "target": "Button"
+                },
+                {
+                    "name": "SegmentedButton",
+                    "pattern": "control/SegmentedButton",
+                    "target": "SegmentedButton"
+                },
+                {
+                    "name": "CheckBox",
+                    "pattern": "control/CheckBox",
+                    "target": "CheckBox"
+                },
+                {
+                    "name": "RadioButton",
+                    "pattern": "control/RadioButton",
+                    "target": "RadioButton"
+                },
+                {
+                    "name": "Switch",
+                    "pattern": "control/Switch",
+                    "target": "Switch"
+                },
+                {
+                    "name": "Select",
+                    "pattern": "control/Select",
+                    "target": "Select"
+                },
+                {
+                    "name": "ComboBox",
+                    "pattern": "control/ComboBox",
+                    "target": "ComboBox"
+                },
+                {
+                    "name": "DatePicker",
+                    "pattern": "control/DatePicker",
+                    "target": "DatePicker"
+                },
+                {
+                    "name": "TimePicker",
+                    "pattern": "control/TimePicker",
+                    "target": "TimePicker"
+                },
+                {
+                    "name": "Input",
+                    "pattern": "control/Input",
+                    "target": "Input"
+                },
+                {
+                    "name": "TextArea",
+                    "pattern": "control/TextArea",
+                    "target": "TextArea"
+                },
+                {
+                    "name": "StepInput",
+                    "pattern": "control/StepInput",
+                    "target": "StepInput"
+                },
+                {
+                    "name": "Text",
+                    "pattern": "control/Text",
+                    "target": "Text"
+                },
+                {
+                    "name": "Link",
+                    "pattern": "control/Link",
+                    "target": "Link"
+                },
+                {
+                    "name": "Toolbar",
+                    "pattern": "control/Toolbar",
+                    "target": "Toolbar"
+                },
+                {
+                    "name": "OverflowToolbar",
+                    "pattern": "control/OverflowToolbar",
+                    "target": "OverflowToolbar"
+                },
+                {
+                    "name": "QuickDialog",
+                    "pattern": "class/QuickDialog",
+                    "target": "QuickDialog"
+                },
+                {
+                    "name": "Keyboard",
+                    "pattern": "control/Keyboard",
+                    "target": "Keyboard"
+                },
+                {
+                    "name": "NumberPad",
+                    "pattern": "control/NumberPad",
+                    "target": "NumberPad"
+                },
+                {
+                    "name": "CustomKeyboard",
+                    "pattern": "control/CustomKeyboard",
+                    "target": "CustomKeyboard"
+                },
+                {
+                    "name": "KeyboardBase",
+                    "pattern": "control/KeyboardBase",
+                    "target": "KeyboardBase"
+                },
+                {
+                    "name": "BarcodeInput",
+                    "pattern": "control/BarcodeInput",
+                    "target": "BarcodeInput"
+                },
+                {
+                    "name": "SignaturePad",
+                    "pattern": "control/SignaturePad",
+                    "target": "SignaturePad"
+                }
+            ],
+            "targets": {
+                "GettingStarted": {
+                    "id": "GettingStarted",
+                    "viewId": "GettingStarted",
+                    "name": "general.GettingStarted"
+                },
+                "Setup": {
+                    "id": "Setup",
+                    "viewId": "Setup",
+                    "name": "general.Setup"
+                },
+                "Documentation": {
+                    "id": "Documentation",
+                    "viewId": "Documentation",
+                    "name": "general.Documentation"
+                },
+                "Changelog": {
+                    "id": "Changelog",
+                    "viewId": "Changelog",
+                    "name": "general.Changelog"
+                },
+                "Button": {
+                    "id": "Button",
+                    "viewId": "Button",
+                    "name": "sapm.Button"
+                },
+                "SegmentedButton": {
+                    "id": "SegmentedButton",
+                    "viewId": "SegmentedButton",
+                    "name": "sapm.SegmentedButton"
+                },
+                "CheckBox": {
+                    "id": "CheckBox",
+                    "viewId": "CheckBox",
+                    "name": "sapm.CheckBox"
+                },
+                "RadioButton": {
+                    "id": "RadioButton",
+                    "viewId": "RadioButton",
+                    "name": "sapm.RadioButton"
+                },
+                "Switch": {
+                    "id": "Switch",
+                    "viewId": "Switch",
+                    "name": "sapm.Switch"
+                },
+                "Select": {
+                    "id": "Select",
+                    "viewId": "Select",
+                    "name": "sapm.Select"
+                },
+                "ComboBox": {
+                    "id": "ComboBox",
+                    "viewId": "ComboBox",
+                    "name": "sapm.ComboBox"
+                },
+                "DatePicker": {
+                    "id": "DatePicker",
+                    "viewId": "DatePicker",
+                    "name": "sapm.DatePicker"
+                },
+                "TimePicker": {
+                    "id": "TimePicker",
+                    "viewId": "TimePicker",
+                    "name": "sapm.TimePicker"
+                },
+                "Input": {
+                    "id": "Input",
+                    "viewId": "Input",
+                    "name": "sapm.Input"
+                },
+                "TextArea": {
+                    "id": "TextArea",
+                    "viewId": "TextArea",
+                    "name": "sapm.TextArea"
+                },
+                "StepInput": {
+                    "id": "StepInput",
+                    "viewId": "StepInput",
+                    "name": "sapm.StepInput"
+                },
+                "Text": {
+                    "id": "Text",
+                    "viewId": "Text",
+                    "name": "sapm.Text"
+                },
+                "Link": {
+                    "id": "Link",
+                    "viewId": "Link",
+                    "name": "sapm.Link"
+                },
+                "Toolbar": {
+                    "id": "Toolbar",
+                    "viewId": "Toolbar",
+                    "name": "sapm.Toolbar"
+                },
+                "OverflowToolbar": {
+                    "id": "OverflowToolbar",
+                    "viewId": "OverflowToolbar",
+                    "name": "sapm.OverflowToolbar"
+                },
+                "QuickDialog": {
+                    "id": "QuickDialog",
+                    "viewId": "QuickDialog",
+                    "name": "classes.QuickDialog"
+                },
+                "Keyboard": {
+                    "id": "Keyboard",
+                    "viewId": "Keyboard",
+                    "name": "new.Keyboard"
+                },
+                "NumberPad": {
+                    "id": "NumberPad",
+                    "viewId": "NumberPad",
+                    "name": "new.NumberPad"
+                },
+                "CustomKeyboard": {
+                    "id": "CustomKeyboard",
+                    "viewId": "CustomKeyboard",
+                    "name": "new.CustomKeyboard"
+                },
+                "KeyboardBase": {
+                    "id": "KeyboardBase",
+                    "viewId": "KeyboardBase",
+                    "name": "new.KeyboardBase"
+                },
+                "BarcodeInput": {
+                    "id": "BarcodeInput",
+                    "viewId": "BarcodeInput",
+                    "name": "new.BarcodeInput"
+                },
+                "SignaturePad": {
+                    "id": "SignaturePad",
+                    "viewId": "SignaturePad",
+                    "name": "new.SignaturePad"
+                },
+                "NotFound": {
+                    "id": "NotFound",
+                    "viewId": "NotFound",
+                    "name": "general.NotFound",
+                    "transition": "show"
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                },
+                {
+                    "uri": "css/vs.css"
+                }
+            ]
+        },
+        "contentDensities": {
+            "compact": false,
+            "cozy": true
+        }
     }
-  },
-  "sap.ui": {
-    "technology": "UI5",
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    }
-  },
-  "sap.ui5": {
-    "dependencies": {
-      "minUI5Version": "1.124.0",
-      "libs": {
-        "sap.ui.core": {},
-        "sap.m": {},
-        "sap.f": {},
-        "sap.tnt": {},
-        "sap.ui.codeeditor": {},
-        "ui5.touch.controls": {}
-      }
-    },
-    "rootView": {
-      "viewName": "ui5.touch.controls.demo.view.App",
-      "type": "XML",
-      "id": "app",
-      "async": true
-    },
-    "models": {
-      "i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "settings": {
-          "bundleName": "ui5.touch.controls.demo.i18n.i18n",
-          "supportedLocales": ["", "de", "hi"],
-          "fallbackLocale": ""
-        }
-      }
-    },
-    "routing": {
-      "config": {
-        "routerClass": "sap.m.routing.Router",
-        "type": "View",
-        "viewType": "XML",
-        "path": "ui5.touch.controls.demo.view",
-        "controlId": "pages",
-        "controlAggregation": "pages",
-        "transition": "show",
-        "async": true,
-        "bypassed": {
-          "target": "NotFound"
-        }
-      },
-      "routes": [
-        {
-          "name": "GettingStarted",
-          "pattern": "",
-          "target": "GettingStarted"
-        },
-        {
-          "name": "Setup",
-          "pattern": "setup",
-          "target": "Setup"
-        },
-        {
-          "name": "Documentation",
-          "pattern": "documentation",
-          "target": "Documentation"
-        },
-        {
-          "name": "Changelog",
-          "pattern": "changelog",
-          "target": "Changelog"
-        },
-        {
-          "name": "Button",
-          "pattern": "control/Button",
-          "target": "Button"
-        },
-        {
-          "name": "SegmentedButton",
-          "pattern": "control/SegmentedButton",
-          "target": "SegmentedButton"
-        },
-        {
-          "name": "CheckBox",
-          "pattern": "control/CheckBox",
-          "target": "CheckBox"
-        },
-        {
-          "name": "RadioButton",
-          "pattern": "control/RadioButton",
-          "target": "RadioButton"
-        },
-        {
-          "name": "Switch",
-          "pattern": "control/Switch",
-          "target": "Switch"
-        },
-        {
-          "name": "Select",
-          "pattern": "control/Select",
-          "target": "Select"
-        },
-        {
-          "name": "ComboBox",
-          "pattern": "control/ComboBox",
-          "target": "ComboBox"
-        },
-        {
-          "name": "DatePicker",
-          "pattern": "control/DatePicker",
-          "target": "DatePicker"
-        },
-        {
-          "name": "TimePicker",
-          "pattern": "control/TimePicker",
-          "target": "TimePicker"
-        },
-        {
-          "name": "Input",
-          "pattern": "control/Input",
-          "target": "Input"
-        },
-        {
-          "name": "TextArea",
-          "pattern": "control/TextArea",
-          "target": "TextArea"
-        },
-        {
-          "name": "StepInput",
-          "pattern": "control/StepInput",
-          "target": "StepInput"
-        },
-        {
-          "name": "Text",
-          "pattern": "control/Text",
-          "target": "Text"
-        },
-        {
-          "name": "Link",
-          "pattern": "control/Link",
-          "target": "Link"
-        },
-        {
-          "name": "Toolbar",
-          "pattern": "control/Toolbar",
-          "target": "Toolbar"
-        },
-        {
-          "name": "OverflowToolbar",
-          "pattern": "control/OverflowToolbar",
-          "target": "OverflowToolbar"
-        },
-        {
-          "name": "QuickDialog",
-          "pattern": "class/QuickDialog",
-          "target": "QuickDialog"
-        },
-        {
-          "name": "VirtualKeyboard",
-          "pattern": "control/VirtualKeyboard",
-          "target": "VirtualKeyboard"
-        },
-        {
-          "name": "BarcodeInput",
-          "pattern": "control/BarcodeInput",
-          "target": "BarcodeInput"
-        },
-        {
-          "name": "SignaturePad",
-          "pattern": "control/SignaturePad",
-          "target": "SignaturePad"
-        }
-      ],
-      "targets": {
-        "GettingStarted": {
-          "id": "GettingStarted",
-          "viewId": "GettingStarted",
-          "name": "GettingStarted"
-        },
-        "Setup": {
-          "id": "Setup",
-          "viewId": "Setup",
-          "name": "Setup"
-        },
-        "Documentation": {
-          "id": "Documentation",
-          "viewId": "Documentation",
-          "name": "Documentation"
-        },
-        "Changelog": {
-          "id": "Changelog",
-          "viewId": "Changelog",
-          "name": "Changelog"
-        },
-        "Button": {
-          "id": "Button",
-          "viewId": "Button",
-          "name": "Button"
-        },
-        "SegmentedButton": {
-          "id": "SegmentedButton",
-          "viewId": "SegmentedButton",
-          "name": "SegmentedButton"
-        },
-        "CheckBox": {
-          "id": "CheckBox",
-          "viewId": "CheckBox",
-          "name": "CheckBox"
-        },
-        "RadioButton": {
-          "id": "RadioButton",
-          "viewId": "RadioButton",
-          "name": "RadioButton"
-        },
-        "Switch": {
-          "id": "Switch",
-          "viewId": "Switch",
-          "name": "Switch"
-        },
-        "Select": {
-          "id": "Select",
-          "viewId": "Select",
-          "name": "Select"
-        },
-        "ComboBox": {
-          "id": "ComboBox",
-          "viewId": "ComboBox",
-          "name": "ComboBox"
-        },
-        "DatePicker": {
-          "id": "DatePicker",
-          "viewId": "DatePicker",
-          "name": "DatePicker"
-        },
-        "TimePicker": {
-          "id": "TimePicker",
-          "viewId": "TimePicker",
-          "name": "TimePicker"
-        },
-        "Input": {
-          "id": "Input",
-          "viewId": "Input",
-          "name": "Input"
-        },
-        "TextArea": {
-          "id": "TextArea",
-          "viewId": "TextArea",
-          "name": "TextArea"
-        },
-        "StepInput": {
-          "id": "StepInput",
-          "viewId": "StepInput",
-          "name": "StepInput"
-        },
-        "Text": {
-          "id": "Text",
-          "viewId": "Text",
-          "name": "Text"
-        },
-        "Link": {
-          "id": "Link",
-          "viewId": "Link",
-          "name": "Link"
-        },
-        "Toolbar": {
-          "id": "Toolbar",
-          "viewId": "Toolbar",
-          "name": "Toolbar"
-        },
-        "OverflowToolbar": {
-          "id": "OverflowToolbar",
-          "viewId": "OverflowToolbar",
-          "name": "OverflowToolbar"
-        },
-        "QuickDialog": {
-          "id": "QuickDialog",
-          "viewId": "QuickDialog",
-          "name": "QuickDialog"
-        },
-        "VirtualKeyboard": {
-          "id": "VirtualKeyboard",
-          "viewId": "VirtualKeyboard",
-          "name": "VirtualKeyboard"
-        },
-        "BarcodeInput": {
-          "id": "BarcodeInput",
-          "viewId": "BarcodeInput",
-          "name": "BarcodeInput"
-        },
-        "SignaturePad": {
-          "id": "SignaturePad",
-          "viewId": "SignaturePad",
-          "name": "SignaturePad"
-        },
-        "NotFound": {
-          "id": "NotFound",
-          "viewId": "NotFound",
-          "name": "NotFound",
-          "transition": "show"
-        }
-      }
-    },
-    "resources": {
-      "css": [
-        {
-          "uri": "css/style.css"
-        }
-      ]
-    },
-    "contentDensities": {
-      "compact": false,
-      "cozy": true
-    }
-  }
 }

@@ -2,4 +2,35 @@
     background: var(--sapToolbar_Background);
     padding: 0 0.5rem;
 	overflow: hidden;
+	/* everything on a toolbar stands on one line: what has a height of its own
+	   keeps it, and what has not - a title, a text - is put in the middle of
+	   the line rather than against its upper edge. No gap of our own: the
+	   spacing between the children comes from the sap.m bar styles
+	   (sapMBarChild), the same as with the original toolbar. */
+	display: flex;
+	align-items: center;
+}
+
+/* A Ghost button is the outlined one meant to sit on a picture or a coloured
+   backdrop. It only looks that way inside a bar: on a plain page the themes
+   give it the ordinary button look, which is why the rule lives here and not
+   with the other types in Button.less. Both the outline and the hover fill
+   are derived from the Lite text colour, as sap.m does it - there is no
+   parameter group of its own for this type. */
+.sizedToolbar .sizedButtonGhost {
+	background-color: transparent;
+	border: 1px solid fade(@sapButton_Lite_TextColor, 50);
+	color: @sapButton_Lite_TextColor;
+}
+
+.sizedToolbar .sizedButtonGhost:hover:not(.sizedButtonActive) {
+	background-color: fade(@sapButton_Lite_TextColor, 20);
+	border: 1px solid fade(@sapButton_Lite_TextColor, 50);
+	color: @sapButton_Lite_TextColor;
+}
+
+.sizedToolbar .sizedButtonGhost.sizedButtonActive {
+	background-color: @sapButton_Lite_Active_Background;
+	border: 1px solid @sapButton_Lite_Active_BorderColor;
+	color: @sapButton_Active_TextColor;
 }

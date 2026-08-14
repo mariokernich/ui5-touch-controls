@@ -17,13 +17,15 @@ declare module "./Switch" {
         state?: boolean | PropertyBindingInfo | `{${string}}`;
 
         /**
-         * Label of the on state. Defaults to "ON"; with type
+         * Label of the on state. Empty, the switch says the "on" of the
+        library in the language the application runs in; with type
         <code>AcceptReject</code> a check mark is shown instead.
          */
         customTextOn?: string | PropertyBindingInfo;
 
         /**
-         * Label of the off state. Defaults to "OFF"; with type
+         * Label of the off state. Empty, the switch says the "off" of the
+        library in the language the application runs in; with type
         <code>AcceptReject</code> a cross is shown instead.
          */
         customTextOff?: string | PropertyBindingInfo;
@@ -67,13 +69,15 @@ declare module "./Switch" {
         // property: customTextOn
 
         /**
-         * Label of the on state. Defaults to "ON"; with type
+         * Label of the on state. Empty, the switch says the "on" of the
+        library in the language the application runs in; with type
         <code>AcceptReject</code> a check mark is shown instead.
          */
         getCustomTextOn(): string;
 
         /**
-         * Label of the on state. Defaults to "ON"; with type
+         * Label of the on state. Empty, the switch says the "on" of the
+        library in the language the application runs in; with type
         <code>AcceptReject</code> a check mark is shown instead.
          */
         setCustomTextOn(customTextOn: string): this;
@@ -81,13 +85,15 @@ declare module "./Switch" {
         // property: customTextOff
 
         /**
-         * Label of the off state. Defaults to "OFF"; with type
+         * Label of the off state. Empty, the switch says the "off" of the
+        library in the language the application runs in; with type
         <code>AcceptReject</code> a cross is shown instead.
          */
         getCustomTextOff(): string;
 
         /**
-         * Label of the off state. Defaults to "OFF"; with type
+         * Label of the off state. Empty, the switch says the "off" of the
+        library in the language the application runs in; with type
         <code>AcceptReject</code> a cross is shown instead.
          */
         setCustomTextOff(customTextOff: string): this;

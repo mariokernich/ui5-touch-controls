@@ -1,19 +1,37 @@
 /**
  * The content of the two control tables and the theme table on the
  * documentation page.
+ *
+ * The entries hold the facts about a control - what it is called, what it
+ * steps in for, what it extends - while the sentences about it live in the
+ * resource bundle. What is kept here is the key of a text, so the pages read
+ * in the language the demo is set to.
  */
 export interface ControlDoc {
 	/** name of the control, also the key of its page */
 	name: string;
 	/** the sap.m control it steps in for, or {@link NEW_CONTROL} */
 	replaces: string;
-	/** what this control does, shown on its page and in the control table */
-	description: string;
 	/**
-	 * What the sap.m original does. Shown next to the description on the page
-	 * of the control, so the two can be read against each other.
+	 * i18n key of one or two sentences that say what the control is. This is
+	 * the intro at the head of its page, so it stays shorter than
+	 * {@link ControlDoc.descriptionKey} and does not repeat it word for word.
 	 */
-	original?: string;
+	summaryKey: string;
+	/**
+	 * i18n key of what this control does, shown on its page and in the control
+	 * table.
+	 */
+	descriptionKey: string;
+	/** the class the control is built on, e.g. sap.ui.core.Control */
+	extendsClass: string;
+	/** the release of the library the control came with */
+	since: string;
+	/**
+	 * i18n key of what the sap.m original does. Shown next to the description
+	 * on the page of the control, so the two can be read against each other.
+	 */
+	originalKey?: string;
 	/**
 	 * The sap.m entity the documentation link points at. Only needed where
 	 * {@link ControlDoc.replaces} names more than one.
@@ -25,6 +43,17 @@ export interface ControlDoc {
 	 * navigation as well as in the tables of the documentation page.
 	 */
 	isClass?: boolean;
+	/**
+	 * Whether this is a base class that is not used directly. It has a page of
+	 * its own - the subclasses link to it - but it is left out of the tables of
+	 * the documentation page, which list what can be put into a view.
+	 */
+	isBase?: boolean;
+	/**
+	 * How the class is meant to be used, the way the demo kit says it. Defaults
+	 * to <code>public</code>; a base class is <code>restricted</code>.
+	 */
+	visibility?: string;
 }
 
 export interface ThemeDoc {
@@ -34,8 +63,8 @@ export interface ThemeDoc {
 	id: string;
 	/** whether the library ships a theme library for it */
 	supported: boolean;
-	/** short remark shown in the last column */
-	note: string;
+	/** i18n key of the short remark shown in the last column */
+	noteKey: string;
 }
 
 /** marker of the controls that have no sap.m equivalent */
@@ -45,155 +74,206 @@ const controls: ControlDoc[] = [
 	{
 		name: "Button",
 		replaces: "sap.m.Button",
-		original:
-			"The standard button of sap.m: text, icon, icon position, a button type and a press event. Its height is the one the theme prescribes and does not change.",
-		description:
-			"Button with configurable size, icon, icon position, type (all sap.m.ButtonType values), side padding and width. Fires press.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.0.0",
+		summaryKey: "docButtonSummary",
+		originalKey: "docButtonOriginal",
+		descriptionKey: "docButtonDescription",
 	},
 	{
 		name: "SegmentedButton",
 		replaces: "sap.m.SegmentedButton",
-		original:
-			"A row of joined buttons of which exactly one is selected, filled through sap.m.SegmentedButtonItem. Fires selectionChange.",
-		description:
-			"A row of joined buttons of which exactly one is selected, filled through tc:SegmentedButtonItem (key, text, icon, enabled). Supports selectedKey, width for evenly spread segments and fires selectionChange.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docSegmentedButtonSummary",
+		originalKey: "docSegmentedButtonOriginal",
+		descriptionKey: "docSegmentedButtonDescription",
 	},
 	{
 		name: "CheckBox",
 		replaces: "sap.m.CheckBox",
-		original:
-			"The standard check box of sap.m, with a label, a tristate selection and value states. Box and hit area have the size the theme gives them.",
-		description:
-			"Check box whose box, check mark, label and hit area scale together — at size M the geometry matches sap.m.CheckBox. Supports selected, partiallySelected, text, editable, wrapping, value states and width. Fires select.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docCheckBoxSummary",
+		originalKey: "docCheckBoxOriginal",
+		descriptionKey: "docCheckBoxDescription",
 	},
 	{
 		name: "RadioButton",
 		replaces: "sap.m.RadioButton / sap.m.RadioButtonGroup",
 		docEntity: "sap.m.RadioButtonGroup",
-		original:
-			"A radio button that is mutually exclusive with the others of its groupName, plus a group control that arranges a set of them in columns.",
-		description:
-			"Circle, dot, label and hit area scale together — at size M the geometry matches sap.m.RadioButton. Buttons sharing a groupName are mutually exclusive; tc:RadioButtonGroup arranges them in columns and hands its size, enabled, editable and value state down to them. Fires select.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docRadioButtonSummary",
+		originalKey: "docRadioButtonOriginal",
+		descriptionKey: "docRadioButtonDescription",
 	},
 	{
 		name: "Switch",
 		replaces: "sap.m.Switch",
-		original:
-			"An on/off switch of a fixed size, with an accept/reject variant and custom texts for the two states.",
-		description:
-			"Track, handle and label scale together, where sap.m.Switch is fixed at 4rem x 2rem. Supports state, customTextOn, customTextOff and the AcceptReject type; the colors come from the @sapButton_Track_* / @sapButton_Handle_* theme parameters. Fires change.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docSwitchSummary",
+		originalKey: "docSwitchOriginal",
+		descriptionKey: "docSwitchDescription",
 	},
 	{
 		name: "Select",
 		replaces: "sap.m.Select",
-		original:
-			"A drop-down filled with sap.ui.core.Item elements. The list it opens keeps the standard row height, however large the field is.",
-		description:
-			"Drop-down filled with plain sap.ui.core.Item elements. The list opens in a popover whose rows are as big as the field, so they can be hit with a finger — the native list of sap.m.Select keeps its standard row height however large the field is. Supports selectedKey, editable, forceSelection, value states and width. Fires change.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docSelectSummary",
+		originalKey: "docSelectOriginal",
+		descriptionKey: "docSelectDescription",
 	},
 	{
 		name: "ComboBox",
 		replaces: "sap.m.ComboBox",
-		original:
-			"A drop-down the user can also type into: what is typed filters the list, and a value that is not in the list is allowed.",
-		description:
-			"A Select the user can type into: free text is allowed and what is typed filters the list, whose rows are as big as the field. Works together with tc:VirtualKeyboard on a device without a keyboard. Supports value, selectedKey, placeholder, editable, value states, width and showSecondaryValues, which puts the additionalText of a sap.ui.core.ListItem at the end of a row. Fires change and selectionChange.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docComboBoxSummary",
+		originalKey: "docComboBoxOriginal",
+		descriptionKey: "docComboBoxDescription",
 	},
 	{
 		name: "DatePicker",
 		replaces: "sap.m.DatePicker",
-		original:
-			"A field with a calendar popup built on sap.ui.unified.Calendar, with minDate/maxDate and configurable value and display formats.",
-		description:
-			"Field with a calendar that is built from the library's own buttons, so a day is a square that grows with the size property instead of the fixed grid of sap.ui.unified.Calendar. Days and months view, minDate/maxDate, valueFormat and displayFormat (style or pattern). Fires change with value, dateValue and valid.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docDatePickerSummary",
+		originalKey: "docDatePickerOriginal",
+		descriptionKey: "docDatePickerDescription",
 	},
 	{
 		name: "TimePicker",
 		replaces: "sap.m.TimePicker",
-		original:
-			"A field with a popup in which hours and minutes are set on sliders that have to be dragged.",
-		description:
-			"Field with two columns of buttons - hours and minutes - so a time is picked with one tap on a target that grows with size, where sap.m.TimePicker uses a slider that has to be dragged. Supports minutesStep, valueFormat and displayFormat. Fires change once, when the popover closes.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docTimePickerSummary",
+		originalKey: "docTimePickerOriginal",
+		descriptionKey: "docTimePickerDescription",
 	},
 	{
 		name: "Input",
 		replaces: "sap.m.Input",
-		original:
-			"The standard single-line input of sap.m, with placeholder, maximum length, value states and suggestions.",
-		description:
-			"Single-line input with configurable size. A tc:VirtualKeyboard can be put into its virtualKeyboard aggregation; with showVirtualKeyboard it then opens in a popover below the field while the field has the focus and types into it.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.0.0",
+		summaryKey: "docInputSummary",
+		originalKey: "docInputOriginal",
+		descriptionKey: "docInputDescription",
 	},
 	{
 		name: "TextArea",
 		replaces: "sap.m.TextArea",
-		original:
-			"The standard multi-line input of sap.m, with rows, a maximum length and value states.",
-		description:
-			"Multi-line input with configurable size, rows, max length and value states. Takes a VirtualKeyboard in its virtualKeyboard aggregation just like the Input does; there the Enter key adds a line break. Fires change / liveChange.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.0.0",
+		summaryKey: "docTextAreaSummary",
+		originalKey: "docTextAreaOriginal",
+		descriptionKey: "docTextAreaDescription",
 	},
 	{
 		name: "Text",
 		replaces: "sap.m.Text",
-		original:
-			"A text control with wrapping and a maximum number of lines.",
-		description: "Text with configurable size and color. Fires press.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.0.0",
+		summaryKey: "docTextSummary",
+		originalKey: "docTextOriginal",
+		descriptionKey: "docTextDescription",
 	},
 	{
 		name: "Link",
 		replaces: "sap.m.Link",
-		original:
-			"An anchor with href and target, and the subtle and emphasized variants.",
-		description:
-			'Anchor with configurable size, so the area that can be hit with a finger grows with the label. Supports href, target, wrapping, subtle, emphasized and width; a target="_blank" link automatically gets rel="noopener noreferrer". Fires press.',
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docLinkSummary",
+		originalKey: "docLinkOriginal",
+		descriptionKey: "docLinkDescription",
 	},
 	{
 		name: "Toolbar",
 		replaces: "sap.m.Toolbar",
-		original:
-			"A bar that lays its content out in a row. Many header and footer aggregations in sap.m are typed to it.",
-		description:
-			"Toolbar container with a content aggregation. Usable in standard aggregations such as the footer of a Page or Dialog.",
+		extendsClass: "sap.m.Toolbar",
+		since: "1.0.0",
+		summaryKey: "docToolbarSummary",
+		originalKey: "docToolbarOriginal",
+		descriptionKey: "docToolbarDescription",
 	},
 	{
 		name: "OverflowToolbar",
 		replaces: "sap.m.OverflowToolbar",
-		original:
-			"A Toolbar that moves what does not fit into a popover behind a button with three dots, steered by the priorities of sap.m.OverflowToolbarLayoutData.",
-		description:
-			"Like tc:Toolbar, but content that does not fit into the available width is moved behind a button with three dots which opens a popover with the remaining content. Understands the priorities of sap.m.OverflowToolbarLayoutData.",
+		extendsClass: "sap.m.Toolbar",
+		since: "1.2.0",
+		summaryKey: "docOverflowToolbarSummary",
+		originalKey: "docOverflowToolbarOriginal",
+		descriptionKey: "docOverflowToolbarDescription",
 	},
 	{
 		name: "StepInput",
 		replaces: "sap.m.StepInput",
-		original:
-			"A numeric field with a minus and a plus button, with min, max and step.",
-		description:
-			"Minus button, input and plus button, sized together. Supports min, max, step. Fires change.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.0.0",
+		summaryKey: "docStepInputSummary",
+		originalKey: "docStepInputOriginal",
+		descriptionKey: "docStepInputDescription",
 	},
 	{
 		name: "BarcodeInput",
 		replaces: NEW_CONTROL,
-		description:
-			"Input field that tells a barcode scanner from a person typing: a run of at least minLength characters whose gaps stay below scanTimeout and that is closed by Enter fires scan, everything else fires change. prefix and suffix are cut off the code, clearOnScan empties the field for the next one.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docBarcodeInputSummary",
+		descriptionKey: "docBarcodeInputDescription",
 	},
 	{
-		name: "VirtualKeyboard",
+		name: "Keyboard",
 		replaces: NEW_CONTROL,
-		description:
-			"On-screen keyboard built from the library's own buttons. The mode property picks one of the ready-made layouts (QWERTY, Numeric, Phone, Calculator); mode Custom reads a layout of your own from the layout property (incl. {shift}, {space}, {bksp}, {enter}). Optional hardware key input, value binding and change / keyPress / enter events.",
+		extendsClass: "ui5.touch.controls.KeyboardBase",
+		since: "1.3.0",
+		summaryKey: "docKeyboardSummary",
+		descriptionKey: "docKeyboardDescription",
+	},
+	{
+		name: "NumberPad",
+		replaces: NEW_CONTROL,
+		extendsClass: "ui5.touch.controls.KeyboardBase",
+		since: "1.3.0",
+		summaryKey: "docNumberPadSummary",
+		descriptionKey: "docNumberPadDescription",
+	},
+	{
+		name: "CustomKeyboard",
+		replaces: NEW_CONTROL,
+		extendsClass: "ui5.touch.controls.KeyboardBase",
+		since: "1.3.0",
+		summaryKey: "docCustomKeyboardSummary",
+		descriptionKey: "docCustomKeyboardDescription",
+	},
+	{
+		name: "KeyboardBase",
+		replaces: NEW_CONTROL,
+		extendsClass: "sap.ui.core.Control",
+		since: "1.3.0",
+		isBase: true,
+		visibility: "restricted",
+		summaryKey: "docKeyboardBaseSummary",
+		descriptionKey: "docKeyboardBaseDescription",
 	},
 	{
 		name: "SignaturePad",
 		replaces: NEW_CONTROL,
-		description:
-			"A field to sign in with a finger or a stylus. Draws on a canvas and hands the signature over as a PNG data URL in value, so it can be bound to a model. Stroke width, placeholder and clear button follow the size property; the strokes survive a resize. Fires change.",
+		extendsClass: "sap.ui.core.Control",
+		since: "1.2.0",
+		summaryKey: "docSignaturePadSummary",
+		descriptionKey: "docSignaturePadDescription",
 	},
 	{
 		name: "QuickDialog",
 		replaces: "sap.m.MessageBox",
 		isClass: true,
-		description:
-			"Helper class for touch-ready dialogs, used from the controller instead of a view: show, confirm, information, error, input, select, details. Every method returns a Promise.",
+		extendsClass: "sap.ui.base.ManagedObject",
+		since: "1.1.0",
+		summaryKey: "docQuickDialogSummary",
+		descriptionKey: "docQuickDialogDescription",
 	},
 ];
 
@@ -209,7 +289,7 @@ export const classControls: ControlDoc[] = controls.filter(
 
 /** the controls that exist only in this library */
 export const newControls: ControlDoc[] = controls.filter(
-	(control) => control.replaces === NEW_CONTROL,
+	(control) => control.replaces === NEW_CONTROL && !control.isBase,
 );
 
 export const themes: ThemeDoc[] = [
@@ -217,37 +297,37 @@ export const themes: ThemeDoc[] = [
 		name: "Horizon",
 		id: "sap_horizon",
 		supported: true,
-		note: "Default theme of the demo",
+		noteKey: "docThemeHorizon",
 	},
 	{
 		name: "Horizon Dark",
 		id: "sap_horizon_dark",
 		supported: true,
-		note: "Dark variant of Horizon",
+		noteKey: "docThemeHorizonDark",
 	},
 	{
 		name: "Horizon High Contrast Black",
 		id: "sap_horizon_hcb",
 		supported: true,
-		note: "High contrast, dark background",
+		noteKey: "docThemeHorizonHcb",
 	},
 	{
 		name: "Horizon High Contrast White",
 		id: "sap_horizon_hcw",
 		supported: true,
-		note: "High contrast, light background",
+		noteKey: "docThemeHorizonHcw",
 	},
 	{
 		name: "Fiori 3 (Quartz Light)",
 		id: "sap_fiori_3",
 		supported: true,
-		note: "Previous default theme of SAPUI5 / OpenUI5",
+		noteKey: "docThemeFiori3",
 	},
 	{
 		name: "Fiori 3 Dark (Quartz Dark)",
 		id: "sap_fiori_3_dark",
 		supported: true,
-		note: "Dark variant of Fiori 3",
+		noteKey: "docThemeFiori3Dark",
 	},
 ];
 
@@ -257,11 +337,70 @@ export function getControlDoc(name: string): ControlDoc | undefined {
 }
 
 /**
- * Link to the page of a sap.m entity in the OpenUI5 demo kit.
+ * Link to the page of a UI5 entity in the demo kit.
  *
  * The hash form is the one the demo kit itself uses; the path without it is
  * routed on the client only and answers a plain request with a 404.
+ *
+ * Entities of this library are not in the demo kit, so they get no link.
  */
 export function getApiUrl(entity: string): string {
-	return `https://sdk.openui5.org/#/api/${entity}`;
+	return entity.startsWith("sap.")
+		? `https://sdk.openui5.org/#/api/${entity}`
+		: "";
+}
+
+/** where the sources of the library are read on GitHub */
+const SOURCE_BASE =
+	"https://github.com/mariokernich/ui5-touch-controls/blob/main/src";
+
+/** one file a class is written in, as the head of its page links it */
+export interface SourceFile {
+	/** the name of the file, e.g. <code>Button.less</code> */
+	file: string;
+	/** where it is read on GitHub */
+	url: string;
+}
+
+/**
+ * The style sheet a control is drawn by, where that is not the sheet carrying
+ * its own name.
+ *
+ * The three keyboards are drawn by the sheet of the class they descend from -
+ * a key looks the same whichever of them put it there - and a class that
+ * builds its user interface from other controls has no sheet of its own,
+ * which the empty string says.
+ */
+const STYLE_SHEETS: Record<string, string> = {
+	Keyboard: "Keyboard",
+	NumberPad: "Keyboard",
+	CustomKeyboard: "Keyboard",
+	KeyboardBase: "Keyboard",
+	QuickDialog: "",
+};
+
+/**
+ * The files a class is written in: the TypeScript it is implemented in and
+ * the style sheet it is drawn by, both linked into the repository.
+ *
+ * Every class of the library lives in a file that carries its name, so the
+ * name is all it takes to find it; only the style sheet is not always the one
+ * of the same name, see {@link STYLE_SHEETS}.
+ *
+ * The links point at the branch rather than at a tag: the demo runs from
+ * main, and a link to a fixed release would age with every version.
+ */
+export function getSources(name: string): SourceFile[] {
+	const sheet = name in STYLE_SHEETS ? STYLE_SHEETS[name] : name;
+	const paths = [`${name}.ts`];
+
+	if (sheet) {
+		paths.push(`themes/base/${sheet}.less`);
+	}
+
+	return paths.map((path) => ({
+		// the path is what finds the file, its last segment is what names it
+		file: path.slice(path.lastIndexOf("/") + 1),
+		url: `${SOURCE_BASE}/${path}`,
+	}));
 }

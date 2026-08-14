@@ -1,0 +1,298 @@
+<mvc:View
+	controllerName="ui5.touch.controls.demo.controller.sapm.SegmentedButton"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:control="ui5.touch.controls.demo.control"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls"
+	core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
+	height="100%">
+	<f:DynamicPage
+		headerExpanded="true"
+		class="touchControlsPage">
+		<!-- the head of the page reads like an entry of the demo kit: the name
+		     of the class, one or two sentences on what it is, and beside them
+		     the facts about the class -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{control>/fullName}" wrapping="true" />
+				</f:heading>
+				<f:expandedContent>
+					<Text text="{control>/summary}" />
+				</f:expandedContent>
+				<f:snappedContent>
+					<Text text="{control>/summary}" />
+				</f:snappedContent>
+			</f:DynamicPageTitle>
+		</f:title>
+
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<!-- the facts about the class, the way the demo kit lists them -->
+				<HBox wrap="Wrap">
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						class="touchControlsFact sapUiMediumMarginEnd">
+						<Text
+							text="{= ${i18n>introExtends} + ':' }"
+							class="touchControlsFactTitle" />
+						<control:LinkList external="{= !!${control>/extendsUrl} }">
+							<Link
+								text="{control>/extendsClass}"
+								href="{control>/extendsUrl}"
+								target="_blank"
+								enabled="{= !!${control>/extendsUrl} }" />
+						</control:LinkList>
+					</HBox>
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						visible="{control>/showOriginal}"
+						class="touchControlsFact sapUiMediumMarginEnd">
+						<Text
+							text="{= ${i18n>introOriginalLabel} + ':' }"
+							class="touchControlsFactTitle" />
+						<control:LinkList external="{= !!${control>/docUrl} }">
+							<Link
+								text="{control>/replaces}"
+								href="{control>/docUrl}"
+								target="_blank"
+								enabled="{= !!${control>/docUrl} }" />
+						</control:LinkList>
+					</HBox>
+					<ObjectAttribute
+						title="{i18n>introSince}"
+						text="{control>/since}"
+						class="sapUiMediumMarginEnd" />
+					<ObjectAttribute
+						title="{i18n>introVisibility}"
+						text="{control>/visibility}"
+						class="sapUiMediumMarginEnd" />
+					<!-- A class is written in more than one file - what it does and what
+					     it looks like - so this fact carries a link per file, written as
+					     an enumeration. -->
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						class="touchControlsFact">
+						<Text
+							text="{= ${i18n>introSource} + ':' }"
+							class="touchControlsFactTitle" />
+						<control:LinkList external="true" links="{control>/sources}">
+							<Link
+								text="{control>file}"
+								href="{control>url}"
+								target="_blank" />
+						</control:LinkList>
+					</HBox>
+				</HBox>
+			</f:DynamicPageHeader>
+		</f:header>
+
+		<f:content>
+			<VBox width="100%">
+				<!-- overview: the class in running text, longer than the summary
+				     in the head of the page -->
+				<Text text="{control>/description}" />
+				<Text
+					text="{
+						parts: ['i18n>overviewReplaces', 'control>/replaces', 'control>/original'],
+						formatter: 'formatMessage'
+					}"
+					class="sapUiSmallMarginTop" />
+				<Text
+					text="{i18n>introSizeNote}"
+					class="sapUiSmallMarginTop sapUiSmallMarginBottom" />
+
+				<!-- playground: three cards - what can be set, the control of
+				     this library, and the sap.m original beside it -->
+				<HBox
+					width="100%"
+					wrap="Wrap"
+					class="touchControlsCardRow touchControlsPlaygroundRow">
+					<!-- card 1: what can be set -->
+					<f:Card class="sapUiMediumMarginBottom">
+						<f:layoutData>
+							<FlexItemData growFactor="1" baseSize="0" />
+						</f:layoutData>
+						<f:header>
+							<cards:Header title="{i18n>optionsTitle}" />
+						</f:header>
+						<f:content>
+							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+								<core:Fragment
+									fragmentName="ui5.touch.controls.demo.view.SizeOption"
+									type="XML" />
+								<Text text="{i18n>sbSizeNote}" class="sapUiTinyMarginTop" />
+								<HBox alignItems="Center" wrap="Wrap">
+									<Text text="{i18n>lblBehavior}" width="100px" />
+									<CheckBox text="{i18n>cbEnabled}" selected="{json>/enabled}" />
+									<CheckBox text="{i18n>cbFullWidth}" select=".onFullWidthSelect" />
+								</HBox>
+								<Text
+									text="{i18n>sbSharedModelNote}"
+									class="sapUiTinyMarginTop" />
+							</VBox>
+						</f:content>
+					</f:Card>
+
+					<!-- card 2: the library control -->
+					<f:Card class="sapUiMediumMarginBottom">
+						<f:layoutData>
+							<FlexItemData growFactor="1" baseSize="0" />
+						</f:layoutData>
+						<f:header>
+							<cards:Header
+								title="{control>/fullName}"
+								subtitle="{i18n>cardTouch}" />
+						</f:header>
+						<f:content>
+							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+								<Title
+									text="{i18n>sbTextOnly}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<tc:SegmentedButton
+									size="{json>/size}"
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/view}"
+									selectionChange=".onSizedSelectionChange">
+									<tc:SegmentedButtonItem key="list" text="{i18n>segList}" />
+									<tc:SegmentedButtonItem key="grid" text="{i18n>segGrid}" />
+									<tc:SegmentedButtonItem key="table" text="{i18n>segTable}" />
+								</tc:SegmentedButton>
+
+								<Title
+									text="{i18n>sbIconAndText}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<tc:SegmentedButton
+									size="{json>/size}"
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/chart}">
+									<tc:SegmentedButtonItem key="line" text="{i18n>segLine}" icon="sap-icon://line-chart" />
+									<tc:SegmentedButtonItem key="bar" text="{i18n>segBar}" icon="sap-icon://bar-chart" />
+									<tc:SegmentedButtonItem key="pie" text="{i18n>segPie}" icon="sap-icon://pie-chart" />
+								</tc:SegmentedButton>
+
+								<Title
+									text="{i18n>sbIconOnly}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<tc:SegmentedButton
+									size="{json>/size}"
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/density}">
+									<tc:SegmentedButtonItem key="list" icon="sap-icon://list" />
+									<tc:SegmentedButtonItem key="grid" icon="sap-icon://grid" />
+									<tc:SegmentedButtonItem key="table" icon="sap-icon://table-view" />
+								</tc:SegmentedButton>
+
+								<Title
+									text="{i18n>sbDisabledItem}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<tc:SegmentedButton
+									size="{json>/size}"
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/mode}">
+									<tc:SegmentedButtonItem key="day" text="{i18n>segDay}" />
+									<tc:SegmentedButtonItem key="week" text="{i18n>segWeek}" />
+									<tc:SegmentedButtonItem key="month" text="{i18n>segMonth}" enabled="false" />
+								</tc:SegmentedButton>
+							</VBox>
+						</f:content>
+					</f:Card>
+
+					<!-- card 3: the sap.m original -->
+					<f:Card class="sapUiMediumMarginBottom">
+						<f:layoutData>
+							<FlexItemData growFactor="1" baseSize="0" />
+						</f:layoutData>
+						<f:header>
+							<cards:Header
+								title="{control>/replaces}"
+								subtitle="{i18n>cardOriginal}" />
+						</f:header>
+						<f:content>
+							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+								<Title
+									text="{i18n>sbTextOnly}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<SegmentedButton
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/view}"
+									selectionChange=".onStandardSelectionChange">
+									<items>
+										<SegmentedButtonItem key="list" text="{i18n>segList}" />
+										<SegmentedButtonItem key="grid" text="{i18n>segGrid}" />
+										<SegmentedButtonItem key="table" text="{i18n>segTable}" />
+									</items>
+								</SegmentedButton>
+
+								<Title
+									text="{i18n>sbIconAndText}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<SegmentedButton
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/chart}">
+									<items>
+										<SegmentedButtonItem key="line" text="{i18n>segLine}" icon="sap-icon://line-chart" />
+										<SegmentedButtonItem key="bar" text="{i18n>segBar}" icon="sap-icon://bar-chart" />
+										<SegmentedButtonItem key="pie" text="{i18n>segPie}" icon="sap-icon://pie-chart" />
+									</items>
+								</SegmentedButton>
+
+								<Title
+									text="{i18n>sbIconOnly}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<SegmentedButton
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/density}">
+									<items>
+										<SegmentedButtonItem key="list" icon="sap-icon://list" />
+										<SegmentedButtonItem key="grid" icon="sap-icon://grid" />
+										<SegmentedButtonItem key="table" icon="sap-icon://table-view" />
+									</items>
+								</SegmentedButton>
+
+								<Title
+									text="{i18n>sbDisabledItem}"
+									level="H6"
+									class="sapUiSmallMarginTop sapUiTinyMarginBottom" />
+								<SegmentedButton
+									enabled="{json>/enabled}"
+									width="{json>/width}"
+									selectedKey="{json>/mode}">
+									<items>
+										<SegmentedButtonItem key="day" text="{i18n>segDay}" />
+										<SegmentedButtonItem key="week" text="{i18n>segWeek}" />
+										<SegmentedButtonItem key="month" text="{i18n>segMonth}" enabled="false" />
+									</items>
+								</SegmentedButton>
+							</VBox>
+						</f:content>
+					</f:Card>
+				</HBox>
+
+				<core:Fragment
+					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+					type="XML" />
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

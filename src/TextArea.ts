@@ -1,11 +1,12 @@
 import Popover from "sap/m/Popover";
+import { centerKeyboardPopover } from "./centerKeyboardPopover";
 import { PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import { ISized, SizeMode, sizeClass } from "./library";
-import type VirtualKeyboard from "./VirtualKeyboard";
+import type KeyboardBase from "./KeyboardBase";
 
 /**
  * A sized multi-line text input control optimized for touch devices.
@@ -27,7 +28,7 @@ export default class TextArea extends Control implements ISized {
 	private focusoutListener: ((event: FocusEvent) => void) | null = null;
 
 	/** the keyboards whose events are already connected to this field */
-	private readonly wiredKeyboards = new WeakSet<VirtualKeyboard>();
+	private readonly wiredKeyboards = new WeakSet<KeyboardBase>();
 
 	/**
 	 * Whether the value was last written by the virtual keyboard. Typing on it
@@ -99,12 +100,12 @@ export default class TextArea extends Control implements ISized {
 			},
 			/**
 			 * Indicates whether the keyboard in the
-			 * {@link #getVirtualKeyboard virtualKeyboard} aggregation is shown in
+			 * {@link #getKeyboard keyboard} aggregation is shown in
 			 * a popover below the field while the field has the focus.
 			 *
 			 * Without a keyboard in that aggregation the property has no effect.
 			 */
-			showVirtualKeyboard: {
+			showKeyboard: {
 				type: "boolean",
 				group: "Behavior",
 				defaultValue: false,
@@ -113,7 +114,7 @@ export default class TextArea extends Control implements ISized {
 		aggregations: {
 			/**
 			 * The on-screen keyboard shown while the field has the focus, if
-			 * {@link #getShowVirtualKeyboard showVirtualKeyboard} is set.
+			 * {@link #getShowKeyboard showKeyboard} is set.
 			 *
 			 * The keyboard types into this field: its value is replaced with the
 			 * value of the field whenever the popover opens, every key press
@@ -121,18 +122,18 @@ export default class TextArea extends Control implements ISized {
 			 * as Enter does in a multi-line field. The <code>maxLength</code> of
 			 * the field is handed down to it.
 			 */
-			virtualKeyboard: {
-				type: "ui5.touch.controls.VirtualKeyboard",
+			keyboard: {
+				type: "ui5.touch.controls.KeyboardBase",
 				multiple: false,
 				// the keyboard is rendered inside the popover, but stays
-				// reachable through getVirtualKeyboard()
+				// reachable through getKeyboard()
 				forwarding: {
 					getter: "getKeyboardPopover",
 					aggregation: "content",
 				},
 			},
 			/**
-			 * The popover carrying the virtual keyboard.
+			 * The popover carrying the keyboard.
 			 */
 			_popover: {
 				type: "sap.m.Popover",
@@ -251,23 +252,16 @@ export default class TextArea extends Control implements ISized {
 
 	/**
 	 * The inner textarea element is what the user types into, so it is also
-	 * what gets the focus - e.g. when the popover of the virtual keyboard hands
+	 * what gets the focus - e.g. when the popover of the keyboard hands
 	 * the focus back to the field.
 	 */
 	getFocusDomRef(): Element | null {
 		return this.getInnerTextArea() ?? super.getFocusDomRef();
 	}
 
-	/**
-	 * Returns the keyboard of the <code>virtualKeyboard</code> aggregation, or
-	 * <code>null</code> when there is none.
-	 */
-	private getKeyboard(): VirtualKeyboard | null {
-		return this.getAggregation("virtualKeyboard") as VirtualKeyboard | null;
-	}
 
 	onBeforeRendering(): void {
-		// e.g. when showVirtualKeyboard is switched off while the popover is
+		// e.g. when showKeyboard is switched off while the popover is
 		// still open
 		if (!this.canShowKeyboard()) {
 			this.closeKeyboard();
@@ -353,7 +347,7 @@ export default class TextArea extends Control implements ISized {
 	 * Returns the popover carrying the virtual keyboard, creating it on first
 	 * access.
 	 *
-	 * This is the forwarding target of the <code>virtualKeyboard</code>
+	 * This is the forwarding target of the <code>keyboard</code>
 	 * aggregation, so it is also called while the settings of the constructor
 	 * are applied.
 	 */
@@ -375,6 +369,12 @@ export default class TextArea extends Control implements ISized {
 					"mousedown",
 					this.keepFocus,
 				);
+				// a docked keyboard is placed by the stylesheet, so it is left
+				// alone here
+				const opened = this.getAggregation("_popover") as Popover | null;
+				if (opened && !this.getKeyboard()?.getDocked()) {
+					centerKeyboardPopover(this, opened);
+				}
 			});
 			popover.attachBeforeClose(() => {
 				this.getPopoverDomRef()?.removeEventListener(
@@ -407,7 +407,7 @@ export default class TextArea extends Control implements ISized {
 	 */
 	private canShowKeyboard(): boolean {
 		return (
-			this.getShowVirtualKeyboard() &&
+			this.getShowKeyboard() &&
 			this.getEnabled() &&
 			this.getEditable() &&
 			this.getKeyboard() !== null
@@ -434,6 +434,11 @@ export default class TextArea extends Control implements ISized {
 		// respects its limit
 		keyboard.setValue(this.getValue());
 		keyboard.setMaxLength(this.getMaxLength());
+		// a docked keyboard belongs at the bottom edge of the screen rather
+		// than at the field, and the popover is the element UI5 places - so it
+		// is the one that carries the docking. Asked every time, because the
+		// property can change between two openings.
+		popover.toggleStyleClass("sizedKeyboardPopoverDocked", keyboard.getDocked());
 
 		popover.openBy(this);
 	}
@@ -449,7 +454,7 @@ export default class TextArea extends Control implements ISized {
 	 * Connects a keyboard to this field. Every keyboard is only connected once,
 	 * however often the popover is opened.
 	 */
-	private wireKeyboard(keyboard: VirtualKeyboard): void {
+	private wireKeyboard(keyboard: KeyboardBase): void {
 		if (this.wiredKeyboards.has(keyboard)) {
 			return;
 		}

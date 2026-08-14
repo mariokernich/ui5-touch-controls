@@ -1,17 +1,86 @@
 .sizedSegmentedButton {
 	display: inline-flex;
 	align-items: center;
+	/* The group never grows past the room it is given.
+
+	   The size says how large a segment would like to be, and where there is
+	   room for it that is what it gets. Where there is not, the segments give
+	   way instead: a group that reaches out of the box around it is cut off by
+	   it, and a segment that is cut off cannot be read and cannot be hit. Less
+	   width is the lesser loss.
+
+	   The border counts towards that width: in the themes that draw one around
+	   the whole group, the group would otherwise stand two pixels wider than
+	   the room it was measured against. */
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 /* the segments are joined into one group, so only the outer corners are
    rounded and the borders in between are collapsed into a single line */
 .sizedSegmentedButton > .sizedButton {
 	border-radius: 0;
-	flex-shrink: 0;
+	/* what lets a segment give way at all: a flex item does not shrink below
+	   the width of what it holds unless it is told that it may */
+	min-width: 0;
+	/* the room beside the label is laid out below instead - see there */
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .sizedSegmentedButton > .sizedButton + .sizedButton {
 	margin-left: -1px;
+}
+
+/* What gives way when a segment has to be narrower than its size asks for:
+   the room beside the label first, the label itself only after that. A label
+   standing closer to the edge of its segment still reads; a label with its
+   letters cut off does not.
+
+   That order is why the padding of a segment is not written on the segment
+   but laid out beside the label as two boxes of their own. A padding is a
+   fixed amount and stays what it is while everything around it is squeezed;
+   a box in a row may shrink, and how readily it does so against its
+   neighbours is what the shrink factor says. A hundred to one is what puts
+   the label last in line - the two boxes are all but empty before the first
+   letter is given up. */
+.sizedSegmentedButton > .sizedButton > .sizedButtonInner {
+	min-width: 0;
+}
+
+/* The two boxes are written as growing from nothing rather than as standing
+   at the width of the padding, and that is not a detail: a flex item that may
+   shrink is counted into the width its row would like to have by less than it
+   takes up, so a row of such boxes asks for less than it needs and the group
+   comes out narrower than the room it was given - which is how the segments
+   ended up squeezed even where nothing was squeezing them. Grown into place
+   from a basis of nothing they are not counted at all, and the group is as
+   wide as its labels ask for and its room allows.
+
+   The width is what they grow to, the maximum what they never grow past: the
+   padding the size prescribes, no more. */
+.sizedSegmentedButton > .sizedButton > .sizedButtonInner::before,
+.sizedSegmentedButton > .sizedButton > .sizedButtonInner::after {
+	content: "";
+	flex: 1 100 0;
+	width: var(--sized-button-padding-x);
+	max-width: var(--sized-button-padding-x);
+	min-width: 0;
+}
+
+/* an icon is a glyph of a fixed size: it cannot be made narrower, only cut
+   off, so it is left out of the squeezing */
+.sizedSegmentedButton > .sizedButton .sizedButtonIcon {
+	flex-shrink: 0;
+}
+
+/* and when even the empty segment is not enough, the label is cut with an
+   ellipsis rather than written across the segment beside it */
+.sizedSegmentedButton > .sizedButton .sizedButtonContent {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .sizedSegmentedButton > .sizedButton:first-child {

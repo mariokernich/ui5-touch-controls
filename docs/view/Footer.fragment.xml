@@ -1,0 +1,62 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<!-- The footer of the shell. It sits below the NavContainer rather than
+	     inside a page, so it is written once and shows on every page.
+
+	     It is a wrapping flex box and not a toolbar, because a toolbar is a
+	     single line by definition: it shrinks its entries until they truncate,
+	     and an OverflowToolbar only moves those entries away that say of
+	     themselves that they may be moved - which a link, a text and a
+	     formatted text do not. A footer of nothing but those three would have
+	     kept an overflow button that never fills, and its content would have
+	     been cut instead. Wrapping is what a footer wants anyway: what does not
+	     fit beside something goes below it.
+
+	     Two groups, so the line breaks where the sentence ends and not in the
+	     middle of one: what the project is on the one side, what it asks for on
+	     the other. On a phone the groups dissolve (display: contents) and the
+	     entries flow as one centred block - see the stylesheet. -->
+	<FlexBox
+		renderType="Bare"
+		wrap="Wrap"
+		justifyContent="SpaceBetween"
+		alignItems="Center"
+		class="touchControlsFooter">
+		<!-- who built it, under which licence, with what -->
+		<FlexBox
+			renderType="Bare"
+			wrap="Wrap"
+			alignItems="Center"
+			class="touchControlsFooterGroup">
+			<FormattedText
+				htmlText="{i18n>footerCredits}"
+				class="touchControlsFooterText" />
+			<Link
+				text="{i18n>footerLicense}"
+				href="https://github.com/mariokernich/ui5-touch-controls/blob/main/LICENSE"
+				target="_blank" />
+		</FlexBox>
+
+		<!-- the ask: a star or a follow, said plainly and without a badge -->
+		<FlexBox
+			renderType="Bare"
+			wrap="Wrap"
+			alignItems="Center"
+			class="touchControlsFooterGroup">
+			<Text
+				text="{i18n>footerLikeIt}"
+				class="touchControlsFooterText touchControlsFooterAside" />
+			<Link
+				text="{i18n>footerStar}"
+				href="https://github.com/mariokernich/ui5-touch-controls"
+				target="_blank" />
+			<!-- and the way back: an issue, prefilled with the page it was opened
+			     from, so a report arrives with its context -->
+			<Link
+				text="{i18n>footerIssue}"
+				href="{app>/issueUrl}"
+				target="_blank" />
+		</FlexBox>
+	</FlexBox>
+</core:FragmentDefinition>

@@ -8,7 +8,7 @@
  *
  * The generated font is registered in library.ts via IconPool.registerFont
  * and can then be used through `sap-icon://touch/<icon-name>` in any control
- * that supports icons (e.g. the VirtualKeyboard control).
+ * that supports icons (e.g. the keyboards of the library).
  *
  * Runs automatically before build/start (see package.json).
  */

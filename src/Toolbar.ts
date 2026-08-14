@@ -1,6 +1,7 @@
 import ToolbarBase from "sap/m/Toolbar";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
+import { fitDialogBars } from "./fitDialogBars";
 
 /**
  * @namespace ui5.touch.controls
@@ -25,6 +26,11 @@ export default class Toolbar extends ToolbarBase {
 	constructor(id?: string, settings?: $ToolbarSettings_1);
 	constructor(id?: string, settings?: $ToolbarSettings_1) {
 		super(id, settings);
+	}
+
+	onAfterRendering(event: jQuery.Event): void {
+		super.onAfterRendering(event);
+		fitDialogBars(this);
 	}
 
 	static renderer = {

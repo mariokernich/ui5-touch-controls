@@ -194,7 +194,7 @@
 	border: 1px solid @sapButton_Success_Active_BorderColor;
 	color: @sapButton_Success_Active_TextColor;
 	-webkit-box-shadow:inset 0 0 0 1px @sapButton_Success_Active_BorderColor;
-	box-shadow:inset 0 0 0 1px  @sapButton_Success_Active_BorderColor;	
+	box-shadow:inset 0 0 0 1px  @sapButton_Success_Active_BorderColor;
 }
 
 .sizedButtonNegative {
@@ -216,4 +216,113 @@
 	color: @sapButton_Negative_Active_TextColor;
 	-webkit-box-shadow:inset 0 0 0 1px @sapButton_Negative_Active_BorderColor;
 	box-shadow:inset 0 0 0 1px @sapButton_Negative_Active_BorderColor;
+}
+
+/* ===========================================================================
+   The quiet types.
+
+   Back, Up and Transparent are one and the same look in sap.m: it has no
+   parameter group of its own for them but draws all three from the "Lite"
+   set - a button without a filled background, the way one looks in the bar of
+   a page. Default needs no rule at all, because the plain .sizedButton above
+   already is the default look.
+   =========================================================================== */
+
+.sizedButtonBack,
+.sizedButtonUp,
+.sizedButtonTransparent {
+	background-color: @sapButton_Lite_Background;
+	border: 1px solid @sapButton_Lite_BorderColor;
+	border-radius: @sapButton_BorderCornerRadius;
+	color: @sapButton_Lite_TextColor;
+}
+
+.sizedButtonBack:hover:not(.sizedButtonActive),
+.sizedButtonUp:hover:not(.sizedButtonActive),
+.sizedButtonTransparent:hover:not(.sizedButtonActive) {
+	background-color: @sapButton_Lite_Hover_Background;
+	border: 1px solid @sapButton_Lite_Hover_BorderColor;
+	color: @sapButton_Lite_Hover_TextColor;
+}
+
+.sizedButtonBack.sizedButtonActive,
+.sizedButtonUp.sizedButtonActive,
+.sizedButtonTransparent.sizedButtonActive {
+	background-color: @sapButton_Lite_Active_Background;
+	border: 1px solid @sapButton_Lite_Active_BorderColor;
+	color: @sapButton_Active_TextColor;
+	-webkit-box-shadow: inset 0 0 0 1px @sapButton_Lite_Active_BorderColor;
+	box-shadow: inset 0 0 0 1px @sapButton_Lite_Active_BorderColor;
+}
+
+/* Ghost is the outlined button meant to sit on a picture or a coloured
+   backdrop. How much of that outline survives on a plain page is up to the
+   theme, and the themes genuinely disagree: the two Horizon defaults give it
+   the ordinary button background, while Fiori 3 and all four high contrast
+   themes leave it transparent. Reading @sapButton_Lite_Background is what
+   reproduces both without a guard per theme - that parameter is the very one
+   they differ in, the button background in the Horizon defaults and
+   transparent everywhere else.
+
+   The outline and the hover fill are derived from the Lite text colour, the
+   way sap.m does it; this type has no parameter group of its own. Inside a
+   bar Ghost always keeps the outlined look - that rule sits next to the other
+   bar buttons in Toolbar.less. */
+.sizedButtonGhost {
+	background-color: @sapButton_Lite_Background;
+	border: 1px solid fade(@sapButton_Lite_TextColor, 50);
+	border-radius: @sapButton_BorderCornerRadius;
+	color: @sapButton_Lite_TextColor;
+}
+
+.sizedButtonGhost:hover:not(.sizedButtonActive) {
+	background-color: fade(@sapButton_Lite_TextColor, 20);
+	border: 1px solid fade(@sapButton_Lite_TextColor, 50);
+	color: @sapButton_Lite_TextColor;
+}
+
+.sizedButtonGhost.sizedButtonActive {
+	background-color: @sapButton_Hover_Background;
+	border: 1px solid @sapButton_Lite_Active_BorderColor;
+	color: @sapButton_Active_TextColor;
+	-webkit-box-shadow: inset 0 0 0 1px @sapButton_Lite_Active_BorderColor;
+	box-shadow: inset 0 0 0 1px @sapButton_Lite_Active_BorderColor;
+}
+
+/* Neutral is the informative counterpart to Success and Negative, and unlike
+   the types above it does have a parameter group of its own. */
+.sizedButtonNeutral {
+	background-color: @sapButton_Neutral_Background;
+	border: 1px solid @sapButton_Neutral_BorderColor;
+	border-radius: @sapButton_BorderCornerRadius;
+	color: @sapButton_Neutral_TextColor;
+}
+
+.sizedButtonNeutral:hover:not(.sizedButtonActive) {
+	background-color: @sapButton_Neutral_Hover_Background;
+	border: 1px solid @sapButton_Neutral_Hover_BorderColor;
+	color: @sapButton_Neutral_Hover_TextColor;
+}
+
+.sizedButtonNeutral.sizedButtonActive {
+	background-color: @sapButton_Neutral_Active_Background;
+	border: 1px solid @sapButton_Neutral_Active_BorderColor;
+	color: @sapButton_Neutral_Active_TextColor;
+	-webkit-box-shadow: inset 0 0 0 1px @sapButton_Neutral_Active_BorderColor;
+	box-shadow: inset 0 0 0 1px @sapButton_Neutral_Active_BorderColor;
+}
+
+/* Unstyled means what it says: sap.m draws no button at all, only the label,
+   so that an application can put its own look on top. The rules below undo
+   what .sizedButton set - the size property is left alone, because a caller
+   who sizes a button still wants that size honoured. */
+.sizedButtonUnstyled,
+.sizedButtonUnstyled:hover:not(.sizedButtonActive),
+.sizedButtonUnstyled.sizedButtonActive {
+	background-color: transparent;
+	border: none;
+	border-radius: 0;
+	color: inherit;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }

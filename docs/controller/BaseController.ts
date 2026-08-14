@@ -1,16 +1,22 @@
 import type ResourceBundle from "sap/base/i18n/ResourceBundle";
+import type PropertyBinding from "sap/ui/model/PropertyBinding";
 import Controller from "sap/ui/core/mvc/Controller";
 import type Router from "sap/ui/core/routing/Router";
 import type UIComponent from "sap/ui/core/UIComponent";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type ResourceModel from "sap/ui/model/resource/ResourceModel";
-import { getApiUrl, getControlDoc } from "../model/documentation";
+import {
+	getApiUrl,
+	getControlDoc,
+	getSources,
+	NEW_CONTROL,
+} from "../model/documentation";
 
 /** a code snippet shown in a card of a page */
 export interface Snippet {
 	/** the code itself */
 	code: string;
-	/** the CodeEditor language, e.g. "xml", "json", "sh" or "typescript" */
+	/** the highlight.js language, e.g. "xml", "json", "sh" or "typescript" */
 	language?: string;
 	/** card title; without one the view falls back to a translated default */
 	title?: string;
@@ -24,11 +30,60 @@ export interface Snippet {
  * @namespace ui5.touch.controls.demo.controller
  */
 export default abstract class BaseController extends Controller {
+	/** what {@link fillOnLanguageChange} listens on, so it can be taken back */
+	private languageBinding?: PropertyBinding;
+
 	/**
 	 * Returns the router of the component.
 	 */
 	public getRouter(): Router {
 		return (this.getOwnerComponent() as UIComponent).getRouter();
+	}
+
+	/**
+	 * Fills a part of a page now, and again whenever the language changes.
+	 *
+	 * A text bound against the i18n model follows a language switch by itself
+	 * - UI5 re-evaluates the binding. A text read with {@link getText} does
+	 * not: it is a value in a JSON model by then, and nothing tells the model
+	 * that the bundle underneath has changed. That is what this is for.
+	 *
+	 * It is meant for what the visitor cannot edit - the entries of a list,
+	 * for instance. The value a field starts on is deliberately left out: a
+	 * playground is there to be typed in, and refilling it on a language
+	 * switch would throw that away.
+	 */
+	protected fillOnLanguageChange(fill: () => void): void {
+		fill();
+
+		const model = this.getOwnerComponent()?.getModel("i18n") as
+			| ResourceModel
+			| undefined;
+
+		if (!model) {
+			return;
+		}
+
+		// A binding against the bundle is what says that the language has
+		// changed - which is exactly the signal the views themselves listen
+		// to. The announcement of the change comes earlier than that and is of
+		// no use here: while it is being handed around, the model can still
+		// carry the bundle of the language that is on its way out, and the
+		// refill would put that one back. The value of the binding is never
+		// read; the key below is only a key that exists.
+		this.languageBinding = model.bindProperty("/appTitle");
+		this.languageBinding.attachChange(() => {
+			fill();
+		});
+	}
+
+	/**
+	 * Takes back what {@link fillOnLanguageChange} registered. A controller
+	 * that overrides this has to call it.
+	 */
+	public onExit(): void {
+		this.languageBinding?.destroy();
+		this.languageBinding = undefined;
 	}
 
 	/**
@@ -47,7 +102,7 @@ export default abstract class BaseController extends Controller {
 	 *
 	 * The texts come from the control table of the documentation page, so the
 	 * two never drift apart, and the link points at the entity of the original
-	 * in the OpenUI5 demo kit.
+	 * in the UI5 demo kit.
 	 *
 	 * @param name the key of the page, which is also the name of the control
 	 */
@@ -58,11 +113,32 @@ export default abstract class BaseController extends Controller {
 			return;
 		}
 
+		// a base class of this library that has a page of its own is linked to
+		// that page instead of to the demo kit, which does not know it
+		const extendsDoc = getControlDoc(
+			doc.extendsClass.replace("ui5.touch.controls.", ""),
+		);
+
 		this.getView()?.setModel(
 			new JSONModel({
 				...doc,
+				// the entry holds the keys of its sentences; the view binds the
+				// sentences themselves
+				summary: this.getText(doc.summaryKey),
+				description: this.getText(doc.descriptionKey),
+				original: doc.originalKey ? this.getText(doc.originalKey) : "",
 				fullName: `ui5.touch.controls.${doc.name}`,
 				docUrl: getApiUrl(doc.docEntity ?? doc.replaces),
+				// a base class that is not in the demo kit gets no link there;
+				// if it has a page here, extendsKey points at it, and where
+				// there is neither the view renders the name as plain text
+				extendsUrl: getApiUrl(doc.extendsClass),
+				extendsKey: extendsDoc?.name ?? "",
+				visibility: doc.visibility ?? "public",
+				// the files the class is written in, and where to read them
+				sources: getSources(doc.name),
+				// a control without a sap.m original has no "Original" fact
+				showOriginal: doc.replaces !== NEW_CONTROL,
 			}),
 			"control",
 		);
@@ -86,15 +162,19 @@ export default abstract class BaseController extends Controller {
 			data[key] = snippets.map((snippet) => {
 				const normalized: Snippet =
 					typeof snippet === "string" ? { code: snippet } : snippet;
-				const code = normalized.code.trim();
+				// The sources are written as template literals in tab-indented
+				// files, so the samples arrive tab-indented too. A tab in a
+				// <pre> is rendered at the browser's tab stop - eight columns -
+				// which reads far too deep for a short snippet. Two spaces per
+				// level is what the code cards show instead.
+				const code = normalized.code
+					.trim()
+					.replace(/^\t+/gm, (tabs) => "  ".repeat(tabs.length));
 				const language = normalized.language ?? "xml";
 
 				return {
 					code: code,
 					language: language,
-					// the CodeEditor does not grow with its content, so the height is
-					// derived from the number of lines
-					height: `${code.split("\n").length + 2}rem`,
 					// an empty title means "use the default", which the view derives
 					// from the language - resolving it here would freeze it in the
 					// language that was active when the page was built
@@ -111,7 +191,7 @@ export default abstract class BaseController extends Controller {
 	 * snippet group with the key "main", which the ExampleCard fragment binds.
 	 *
 	 * @param code the snippet to display
-	 * @param language the CodeEditor language, defaults to "xml"
+	 * @param language the highlight.js language, defaults to "xml"
 	 * @param title card title, defaults to the one the view derives from the
 	 *   language
 	 */
@@ -119,5 +199,19 @@ export default abstract class BaseController extends Controller {
 		this.setSnippets({
 			main: [{ code: code, language: language, title: title }],
 		});
+	}
+
+	/**
+	 * Opens the page of the base class the control extends. Bound by the pages
+	 * whose base class is one of this library.
+	 */
+	public onNavToExtends(): void {
+		const key = (
+			this.getView()?.getModel("control") as JSONModel | undefined
+		)?.getProperty("/extendsKey") as string | undefined;
+
+		if (key) {
+			this.getRouter().navTo(key);
+		}
 	}
 }

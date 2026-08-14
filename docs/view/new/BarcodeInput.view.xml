@@ -1,0 +1,279 @@
+<mvc:View
+    controllerName="ui5.touch.controls.demo.controller.new.BarcodeInput"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:control="ui5.touch.controls.demo.control"
+    xmlns:f="sap.f"
+    xmlns:cards="sap.f.cards"
+    xmlns:tc="ui5.touch.controls"
+    height="100%"
+>
+    <f:DynamicPage
+        headerExpanded="true"
+        class="touchControlsPage"
+    >
+        <!-- the head of the page reads like an entry of the demo kit: the name
+		     of the class, one or two sentences on what it is, and beside them
+		     the facts about the class -->
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title
+                        text="{control>/fullName}"
+                        wrapping="true"
+                    />
+                </f:heading>
+                <f:expandedContent>
+                    <Text text="{control>/summary}" />
+                </f:expandedContent>
+                <f:snappedContent>
+                    <Text text="{control>/summary}" />
+                </f:snappedContent>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <!-- the facts about the class, the way the demo kit lists them -->
+                <HBox wrap="Wrap">
+                    <HBox
+                    	alignItems="Center"
+                    	wrap="Wrap"
+                    	class="touchControlsFact sapUiMediumMarginEnd">
+                    	<Text
+                    		text="{= ${i18n>introExtends} + ':' }"
+                    		class="touchControlsFactTitle" />
+                    	<control:LinkList external="{= !!${control>/extendsUrl} }">
+                    		<Link
+                    			text="{control>/extendsClass}"
+                    			href="{control>/extendsUrl}"
+                    			target="_blank"
+                    			enabled="{= !!${control>/extendsUrl} }" />
+                    	</control:LinkList>
+                    </HBox>
+                    <HBox
+                    	alignItems="Center"
+                    	wrap="Wrap"
+                    	visible="{control>/showOriginal}"
+                    	class="touchControlsFact sapUiMediumMarginEnd">
+                    	<Text
+                    		text="{= ${i18n>introOriginalLabel} + ':' }"
+                    		class="touchControlsFactTitle" />
+                    	<control:LinkList external="{= !!${control>/docUrl} }">
+                    		<Link
+                    			text="{control>/replaces}"
+                    			href="{control>/docUrl}"
+                    			target="_blank"
+                    			enabled="{= !!${control>/docUrl} }" />
+                    	</control:LinkList>
+                    </HBox>
+                    <ObjectAttribute
+                        title="{i18n>introSince}"
+                        text="{control>/since}"
+                        class="sapUiMediumMarginEnd"
+                    />
+                    <ObjectAttribute
+                        title="{i18n>introVisibility}"
+                        text="{control>/visibility}"
+                        class="sapUiMediumMarginEnd" />
+                    <!-- A class is written in more than one file - what it does and what
+                         it looks like - so this fact carries a link per file, written as
+                         an enumeration. -->
+                    <HBox
+                    	alignItems="Center"
+                    	wrap="Wrap"
+                    	class="touchControlsFact">
+                    	<Text
+                    		text="{= ${i18n>introSource} + ':' }"
+                    		class="touchControlsFactTitle" />
+                    	<control:LinkList external="true" links="{control>/sources}">
+                    		<Link
+                    			text="{control>file}"
+                    			href="{control>url}"
+                    			target="_blank" />
+                    	</control:LinkList>
+                    </HBox>
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox width="100%">
+                <!-- overview: the class in running text, longer than the summary
+				     in the head of the page -->
+                <Text
+                    text="{control>/description}"
+                    class="sapUiSmallMarginBottom"
+                />
+                <HBox
+                    width="100%"
+                    class="touchControlsCardRow"
+                >
+                    <!-- playground -->
+                    <f:Card class="sapUiMediumMarginBottom">
+                        <f:layoutData>
+                            <FlexItemData
+                                growFactor="1"
+                                baseSize="0"
+                            />
+                        </f:layoutData>
+                        <f:header>
+                            <cards:Header title="{i18n>optionsBarcodeInput}" />
+                        </f:header>
+                        <f:content>
+                            <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                <core:Fragment
+                                    fragmentName="ui5.touch.controls.demo.view.SizeOption"
+                                    type="XML"
+                                />
+                                <HBox alignItems="Center">
+                                    <Text
+                                        text="{i18n>lblScanTimeout}"
+                                        width="120px"
+                                    />
+                                    <StepInput
+                                        value="{json>/scanTimeout}"
+                                        min="5"
+                                        max="500"
+                                        step="5"
+                                    />
+                                    <Text
+                                        text="{i18n>unitMs}"
+                                        class="sapUiTinyMarginBegin"
+                                    />
+                                </HBox>
+                                <HBox alignItems="Center">
+                                    <Text
+                                        text="{i18n>lblMinLength}"
+                                        width="120px"
+                                    />
+                                    <StepInput
+                                        value="{json>/minLength}"
+                                        min="1"
+                                        max="30"
+                                    />
+                                </HBox>
+                                <core:Fragment
+                                    fragmentName="ui5.touch.controls.demo.view.ValueStateOption"
+                                    type="XML"
+                                />
+                                <HBox
+                                    alignItems="Center"
+                                    wrap="Wrap"
+                                >
+                                    <Text
+                                        text="{i18n>lblBehavior}"
+                                        width="120px"
+                                    />
+                                    <CheckBox
+                                        text="{i18n>cbEnabled}"
+                                        selected="{json>/enabled}"
+                                    />
+                                    <CheckBox
+                                        text="{i18n>cbEditable}"
+                                        selected="{json>/editable}"
+                                    />
+                                    <CheckBox
+                                        text="{i18n>cbClearOnScan}"
+                                        selected="{json>/clearOnScan}"
+                                    />
+                                </HBox>
+                            </VBox>
+                        </f:content>
+                    </f:Card>
+                    <!-- the library control -->
+                    <f:Card class="sapUiMediumMarginBottom">
+                        <f:layoutData>
+                            <FlexItemData
+                                growFactor="1"
+                                baseSize="0"
+                            />
+                        </f:layoutData>
+                        <f:header>
+                            <cards:Header
+                                title="ui5.touch.controls.BarcodeInput"
+                                subtitle="{i18n>biSubtitle}"
+                            />
+                        </f:header>
+                        <f:content>
+                            <VBox
+                                width="100%"
+                                class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <tc:BarcodeInput
+                                    value="{json>/value}"
+                                    placeholder="{i18n>phScanOrType}"
+                                    scanTimeout="{json>/scanTimeout}"
+                                    minLength="{json>/minLength}"
+                                    clearOnScan="{json>/clearOnScan}"
+                                    size="{json>/size}"
+                                    enabled="{json>/enabled}"
+                                    editable="{json>/editable}"
+                                    valueState="{json>/valueState}"
+                                    width="100%"
+                                    scan=".onScan"
+                                    change=".onChange"
+                                />
+                                <FormattedText
+                                    htmlText="{i18n>barcodeHint}"
+                                    width="100%"
+                                    class="sapUiTinyMarginTop"
+                                />
+                            </VBox>
+                        </f:content>
+                    </f:Card>
+                    <!-- what the control has fired -->
+                    <f:Card class="sapUiMediumMarginBottom">
+                        <f:layoutData>
+                            <FlexItemData
+                                growFactor="1"
+                                baseSize="0"
+                            />
+                        </f:layoutData>
+                        <f:header>
+                            <cards:Header
+                                title="{i18n>biEventsTitle}"
+                                subtitle="{i18n>biEventsSubtitle}"
+                            />
+                        </f:header>
+                        <f:content>
+                            <VBox
+                                width="100%"
+                                class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <Table items="{json>/log}">
+                                    <columns>
+                                        <Column width="7rem">
+                                            <Label text="{i18n>colEvent}" />
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>colValue}" />
+                                        </Column>
+                                        <Column
+                                            width="8rem"
+                                            demandPopin="true"
+                                            minScreenWidth="Tablet"
+                                            popinDisplay="Inline"
+                                        >
+                                            <Label text="{i18n>colTime}" />
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <Text text="{json>kind}" />
+                                            <Text text="{json>value}" />
+                                            <Text text="{json>time}" />
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </f:content>
+                    </f:Card>
+                </HBox>
+                <core:Fragment
+                    fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+                    type="XML"
+                />
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

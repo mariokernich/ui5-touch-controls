@@ -3,6 +3,7 @@ import Control from "sap/ui/core/Control";
 import Popover from "sap/m/Popover";
 import RenderManager from "sap/ui/core/RenderManager";
 import ResizeHandler from "sap/ui/core/ResizeHandler";
+import { fitDialogBars } from "./fitDialogBars";
 import Device from "sap/ui/Device";
 import { MetadataOptions } from "sap/ui/core/Element";
 import {
@@ -198,6 +199,7 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 		}
 
 		this.doLayout();
+		fitDialogBars(this);
 	}
 
 	exit(): void | undefined {

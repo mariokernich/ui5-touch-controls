@@ -1,5 +1,6 @@
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
+import { attachTextChange, getText } from "./i18n";
 import ResizeHandler from "sap/ui/core/ResizeHandler";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -25,6 +26,14 @@ export default class SignaturePad extends Control implements ISized {
 	private strokes: { x: number; y: number }[][] = [];
 	private currentStroke: { x: number; y: number }[] | null = null;
 	private resizeRegistration: string | null = null;
+	// These two are written by init, which UI5 calls from the constructor of
+	// the base class - that is, before the field declarations of this class
+	// are applied. Declared, they are types and nothing else, so nothing is
+	// written over what init put there.
+	/** the hint of the library, as it was last written into the property */
+	private declare libraryPlaceholder: string;
+	/** ends the callback that follows the language */
+	private declare detachTextChange: () => void;
 	private pointerListeners: {
 		down: (event: PointerEvent) => void;
 		move: (event: PointerEvent) => void;
@@ -42,11 +51,14 @@ export default class SignaturePad extends Control implements ISized {
 			value: { type: "string", group: "Data", defaultValue: "" },
 			/**
 			 * Hint shown on the baseline while the pad is empty.
+			 *
+			 * A pad is built with the hint of the library, in the language the
+			 * application runs in. An empty string leaves the baseline bare.
 			 */
 			placeholder: {
 				type: "string",
 				group: "Misc",
-				defaultValue: "Sign here",
+				defaultValue: "",
 			},
 			/**
 			 * Height of the pad.
@@ -129,6 +141,33 @@ export default class SignaturePad extends Control implements ISized {
 	constructor(id?: string, settings?: $SignaturePadSettings);
 	constructor(id?: string, settings?: $SignaturePadSettings) {
 		super(id, settings);
+	}
+
+	/**
+	 * Puts the hint of the library on the pad.
+	 *
+	 * It is written into the property rather than filled in while rendering,
+	 * so that an application can still take it away: init runs before the
+	 * settings of the constructor are applied, so a placeholder that was
+	 * given - an empty one included - is what stays.
+	 *
+	 * Because it sits in the property, a language change has to write it
+	 * again, and only where the property still reads what the library last
+	 * put there.
+	 */
+	init(): void {
+		this.libraryPlaceholder = getText("SIGNATUREPAD_PLACEHOLDER");
+		this.setProperty("placeholder", this.libraryPlaceholder, true);
+		this.detachTextChange = attachTextChange(() => {
+			// only the hint of the library follows the language. Where the
+			// placeholder reads anything else, the application wrote it, and
+			// what it should say is not for the library to decide.
+			if (this.getPlaceholder() !== this.libraryPlaceholder) {
+				return;
+			}
+			this.libraryPlaceholder = getText("SIGNATUREPAD_PLACEHOLDER");
+			this.setProperty("placeholder", this.libraryPlaceholder);
+		});
 	}
 
 	/**
@@ -265,6 +304,7 @@ export default class SignaturePad extends Control implements ISized {
 	exit(): void {
 		const canvas = this.getCanvas();
 
+		this.detachTextChange();
 		if (canvas) {
 			this.detachPointerListeners(canvas);
 		}

@@ -32,10 +32,186 @@ body,
 	padding: 1rem;
 }
 
+/* ---------------------------------------------------------------------------
+   the footer of the shell
+
+   It sits below the pages, outside the area that scrolls, so it is always
+   there. A footer is not where the eye should go: it takes the background of
+   the page rather than a raised one of its own, and a hairline is what sets it
+   apart from the content above it.
+
+   It is a wrapping row and not a toolbar - see the fragment for why - so what
+   does not fit beside something stands below it. */
+.touchControlsMain {
+	/* a flex child is as tall as its content unless it is told otherwise -
+	   without this the NavContainer pushes the footer off the screen */
+	min-height: 0;
+}
+
+/* The pages rank above the footer - and with them everything a page puts at
+   the bottom edge of the screen.
+
+   A docked keyboard is what needs this. It is position: fixed and carries a
+   z-index far above anything UI5 hands out, but a z-index only ranks within
+   the stacking context it is in, and the page around it opens one of its own:
+   sap.f.DynamicPage sets position: relative with z-index: 0 on its content.
+   The keyboard is therefore ranked inside its page, the page ranks as a plain
+   0, and the footer - which comes after it - was painted over the last row of
+   the keyboard. Lifting the whole page area above the footer settles it in the
+   one place where the two can be compared.
+
+   position: relative is deliberate: a transform or a filter would rank it just
+   as well, but they would also make the keyboard fix itself against this box
+   instead of against the screen. */
+.touchControlsPages {
+	position: relative;
+	z-index: 1;
+}
+
+/* The height is a floor and not a fixture: while everything fits on one line
+   the footer is the 2.5rem it used to be, and when the window gets too narrow
+   for that it grows by a line instead of cutting its content. The row gap is
+   the smaller of the two - entries that belong together read closer than
+   entries that merely follow each other. */
+.touchControlsFooter.sapMFlexBox {
+	box-sizing: border-box;
+	min-height: 2.5rem;
+	border-top: 1px solid var(--sapGroup_ContentBorderColor);
+	background: var(--sapBackgroundColor);
+	padding: 0.25rem 1rem;
+	column-gap: 1rem;
+	row-gap: 0.125rem;
+}
+
+/* The entries of a group. The space between them is what separates them: a
+   punctuation mark cannot do it here, because it belongs to a line and the
+   entries are free to move to the next one - a middle dot written into the
+   texts would be left dangling at the end of a line as soon as the footer
+   wraps. */
+.touchControlsFooterGroup.sapMFlexBox {
+	column-gap: 0.75rem;
+	row-gap: 0.125rem;
+}
+
+/* the credits are a note, not a message: they read in the colour of a label,
+   while the links beside them keep the link colour and stay findable. The
+   credits themselves are a FormattedText - it carries the two profile links -
+   so both classes are named here. */
+.touchControlsFooterText.sapMText,
+.touchControlsFooterText.sapMFT {
+	color: var(--sapContent_LabelColor);
+	font-size: var(--sapFontSmallSize);
+}
+
+/* A FormattedText renders its content into a <div>, which as a flex item would
+   be as wide as the line it sits on and push everything after it onto the next
+   one. Made inline it is as wide as its sentence, and the sentence stays on
+   one line as long as there is room for it - the phone rule below is what
+   lets it break. */
+.touchControlsFooter .sapMFT,
+.touchControlsFooter .sapMFT > div {
+	display: inline;
+	white-space: nowrap;
+}
+
+/* the profile links sit inside the label-coloured sentence, so they have to
+   come back to the link colour to read as links at all */
+.touchControlsFooter .sapMLnk,
+.touchControlsFooter .sapMFT a {
+	font-size: var(--sapFontSmallSize);
+	color: var(--sapLinkColor);
+}
+
+/* A link truncates at the width it is given, and in a wrapping footer it is
+   given whatever is left of the line - which on a narrow window is nothing.
+   The entries are short enough to be worth a line of their own, so they keep
+   their length and the line breaks around them. */
+.touchControlsFooter .sapMLnk {
+	max-width: none;
+	flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   the footer on a phone
+
+   Two groups are what keeps the two halves apart on a wide window, and on a
+   narrow one they are what wastes it: each group would break its own line and
+   the footer would stand three lines tall. Dissolved into the row they belong
+   to, the entries fill the lines they are on, and the footer reads as one
+   centred block of small print - which is what a footer is on a phone. */
+@media (max-width: 599px) {
+	.touchControlsFooterGroup.sapMFlexBox {
+		display: contents;
+	}
+
+	.touchControlsFooter.sapMFlexBox {
+		justify-content: center;
+		column-gap: 0.75rem;
+	}
+
+	/* the two asides say nothing the rest does not - and here they cost a line */
+	.touchControlsFooter .touchControlsFooterAside {
+		display: none;
+	}
+
+	/* the credits may break where they have to: on the narrowest screens the
+	   sentence wraps rather than reaching past the edge */
+	.touchControlsFooter .sapMFT,
+	.touchControlsFooter .sapMFT > div {
+		white-space: normal;
+	}
+}
+
+/* The alternative page concept: a control page built as an ObjectPageLayout
+   rather than as a sap.m.Page with a row of cards. A NavContainer sizes its
+   pages by their own height, and an object page scrolls inside itself, so it
+   has to be told to take the whole area it is placed in. */
+.touchControlsObjectPage {
+	height: 100%;
+}
+
+/* The line that opens a section of the reference. It used to be the subtitle
+   of a card header; as a subsection title it would have replaced the section
+   title in the anchor bar, so it is plain text set apart by its colour. */
+.touchControlsSectionLead {
+	color: var(--sapContent_LabelColor);
+}
+
+/* The facts about the class read as a row of "label: value" pairs. They are
+   an HBox, so they wrap on a narrow window like every other row of a page,
+   and once they do they need a gap of their own - between the columns to keep
+   the pairs apart, and a smaller one between the lines. */
+.touchControlsHeaderFacts.sapMHBox {
+	gap: 0.25rem 2rem;
+}
+
+/* ---------------------------------------------------------------------------
+   a fact in the head of a control page whose value is a link
+
+   Those are written by hand rather than taken from an ObjectAttribute like
+   the facts whose value is a plain word: an ObjectAttribute holds a single
+   sap.m.Link in its customContent and rejects anything else at runtime, and a
+   link that leads out of the page is meant to say so - which is a mark behind
+   it, and therefore more than a single link.
+
+   The links themselves are a control - see control/LinkList.ts - so all that
+   is left here is the name in front of them, which takes the colour of a
+   label: the colour an ObjectAttribute gives its titles. */
+.touchControlsFact.sapMFlexBox {
+	/* the width of a space at the size the header is set in - what the colon
+	   of an attribute title is followed by */
+	column-gap: 0.25rem;
+	row-gap: 0.125rem;
+}
+
+.touchControlsFactTitle.sapMText {
+	color: var(--sapContent_LabelColor);
+}
+
 /* the demo pages of the Toolbar pages need an explicit height, otherwise they
    collapse inside the flow of the surrounding page */
 .touchControlsDemoPage {
-	height: 20rem;
+	height: 150px;
 }
 
 /* the version sits next to the switches in the header, quieter than they are */
@@ -69,8 +245,19 @@ body,
 	width: 100%;
 	height: 100%;
 	background-color: currentColor;
-	-webkit-mask: url("../github.svg") no-repeat center / contain;
-	mask: url("../github.svg") no-repeat center / contain;
+	-webkit-mask: url("../img/github.svg") no-repeat center / contain;
+	mask: url("../img/github.svg") no-repeat center / contain;
+}
+
+/* A box in a card is told to be as wide as the card and given margins on top
+   of that: the two together reach past its edge, and a card clips what sticks
+   out. The margins are what keeps the content off that edge, so it is the
+   width that gives way. Nothing shows of it until something inside really
+   takes the full width - a keyboard on a narrow screen, for instance. */
+.sapFCardContent > .sapMFlexBox.sapUiSmallMarginBegin.sapUiSmallMarginEnd {
+	/* the width of a FlexBox is written as an inline style, so this is what it
+	   takes to correct it from here */
+	width: calc(100% - 2rem) !important;
 }
 
 /* ---------------------------------------------------------------------------
@@ -105,11 +292,84 @@ body,
 	flex-wrap: nowrap;
 }
 
-/* the name of a control in the head of its page reads as what it is: an API
-   name, not prose */
-.touchControlsIntroName {
-	font-family: "72Mono", "Courier New", monospace;
-	font-weight: bold;
+/* ---------------------------------------------------------------------------
+   the playground of a control page
+
+   The three columns are told to share the row equally - flex: 1 1 0 on every
+   item, which is what an HBox of growFactor="1" and baseSize="0" comes down
+   to. Equal shares only read as columns while every column can live with its
+   share. On a tablet they cannot: the options column carries a label of 100px
+   beside a field of up to 300px and needs some 400px, while the two demo
+   columns hold nothing wider than a button. The row hands all three the same
+   ~220px anyway, so the options wrap into a ragged stack while the demo
+   columns sit half empty beside them.
+
+   Letting the row wrap does not fix it either. A wrapped row breaks wherever
+   the next item stops fitting, and here that is between the two demo columns:
+   the options column pairs up with the first demo column and the second is
+   left alone on a line below. The two demo columns are the comparison the
+   playground is for, so they are the last pair that may be split.
+
+   Hence a grid rather than a wrapped row: it breaks where the layout says, not
+   where the content happens to run out of room. Three columns while there is
+   room for three, then the options across the top with the comparison kept
+   side by side underneath, and only on a phone one column after the other.
+
+   The overrides are marked !important because sap.m writes the display and the
+   flex settings of the box and its items into their style attributes, where
+   nothing but an important declaration can reach them. */
+.touchControlsPlaygroundRow {
+	display: grid !important;
+	grid-template-columns: minmax(25rem, 1.4fr) 1fr 1fr;
+	align-items: start;
+}
+
+/* A grid item is min-content wide at its smallest, and the demo columns hold
+   buttons that do not break, so without this the track floor is a button and
+   the grid pushes the page sideways instead of shrinking. */
+.touchControlsPlaygroundRow > .sapMFlexItem {
+	min-width: 0 !important;
+}
+
+/* no room for three columns: the options move across the top, so the two demo
+   columns stay next to each other - they are there to be compared */
+@media (max-width: 1119px) {
+	.touchControlsPlaygroundRow {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.touchControlsPlaygroundRow > .sapMFlexItem:first-child {
+		grid-column: 1 / -1;
+	}
+}
+
+/* a phone fits one column, the comparison included */
+@media (max-width: 599px) {
+	.touchControlsPlaygroundRow {
+		grid-template-columns: 1fr;
+	}
+
+	.touchControlsPlaygroundRow > .sapMFlexItem:first-child {
+		grid-column: auto;
+	}
+}
+
+/* The floor of the card above has to be repeated on the flex item around it.
+   A flex item may not shrink below the content it holds - min-width: auto,
+   which sap.m even writes into the style attribute - and a code block holds
+   lines that do not break, so one long line would widen the item until two
+   cards no longer fit beside each other and the row wraps for no visible
+   reason. Pinning the item to the same 16rem as the card frees the row to
+   divide its width by the layout; what is longer than a card scrolls inside
+   its code block. The !important is against the inline min-width: auto. */
+.touchControlsCardRow > .sapMFlexItem {
+	min-width: 16rem !important;
+}
+
+/* The arrow between the before/after cards is not a card: it only needs the
+   width of its glyph, so the 16rem floor above must not apply to it. */
+.touchControlsCardRow > .touchControlsCardRowArrow {
+	min-width: 0 !important;
 }
 
 /* The rows are flex boxes and their items are sized by their content, so a
@@ -142,21 +402,6 @@ body,
    single line. */
 .touchControlsPage .sapMPageEnableScrolling .sapMTitle {
 	white-space: normal;
-}
-
-/* A keyboard has a lower bound of its own: its keys are touch targets and do
-   not shrink. A full QWERTY row is wider than a phone, so the keyboard gets a
-   scroll area instead of pushing the page sideways.
-
-   The bound is measured against the viewport rather than against the card,
-   because the card sizes itself to its content: a percentage would resolve
-   against the very width the keyboard is deciding, and the two would inflate
-   each other. The subtracted amount is the padding of the page plus the
-   margins inside the card. Above roughly 740px even the widest layout fits on
-   its own, and the bound never comes into play. */
-.touchControlsPage .touchVirtualKeyboard {
-	max-width: calc(100vw - 5rem);
-	overflow-x: auto;
 }
 
 /* the logo of the landing page is sized by its height, so on a narrow window
@@ -196,3 +441,203 @@ body,
 		max-width: 100%;
 	}
 }
+
+/* A docked keyboard is placed with position: fixed, which is measured
+   against the viewport - but only as long as nothing on the way up creates a
+   containing block of its own. sap.tnt.ToolPage puts will-change: transform on
+   its content area, which does exactly that, and the keyboard would end up
+   pinned inside the content area instead of at the bottom of the screen.
+
+   The hint is there to smooth the animation of the side navigation, and giving
+   it up costs nothing that can be noticed. */
+.sapTntToolPageMain {
+	will-change: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   LinkList: a row of links written as an enumeration
+
+   The control renders a line of text, so the space behind a comma is an
+   ordinary space and needs nothing here. What is needed is that a link keeps
+   its full length - a name is not worth cutting off to fit, the line breaks
+   around it instead - and that a link and the mark behind it are never torn
+   apart by such a break. */
+.ui5tcLinkListEntry {
+	white-space: nowrap;
+}
+
+.ui5tcLinkListEntry .sapMLnk {
+	max-width: none;
+}
+
+/* the mark of a link that leaves the page: it belongs to the link, so it
+   reads in the colour of one, and it is the quieter half of the pair, so it
+   is set smaller and kept off the last letter */
+.ui5tcLinkListIcon {
+	margin-left: 0.25rem;
+	font-size: 0.75rem;
+	color: var(--sapLinkColor);
+}
+
+.ui5tcCodeBlockWrapper {
+	/* anchor for the copy button in the corner; takes over the flex duties
+	   of the block so that the <pre> inside can still scroll */
+	position: relative;
+	min-width: 0;
+	max-width: 100%;
+	width: 100%;
+}
+
+.ui5tcCodeBlockWrapper .ui5tcCodeBlockCopy {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+}
+
+.ui5tcCodeBlock {
+	background: #f7f8fa;
+	color: #1d2d3e;
+	padding: 10px;
+	/* A <pre> keeps every line unbroken, so its narrowest width is its longest
+	   line - and a flex item is not allowed to shrink below the content of
+	   what it holds. A long snippet would therefore widen its card until two
+	   of them no longer fit on one row, and the comparison of the landing
+	   page lives on them sitting side by side. Scrolling inside the block
+	   takes the code out of that calculation: the block yields to its
+	   container and the long line scrolls instead of pushing. */
+	overflow-x: auto;
+	min-width: 0;
+	max-width: 100%;
+	font-size: 14px;
+	width:100%;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------------
+   CodeBlock in the dark themes. The UI5 theme is a class on <html>
+   (sapUiTheme-<name>), and every dark rendering theme of the demo ends in
+   _dark or _hcb - the same rule isDarkTheme() in model/theme.ts applies.
+   The palette mirrors the Visual Studio Dark colours, group for group the
+   counterpart of the light vs.css.
+   --------------------------------------------------------------------------- */
+html[class*="_dark"] .ui5tcCodeBlock,
+html[class*="_hcb"] .ui5tcCodeBlock {
+	background: #1e1e1e;
+	color: #d4d4d4;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-comment,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-quote,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-variable,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-comment,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-quote,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-variable {
+	color: #6a9955;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-keyword,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-selector-tag,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-built_in,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-name,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-tag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-keyword,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-selector-tag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-built_in,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-name,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-tag {
+	color: #569cd6;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-string,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-title,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-section,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-attribute,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-literal,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-template-tag,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-template-variable,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-type,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-addition,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-string,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-title,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-section,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-attribute,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-literal,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-template-tag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-template-variable,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-type,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-addition {
+	color: #ce9178;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-deletion,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-selector-attr,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-selector-pseudo,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-meta,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-deletion,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-selector-attr,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-selector-pseudo,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-meta {
+	color: #4ec9b0;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-doctag,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-doctag {
+	color: #9b9b9b;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-attr,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-attr {
+	color: #9cdcfe;
+}
+
+html[class*="_dark"] .ui5tcCodeBlock .hljs-symbol,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-bullet,
+html[class*="_dark"] .ui5tcCodeBlock .hljs-link,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-symbol,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-bullet,
+html[class*="_hcb"] .ui5tcCodeBlock .hljs-link {
+	color: #4fc1ff;
+}
+
+/* ---------------------------------------------------------------------------
+   the release history
+
+   An entry is a sentence, and a list of sentences reads better with a bullet
+   in front of each. The bullet is a list marker rather than a pseudo element:
+   the markup inside a FormattedText is the text of the entry, so the bullet
+   has to come from the outside - and a marker is structure to a screen
+   reader, where a pseudo element would be read out as a row of dots. */
+.touchControlsReleaseItem.sapMFT {
+	display: list-item;
+	list-style: disc outside;
+	margin-left: 1rem;
+	margin-bottom: 0.25rem;
+	line-height: 1.5;
+}
+
+.touchControlsReleaseItem.sapMFT::marker {
+	color: var(--sapContent_LabelColor);
+}
+
+/* a name from the API is set apart by its face, not by a box: a border around
+   every second word would break the line up more than it helps */
+.touchControlsReleaseItem code {
+	font-family: var(--sapContent_FontFamily, monospace);
+	font-size: 0.875em;
+	background: var(--sapList_Background);
+	border-radius: 0.25rem;
+	padding: 0.05rem 0.25rem;
+}
+
+/* the marker of a group reads as a label: small, upright and in one colour
+   for every kind. A colour per kind made a patchwork of the page and said
+   nothing the word itself does not already say. */
+.touchControlsReleaseKind.sapMText {
+	font-size: var(--sapFontSmallSize);
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: var(--sapContent_LabelColor);
+}
+

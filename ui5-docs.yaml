@@ -17,7 +17,6 @@ framework:
     - name: sap.ui.core
     - name: sap.f
     - name: sap.tnt
-    - name: sap.ui.codeeditor
     - name: sap.ui.unified
     - name: themelib_sap_horizon
     - name: themelib_sap_fiori_3
@@ -33,6 +32,10 @@ server:
       afterMiddleware: compression
       configuration:
           generateTsInterfaces: true
+    - name: ui5-tooling-modules-middleware
+      afterMiddleware: compression
+      configuration:
+        addToNamespace: true
     - name: ui5-middleware-livereload
       afterMiddleware: compression
       configuration:

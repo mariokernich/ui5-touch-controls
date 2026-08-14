@@ -32,22 +32,52 @@
 					text="{app>/version}"
 					tooltip="{i18n>versionTooltip}"
 					class="touchControlsHeaderVersion sapUiTinyMarginEnd" />
-        <ToolbarSpacer />
+				<!-- a spacer on either side is what puts the search in the middle:
+				     the two of them share whatever the groups beside them leave
+				     over, so the field sits between them -->
+				<ToolbarSpacer />
+				<SearchField
+					width="22rem"
+					placeholder="{i18n>searchPlaceholder}"
+					tooltip="{i18n>searchTooltip}"
+					enableSuggestions="true"
+					suggest=".onSearchSuggest"
+					search=".onSearch"
+					suggestionItems="{app>/searchSuggestions}">
+					<SuggestionItem
+						key="{app>key}"
+						text="{app>text}"
+						description="{app>description}"
+						icon="{app>icon}" />
+				</SearchField>
+				<ToolbarSpacer />
 				<!-- the languages are named in their own language, so the entries
 				     read the same whichever one is active -->
-				<Select
+				<ComboBox
 					tooltip="{i18n>language}"
 					selectedKey="{app>/language}"
-          width="150px"
+                    width="150px"
+                    showSecondaryValues="true"
 					change=".onLanguageChange">
-					<core:Item key="en" text="English" />
-					<core:Item key="de" text="Deutsch" />
-					<core:Item key="hi" text="हिन्दी" />
-				</Select>
+					<core:ListItem key="en" text="English" additionalText="EN" />
+					<core:ListItem key="de" text="Deutsch" additionalText="DE" />
+					<core:ListItem key="es" text="Español" additionalText="ES" />
+					<core:ListItem key="fr" text="Français" additionalText="FR" />
+					<core:ListItem key="hi" text="हिन्दी" additionalText="HI" />
+					<core:ListItem key="it" text="Italiano" additionalText="IT" />
+					<core:ListItem key="ja" text="日本語" additionalText="JA" />
+					<core:ListItem key="nl" text="Nederlands" additionalText="NL" />
+					<core:ListItem key="pl" text="Polski" additionalText="PL" />
+					<core:ListItem key="pt" text="Português" additionalText="PT" />
+					<core:ListItem key="ru" text="Русский" additionalText="RU" />
+					<core:ListItem key="tr" text="Türkçe" additionalText="TR" />
+					<core:ListItem key="uk" text="Українська" additionalText="UK" />
+					<core:ListItem key="zh" text="中文" additionalText="ZH" />
+				</ComboBox>
 				<Select
 					tooltip="{i18n>theme}"
 					selectedKey="{app>/theme}"
-          width="150px"
+                    width="150px"
 					change=".onThemeChange">
 					<core:Item key="sap_horizon" text="Horizon" />
 					<core:Item key="sap_horizon_dark" text="Horizon Dark" />
@@ -137,7 +167,26 @@
 			</tnt:SideNavigation>
 		</tnt:sideContent>
 		<tnt:mainContents>
-			<NavContainer id="pages" height="100%" autoFocus="false" />
+			<!-- ToolPage has no footer aggregation, so the footer goes into the
+			     main contents beside the pages: the NavContainer takes the room
+			     that is left, the footer keeps its own height. -->
+			<VBox height="100%" class="touchControlsMain">
+				<NavContainer id="pages" height="100%" autoFocus="false">
+					<layoutData>
+						<!-- the class is on the layout data because that is where the
+						     box puts it: on the element it wraps the page area in. The
+						     stylesheet needs it to rank the pages above the footer. -->
+						<FlexItemData
+							growFactor="1"
+							shrinkFactor="1"
+							baseSize="0"
+							styleClass="touchControlsPages" />
+					</layoutData>
+				</NavContainer>
+				<core:Fragment
+					fragmentName="ui5.touch.controls.demo.view.Footer"
+					type="XML" />
+			</VBox>
 		</tnt:mainContents>
 	</tnt:ToolPage>
 </mvc:View>
