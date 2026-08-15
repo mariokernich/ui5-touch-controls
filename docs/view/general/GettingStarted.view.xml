@@ -12,7 +12,6 @@
 		showHeader="false"
 		class="touchControlsPage"
 	>
-		<!-- hero -->
 		<VBox
 			alignItems="Center"
 			class="sapUiMediumMarginBottom"
@@ -34,8 +33,7 @@
 				class="sapUiTinyMarginTop"
 			/>
 		</VBox>
-		<!-- what the library is about -->
-		<f:Card class="sapUiMediumMarginBottom">
+		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<cards:Header
 					title="{i18n>gsWhatTitle}"
@@ -60,8 +58,7 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-		<!-- live example: try the sizes -->
-		<f:Card class="sapUiMediumMarginBottom">
+		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<cards:Header
 					title="{i18n>gsSizesTitle}"
@@ -129,8 +126,7 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-		<!-- before / after -->
-		<f:Card class="sapUiMediumMarginBottom">
+		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<cards:Header
 					title="{i18n>gsDropInTitle}"
@@ -170,7 +166,6 @@
 								/>
 							</f:content>
 						</f:Card>
-						<!-- the arrow that reads "this becomes that" -->
 						<core:Icon
 							src="sap-icon://arrow-right"
 							size="2rem"
@@ -203,8 +198,7 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-		<!-- requirements -->
-		<f:Card class="sapUiMediumMarginBottom">
+		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<cards:Header title="{i18n>gsRequirementsTitle}" />
 			</f:header>
@@ -226,12 +220,10 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-		<!-- next steps -->
 		<f:Card class="sapUiSmallMarginBottom">
 			<f:header>
 				<cards:Header
 					title="{i18n>gsNextTitle}"
-					subtitle="{i18n>gsNextSubtitle}"
 				/>
 			</f:header>
 			<f:content>
@@ -242,7 +234,6 @@
 					<FormattedText
 						htmlText="{i18n>gsNextText}"
 						width="100%"
-						class="sapUiTinyMarginTop"
 					/>
 					<HBox
 						wrap="Wrap"

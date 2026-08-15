@@ -10,26 +10,21 @@
 	<f:DynamicPage
 		headerExpanded="true"
 		class="touchControlsPage">
-		<!-- the head of the page reads like an entry of the demo kit: the name
-		     of the class, one or two sentences on what it is, and beside them
-		     the facts about the class -->
 		<f:title>
 			<f:DynamicPageTitle>
 				<f:heading>
 					<Title text="{control>/fullName}" wrapping="true" />
 				</f:heading>
 				<f:expandedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docToolbarSummary}" />
 				</f:expandedContent>
 				<f:snappedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docToolbarSummary}" />
 				</f:snappedContent>
 			</f:DynamicPageTitle>
 		</f:title>
-
 		<f:header>
 			<f:DynamicPageHeader pinnable="false">
-				<!-- the facts about the class, the way the demo kit lists them -->
 				<HBox wrap="Wrap">
 					<HBox
 						alignItems="Center"
@@ -70,9 +65,6 @@
 						title="{i18n>introVisibility}"
 						text="{control>/visibility}"
 						class="sapUiMediumMarginEnd" />
-					<!-- A class is written in more than one file - what it does and what
-					     it looks like - so this fact carries a link per file, written as
-					     an enumeration. -->
 					<HBox
 						alignItems="Center"
 						wrap="Wrap"
@@ -90,13 +82,10 @@
 				</HBox>
 			</f:DynamicPageHeader>
 		</f:header>
-
 		<f:content>
 			<VBox width="100%">
-				<!-- overview: the class in running text, longer than the summary
-				     in the head of the page -->
 				<Text
-					text="{control>/description}"
+					text="{i18n>docToolbarDescription}"
 					class="sapUiSmallMarginBottom" />
 
 				<HBox alignItems="Center" class="sapUiSmallMarginBottom">
@@ -113,9 +102,6 @@
 						<core:Item key="6XL" text="6XL" />
 					</Select>
 				</HBox>
-
-				<!-- the toolbar as the footer of a page; the page needs an explicit
-				     height, otherwise it collapses inside the flow of the page -->
 				<Page title="{i18n>toolbarPageTitle}" showFooter="true" class="touchControlsDemoPage sapUiSmallMarginBottom">
 					<footer>
 						<tc:Toolbar size="{json>/size}">
@@ -141,7 +127,6 @@
 						</tc:Toolbar>
 					</footer>
 				</Page>
-
 				<core:Fragment
 					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
 					type="XML" />

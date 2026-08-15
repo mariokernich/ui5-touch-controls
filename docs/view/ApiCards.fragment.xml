@@ -3,18 +3,9 @@
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards">
-	<!-- The API of the control, a card per kind: what it is set with, what it
-	     fires and what goes inside it. A control has all three only rarely, so
-	     a card is there only where the "api" model carries entries for it -
-	     see BaseController.setApi.
-
-	     The note about the base class hangs under the properties: that is the
-	     card every one of these controls has, and what it says covers the
-	     events as well. -->
 	<VBox width="100%">
-		<!-- properties -->
 		<f:Card
-			class="sapUiMediumMarginBottom"
+			class="sapUiSmallMarginBottom"
 			visible="{= ${api>/hasProperties} }">
 			<f:header>
 				<cards:Header title="{i18n>apiProperties}" />
@@ -58,8 +49,6 @@
 							</ColumnListItem>
 						</items>
 					</Table>
-					<!-- the rest of the API, where it belongs to a class of
-					     this library that has a page of its own -->
 					<HBox
 						alignItems="Center"
 						wrap="Wrap"
@@ -75,9 +64,8 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-		<!-- events -->
 		<f:Card
-			class="sapUiMediumMarginBottom"
+			class="sapUiSmallMarginBottom"
 			visible="{= ${api>/hasEvents} }">
 			<f:header>
 				<cards:Header title="{i18n>apiEvents}" />
@@ -116,9 +104,8 @@
 				</VBox>
 			</f:content>
 		</f:Card>
-		<!-- aggregations -->
 		<f:Card
-			class="sapUiMediumMarginBottom"
+			class="sapUiSmallMarginBottom"
 			visible="{= ${api>/hasAggregations} }">
 			<f:header>
 				<cards:Header title="{i18n>apiAggregations}" />
