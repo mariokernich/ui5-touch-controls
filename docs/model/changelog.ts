@@ -72,6 +72,7 @@ export const releases: Release[] = [
 				kind: "Fixed",
 				items: [
 					"A `Ghost` [Button] looks like its sap.m original in the two Horizon themes, which style the type differently from every other theme.",
+					"The Enter and Backspace keys of a [Keyboard] always carry their icon. The library now hands the metadata of its icon font over on registration instead of leaving it to be fetched - a keyboard on the page an app opens on was drawing those two keys before the answer arrived, and they stayed empty for the rest of the session.",
 				],
 			},
 			{
