@@ -13,9 +13,6 @@
         headerExpanded="true"
         class="touchControlsPage"
     >
-        <!-- the head of the page reads like an entry of the demo kit: the name
-		     of the class, one or two sentences on what it is, and beside them
-		     the facts about the class -->
         <f:title>
             <f:DynamicPageTitle>
                 <f:heading>
@@ -25,20 +22,16 @@
                     />
                 </f:heading>
                 <f:expandedContent>
-                    <Text text="{control>/summary}" />
+                    <Text text="{i18n>docCustomKeyboardSummary}" />
                 </f:expandedContent>
                 <f:snappedContent>
-                    <Text text="{control>/summary}" />
+                    <Text text="{i18n>docCustomKeyboardSummary}" />
                 </f:snappedContent>
             </f:DynamicPageTitle>
         </f:title>
         <f:header>
             <f:DynamicPageHeader pinnable="false">
-                <!-- the facts about the class, the way the demo kit lists them -->
                 <HBox wrap="Wrap">
-                    <!-- the base class is either one of sap.ui.core - then it
-                         links into the demo kit - or one of this library,
-                         which has a page here -->
                     <ObjectAttribute
                         title="{i18n>introExtends}"
                         text="{control>/extendsClass}"
@@ -97,9 +90,6 @@
                         title="{i18n>introVisibility}"
                         text="{control>/visibility}"
                         class="sapUiMediumMarginEnd" />
-                    <!-- A class is written in more than one file - what it does and what
-                         it looks like - so this fact carries a link per file, written as
-                         an enumeration. -->
                     <HBox
                     	alignItems="Center"
                     	wrap="Wrap"
@@ -119,14 +109,11 @@
         </f:header>
         <f:content>
             <VBox width="100%">
-                <!-- overview: the class in running text, longer than the summary
-				     in the head of the page -->
                 <Text
-                    text="{control>/description}"
+                    text="{i18n>docCustomKeyboardDescription}"
                     class="sapUiSmallMarginBottom"
                 />
-                <!-- what this keyboard is, and when to reach for one of the others -->
-                <f:Card class="sapUiMediumMarginBottom">
+                <f:Card class="sapUiSmallMarginBottom">
                     <f:header>
                         <cards:Header title="{i18n>customIntroSubtitle}" />
                     </f:header>
@@ -147,8 +134,7 @@
                     width="100%"
                     class="touchControlsCardRow"
                 >
-                    <!-- playground -->
-                    <f:Card class="sapUiMediumMarginBottom">
+                    <f:Card class="sapUiSmallMarginBottom">
                         <f:layoutData>
                             <FlexItemData
                                 growFactor="1"
@@ -258,8 +244,7 @@
                             </VBox>
                         </f:content>
                     </f:Card>
-                    <!-- the library control -->
-                    <f:Card class="sapUiMediumMarginBottom">
+                    <f:Card class="sapUiSmallMarginBottom">
                         <f:layoutData>
                             <FlexItemData
                                 growFactor="2"
@@ -293,8 +278,11 @@
                         </f:content>
                     </f:Card>
                 </HBox>
-                <!-- how a layout is written -->
-                <f:Card class="sapUiMediumMarginBottom">
+                <core:Fragment
+                    fragmentName="ui5.touch.controls.demo.view.ApiCards"
+                    type="XML"
+                />
+                <f:Card class="sapUiSmallMarginBottom">
                     <f:header>
                         <cards:Header
                             title="{i18n>customKeysTitle}"

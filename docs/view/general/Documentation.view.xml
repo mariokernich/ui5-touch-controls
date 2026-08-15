@@ -21,8 +21,7 @@
 		</f:header>
 		<f:content>
 			<VBox width="100%">
-				<!-- touch versions of sap.m controls -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docPortedTitle}"
@@ -69,9 +68,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- additional controls for touch, with no sap.m equivalent -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docNewTitle}"
@@ -85,8 +82,6 @@
 							<FormattedText
 								htmlText="{i18n>docNewText}"
 								width="100%" />
-							<!-- the Replaces column would say the same thing in every
-							     row, so it is left out here -->
 							<Table items="{docs>/new}" class="sapUiSmallMarginTop">
 								<columns>
 									<Column width="12rem">
@@ -112,9 +107,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- what is called from a controller instead of put into a view -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docClassesTitle}"
@@ -161,9 +154,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- theme compatibility -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docThemesTitle}"
@@ -222,9 +213,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- sizes -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docSizesTitle}"
@@ -260,9 +249,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- ISized -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docISizedTitle}"
@@ -292,9 +279,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- the three keyboards -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docKeyboardTitle}"
@@ -328,9 +313,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- pitfall: aggregations that only accept sap.m.Button -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>docPitfallTitle}"

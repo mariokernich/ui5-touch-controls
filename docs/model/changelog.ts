@@ -35,6 +35,25 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.3.1",
+		date: "2026-08-16",
+		summary: "Bug fixes and demo page improvements",
+		groups: [
+			{
+				kind: "Fixed",
+				items: [
+					"Missing icons on the Enter and Backspace keys of a [Keyboard] in some use cases.",
+				],
+			},
+			{
+				kind: "Demo",
+				items: [
+					"Small improvements to the demo page, like a better layout of the options.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.3.0",
 		date: "2026-08-15",
 		summary:
@@ -81,6 +100,7 @@ export const releases: Release[] = [
 					"The code examples carry a copy button, and the code blocks follow the dark theme.",
 					"The demo speaks the same fourteen languages as the library, chosen in the header - the footer, the control reference and the playgrounds included.",
 					"A search sits in the middle of the header. It finds a page by its name, by the sap.m control it steps in for - `sap.m.Select` leads to the touch Select - and by what the page is about, so `barcode` and `signature` arrive without knowing what the control is called.",
+					"The pages of the controls that have no sap.m original - [Keyboard], [NumberPad], [CustomKeyboard], [BarcodeInput] and [SignaturePad] - carry the API under the playground, a card per kind: the properties with their type and what they start on, the events with their parameters, and the aggregations with their cardinality. The three keyboards list what they add and point at [KeyboardBase] for the rest.",
 				],
 			},
 		],
@@ -198,7 +218,9 @@ export const releases: Release[] = [
 		groups: [
 			{
 				kind: "Docs",
-				items: ["The README explains how to install and use the library."],
+				items: [
+					"The README explains how to install and use the library.",
+				],
 			},
 		],
 	},

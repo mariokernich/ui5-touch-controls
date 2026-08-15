@@ -12,26 +12,21 @@
 	<f:DynamicPage
 		headerExpanded="true"
 		class="touchControlsPage">
-		<!-- the head of the page reads like an entry of the demo kit: the name
-		     of the class, one or two sentences on what it is, and beside them
-		     the facts about the class -->
 		<f:title>
 			<f:DynamicPageTitle>
 				<f:heading>
 					<Title text="{control>/fullName}" wrapping="true" />
 				</f:heading>
 				<f:expandedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docComboBoxSummary}" />
 				</f:expandedContent>
 				<f:snappedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docComboBoxSummary}" />
 				</f:snappedContent>
 			</f:DynamicPageTitle>
 		</f:title>
-
 		<f:header>
 			<f:DynamicPageHeader pinnable="false">
-				<!-- the facts about the class, the way the demo kit lists them -->
 				<HBox wrap="Wrap">
 					<HBox
 						alignItems="Center"
@@ -72,9 +67,6 @@
 						title="{i18n>introVisibility}"
 						text="{control>/visibility}"
 						class="sapUiMediumMarginEnd" />
-					<!-- A class is written in more than one file - what it does and what
-					     it looks like - so this fact carries a link per file, written as
-					     an enumeration. -->
 					<HBox
 						alignItems="Center"
 						wrap="Wrap"
@@ -92,12 +84,9 @@
 				</HBox>
 			</f:DynamicPageHeader>
 		</f:header>
-
 		<f:content>
 			<VBox width="100%">
-				<!-- overview: the class in running text, longer than the summary
-				     in the head of the page -->
-				<Text text="{control>/description}" />
+				<Text text="{i18n>docComboBoxDescription}" />
 				<Text
 					text="{
 						parts: ['i18n>overviewReplaces', 'control>/replaces', 'control>/original'],
@@ -107,15 +96,11 @@
 				<Text
 					text="{i18n>introSizeNote}"
 					class="sapUiSmallMarginTop sapUiSmallMarginBottom" />
-
-				<!-- playground: three cards - what can be set, the control of
-				     this library, and the sap.m original beside it -->
 				<HBox
 					width="100%"
 					wrap="Wrap"
 					class="touchControlsCardRow touchControlsPlaygroundRow">
-					<!-- card 1: what can be set -->
-					<f:Card class="sapUiMediumMarginBottom">
+					<f:Card class="sapUiSmallMarginBottom">
 						<f:layoutData>
 							<FlexItemData growFactor="1" baseSize="0" />
 						</f:layoutData>
@@ -146,9 +131,7 @@
 							</VBox>
 						</f:content>
 					</f:Card>
-
-					<!-- card 2: the library control -->
-					<f:Card class="sapUiMediumMarginBottom">
+					<f:Card class="sapUiSmallMarginBottom">
 						<f:layoutData>
 							<FlexItemData growFactor="1" baseSize="0" />
 						</f:layoutData>
@@ -179,9 +162,7 @@
 							</VBox>
 						</f:content>
 					</f:Card>
-
-					<!-- card 3: the sap.m original -->
-					<f:Card class="sapUiMediumMarginBottom">
+					<f:Card class="sapUiSmallMarginBottom">
 						<f:layoutData>
 							<FlexItemData growFactor="1" baseSize="0" />
 						</f:layoutData>
@@ -211,7 +192,6 @@
 						</f:content>
 					</f:Card>
 				</HBox>
-
 				<core:Fragment
 					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
 					type="XML" />

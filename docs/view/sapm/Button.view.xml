@@ -12,26 +12,21 @@
 	<f:DynamicPage
 		headerExpanded="true"
 		class="touchControlsPage">
-		<!-- the head of the page reads like an entry of the demo kit: the name
-		     of the class, one or two sentences on what it is, and beside them
-		     the facts about the class -->
 		<f:title>
 			<f:DynamicPageTitle>
 				<f:heading>
 					<Title text="{control>/fullName}" wrapping="true" />
 				</f:heading>
 				<f:expandedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docButtonSummary}" />
 				</f:expandedContent>
 				<f:snappedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docButtonSummary}" />
 				</f:snappedContent>
 			</f:DynamicPageTitle>
 		</f:title>
-
 		<f:header>
 			<f:DynamicPageHeader pinnable="false">
-				<!-- the facts about the class, the way the demo kit lists them -->
 				<HBox wrap="Wrap">
 					<HBox
 						alignItems="Center"
@@ -72,9 +67,6 @@
 						title="{i18n>introVisibility}"
 						text="{control>/visibility}"
 						class="sapUiMediumMarginEnd" />
-					<!-- A class is written in more than one file - what it does and what
-					     it looks like - so this fact carries a link per file, written as
-					     an enumeration. -->
 					<HBox
 						alignItems="Center"
 						wrap="Wrap"
@@ -92,17 +84,14 @@
 				</HBox>
 			</f:DynamicPageHeader>
 		</f:header>
-
 		<f:content>
 			<VBox width="100%">
-				<!-- overview: the class in running text, longer than the summary
-				     in the head of the page -->
-				<Text text="{control>/description}" />
+				<Text text="{i18n>docButtonDescription}" />
 				<Text
 					text="{
-						parts: ['i18n>overviewReplaces', 'control>/replaces', 'control>/original'],
-						formatter: 'formatMessage'
-					}"
+								parts: ['i18n>overviewReplaces', 'control>/replaces', 'control>/original'],
+								formatter: 'formatMessage'
+							}"
 					class="sapUiSmallMarginTop" />
 				<Text
 					text="{i18n>introSizeNote}"
@@ -111,22 +100,18 @@
 					text="{i18n>overviewBarHint}"
 					type="Information"
 					showIcon="true"
-					class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+					class="sapUiSmallMarginTop">
 					<link>
 						<Link
 							text="{i18n>overviewBarHintLink}"
 							press=".onNavToOverflowToolbar" />
 					</link>
 				</MessageStrip>
-
-				<!-- playground: three cards - what can be set, the control of
-				     this library, and the sap.m original beside it -->
 				<HBox
 					width="100%"
 					wrap="Wrap"
-					class="touchControlsCardRow touchControlsPlaygroundRow">
-					<!-- card 1: what can be set -->
-					<f:Card class="sapUiMediumMarginBottom">
+					class="touchControlsCardRow touchControlsPlaygroundRow sapUiSmallMarginTop">
+					<f:Card class="sapUiSmallMarginBottom">
 						<f:layoutData>
 							<FlexItemData growFactor="1" baseSize="0" />
 						</f:layoutData>
@@ -134,7 +119,8 @@
 							<cards:Header title="{i18n>optionsTitle}" />
 						</f:header>
 						<f:content>
-							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<VBox
+								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 								<core:Fragment
 									fragmentName="ui5.touch.controls.demo.view.SizeOption"
 									type="XML" />
@@ -188,9 +174,7 @@
 							</VBox>
 						</f:content>
 					</f:Card>
-
-					<!-- card 2: the library control -->
-					<f:Card class="sapUiMediumMarginBottom">
+					<f:Card class="sapUiSmallMarginBottom">
 						<f:layoutData>
 							<FlexItemData growFactor="1" baseSize="0" />
 						</f:layoutData>
@@ -200,7 +184,8 @@
 								subtitle="{i18n>cardTouch}" />
 						</f:header>
 						<f:content>
-							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<VBox
+								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 								<!-- one button, the type comes from the option beside it:
 								     the two columns are there to be compared, and a list
 								     of every type on both sides makes that harder, not
@@ -217,9 +202,7 @@
 							</VBox>
 						</f:content>
 					</f:Card>
-
-					<!-- card 3: the sap.m original -->
-					<f:Card class="sapUiMediumMarginBottom">
+					<f:Card class="sapUiSmallMarginBottom">
 						<f:layoutData>
 							<FlexItemData growFactor="1" baseSize="0" />
 						</f:layoutData>
@@ -229,7 +212,8 @@
 								subtitle="{i18n>cardOriginal}" />
 						</f:header>
 						<f:content>
-							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+							<VBox
+								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
 								<VBox alignItems="Start">
 									<Button
 										text="{json>/text}"
@@ -242,7 +226,6 @@
 						</f:content>
 					</f:Card>
 				</HBox>
-
 				<core:Fragment
 					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
 					type="XML" />

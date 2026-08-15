@@ -21,8 +21,7 @@
 		</f:header>
 		<f:content>
 			<VBox width="100%">
-				<!-- prerequisites -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>setupPrereqTitle}"
@@ -44,9 +43,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- installation -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>setupInstallTitle}"
@@ -76,9 +73,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- tooling / middleware -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>setupMiddlewareTitle}"
@@ -108,9 +103,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- manifest -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>setupManifestTitle}"
@@ -136,9 +129,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- namespace -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>setupNamespaceTitle}"
@@ -164,9 +155,7 @@
 						</VBox>
 					</f:content>
 				</f:Card>
-
-				<!-- TypeScript -->
-				<f:Card class="sapUiMediumMarginBottom">
+				<f:Card class="sapUiSmallMarginBottom">
 					<f:header>
 						<cards:Header
 							title="{i18n>setupTypeScriptTitle}"
@@ -188,9 +177,6 @@
 							<VBox width="100%" items="{example>/typescript}">
 								<f:Card class="sapUiSmallMarginTop">
 									<f:header>
-										<!-- a snippet without a title of its own is named after
-										     its language, the way the example card of a control
-										     page does it - and that name follows the language -->
 										<cards:Header
 											title="{= ${example>title} || (${example>language} === 'xml' ? ${i18n>exampleUsageXml} : ${i18n>exampleUsageController}) }" />
 									</f:header>

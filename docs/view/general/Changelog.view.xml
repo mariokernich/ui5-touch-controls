@@ -1,117 +1,91 @@
 <mvc:View
-  controllerName="ui5.touch.controls.demo.controller.general.Changelog"
-  xmlns="sap.m"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns:f="sap.f"
+	controllerName="ui5.touch.controls.demo.controller.general.Changelog"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.f"
 >
-  <f:DynamicPage toggleHeaderOnTitleClick="false">
-    <f:title>
-      <f:DynamicPageTitle>
-        <f:heading>
-          <Title text="Changelog" />
-        </f:heading>
-      </f:DynamicPageTitle>
-    </f:title>
-    <f:header>
-      <f:DynamicPageHeader pinnable="false">
-        <!-- the texts of this page are English only, see model/changelog.ts -->
-        <Text text="What changed in every release of the library, the newest first." />
-      </f:DynamicPageHeader>
-    </f:header>
-    <f:content>
-      <VBox width="100%">
-        <VBox
-          width="100%"
-          items="{changelog>/releases}"
-        >
-          <!-- a release is a panel rather than a card: only the newest one is
-					     open when the page is entered, the others are a line each until
-					     they are asked for -->
-          <Panel
-            expandable="true"
-            expanded="{changelog>expanded}"
-            class="sapUiSmallMarginBottom touchControlsRelease"
-          >
-            <headerToolbar>
-              <!-- the panel draws its own arrow in front of this toolbar, so
-							     the header only carries what the release is. A plain
-							     Toolbar rather than an OverflowToolbar: the latter keeps an
-							     overflow button in the header even when nothing overflows,
-							     which reads as a second control next to the arrow. -->
-              <Toolbar>
-                <Title
-                  text="{changelog>version}"
-                  level="H2"
-                />
-                <Text
-                  text="{= ${changelog>date} || 'Unreleased' }"
-                  class="touchControlsReleaseDate sapUiTinyMarginBegin"
-                />
-                <ToolbarSpacer />
-                <!-- the summary is what tells a closed release apart from the
-								     next, so it belongs in the line that stays visible -->
-                <Text
-                  text="{changelog>summary}"
-                  wrapping="false"
-                  class="touchControlsReleaseSummary"
-                />
-              </Toolbar>
-            </headerToolbar>
-            <content>
-              <!-- the template of a binding that sits inside another binding is
-							     cloned with it, so it is not shared and has to say so -
-							     otherwise the framework leaves the clones behind -->
-              <VBox
-                width="100%"
-                items="{
-                  path: 'changelog>groups',
-                  templateShareable: false
-                }"
-              >
-                <VBox class="sapUiSmallMarginBottom">
-                  <!-- the kind of a group is a marker rather than a heading: a
-									     word says as much as a line of its own did and takes a
-									     third of the room. All kinds read in one colour - a
-									     palette per kind turned the page into a patchwork and
-									     said nothing the word does not. It is plain text, as
-									     ObjectStatus would read "Object Status, informative
-									     entry" to a screen reader before every group. -->
-                  <Text
-                    text="{changelog>kind}"
-                    class="touchControlsReleaseKind"
-                  />
-                  <VBox
-                    items="{
-                      path: 'changelog>items',
-                      templateShareable: false
-                    }"
-                    class="sapUiTinyMarginTop"
-                  >
-                    <!-- the entries carry links to the pages of the controls
-										     and code for the names of the API, so they are
-										     markup rather than plain text -->
-                    <FormattedText
-                      htmlText="{changelog>}"
-                      width="100%"
-                      class="touchControlsReleaseItem"
-                    />
-                  </VBox>
-                </VBox>
-              </VBox>
-            </content>
-          </Panel>
-        </VBox>
-        <!-- the older releases are a click away rather than four screens of
-				     scrolling; the button goes once they are there -->
-        <Button
-          text="{= 'Show ' + ${changelog>/olderCount} + ' older releases' }"
-          icon="sap-icon://slim-arrow-down"
-          visible="{changelog>/collapsed}"
-          press=".onShowOlder"
-          width="100%"
-          class="sapUiSmallMarginBottom"
-        />
-      </VBox>
-    </f:content>
-  </f:DynamicPage>
+	<f:DynamicPage toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Changelog" />
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<Text text="What changed in every release of the library, the newest first." />
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox width="100%">
+				<VBox
+					width="100%"
+					items="{changelog>/releases}"
+				>
+					<Panel
+						expandable="true"
+						expanded="{changelog>expanded}"
+						class="sapUiSmallMarginBottom touchControlsRelease"
+					>
+						<headerToolbar>
+							<Toolbar>
+								<Title
+									text="{changelog>version}"
+									level="H2"
+								/>
+								<Text
+									text="{= ${changelog>date} || 'Unreleased' }"
+									class="touchControlsReleaseDate sapUiTinyMarginBegin"
+								/>
+								<ToolbarSpacer />
+								<Text
+									text="{changelog>summary}"
+									wrapping="false"
+									class="touchControlsReleaseSummary"
+								/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<VBox
+								width="100%"
+								items="{
+									path: 'changelog>groups',
+									templateShareable: false
+								}"
+							>
+								<VBox class="sapUiSmallMarginBottom">
+									<Text
+										text="{changelog>kind}"
+										class="touchControlsReleaseKind"
+									/>
+									<VBox
+										items="{
+											path: 'changelog>items',
+											templateShareable: false
+										}"
+										class="sapUiTinyMarginTop"
+									>
+										<FormattedText
+											htmlText="{changelog>}"
+											width="100%"
+											class="touchControlsReleaseItem"
+										/>
+									</VBox>
+								</VBox>
+							</VBox>
+						</content>
+					</Panel>
+				</VBox>
+				<Button
+					text="{= 'Show ' + ${changelog>/olderCount} + ' older releases' }"
+					icon="sap-icon://slim-arrow-down"
+					visible="{changelog>/collapsed}"
+					press=".onShowOlder"
+					width="100%"
+					class="sapUiSmallMarginBottom"
+				/>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
 </mvc:View>

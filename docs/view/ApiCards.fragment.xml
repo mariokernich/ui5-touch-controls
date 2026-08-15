@@ -1,0 +1,156 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards">
+	<VBox width="100%">
+		<f:Card
+			class="sapUiSmallMarginBottom"
+			visible="{= ${api>/hasProperties} }">
+			<f:header>
+				<cards:Header title="{i18n>apiProperties}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<Table items="{api>/properties}">
+						<columns>
+							<Column width="11rem">
+								<Label text="{i18n>colProperty}" />
+							</Column>
+							<Column
+								width="15rem"
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colType}" />
+							</Column>
+							<Column
+								width="8rem"
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colDefault}" />
+							</Column>
+							<Column
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colDescription}" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Text text="{api>name}" />
+								<Text text="{api>type}" />
+								<Text text="{api>default}" />
+								<Text text="{api>text}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						visible="{= !!${api>/inherits} }"
+						class="sapUiSmallMarginTop">
+						<Text
+							text="{i18n>apiInherited}"
+							class="sapUiTinyMarginEnd" />
+						<Link
+							text="{api>/inherits}"
+							press=".onNavToExtends" />
+					</HBox>
+				</VBox>
+			</f:content>
+		</f:Card>
+		<f:Card
+			class="sapUiSmallMarginBottom"
+			visible="{= ${api>/hasEvents} }">
+			<f:header>
+				<cards:Header title="{i18n>apiEvents}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<Table items="{api>/events}">
+						<columns>
+							<Column width="11rem">
+								<Label text="{i18n>colEvent}" />
+							</Column>
+							<Column
+								width="11rem"
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colParameters}" />
+							</Column>
+							<Column
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colDescription}" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Text text="{api>name}" />
+								<Text text="{api>parameters}" />
+								<Text text="{api>text}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</VBox>
+			</f:content>
+		</f:Card>
+		<f:Card
+			class="sapUiSmallMarginBottom"
+			visible="{= ${api>/hasAggregations} }">
+			<f:header>
+				<cards:Header title="{i18n>apiAggregations}" />
+			</f:header>
+			<f:content>
+				<VBox
+					width="100%"
+					class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+					<Table items="{api>/aggregations}">
+						<columns>
+							<Column width="11rem">
+								<Label text="{i18n>colAggregation}" />
+							</Column>
+							<Column
+								width="15rem"
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colType}" />
+							</Column>
+							<Column
+								width="8rem"
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colCardinality}" />
+							</Column>
+							<Column
+								demandPopin="true"
+								minScreenWidth="Tablet"
+								popinDisplay="Inline">
+								<Label text="{i18n>colDescription}" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<Text text="{api>name}" />
+								<Text text="{api>type}" />
+								<Text text="{api>cardinality}" />
+								<Text text="{api>text}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</VBox>
+			</f:content>
+		</f:Card>
+	</VBox>
+</core:FragmentDefinition>

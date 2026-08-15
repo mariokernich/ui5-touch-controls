@@ -1,506 +1,482 @@
 <mvc:View
-  controllerName="ui5.touch.controls.demo.controller.new.Keyboard"
-  xmlns="sap.m"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns:core="sap.ui.core"
-  xmlns:control="ui5.touch.controls.demo.control"
-  xmlns:f="sap.f"
-  xmlns:cards="sap.f.cards"
-  xmlns:tc="ui5.touch.controls"
-  height="100%"
+	controllerName="ui5.touch.controls.demo.controller.new.Keyboard"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:control="ui5.touch.controls.demo.control"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards"
+	xmlns:tc="ui5.touch.controls"
+	height="100%"
 >
-  <f:DynamicPage
-    headerExpanded="true"
-    class="touchControlsPage"
-  >
-    <!-- the head of the page reads like an entry of the demo kit: the name
-		     of the class, one or two sentences on what it is, and beside them
-		     the facts about the class -->
-    <f:title>
-      <f:DynamicPageTitle>
-        <f:heading>
-          <Title
-            text="{control>/fullName}"
-            wrapping="true"
-          />
-        </f:heading>
-        <f:expandedContent>
-          <Text text="{control>/summary}" />
-        </f:expandedContent>
-        <f:snappedContent>
-          <Text text="{control>/summary}" />
-        </f:snappedContent>
-      </f:DynamicPageTitle>
-    </f:title>
-    <f:header>
-      <f:DynamicPageHeader pinnable="false">
-        <!-- the facts about the class, the way the demo kit lists them -->
-        <HBox wrap="Wrap">
-          <!-- the base class is either one of sap.ui.core - then it links into
-               the demo kit - or one of this library, which has a page here -->
-          <ObjectAttribute
-            title="{i18n>introExtends}"
-            text="{control>/extendsClass}"
-            class="sapUiMediumMarginEnd"
-            visible="{= !${control>/extendsUrl} &amp;&amp; !${control>/extendsKey} }"
-          />
-          <HBox
-          	alignItems="Center"
-          	wrap="Wrap"
-          	visible="{= !!${control>/extendsUrl} }"
-          	class="touchControlsFact sapUiMediumMarginEnd">
-          	<Text
-          		text="{= ${i18n>introExtends} + ':' }"
-          		class="touchControlsFactTitle" />
-          	<control:LinkList external="true">
-          		<Link
-          			text="{control>/extendsClass}"
-          			href="{control>/extendsUrl}"
-          			target="_blank" />
-          	</control:LinkList>
-          </HBox>
-          <ObjectAttribute
-            title="{i18n>introExtends}"
-            class="sapUiMediumMarginEnd"
-            visible="{= !${control>/extendsUrl} &amp;&amp; !!${control>/extendsKey} }"
-          >
-            <customContent>
-              <Link
-                text="{control>/extendsClass}"
-                press=".onNavToExtends"
-              />
-            </customContent>
-          </ObjectAttribute>
-          <HBox
-          	alignItems="Center"
-          	wrap="Wrap"
-          	visible="{control>/showOriginal}"
-          	class="touchControlsFact sapUiMediumMarginEnd">
-          	<Text
-          		text="{= ${i18n>introOriginalLabel} + ':' }"
-          		class="touchControlsFactTitle" />
-          	<control:LinkList external="{= !!${control>/docUrl} }">
-          		<Link
-          			text="{control>/replaces}"
-          			href="{control>/docUrl}"
-          			target="_blank"
-          			enabled="{= !!${control>/docUrl} }" />
-          	</control:LinkList>
-          </HBox>
-          <ObjectAttribute
-            title="{i18n>introSince}"
-            text="{control>/since}"
-            class="sapUiMediumMarginEnd"
-          />
-          <ObjectAttribute
-              title="{i18n>introVisibility}"
-              text="{control>/visibility}"
-              class="sapUiMediumMarginEnd" />
-          <!-- A class is written in more than one file - what it does and what
-               it looks like - so this fact carries a link per file, written as
-               an enumeration. -->
-          <HBox
-          	alignItems="Center"
-          	wrap="Wrap"
-          	class="touchControlsFact">
-          	<Text
-          		text="{= ${i18n>introSource} + ':' }"
-          		class="touchControlsFactTitle" />
-          	<control:LinkList external="true" links="{control>/sources}">
-          		<Link
-          			text="{control>file}"
-          			href="{control>url}"
-          			target="_blank" />
-          	</control:LinkList>
-          </HBox>
-        </HBox>
-      </f:DynamicPageHeader>
-    </f:header>
-    <f:content>
-      <VBox width="100%">
-        <!-- overview: the class in running text, longer than the summary
-				     in the head of the page -->
-        <Text
-          text="{control>/description}"
-          class="sapUiSmallMarginBottom"
-        />
-        <!-- what this keyboard is, and when to reach for one of the others -->
-        <f:Card class="sapUiMediumMarginBottom">
-          <f:header>
-            <cards:Header title="{i18n>kbIntroSubtitle}" />
-          </f:header>
-          <f:content>
-            <VBox
-              width="100%"
-              class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
-            >
-              <FormattedText
-                htmlText="{i18n>kbIntroText}"
-                width="100%"
-                class="sapUiTinyMarginTop"
-              />
-            </VBox>
-          </f:content>
-        </f:Card>
-        <HBox
-          width="100%"
-          class="touchControlsCardRow"
-        >
-          <!-- playground -->
-          <f:Card class="sapUiMediumMarginBottom">
-            <f:layoutData>
-              <FlexItemData
-                growFactor="1"
-                baseSize="0"
-              />
-            </f:layoutData>
-            <f:header>
-              <cards:Header title="{i18n>optionsKeyboard}" />
-            </f:header>
-            <f:content>
-              <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                <core:Fragment
-                  fragmentName="ui5.touch.controls.demo.view.SizeOption"
-                  type="XML"
-                />
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblValue}"
-                    width="130px"
-                  />
-                  <Input
-                    value="{json>/value}"
-                    valueLiveUpdate="true"
-                    width="150px"
-                  />
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblMode}"
-                    width="130px"
-                  />
-                  <!-- the entries are the values of the property, so they can be
-									     copied straight into a view -->
-                  <Select
-                    selectedKey="{json>/mode}"
-                    width="150px"
-                  >
-                    <core:Item
-                      key="English"
-                      text="English"
-                    />
-                    <core:Item
-                      key="German"
-                      text="German"
-                    />
-                    <core:Item
-                      key="French"
-                      text="French"
-                    />
-                    <core:Item
-                      key="Spanish"
-                      text="Spanish"
-                    />
-                    <core:Item
-                      key="Italian"
-                      text="Italian"
-                    />
-                    <core:Item
-                      key="Portuguese"
-                      text="Portuguese"
-                    />
-                    <core:Item
-                      key="Swedish"
-                      text="Swedish"
-                    />
-                    <core:Item
-                      key="Turkish"
-                      text="Turkish"
-                    />
-                    <core:Item
-                      key="Romanian"
-                      text="Romanian"
-                    />
-                    <core:Item
-                      key="Ukrainian"
-                      text="Ukrainian"
-                    />
-                    <core:Item
-                      key="Russian"
-                      text="Russian"
-                    />
-                    <core:Item
-                      key="Hindi"
-                      text="Hindi"
-                    />
-                  </Select>
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblDisplayNumbers}"
-                    width="130px"
-                  />
-                  <Select
-                    selectedKey="{json>/displayNumbers}"
-                    width="150px"
-                  >
-                    <core:Item
-                      key="ToggleOnMobile"
-                      text="ToggleOnMobile"
-                    />
-                    <core:Item
-                      key="Always"
-                      text="Always"
-                    />
-                    <core:Item
-                      key="Toggle"
-                      text="Toggle"
-                    />
-                    <core:Item
-                      key="Never"
-                      text="Never"
-                    />
-                  </Select>
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblLetterCase}"
-                    width="130px"
-                  />
-                  <Select
-                    selectedKey="{json>/letterCase}"
-                    width="150px"
-                  >
-                    <core:Item
-                      key="Mixed"
-                      text="Mixed"
-                    />
-                    <core:Item
-                      key="Upper"
-                      text="Upper"
-                    />
-                    <core:Item
-                      key="Lower"
-                      text="Lower"
-                    />
-                  </Select>
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i188>lblExtraKeys}"
-                    width="130px"
-                  />
-                  <Input
-                    value="{json>/extraKeys}"
-                    placeholder="{i18n>phExtraKeys}"
-                    change=".applyExtraKeys"
-                    width="150px"
-                  />
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblEnterText}"
-                    width="130px"
-                  />
-                  <Input
-                    value="{json>/enterText}"
-                    placeholder="{i18n>phEnterText}"
-                    valueLiveUpdate="true"
-                    width="150px"
-                  />
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblWidth}"
-                    width="130px"
-                  />
-                  <Input
-                    value="{json>/width}"
-                    placeholder="{i18n>phWidth}"
-                    valueLiveUpdate="true"
-                    width="150px"
-                  />
-                </HBox>
-                <HBox
-                  alignItems="Center"
-                  wrap="Wrap"
-                >
-                  <Text
-                    text="{i18n>lblKeys}"
-                    width="130px"
-                  />
-                  <CheckBox
-                    text="{i18n>cbSpecialCharacters}"
-                    selected="{json>/showSpecialCharacters}"
-                  />
-                  <CheckBox
-                    text="{i18n>cbEmojis}"
-                    selected="{json>/showEmojis}"
-                  />
-                  <CheckBox
-                    text="{i18n>cbCapsLock}"
-                    selected="{json>/showCapsLock}"
-                  />
-                  <CheckBox
-                    text="{i18n>cbEscape}"
-                    selected="{json>/showEscape}"
-                  />
-                </HBox>
-                <HBox
-                  alignItems="Center"
-                  wrap="Wrap"
-                >
-                  <Text
-                    text="{i18n>lblBehavior}"
-                    width="130px"
-                  />
-                  <CheckBox
-                    text="{i18n>cbEnabled}"
-                    selected="{json>/enabled}"
-                  />
-                  <CheckBox
-                    text="{i18n>cbHardwareKeys}"
-                    selected="{json>/hardwareKeys}"
-                  />
-                  <CheckBox
-                    text="{i18n>cbDocked}"
-                    selected="{json>/docked}"
-                  />
-                </HBox>
-                <HBox alignItems="Center">
-                  <Text
-                    text="{i18n>lblLastEvent}"
-                    width="130px"
-                  />
-                  <Text text="{json>/lastEvent}" />
-                </HBox>
-              </VBox>
-            </f:content>
-          </f:Card>
-          <!-- the library control -->
-          <f:Card class="sapUiMediumMarginBottom">
-            <f:layoutData>
-              <FlexItemData
-                growFactor="2"
-                baseSize="0"
-              />
-            </f:layoutData>
-            <f:header>
-              <cards:Header title="ui5.touch.controls.Keyboard" />
-            </f:header>
-            <f:content>
-              <VBox
-                width="100%"
-                class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
-              >
-                <Text
-                  text="{i18n>vkHardwareKeysTip}"
-                  class="sapUiTinyMarginBottom"
-                />
-                <tc:Keyboard
-                  id="keyboard"
-                  value="{json>/value}"
-                  mode="{json>/mode}"
-                  displayNumbers="{json>/displayNumbers}"
-                  letterCase="{json>/letterCase}"
-                  showSpecialCharacters="{json>/showSpecialCharacters}"
-                  showEmojis="{json>/showEmojis}"
-                  showCapsLock="{json>/showCapsLock}"
-                  showEscape="{json>/showEscape}"
-                  enterText="{json>/enterText}"
-                  size="{json>/size}"
-                  enabled="{json>/enabled}"
-                  hardwareKeys="{json>/hardwareKeys}"
-                  docked="{json>/docked}"
-                  width="{json>/width}"
-                  change=".onChange"
-                  enter=".onEnter"
-                  escape=".onEscape"
-                />
-              </VBox>
-            </f:content>
-          </f:Card>
-        </HBox>
-        <!-- what the arrangements are made of -->
-        <f:Card class="sapUiMediumMarginBottom">
-          <f:header>
-            <cards:Header
-              title="{i18n>keyboardLayoutsTitle}"
-              subtitle="{i18n>keyboardLayoutsSubtitle}"
-            />
-          </f:header>
-          <f:content>
-            <VBox
-              width="100%"
-              class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
-            >
-              <FormattedText
-                htmlText="{i18n>keyboardLayoutsText}"
-                width="100%"
-                class="sapUiTinyMarginTop"
-              />
-              <Table items="{json>/modes}">
-                <columns>
-                  <Column width="10rem">
-                    <Label text="{i18n>colMode}" />
-                  </Column>
-                  <Column
-                    width="6rem"
-                    demandPopin="true"
-                    minScreenWidth="Tablet"
-                    popinDisplay="Inline"
-                  >
-                    <Label text="{i18n>colKeys}" />
-                  </Column>
-                  <Column
-                    demandPopin="true"
-                    minScreenWidth="Tablet"
-                    popinDisplay="Inline"
-                  >
-                    <Label text="{i18n>colModeKeys}" />
-                  </Column>
-                </columns>
-                <items>
-                  <ColumnListItem>
-                    <Link
-                      text="{json>mode}"
-                      tooltip="{i18n>tooltipTryMode}"
-                      press=".onModePress"
-                    />
-                    <Text text="{json>keys}" />
-                    <Text text="{json>sample}" />
-                  </ColumnListItem>
-                </items>
-              </Table>
-            </VBox>
-          </f:content>
-        </f:Card>
-        <!-- what the switches do -->
-        <f:Card class="sapUiMediumMarginBottom">
-          <f:header>
-            <cards:Header
-              title="{i18n>keyboardSwitchesTitle}"
-              subtitle="{i18n>keyboardSwitchesSubtitle}"
-            />
-          </f:header>
-          <f:content>
-            <VBox
-              width="100%"
-              class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
-            >
-              <FormattedText
-                htmlText="{i18n>keyboardSwitchesText}"
-                width="100%"
-                class="sapUiTinyMarginTop"
-              />
-            </VBox>
-          </f:content>
-        </f:Card>
-        <core:Fragment
-          fragmentName="ui5.touch.controls.demo.view.ExampleCard"
-          type="XML"
-        />
-      </VBox>
-    </f:content>
-  </f:DynamicPage>
+	<f:DynamicPage
+		headerExpanded="true"
+		class="touchControlsPage"
+	>
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title
+						text="{control>/fullName}"
+						wrapping="true"
+					/>
+				</f:heading>
+				<f:expandedContent>
+					<Text text="{i18n>docKeyboardSummary}" />
+				</f:expandedContent>
+				<f:snappedContent>
+					<Text text="{i18n>docKeyboardSummary}" />
+				</f:snappedContent>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<HBox wrap="Wrap">
+					<ObjectAttribute
+						title="{i18n>introExtends}"
+						text="{control>/extendsClass}"
+						class="sapUiMediumMarginEnd"
+						visible="{= !${control>/extendsUrl} &amp;&amp; !${control>/extendsKey} }"
+					/>
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						visible="{= !!${control>/extendsUrl} }"
+						class="touchControlsFact sapUiMediumMarginEnd">
+						<Text
+							text="{= ${i18n>introExtends} + ':' }"
+							class="touchControlsFactTitle" />
+						<control:LinkList external="true">
+							<Link
+								text="{control>/extendsClass}"
+								href="{control>/extendsUrl}"
+								target="_blank" />
+						</control:LinkList>
+					</HBox>
+					<ObjectAttribute
+						title="{i18n>introExtends}"
+						class="sapUiMediumMarginEnd"
+						visible="{= !${control>/extendsUrl} &amp;&amp; !!${control>/extendsKey} }"
+					>
+						<customContent>
+							<Link
+								text="{control>/extendsClass}"
+								press=".onNavToExtends"
+							/>
+						</customContent>
+					</ObjectAttribute>
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						visible="{control>/showOriginal}"
+						class="touchControlsFact sapUiMediumMarginEnd">
+						<Text
+							text="{= ${i18n>introOriginalLabel} + ':' }"
+							class="touchControlsFactTitle" />
+						<control:LinkList external="{= !!${control>/docUrl} }">
+							<Link
+								text="{control>/replaces}"
+								href="{control>/docUrl}"
+								target="_blank"
+								enabled="{= !!${control>/docUrl} }" />
+						</control:LinkList>
+					</HBox>
+					<ObjectAttribute
+						title="{i18n>introSince}"
+						text="{control>/since}"
+						class="sapUiMediumMarginEnd"
+					/>
+					<ObjectAttribute
+						title="{i18n>introVisibility}"
+						text="{control>/visibility}"
+						class="sapUiMediumMarginEnd" />
+					<HBox
+						alignItems="Center"
+						wrap="Wrap"
+						class="touchControlsFact">
+						<Text
+							text="{= ${i18n>introSource} + ':' }"
+							class="touchControlsFactTitle" />
+						<control:LinkList external="true" links="{control>/sources}">
+							<Link
+								text="{control>file}"
+								href="{control>url}"
+								target="_blank" />
+						</control:LinkList>
+					</HBox>
+				</HBox>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox width="100%">
+				<FormattedText
+					htmlText="{i18n>docKeyboardDescription}"
+					width="100%"
+					class="sapUiTinyMarginTop"
+				/>
+				<FormattedText
+					htmlText="{i18n>kbIntroText}"
+					width="100%"
+					class="sapUiTinyMarginTop"
+				/>
+				<HBox
+					width="100%"
+					class="touchControlsCardRow sapUiSmallMarginTop"
+				>
+					<f:Card class="sapUiSmallMarginBottom">
+						<f:layoutData>
+							<FlexItemData
+								growFactor="1"
+								baseSize="0"
+							/>
+						</f:layoutData>
+						<f:header>
+							<cards:Header title="{i18n>optionsKeyboard}" />
+						</f:header>
+						<f:content>
+							<VBox
+								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom">
+								<core:Fragment
+									fragmentName="ui5.touch.controls.demo.view.SizeOption"
+									type="XML"
+								/>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblValue}"
+										width="130px"
+									/>
+									<Input
+										value="{json>/value}"
+										valueLiveUpdate="true"
+										width="150px"
+									/>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblMode}"
+										width="130px"
+									/>
+									<Select
+										selectedKey="{json>/mode}"
+										width="150px"
+									>
+										<core:Item
+											key="English"
+											text="English"
+										/>
+										<core:Item
+											key="German"
+											text="German"
+										/>
+										<core:Item
+											key="French"
+											text="French"
+										/>
+										<core:Item
+											key="Spanish"
+											text="Spanish"
+										/>
+										<core:Item
+											key="Italian"
+											text="Italian"
+										/>
+										<core:Item
+											key="Portuguese"
+											text="Portuguese"
+										/>
+										<core:Item
+											key="Swedish"
+											text="Swedish"
+										/>
+										<core:Item
+											key="Turkish"
+											text="Turkish"
+										/>
+										<core:Item
+											key="Romanian"
+											text="Romanian"
+										/>
+										<core:Item
+											key="Ukrainian"
+											text="Ukrainian"
+										/>
+										<core:Item
+											key="Russian"
+											text="Russian"
+										/>
+										<core:Item
+											key="Hindi"
+											text="Hindi"
+										/>
+									</Select>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblDisplayNumbers}"
+										width="130px"
+									/>
+									<Select
+										selectedKey="{json>/displayNumbers}"
+										width="150px"
+									>
+										<core:Item
+											key="ToggleOnMobile"
+											text="ToggleOnMobile"
+										/>
+										<core:Item
+											key="Always"
+											text="Always"
+										/>
+										<core:Item
+											key="Toggle"
+											text="Toggle"
+										/>
+										<core:Item
+											key="Never"
+											text="Never"
+										/>
+									</Select>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblLetterCase}"
+										width="130px"
+									/>
+									<Select
+										selectedKey="{json>/letterCase}"
+										width="150px"
+									>
+										<core:Item
+											key="Mixed"
+											text="Mixed"
+										/>
+										<core:Item
+											key="Upper"
+											text="Upper"
+										/>
+										<core:Item
+											key="Lower"
+											text="Lower"
+										/>
+									</Select>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i188>lblExtraKeys}"
+										width="130px"
+									/>
+									<Input
+										value="{json>/extraKeys}"
+										placeholder="{i18n>phExtraKeys}"
+										change=".applyExtraKeys"
+										width="150px"
+									/>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblEnterText}"
+										width="130px"
+									/>
+									<Input
+										value="{json>/enterText}"
+										placeholder="{i18n>phEnterText}"
+										valueLiveUpdate="true"
+										width="150px"
+									/>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblWidth}"
+										width="130px"
+									/>
+									<Input
+										value="{json>/width}"
+										placeholder="{i18n>phWidth}"
+										valueLiveUpdate="true"
+										width="150px"
+									/>
+								</HBox>
+								<HBox
+									alignItems="Center"
+									wrap="Wrap"
+								>
+									<Text
+										text="{i18n>lblKeys}"
+										width="130px"
+									/>
+									<CheckBox
+										text="{i18n>cbSpecialCharacters}"
+										selected="{json>/showSpecialCharacters}"
+									/>
+									<CheckBox
+										text="{i18n>cbEmojis}"
+										selected="{json>/showEmojis}"
+									/>
+									<CheckBox
+										text="{i18n>cbCapsLock}"
+										selected="{json>/showCapsLock}"
+									/>
+									<CheckBox
+										text="{i18n>cbEscape}"
+										selected="{json>/showEscape}"
+									/>
+								</HBox>
+								<HBox
+									alignItems="Center"
+									wrap="Wrap"
+								>
+									<Text
+										text="{i18n>lblBehavior}"
+										width="130px"
+									/>
+									<CheckBox
+										text="{i18n>cbEnabled}"
+										selected="{json>/enabled}"
+									/>
+									<CheckBox
+										text="{i18n>cbHardwareKeys}"
+										selected="{json>/hardwareKeys}"
+									/>
+									<CheckBox
+										text="{i18n>cbDocked}"
+										selected="{json>/docked}"
+									/>
+								</HBox>
+								<HBox alignItems="Center">
+									<Text
+										text="{i18n>lblLastEvent}"
+										width="130px"
+									/>
+									<Text text="{json>/lastEvent}" />
+								</HBox>
+							</VBox>
+						</f:content>
+					</f:Card>
+					<f:Card class="sapUiSmallMarginBottom">
+						<f:layoutData>
+							<FlexItemData
+								growFactor="2"
+								baseSize="0"
+							/>
+						</f:layoutData>
+						<f:header>
+							<cards:Header title="ui5.touch.controls.Keyboard" />
+						</f:header>
+						<f:content>
+							<VBox
+								width="100%"
+								class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+							>
+								<Text
+									text="{i18n>vkHardwareKeysTip}"
+									class="sapUiTinyMarginBottom"
+								/>
+								<tc:Keyboard
+									id="keyboard"
+									value="{json>/value}"
+									mode="{json>/mode}"
+									displayNumbers="{json>/displayNumbers}"
+									letterCase="{json>/letterCase}"
+									showSpecialCharacters="{json>/showSpecialCharacters}"
+									showEmojis="{json>/showEmojis}"
+									showCapsLock="{json>/showCapsLock}"
+									showEscape="{json>/showEscape}"
+									enterText="{json>/enterText}"
+									size="{json>/size}"
+									enabled="{json>/enabled}"
+									hardwareKeys="{json>/hardwareKeys}"
+									docked="{json>/docked}"
+									width="{json>/width}"
+									change=".onChange"
+									enter=".onEnter"
+									escape=".onEscape"
+								/>
+							</VBox>
+						</f:content>
+					</f:Card>
+				</HBox>
+				<core:Fragment
+					fragmentName="ui5.touch.controls.demo.view.ApiCards"
+					type="XML"
+				/>
+				<f:Card class="sapUiSmallMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>keyboardLayoutsTitle}"
+							subtitle="{i18n>keyboardLayoutsSubtitle}"
+						/>
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						>
+							<FormattedText
+								htmlText="{i18n>keyboardLayoutsText}"
+								width="100%"
+								class="sapUiTinyMarginTop"
+							/>
+							<Table items="{json>/modes}">
+								<columns>
+									<Column width="10rem">
+										<Label text="{i18n>colMode}" />
+									</Column>
+									<Column
+										width="6rem"
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline"
+									>
+										<Label text="{i18n>colKeys}" />
+									</Column>
+									<Column
+										demandPopin="true"
+										minScreenWidth="Tablet"
+										popinDisplay="Inline"
+									>
+										<Label text="{i18n>colModeKeys}" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<Link
+											text="{json>mode}"
+											tooltip="{i18n>tooltipTryMode}"
+											press=".onModePress"
+										/>
+										<Text text="{json>keys}" />
+										<Text text="{json>sample}" />
+									</ColumnListItem>
+								</items>
+							</Table>
+						</VBox>
+					</f:content>
+				</f:Card>
+				<f:Card class="sapUiSmallMarginBottom">
+					<f:header>
+						<cards:Header
+							title="{i18n>keyboardSwitchesTitle}"
+							subtitle="{i18n>keyboardSwitchesSubtitle}"
+						/>
+					</f:header>
+					<f:content>
+						<VBox
+							width="100%"
+							class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						>
+							<FormattedText
+								htmlText="{i18n>keyboardSwitchesText}"
+								width="100%"
+								class="sapUiTinyMarginTop"
+							/>
+						</VBox>
+					</f:content>
+				</f:Card>
+				<core:Fragment
+					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
+					type="XML"
+				/>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
 </mvc:View>

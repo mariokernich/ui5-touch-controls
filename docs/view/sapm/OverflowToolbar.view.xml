@@ -11,26 +11,21 @@
 	<f:DynamicPage
 		headerExpanded="true"
 		class="touchControlsPage">
-		<!-- the head of the page reads like an entry of the demo kit: the name
-		     of the class, one or two sentences on what it is, and beside them
-		     the facts about the class -->
 		<f:title>
 			<f:DynamicPageTitle>
 				<f:heading>
 					<Title text="{control>/fullName}" wrapping="true" />
 				</f:heading>
 				<f:expandedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docOverflowToolbarSummary}" />
 				</f:expandedContent>
 				<f:snappedContent>
-					<Text text="{control>/summary}" />
+					<Text text="{i18n>docOverflowToolbarSummary}" />
 				</f:snappedContent>
 			</f:DynamicPageTitle>
 		</f:title>
-
 		<f:header>
 			<f:DynamicPageHeader pinnable="false">
-				<!-- the facts about the class, the way the demo kit lists them -->
 				<HBox wrap="Wrap">
 					<HBox
 						alignItems="Center"
@@ -71,9 +66,6 @@
 						title="{i18n>introVisibility}"
 						text="{control>/visibility}"
 						class="sapUiMediumMarginEnd" />
-					<!-- A class is written in more than one file - what it does and what
-					     it looks like - so this fact carries a link per file, written as
-					     an enumeration. -->
 					<HBox
 						alignItems="Center"
 						wrap="Wrap"
@@ -91,15 +83,11 @@
 				</HBox>
 			</f:DynamicPageHeader>
 		</f:header>
-
 		<f:content>
 			<VBox width="100%">
-				<!-- overview: the class in running text, longer than the summary
-				     in the head of the page -->
 				<Text
-					text="{control>/description}"
+					text="{i18n>docOverflowToolbarDescription}"
 					class="sapUiSmallMarginBottom" />
-
 				<HBox alignItems="Center" class="sapUiTinyMarginBottom">
 					<Text text="{i18n>lblButtonSize}" width="100px" />
 					<Select selectedKey="{json>/size}">
@@ -127,7 +115,8 @@
 				<!-- both toolbars live in a container whose width follows the slider,
 				     so the overflow behaviour can be compared directly -->
 				<VBox width="{json>/containerWidth}">
-					<Title text="{i18n>otWithoutPriorities}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
+					<Title text="{i18n>otWithoutPriorities}"
+						class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
 					<tc:OverflowToolbar size="{json>/size}">
 						<tc:Button
 							text="{i18n>btnNew}"
@@ -202,9 +191,7 @@
 					</tc:OverflowToolbar>
 					<Text text="{i18n>overflowPriorityHint}" class="sapUiTinyMarginTop" />
 				</VBox>
-
 				<Title text="{i18n>otAsFooter}" class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
-				<!-- the page needs an explicit height, otherwise it collapses -->
 				<Page
 					title="{i18n>otFooterPageTitle}"
 					showFooter="true"
@@ -244,7 +231,6 @@
 					</footer>
 				</Page>
 				<Text text="{i18n>overflowFooterHint}" class="sapUiTinyMarginTop" />
-
 				<Title
 					text="{i18n>otAsDialogFooter}"
 					class="sapUiMediumMarginTop sapUiTinyMarginBottom" />
@@ -260,8 +246,6 @@
 				<VBox width="100%" items="{example>/dialog}" class="sapUiSmallMarginTop">
 					<f:Card class="sapUiSmallMarginBottom">
 						<f:header>
-							<!-- a fragment, not a view - the card at the bottom of the page is
-								 the one that shows the view -->
 							<cards:Header title="{i18n>otDialogExample}" />
 						</f:header>
 						<f:content>
@@ -273,7 +257,6 @@
 						</f:content>
 					</f:Card>
 				</VBox>
-
 				<core:Fragment
 					fragmentName="ui5.touch.controls.demo.view.ExampleCard"
 					type="XML" />

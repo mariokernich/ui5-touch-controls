@@ -13,6 +13,7 @@ export default class SignaturePad extends BaseController {
 
 	public onInit(): void {
 		this.setControlIntro("SignaturePad");
+		this.setApi("SignaturePad");
 
 		this.model = new JSONModel(
 			{
