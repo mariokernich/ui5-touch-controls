@@ -110,7 +110,7 @@
 		<f:content>
 			<VBox width="100%">
 				<Text
-					text="{control>/description}"
+					text="{i18n>docNumberPadDescription}"
 					class="sapUiSmallMarginBottom"
 				/>
 				<f:Card class="sapUiSmallMarginBottom">
