@@ -17,9 +17,7 @@
 			class="sapUiMediumMarginBottom"
 			visible="{= ${api>/hasProperties} }">
 			<f:header>
-				<cards:Header
-					title="{i18n>apiProperties}"
-					subtitle="{i18n>apiPropertiesSubtitle}" />
+				<cards:Header title="{i18n>apiProperties}" />
 			</f:header>
 			<f:content>
 				<VBox
@@ -82,9 +80,7 @@
 			class="sapUiMediumMarginBottom"
 			visible="{= ${api>/hasEvents} }">
 			<f:header>
-				<cards:Header
-					title="{i18n>apiEvents}"
-					subtitle="{i18n>apiEventsSubtitle}" />
+				<cards:Header title="{i18n>apiEvents}" />
 			</f:header>
 			<f:content>
 				<VBox
@@ -125,9 +121,7 @@
 			class="sapUiMediumMarginBottom"
 			visible="{= ${api>/hasAggregations} }">
 			<f:header>
-				<cards:Header
-					title="{i18n>apiAggregations}"
-					subtitle="{i18n>apiAggregationsSubtitle}" />
+				<cards:Header title="{i18n>apiAggregations}" />
 			</f:header>
 			<f:content>
 				<VBox
