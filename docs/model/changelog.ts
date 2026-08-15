@@ -35,6 +35,25 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.3.1",
+		date: "2026-08-16",
+		summary: "Bug fixes and demo page improvements",
+		groups: [
+			{
+				kind: "Fixed",
+				items: [
+					"Missing icons on the Enter and Backspace keys of a [Keyboard] in some use cases.",
+				],
+			},
+			{
+				kind: "Demo",
+				items: [
+					"Small improvements to the demo page, like a better layout of the options.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.3.0",
 		date: "2026-08-15",
 		summary:
@@ -199,7 +218,9 @@ export const releases: Release[] = [
 		groups: [
 			{
 				kind: "Docs",
-				items: ["The README explains how to install and use the library."],
+				items: [
+					"The README explains how to install and use the library.",
+				],
 			},
 		],
 	},
