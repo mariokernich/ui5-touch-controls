@@ -26,6 +26,7 @@ export default class BarcodeInput extends BaseController {
 
 	public onInit(): void {
 		this.setControlIntro("BarcodeInput");
+		this.setApi("BarcodeInput");
 
 		this.model = new JSONModel(
 			{

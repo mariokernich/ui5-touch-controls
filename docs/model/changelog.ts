@@ -81,6 +81,7 @@ export const releases: Release[] = [
 					"The code examples carry a copy button, and the code blocks follow the dark theme.",
 					"The demo speaks the same fourteen languages as the library, chosen in the header - the footer, the control reference and the playgrounds included.",
 					"A search sits in the middle of the header. It finds a page by its name, by the sap.m control it steps in for - `sap.m.Select` leads to the touch Select - and by what the page is about, so `barcode` and `signature` arrive without knowing what the control is called.",
+					"The pages of the controls that have no sap.m original - [Keyboard], [NumberPad], [CustomKeyboard], [BarcodeInput] and [SignaturePad] - carry the API under the playground, a card per kind: the properties with their type and what they start on, the events with their parameters, and the aggregations with their cardinality. The three keyboards list what they add and point at [KeyboardBase] for the rest.",
 				],
 			},
 		],

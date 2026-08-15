@@ -20,6 +20,7 @@ export default class NumberPad extends BaseController {
 
 	public onInit(): void {
 		this.setControlIntro("NumberPad");
+		this.setApi("NumberPad");
 
 		this.model = new JSONModel(
 			{

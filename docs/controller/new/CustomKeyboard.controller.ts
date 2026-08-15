@@ -26,6 +26,7 @@ export default class CustomKeyboard extends BaseController {
 
 	public onInit(): void {
 		this.setControlIntro("CustomKeyboard");
+		this.setApi("CustomKeyboard");
 
 		this.model = new JSONModel(
 			{

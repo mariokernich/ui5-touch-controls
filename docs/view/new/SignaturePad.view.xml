@@ -254,6 +254,11 @@
                         </f:content>
                     </f:Card>
                 </HBox>
+                <!-- the API: what the control is set with, what it fires, what goes inside it -->
+                <core:Fragment
+                    fragmentName="ui5.touch.controls.demo.view.ApiCards"
+                    type="XML"
+                />
                 <core:Fragment
                     fragmentName="ui5.touch.controls.demo.view.ExampleCard"
                     type="XML"

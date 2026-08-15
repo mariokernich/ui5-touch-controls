@@ -5,6 +5,8 @@ import type Router from "sap/ui/core/routing/Router";
 import type UIComponent from "sap/ui/core/UIComponent";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type ResourceModel from "sap/ui/model/resource/ResourceModel";
+import type { ApiMember } from "../model/api";
+import { getApi } from "../model/api";
 import {
 	getApiUrl,
 	getControlDoc,
@@ -33,6 +35,9 @@ export default abstract class BaseController extends Controller {
 	/** what {@link fillOnLanguageChange} listens on, so it can be taken back */
 	private languageBinding?: PropertyBinding;
 
+	/** what {@link fillOnLanguageChange} was given, in the order it came in */
+	private fills: (() => void)[] = [];
+
 	/**
 	 * Returns the router of the component.
 	 */
@@ -52,9 +57,17 @@ export default abstract class BaseController extends Controller {
 	 * for instance. The value a field starts on is deliberately left out: a
 	 * playground is there to be typed in, and refilling it on a language
 	 * switch would throw that away.
+	 *
+	 * It may be called more than once - a page fills its own list and inherits
+	 * the API cards on top of that. All of them are run on one binding.
 	 */
 	protected fillOnLanguageChange(fill: () => void): void {
 		fill();
+		this.fills.push(fill);
+
+		if (this.languageBinding) {
+			return;
+		}
 
 		const model = this.getOwnerComponent()?.getModel("i18n") as
 			| ResourceModel
@@ -73,7 +86,9 @@ export default abstract class BaseController extends Controller {
 		// read; the key below is only a key that exists.
 		this.languageBinding = model.bindProperty("/appTitle");
 		this.languageBinding.attachChange(() => {
-			fill();
+			this.fills.forEach((refill) => {
+				refill();
+			});
 		});
 	}
 
@@ -84,6 +99,7 @@ export default abstract class BaseController extends Controller {
 	public onExit(): void {
 		this.languageBinding?.destroy();
 		this.languageBinding = undefined;
+		this.fills = [];
 	}
 
 	/**
@@ -142,6 +158,46 @@ export default abstract class BaseController extends Controller {
 			}),
 			"control",
 		);
+	}
+
+	/**
+	 * Fills the API cards of the page of a control - one for its properties,
+	 * one for its events, one for its aggregations.
+	 *
+	 * The facts come from the API model, the sentences from the resource
+	 * bundle, so the tables follow the language switch. The three kinds are
+	 * flagged rather than counted in the view: a card whose kind the control
+	 * has none of is left out, and few controls have all three.
+	 *
+	 * @param name the key of the page, which is also the name of the control
+	 */
+	protected setApi(name: string): void {
+		const doc = getApi(name);
+
+		if (!doc) {
+			return;
+		}
+
+		const model = new JSONModel();
+		this.getView()?.setModel(model, "api");
+
+		const fill = (members?: ApiMember[]) =>
+			(members ?? []).map((member) => ({
+				...member,
+				text: this.getText(member.textKey),
+			}));
+
+		this.fillOnLanguageChange(() => {
+			model.setData({
+				properties: fill(doc.properties),
+				events: fill(doc.events),
+				aggregations: fill(doc.aggregations),
+				hasProperties: !!doc.properties?.length,
+				hasEvents: !!doc.events?.length,
+				hasAggregations: !!doc.aggregations?.length,
+				inherits: doc.inherits ?? "",
+			});
+		});
 	}
 
 	/**
