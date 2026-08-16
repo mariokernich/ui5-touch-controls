@@ -60,6 +60,14 @@ body,
    the keyboard. Lifting the whole page area above the footer settles it in the
    one place where the two can be compared.
 
+   This is no longer what decides it: a page that shows a docked keyboard takes
+   the footer off the screen for as long as it does (see
+   BaseController.followDockedKeyboard), so the two never share the space in
+   the first place. A ranking that has to survive every stacking context in
+   between held here and did not hold on a phone. The rule stays for the frame
+   between the keyboard appearing and the footer going, and for anything else a
+   page puts down there.
+
    position: relative is deliberate: a transform or a filter would rank it just
    as well, but they would also make the keyboard fix itself against this box
    instead of against the screen. */

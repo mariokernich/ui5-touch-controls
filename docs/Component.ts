@@ -70,6 +70,9 @@ export default class Component extends UIComponent {
 			logoMark: getLogoMarkUrl(),
 			// set from the viewport width by the App controller
 			sideExpanded: false,
+			// the page whose keyboard is docked, if any - see
+			// BaseController.followDockedKeyboard
+			dockedOn: "",
 			language: getLanguageKey(),
 			version: this.getLibraryVersion(),
 			isPhone: Device.system.phone,

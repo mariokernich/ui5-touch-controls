@@ -13,6 +13,11 @@
 	     been cut instead. Wrapping is what a footer wants anyway: what does not
 	     fit beside something goes below it.
 
+	     It is not there while the page that is open shows a docked keyboard:
+	     that keyboard sits at the bottom edge of the screen, which is where
+	     the footer stands, and the two would have to be ranked against each
+	     other - see BaseController.followDockedKeyboard.
+
 	     Two groups, so the line breaks where the sentence ends and not in the
 	     middle of one: what the project is on the one side, what it asks for on
 	     the other. On a phone the groups dissolve (display: contents) and the
@@ -22,7 +27,8 @@
 		wrap="Wrap"
 		justifyContent="SpaceBetween"
 		alignItems="Center"
-		class="touchControlsFooter">
+		class="touchControlsFooter"
+		visible="{= ${app>/dockedOn} !== ${app>/currentKey} }">
 		<!-- who built it, under which licence, with what -->
 		<FlexBox
 			renderType="Bare"

@@ -38,6 +38,9 @@ export default abstract class BaseController extends Controller {
 	/** what {@link fillOnLanguageChange} was given, in the order it came in */
 	private fills: (() => void)[] = [];
 
+	/** what {@link followDockedKeyboard} listens on, so it can be taken back */
+	private dockedBinding?: PropertyBinding;
+
 	/**
 	 * Returns the router of the component.
 	 */
@@ -100,6 +103,9 @@ export default abstract class BaseController extends Controller {
 		this.languageBinding?.destroy();
 		this.languageBinding = undefined;
 		this.fills = [];
+
+		this.dockedBinding?.destroy();
+		this.dockedBinding = undefined;
 	}
 
 	/**
@@ -198,6 +204,54 @@ export default abstract class BaseController extends Controller {
 				inherits: doc.inherits ?? "",
 			});
 		});
+	}
+
+	/**
+	 * Lets the footer of the shell step aside while the page shows a docked
+	 * keyboard.
+	 *
+	 * A docked keyboard sits at the bottom edge of the screen, over everything
+	 * - and that is where the footer stands. The two overlap by the height of
+	 * the footer, and which of them is seen then rests on a single z-index
+	 * ranking surviving every stacking context between the keyboard and the
+	 * shell, plus on the browser compositing a fixed element the way the
+	 * ranking says. That holds here and did not hold on a phone. So the two are
+	 * kept out of each other's way instead: while a keyboard is docked, the
+	 * footer is not there to be argued with - which is also what a phone does
+	 * with its own bottom bar when its keyboard comes up.
+	 *
+	 * What is written down is the page that has one, not a yes or no: the
+	 * footer belongs to the shell and outlives the page, and a page that is
+	 * navigated away from is not destroyed - the NavContainer keeps it, so
+	 * there is no moment at which it could take back a yes. The footer compares
+	 * the note with the page that is open (see the Footer fragment), which
+	 * needs no taking back and is right again the moment the visitor comes
+	 * back to a page whose keyboard is still docked.
+	 *
+	 * @param key the key of the page, which is also its route name
+	 * @param model the model of the page
+	 * @param path the property that says whether the keyboard is docked
+	 */
+	protected followDockedKeyboard(
+		key: string,
+		model: JSONModel,
+		path = "/docked",
+	): void {
+		const app = this.getOwnerComponent()?.getModel("app") as
+			| JSONModel
+			| undefined;
+
+		if (!app) {
+			return;
+		}
+
+		const tell = () => {
+			app.setProperty("/dockedOn", model.getProperty(path) ? key : "");
+		};
+
+		this.dockedBinding = model.bindProperty(path);
+		this.dockedBinding.attachChange(tell);
+		tell();
 	}
 
 	/**
