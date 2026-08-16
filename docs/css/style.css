@@ -238,25 +238,6 @@ body,
    in the light variant, white. Only the plain colour is set here - the themes
    that recolour a focused item in their header stay in charge of that, which
    is what keeps the mark readable on the filled background they draw. */
-.touchControlsHeaderGithub.sapMLnk {
-	display: inline-flex;
-	width: 1.25rem;
-	height: 1.25rem;
-	color: var(--sapShell_TextColor, currentColor);
-}
-
-/* the mask sits on the pseudo element, not on the link itself: a mask covers
-   everything the element draws, and on the link that would swallow the focus
-   outline */
-.touchControlsHeaderGithub.sapMLnk::before {
-	content: "";
-	width: 100%;
-	height: 100%;
-	background-color: currentColor;
-	-webkit-mask: url("../img/github.svg") no-repeat center / contain;
-	mask: url("../img/github.svg") no-repeat center / contain;
-}
-
 /* A box in a card is told to be as wide as the card and given margins on top
    of that: the two together reach past its edge, and a card clips what sticks
    out. The margins are what keeps the content off that edge, so it is the

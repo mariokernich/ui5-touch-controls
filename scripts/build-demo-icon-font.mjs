@@ -11,13 +11,18 @@
  * On editing an icon in docs/icons - a glyph of a font is filled, never
  * stroked, and a stroke would simply be dropped on the way in. So:
  *
- * - every icon is a single <path> of filled contours on a 640 grid, drawn
- *   with a stroke weight of 44 so that they sit next to each other at 20px
- *   without one looking heavier than the next
+ * - every icon is a single <path> of filled contours on a 640 grid
  * - a line is a rectangle, a ring is an outer contour with a counter-rotating
  *   inner one - the non-zero fill rule turns the inner one into a hole
  * - all contours that are meant to join run the same way round. One that runs
  *   the other way cuts a hole out of whatever it overlaps instead
+ * - the drawing touches the edge of that grid in its longer direction. This
+ *   is what decides how big an icon looks at a given font size, and the
+ *   standard icon font fills its em completely: an icon drawn at four fifths
+ *   of the grid is rendered four fifths the size beside one of those,
+ *   whatever the font size and with no stylesheet able to tell them apart.
+ *   A control that is wide and flat in life is still drawn taller than it
+ *   really is, so that it is not a five-pixel dash in a navigation entry
  *
  * Runs automatically before build/start (see package.json).
  */
