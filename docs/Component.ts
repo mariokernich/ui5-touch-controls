@@ -1,3 +1,4 @@
+import IconPool from "sap/ui/core/IconPool";
 import Lib from "sap/ui/core/Lib";
 import Theming from "sap/ui/core/Theming";
 import UIComponent from "sap/ui/core/UIComponent";
@@ -10,6 +11,11 @@ import {
 	introPages,
 	portedPages,
 } from "./model/pages";
+import {
+	ICON_FONT_COLLECTION,
+	ICON_FONT_FAMILY,
+	iconFontMetadata,
+} from "./model/iconFont";
 import { getLanguageKey } from "./model/language";
 import { getLogoMarkUrl, getLogoUrl } from "./model/theme";
 
@@ -30,6 +36,26 @@ export default class Component extends UIComponent {
 
 	public init(): void {
 		super.init();
+
+		// The icons of the side navigation: one per control, drawn for this
+		// demo, so that a page is recognised by its shape rather than by the
+		// nearest thing the standard icon font happens to have. Registered
+		// before the router runs, because the navigation is built with the
+		// first screen.
+		//
+		// The metadata is handed over inline and the metadataURI left empty:
+		// as long as there is a URI to read the metadata from, IconPool reads
+		// it from there, and an icon rendered before that answer arrives stays
+		// empty for good.
+		IconPool.registerFont({
+			collectionName: ICON_FONT_COLLECTION,
+			fontFamily: ICON_FONT_FAMILY,
+			fontURI: sap.ui.require.toUrl("ui5/touch/controls/demo/fonts"),
+			metadata: iconFontMetadata(),
+			// the typings say object, the implementation reads a URI string
+			metadataURI: "" as unknown as object,
+			lazy: false,
+		});
 
 		// state of the shell: theme, language, version and where the
 		// previous/next buttons lead to. The pages read the logo from here too.

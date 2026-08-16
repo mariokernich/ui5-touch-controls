@@ -32,7 +32,7 @@
 	],
 	"scripts": {
 		"clean": "rimraf dist coverage",
-		"build:icon-font": "node scripts/build-icon-font.mjs",
+		"build:icon-font": "node scripts/build-icon-font.mjs && node scripts/build-demo-icon-font.mjs",
 		"prebuild": "npm run clean && npm run build:icon-font",
 		"build": "ui5 build --clean-dest",
 		"prebuild:demo": "npm run clean && npm run build:icon-font",

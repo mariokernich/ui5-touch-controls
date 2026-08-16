@@ -25,19 +25,19 @@ export default class KeyboardBase extends BaseController {
 						key: "Keyboard",
 						name: "ui5.touch.controls.Keyboard",
 						text: this.getText("subKeyboard"),
-						icon: "sap-icon://keyboard-and-mouse",
+						icon: "sap-icon://demo/keyboard",
 					},
 					{
 						key: "NumberPad",
 						name: "ui5.touch.controls.NumberPad",
 						text: this.getText("subNumberPad"),
-						icon: "sap-icon://numbered-text",
+						icon: "sap-icon://demo/number-pad",
 					},
 					{
 						key: "CustomKeyboard",
 						name: "ui5.touch.controls.CustomKeyboard",
 						text: this.getText("subCustomKeyboard"),
-						icon: "sap-icon://developer-settings",
+						icon: "sap-icon://demo/custom-keyboard",
 					},
 				],
 				// what the class itself brings - the properties every keyboard
