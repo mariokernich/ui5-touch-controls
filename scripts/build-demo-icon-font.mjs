@@ -23,6 +23,9 @@
  *   whatever the font size and with no stylesheet able to tell them apart.
  *   A control that is wide and flat in life is still drawn taller than it
  *   really is, so that it is not a five-pixel dash in a navigation entry
+ * - what a frame holds keeps its distance from the line around it, the same
+ *   on every side. Content that leans against the frame reads as a mistake,
+ *   and at a navigation entry's size it runs into the line altogether
  *
  * Runs automatically before build/start (see package.json).
  */
