@@ -73,6 +73,32 @@ const icons = readdirSync(ICON_DIR)
 mkdirSync(OUT_DIR, { recursive: true });
 
 /**
+ * An arc of no radius is a straight line to a browser, which draws it without
+ * complaint - and a contour the font builder drops on the floor. The icon then
+ * looks right in its file and comes out of the font missing a piece, which is
+ * a hard thing to see and a harder one to explain. It is worth a look before
+ * every build; a corner of no radius is a corner, so write it as one.
+ */
+function checkForZeroRadiusArcs() {
+	const bad = icons.filter((icon) =>
+		/[Aa]\s*0[\s,]+0[\s,]/.test(readFileSync(resolve(ICON_DIR, icon.file), "utf8")),
+	);
+
+	if (bad.length) {
+		throw new Error(
+			`an arc of radius zero in ${bad.map((i) => i.file).join(", ")} - the ` +
+				"contour it belongs to will be missing from the glyph. Draw the " +
+				"corner as a corner (H/V) instead.",
+		);
+	}
+}
+
+// before anything is built, and outside main(): a fault in a drawing must not
+// be caught by the fallback below, which would keep the previous font and let
+// the build pass with an icon that is silently out of date
+checkForZeroRadiusArcs();
+
+/**
  * Builds the intermediate SVG font from the individual SVG icons.
  */
 function buildSvgFont() {
