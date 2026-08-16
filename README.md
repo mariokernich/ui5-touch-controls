@@ -31,6 +31,11 @@ The library does two things about that:
 
 2. **It adds controls that `sap.m` does not have at all**, for situations that only come up on touch devices. The prime example is [`tc:Keyboard`](#new-controls-for-touch) — a terminal without a hardware keyboard needs an on-screen keyboard, and OpenUI5 does not ship one.
 
+![Screenshot of the ui5.touch.controls library](assets/screenshot.png)
+
+**Link of full documentation:** https://mariokernich.github.io/ui5-touch-controls/test-resources/ui5/touch/controls/index.html
+
+
 ## Drop-in replacement — before and after
 
 A `sap.m.Page` with an `OverflowToolbar` as footer. This is the standard version:
