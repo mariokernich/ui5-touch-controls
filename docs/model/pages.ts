@@ -56,54 +56,54 @@ export const introPages: PageInfo[] = [
 
 /** rebuilds of sap.m controls */
 export const portedPages: PageInfo[] = [
-	{ key: "Button", text: "Button", icon: "sap-icon://cursor-arrow" },
+	{ key: "Button", text: "Button", icon: "sap-icon://demo/button" },
 	{
 		key: "SegmentedButton",
 		text: "SegmentedButton",
-		icon: "sap-icon://switch-views",
+		icon: "sap-icon://demo/segmented-button",
 	},
-	{ key: "CheckBox", text: "CheckBox", icon: "sap-icon://complete" },
-	{ key: "RadioButton", text: "RadioButton", icon: "sap-icon://record" },
-	{ key: "Switch", text: "Switch", icon: "sap-icon://sys-enter-2" },
-	{ key: "Select", text: "Select", icon: "sap-icon://slim-arrow-down" },
-	{ key: "ComboBox", text: "ComboBox", icon: "sap-icon://value-help" },
-	{ key: "DatePicker", text: "DatePicker", icon: "sap-icon://appointment-2" },
+	{ key: "CheckBox", text: "CheckBox", icon: "sap-icon://demo/check-box" },
+	{ key: "RadioButton", text: "RadioButton", icon: "sap-icon://demo/radio-button" },
+	{ key: "Switch", text: "Switch", icon: "sap-icon://demo/switch" },
+	{ key: "Select", text: "Select", icon: "sap-icon://demo/select" },
+	{ key: "ComboBox", text: "ComboBox", icon: "sap-icon://demo/combo-box" },
+	{ key: "DatePicker", text: "DatePicker", icon: "sap-icon://demo/date-picker" },
 	{
 		key: "TimePicker",
 		text: "TimePicker",
-		icon: "sap-icon://time-entry-request",
+		icon: "sap-icon://demo/time-picker",
 	},
-	{ key: "Input", text: "Input", icon: "sap-icon://edit" },
-	{ key: "TextArea", text: "TextArea", icon: "sap-icon://document-text" },
-	{ key: "StepInput", text: "StepInput", icon: "sap-icon://number-sign" },
-	{ key: "Text", text: "Text", icon: "sap-icon://text" },
-	{ key: "Link", text: "Link", icon: "sap-icon://chain-link" },
-	{ key: "Toolbar", text: "Toolbar", icon: "sap-icon://menu2" },
+	{ key: "Input", text: "Input", icon: "sap-icon://demo/input" },
+	{ key: "TextArea", text: "TextArea", icon: "sap-icon://demo/text-area" },
+	{ key: "StepInput", text: "StepInput", icon: "sap-icon://demo/step-input" },
+	{ key: "Text", text: "Text", icon: "sap-icon://demo/text" },
+	{ key: "Link", text: "Link", icon: "sap-icon://demo/link" },
+	{ key: "Toolbar", text: "Toolbar", icon: "sap-icon://demo/toolbar" },
 	{
 		key: "OverflowToolbar",
 		text: "OverflowToolbar",
-		icon: "sap-icon://overflow",
+		icon: "sap-icon://demo/overflow-toolbar",
 	},
 ];
 
 /** the controls that have no sap.m equivalent */
 export const additionalPages: PageInfo[] = [
-	{ key: "Keyboard", text: "Keyboard", icon: "sap-icon://keyboard-and-mouse" },
-	{ key: "NumberPad", text: "NumberPad", icon: "sap-icon://numbered-text" },
+	{ key: "Keyboard", text: "Keyboard", icon: "sap-icon://demo/keyboard" },
+	{ key: "NumberPad", text: "NumberPad", icon: "sap-icon://demo/number-pad" },
 	{
 		key: "CustomKeyboard",
 		text: "CustomKeyboard",
-		icon: "sap-icon://developer-settings",
+		icon: "sap-icon://demo/custom-keyboard",
 	},
 	// the base class of the three keyboards above. Not a control that is put
 	// into a view, but it has a page because the three link to it
 	{
 		key: "KeyboardBase",
 		text: "KeyboardBase",
-		icon: "sap-icon://source-code",
+		icon: "sap-icon://demo/keyboard-base",
 	},
-	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://bar-code" },
-	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://signature" },
+	{ key: "BarcodeInput", text: "BarcodeInput", icon: "sap-icon://demo/barcode-input" },
+	{ key: "SignaturePad", text: "SignaturePad", icon: "sap-icon://demo/signature-pad" },
 ];
 
 /**
@@ -111,7 +111,7 @@ export const additionalPages: PageInfo[] = [
  * controller instead of being placed in a view.
  */
 export const classPages: PageInfo[] = [
-	{ key: "QuickDialog", text: "QuickDialog", icon: "sap-icon://message-popup" },
+	{ key: "QuickDialog", text: "QuickDialog", icon: "sap-icon://demo/quick-dialog" },
 ];
 
 /** the order used by the previous/next buttons in the header */

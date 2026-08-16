@@ -1,0 +1,212 @@
+/*
+ * Generates the icon font of the demo application from the SVG files in
+ * docs/icons - one icon per control, for the side navigation.
+ *
+ * This is the demo's own font, separate from the one the library ships
+ * (scripts/build-icon-font.mjs): these icons are documentation, not part of
+ * the library, and nothing that uses ui5.touch.controls should have to carry
+ * them. They are registered under the collection "demo", so the navigation
+ * addresses them as sap-icon://demo/<name>.
+ *
+ * On editing an icon in docs/icons - a glyph of a font is filled, never
+ * stroked, and a stroke would simply be dropped on the way in. So:
+ *
+ * - every icon is a single <path> of filled contours on a 640 grid
+ * - a line is a rectangle, a ring is an outer contour with a counter-rotating
+ *   inner one - the non-zero fill rule turns the inner one into a hole
+ * - all contours that are meant to join run the same way round. One that runs
+ *   the other way cuts a hole out of whatever it overlaps instead
+ * - the drawing touches the edge of that grid in its longer direction. This
+ *   is what decides how big an icon looks at a given font size, and the
+ *   standard icon font fills its em completely: an icon drawn at four fifths
+ *   of the grid is rendered four fifths the size beside one of those,
+ *   whatever the font size and with no stylesheet able to tell them apart.
+ *   A control that is wide and flat in life is still drawn taller than it
+ *   really is, so that it is not a five-pixel dash in a navigation entry
+ * - what a frame holds keeps its distance from the line around it, the same
+ *   on every side. Content that leans against the frame reads as a mistake,
+ *   and at a navigation entry's size it runs into the line altogether
+ *
+ * Runs automatically before build/start (see package.json).
+ */
+import { createReadStream, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+import { SVGIcons2SVGFontStream } from "svgicons2svgfont";
+import svg2ttf from "svg2ttf";
+import ttf2woff from "ttf2woff";
+import { compress } from "wawoff2";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const projectRoot = resolve(__dirname, "..");
+
+const FONT_FAMILY = "ui5-touch-controls-demo-icons";
+const COLLECTION = "demo";
+const ICON_DIR = resolve(projectRoot, "docs/icons");
+const OUT_DIR = resolve(projectRoot, "docs/fonts");
+
+/**
+ * The em box of the font. It is the viewBox of the icons, so a coordinate of
+ * an icon is a coordinate of the glyph: the icons are not scaled to a common
+ * height on the way in, which would blow up a wide flat one - a Toolbar - to
+ * the size of a tall one and leave the set uneven.
+ */
+const EM = 640;
+
+/** the first code point, in the Private Use Area */
+const FIRST = 0xe000;
+
+/**
+ * The icons, in the order of the files - which is alphabetical, and therefore
+ * stable: a code point of an icon must not move when another one is added.
+ */
+const icons = readdirSync(ICON_DIR)
+	.filter((file) => file.endsWith(".svg"))
+	.sort()
+	.map((file, index) => ({
+		name: file.replace(/\.svg$/, ""),
+		file: file,
+		unicode: FIRST + index,
+	}));
+
+mkdirSync(OUT_DIR, { recursive: true });
+
+/**
+ * An arc of no radius is a straight line to a browser, which draws it without
+ * complaint - and a contour the font builder drops on the floor. The icon then
+ * looks right in its file and comes out of the font missing a piece, which is
+ * a hard thing to see and a harder one to explain. It is worth a look before
+ * every build; a corner of no radius is a corner, so write it as one.
+ */
+function checkForZeroRadiusArcs() {
+	const bad = icons.filter((icon) =>
+		/[Aa]\s*0[\s,]+0[\s,]/.test(readFileSync(resolve(ICON_DIR, icon.file), "utf8")),
+	);
+
+	if (bad.length) {
+		throw new Error(
+			`an arc of radius zero in ${bad.map((i) => i.file).join(", ")} - the ` +
+				"contour it belongs to will be missing from the glyph. Draw the " +
+				"corner as a corner (H/V) instead.",
+		);
+	}
+}
+
+// before anything is built, and outside main(): a fault in a drawing must not
+// be caught by the fallback below, which would keep the previous font and let
+// the build pass with an icon that is silently out of date
+checkForZeroRadiusArcs();
+
+/**
+ * Builds the intermediate SVG font from the individual SVG icons.
+ */
+function buildSvgFont() {
+	return new Promise((resolvePromise, reject) => {
+		const chunks = [];
+		const fontStream = new SVGIcons2SVGFontStream({
+			fontName: FONT_FAMILY,
+			fontHeight: EM,
+			normalize: false,
+			log: () => {},
+		});
+
+		fontStream.on("data", (chunk) => chunks.push(chunk.toString("utf8")));
+		fontStream.on("end", () => resolvePromise(chunks.join("")));
+		fontStream.on("error", reject);
+
+		for (const icon of icons) {
+			const glyph = createReadStream(resolve(ICON_DIR, icon.file));
+			glyph.metadata = {
+				unicode: [String.fromCodePoint(icon.unicode)],
+				name: icon.name,
+			};
+			fontStream.write(glyph);
+		}
+
+		fontStream.end();
+	});
+}
+
+/**
+ * The metadata as a TypeScript module, written next to the model of the demo.
+ *
+ * The demo hands it to IconPool.registerFont rather than letting IconPool
+ * fetch the JSON: an icon that is rendered before that answer arrives is
+ * rendered empty, and stays empty - see the same file of the library.
+ */
+function buildModule(metadata) {
+	const entries = Object.entries(metadata)
+		.map(([name, code]) => `\t\t"${name}": "${code}",`)
+		.join("\n");
+
+	return `/*
+ * Generated by scripts/build-demo-icon-font.mjs - do not edit.
+ *
+ * Which icon of the demo sits on which code point. Component.ts hands it to
+ * IconPool.registerFont, and that is the point of this file: without it
+ * IconPool has to fetch ${FONT_FAMILY}.json first, and an
+ * icon rendered before that answer arrives is rendered empty - and stays
+ * empty, because nothing renders it again once the metadata turns up.
+ */
+
+/** the font family of the icons of the demo */
+export const ICON_FONT_FAMILY = "${FONT_FAMILY}";
+
+/** the collection they are addressed by: sap-icon://${COLLECTION}/<name> */
+export const ICON_FONT_COLLECTION = "${COLLECTION}";
+
+/**
+ * Which icon sits on which code point.
+ *
+ * A fresh object every time: IconPool takes what it is given and turns the
+ * code points into numbers in place.
+ */
+export function iconFontMetadata(): Record<string, string> {
+	return {
+${entries}
+	};
+}
+`;
+}
+
+async function main() {
+	const svgFont = await buildSvgFont();
+
+	// SVG font -> TTF -> WOFF / WOFF2
+	const ttf = Buffer.from(svg2ttf(svgFont, {}).buffer);
+	const woff = Buffer.from(ttf2woff(ttf).buffer);
+	const woff2 = Buffer.from(await compress(ttf));
+
+	writeFileSync(resolve(OUT_DIR, `${FONT_FAMILY}.ttf`), ttf);
+	writeFileSync(resolve(OUT_DIR, `${FONT_FAMILY}.woff`), woff);
+	writeFileSync(resolve(OUT_DIR, `${FONT_FAMILY}.woff2`), woff2);
+
+	// UI5 IconPool metadata: maps icon name -> hex code point (without prefix)
+	const metadata = Object.fromEntries(
+		icons.map((icon) => [icon.name, icon.unicode.toString(16)]),
+	);
+	writeFileSync(
+		resolve(OUT_DIR, `${FONT_FAMILY}.json`),
+		`${JSON.stringify(metadata, null, "\t")}\n`,
+		"utf8",
+	);
+	writeFileSync(resolve(projectRoot, "docs/model/iconFont.ts"), buildModule(metadata));
+
+	console.log(
+		`[build-demo-icon-font] Generated ${FONT_FAMILY} (.ttf/.woff/.woff2 + .json + docs/model/iconFont.ts) with ${icons.length} icons -> ${OUT_DIR}`,
+	);
+}
+
+main().catch((err) => {
+	console.error(`[build-demo-icon-font] Failed: ${err.stack || err.message}`);
+	// Keep an existing (previously generated) font if regeneration fails so
+	// that build/start does not break on a transient error.
+	const existing = resolve(OUT_DIR, `${FONT_FAMILY}.woff2`);
+	try {
+		readFileSync(existing);
+		console.warn("[build-demo-icon-font] Keeping previously generated font.");
+	} catch {
+		process.exit(1);
+	}
+});

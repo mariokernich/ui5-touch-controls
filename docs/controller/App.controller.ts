@@ -241,6 +241,19 @@ export default class App extends BaseController {
 		this.navigate("/nextKey");
 	}
 
+	/**
+	 * Opens the repository. The mark in the header is an icon of the demo font
+	 * rather than an image, which is what a button carries and a link does not
+	 * - so the link is made here.
+	 */
+	public onGithubPress(): void {
+		window.open(
+			"https://github.com/mariokernich/ui5-touch-controls",
+			"_blank",
+			"noopener",
+		);
+	}
+
 	private navigate(path: string): void {
 		const key = this.model.getProperty(path) as string;
 		if (key) {

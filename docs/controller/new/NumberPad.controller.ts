@@ -43,6 +43,7 @@ export default class NumberPad extends BaseController {
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+		this.followDockedKeyboard("NumberPad", this.model);
 
 		this.setSnippets({
 			main: [

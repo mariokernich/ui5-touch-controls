@@ -35,6 +35,25 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.3.2",
+		date: "",
+		summary: "Icons of the demo's own, and a docked keyboard that keeps the bottom edge to itself.",
+		groups: [
+			{
+				kind: "Fixed",
+				items: [
+					"A docked [Keyboard], [NumberPad] or [CustomKeyboard] no longer shares the bottom edge of the screen with the footer of the demo: the footer steps aside while one is docked, the way a phone puts its own bottom bar away when its keyboard comes up. The two were ranked against each other by a z-index before, which held on a computer and did not on a phone.",
+				],
+			},
+			{
+				kind: "Demo",
+				items: [
+					"The side navigation carries an icon of its own for every control and every class, drawn for the demo and shipped as an icon font of its own: a page is found by the shape of what it is about rather than by the nearest thing the standard icon font happened to have. The GitHub mark of the header comes out of the same font, in place of the stylesheet mask it was drawn with.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.3.1",
 		date: "2026-08-16",
 		summary: "Bug fixes and demo page improvements",

@@ -53,6 +53,7 @@ export default class CustomKeyboard extends BaseController {
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+		this.followDockedKeyboard("CustomKeyboard", this.model);
 		this.applyLayout();
 
 		this.setSnippets({
