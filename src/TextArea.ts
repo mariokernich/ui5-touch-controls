@@ -1,12 +1,11 @@
-import Popover from "sap/m/Popover";
-import { centerKeyboardPopover } from "./centerKeyboardPopover";
-import { PlacementType } from "sap/m/library";
+import type Popover from "sap/m/Popover";
 import Control from "sap/ui/core/Control";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
-import { ISized, SizeMode, sizeClass } from "./library";
+import FieldKeyboard from "./FieldKeyboard";
 import type KeyboardBase from "./KeyboardBase";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * A sized multi-line text input control optimized for touch devices.
@@ -19,24 +18,14 @@ import type KeyboardBase from "./KeyboardBase";
  * @namespace ui5.touch.controls
  */
 export default class TextArea extends Control implements ISized {
-	__implements__ui5_touch_controls_ISized: boolean = true;
-
-	private inputListener: ((event: globalThis.Event) => void) | null = null;
-	private changeListener: ((event: globalThis.Event) => void) | null = null;
-	private focusinListener: ((event: FocusEvent) => void) | null = null;
-	private clickListener: ((event: MouseEvent) => void) | null = null;
-	private focusoutListener: ((event: FocusEvent) => void) | null = null;
-
-	/** the keyboards whose events are already connected to this field */
-	private readonly wiredKeyboards = new WeakSet<KeyboardBase>();
-
-	/**
-	 * Whether the value was last written by the virtual keyboard. Typing on it
-	 * does not make the textarea dirty in the eyes of the browser, so it never
-	 * fires a change of its own when the focus leaves - this field is what
-	 * makes up for that.
-	 */
-	private keyboardDirty = false;
+	// Written by init, which UI5 calls from the constructor of the base class
+	// - that is, before the field declarations of this class are applied.
+	// Declared, they are types and nothing else, so nothing is written over
+	// what init put there.
+	/** the popover with the on-screen keyboard, and what goes with it */
+	private declare keyboardSupport: FieldKeyboard;
+	/** the value the last change event was fired for, see commitChange */
+	private declare lastChangeValue: string;
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
@@ -243,11 +232,91 @@ export default class TextArea extends Control implements ISized {
 		},
 	};
 
+	init(): void {
+		this.lastChangeValue = "";
+		this.keyboardSupport = new FieldKeyboard(this, {
+			change: (value) => {
+				this.applyUserValue(value);
+				this.fireLiveChange({ value: this.getValue() });
+			},
+			enter: (keyboard) => {
+				this.insertLineBreak(keyboard);
+			},
+		});
+	}
+
+	/**
+	 * Keeps the native textarea in step without a re-rendering, so the caret
+	 * and the focus survive a value change.
+	 *
+	 * This is more than a matter of taste here: what a textarea shows is its
+	 * text only until the user has typed into it, and a re-rendering that
+	 * writes the new value as text would leave the old one on the screen.
+	 *
+	 * A value set from the outside is not a change of the user: it fires no
+	 * <code>change</code>, now or when the focus leaves.
+	 */
+	setValue(value: string): this {
+		this.applyUserValue(value);
+		this.lastChangeValue = this.getValue();
+
+		return this;
+	}
+
+	/** Takes over a value without re-rendering the field. */
+	private applyUserValue(value: string): void {
+		this.setProperty("value", value, true);
+		this.syncTextArea();
+	}
+
+	/**
+	 * Puts the value into the native textarea, if it shows something else.
+	 * The newest line is the interesting one, so it is scrolled into view.
+	 */
+	private syncTextArea(): void {
+		const textarea = this.getInnerTextArea();
+
+		if (textarea && textarea.value !== this.getValue()) {
+			textarea.value = this.getValue();
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+	}
+
+	/**
+	 * In a multi-line field Enter is a line break, not a submit - and the
+	 * keyboard leaves its own value alone on Enter, so both sides are set from
+	 * here.
+	 */
+	private insertLineBreak(keyboard: KeyboardBase): void {
+		const maxLength = this.getMaxLength();
+		if (maxLength > 0 && this.getValue().length >= maxLength) {
+			return;
+		}
+
+		this.applyUserValue(`${this.getValue()}\n`);
+		keyboard.setValue(this.getValue());
+		this.fireLiveChange({ value: this.getValue() });
+	}
+
+	/**
+	 * Fires <code>change</code> if the value differs from the one the last
+	 * change was fired for. The browser and the focus leaving the field both
+	 * end up here, and one edit is reported once.
+	 */
+	private commitChange(): void {
+		const value = this.getValue();
+
+		if (value !== this.lastChangeValue) {
+			this.lastChangeValue = value;
+			this.fireChange({ value: value });
+		}
+	}
+
 	/**
 	 * Returns the inner native textarea element.
 	 */
 	private getInnerTextArea(): HTMLTextAreaElement | null {
-		return this.getDomRef()?.querySelector("textarea") ?? null;
+		return this.getDomRef("inner") as HTMLTextAreaElement | null;
 	}
 
 	/**
@@ -259,254 +328,87 @@ export default class TextArea extends Control implements ISized {
 		return this.getInnerTextArea() ?? super.getFocusDomRef();
 	}
 
+	/**
+	 * A label points at the native textarea, so a tap on the label puts the
+	 * caret into the field.
+	 */
+	getIdForLabel(): string {
+		return this.getId() + "-inner";
+	}
+
+	/**
+	 * The popover of the keyboard puts the focus back into the field when it
+	 * closes. When it closes because the focus has just left the field, the
+	 * field declines - the focus stays wherever the user put it, see
+	 * {@link FieldKeyboard#closeForFocusLoss}.
+	 */
+	applyFocusInfo(focusInfo: { preventScroll?: boolean }): this {
+		if (this.keyboardSupport.isClosingForFocusLoss()) {
+			return this;
+		}
+
+		return super.applyFocusInfo(focusInfo);
+	}
+
+	/**
+	 * The forwarding target of the <code>keyboard</code> aggregation, see
+	 * {@link FieldKeyboard#getPopover}.
+	 */
+	private getKeyboardPopover(): Popover {
+		return this.keyboardSupport.getPopover();
+	}
 
 	onBeforeRendering(): void {
 		// e.g. when showKeyboard is switched off while the popover is
 		// still open
-		if (!this.canShowKeyboard()) {
-			this.closeKeyboard();
+		if (!this.keyboardSupport.canShow()) {
+			this.keyboardSupport.close();
 		}
 	}
 
 	onAfterRendering(): void {
+		// the text of the element is only what a textarea starts with, see
+		// setValue
+		this.syncTextArea();
+	}
+
+	oninput(): void {
 		const textarea = this.getInnerTextArea();
 
 		if (textarea) {
-			// With renderer apiVersion 2 the DOM element is patched and reused
-			// on re-rendering, so previously attached listeners must be removed
-			// first - otherwise they accumulate and events fire multiple times.
-			this.detachDomListeners(textarea);
-
-			this.inputListener = () => {
-				this.setProperty("value", textarea.value, true);
-				this.keyboardDirty = false;
-				this.fireLiveChange({ value: textarea.value });
-			};
-			this.changeListener = () => {
-				this.setProperty("value", textarea.value, true);
-				this.keyboardDirty = false;
-				this.fireChange({ value: textarea.value });
-			};
-			this.focusinListener = () => {
-				this.openKeyboard();
-			};
-			// tapping the field brings the keyboard back when it was dismissed
-			// while the field kept the focus, e.g. with the Escape key
-			this.clickListener = () => {
-				this.openKeyboard();
-			};
-			this.focusoutListener = (event: FocusEvent) => {
-				// the focus can move into the popover itself, e.g. by tabbing
-				// onto a key - that is not leaving the field
-				const target = event.relatedTarget as Node | null;
-				if (target && this.getPopoverDomRef()?.contains(target)) {
-					return;
-				}
-				this.closeKeyboard();
-				// a value that was typed on the virtual keyboard alone never
-				// made the textarea dirty, so the browser fires no change of its
-				// own when the focus leaves - this is that change
-				if (this.keyboardDirty) {
-					this.keyboardDirty = false;
-					this.fireChange({ value: this.getValue() });
-				}
-			};
-
-			textarea.addEventListener("input", this.inputListener);
-			textarea.addEventListener("change", this.changeListener);
-			textarea.addEventListener("focusin", this.focusinListener);
-			textarea.addEventListener("click", this.clickListener);
-			textarea.addEventListener("focusout", this.focusoutListener);
+			this.setProperty("value", textarea.value, true);
+			this.fireLiveChange({ value: textarea.value });
 		}
 	}
 
-	private detachDomListeners(textarea: HTMLTextAreaElement): void {
-		if (this.inputListener) {
-			textarea.removeEventListener("input", this.inputListener);
-		}
-		if (this.changeListener) {
-			textarea.removeEventListener("change", this.changeListener);
-		}
-		if (this.focusinListener) {
-			textarea.removeEventListener("focusin", this.focusinListener);
-		}
-		if (this.clickListener) {
-			textarea.removeEventListener("click", this.clickListener);
-		}
-		if (this.focusoutListener) {
-			textarea.removeEventListener("focusout", this.focusoutListener);
-		}
-		this.inputListener = null;
-		this.changeListener = null;
-		this.focusinListener = null;
-		this.clickListener = null;
-		this.focusoutListener = null;
+	/** the browser's change: the focus leaving after typing */
+	onchange(): void {
+		this.commitChange();
+	}
+
+	onfocusin(): void {
+		this.keyboardSupport.open();
 	}
 
 	/**
-	 * Returns the popover carrying the virtual keyboard, creating it on first
-	 * access.
-	 *
-	 * This is the forwarding target of the <code>keyboard</code>
-	 * aggregation, so it is also called while the settings of the constructor
-	 * are applied.
+	 * Tapping the field brings the keyboard back when it was dismissed while
+	 * the field kept the focus, e.g. with the Escape key.
 	 */
-	private getKeyboardPopover(): Popover {
-		let popover = this.getAggregation("_popover") as Popover | null;
-
-		if (!popover) {
-			popover = new Popover(this.getId() + "-keyboardPopover", {
-				showHeader: false,
-				showArrow: false,
-				placement: PlacementType.VerticalPreferredBottom,
-				// the field keeps the focus while the keyboard is open, so the
-				// popover must not pull it onto one of the keys
-				initialFocus: this,
-			});
-			popover.addStyleClass("sizedKeyboardPopover");
-			popover.attachAfterOpen(() => {
-				this.getPopoverDomRef()?.addEventListener(
-					"mousedown",
-					this.keepFocus,
-				);
-				// a docked keyboard is placed by the stylesheet, so it is left
-				// alone here
-				const opened = this.getAggregation("_popover") as Popover | null;
-				if (opened && !this.getKeyboard()?.getDocked()) {
-					centerKeyboardPopover(this, opened);
-				}
-			});
-			popover.attachBeforeClose(() => {
-				this.getPopoverDomRef()?.removeEventListener(
-					"mousedown",
-					this.keepFocus,
-				);
-			});
-			this.setAggregation("_popover", popover, true);
-		}
-
-		return popover;
+	ontap(): void {
+		this.keyboardSupport.open();
 	}
 
-	private getPopoverDomRef(): HTMLElement | null {
-		const popover = this.getAggregation("_popover") as Popover | null;
-		return (popover?.getDomRef() as HTMLElement | null) ?? null;
-	}
-
-	/**
-	 * Pressing a key must not take the focus away from the field - otherwise
-	 * the popover would close on the very first key.
-	 */
-	private readonly keepFocus = (event: MouseEvent): void => {
-		event.preventDefault();
-	};
-
-	/**
-	 * Whether there is a keyboard to show and the field is in a state in which
-	 * the user can type at all.
-	 */
-	private canShowKeyboard(): boolean {
-		return (
-			this.getShowKeyboard() &&
-			this.getEnabled() &&
-			this.getEditable() &&
-			this.getKeyboard() !== null
-		);
-	}
-
-	/**
-	 * Opens the keyboard popover below the field.
-	 */
-	private openKeyboard(): void {
-		if (!this.canShowKeyboard()) {
+	onfocusout(event: FocusEvent): void {
+		// the focus can move into the popover itself, e.g. by tabbing onto a
+		// key - that is not leaving the field
+		if (this.keyboardSupport.contains(event.relatedTarget as Node | null)) {
 			return;
 		}
 
-		const keyboard = this.getKeyboard();
-		const popover = this.getKeyboardPopover();
-
-		if (!keyboard || popover.isOpen()) {
-			return;
-		}
-
-		this.wireKeyboard(keyboard);
-		// the keyboard types into this field, so it starts from its value and
-		// respects its limit
-		keyboard.setValue(this.getValue());
-		keyboard.setMaxLength(this.getMaxLength());
-		// a docked keyboard belongs at the bottom edge of the screen rather
-		// than at the field, and the popover is the element UI5 places - so it
-		// is the one that carries the docking. Asked every time, because the
-		// property can change between two openings.
-		popover.toggleStyleClass("sizedKeyboardPopoverDocked", keyboard.getDocked());
-
-		popover.openBy(this);
-	}
-
-	private closeKeyboard(): void {
-		const popover = this.getAggregation("_popover") as Popover | null;
-		if (popover?.isOpen()) {
-			popover.close();
-		}
-	}
-
-	/**
-	 * Connects a keyboard to this field. Every keyboard is only connected once,
-	 * however often the popover is opened.
-	 */
-	private wireKeyboard(keyboard: KeyboardBase): void {
-		if (this.wiredKeyboards.has(keyboard)) {
-			return;
-		}
-		this.wiredKeyboards.add(keyboard);
-
-		keyboard.attachChange((event) => {
-			this.applyKeyboardValue(event.getParameter("value") ?? "");
-			this.fireLiveChange({ value: this.getValue() });
-		});
-
-		// in a multi-line field Enter is a line break, not a submit - and the
-		// keyboard leaves its own value alone on Enter, so both sides are set
-		// from here
-		keyboard.attachEnter(() => {
-			const maxLength = this.getMaxLength();
-			if (maxLength > 0 && this.getValue().length >= maxLength) {
-				return;
-			}
-
-			this.applyKeyboardValue(`${this.getValue()}\n`);
-			keyboard.setValue(this.getValue());
-			this.fireLiveChange({ value: this.getValue() });
-		});
-	}
-
-	/**
-	 * Writes a value coming from the keyboard into the field. The DOM is
-	 * updated directly and the property change is suppressed, so the field is
-	 * not re-rendered while the user is typing.
-	 */
-	private applyKeyboardValue(value: string): void {
-		this.setProperty("value", value, true);
-		this.keyboardDirty = true;
-
-		const textarea = this.getInnerTextArea();
-		if (textarea) {
-			textarea.value = value;
-			// the newest line is the interesting one
-			textarea.scrollTop = textarea.scrollHeight;
-		}
-	}
-
-	exit(): void | undefined {
-		const textarea = this.getInnerTextArea();
-		if (textarea) {
-			this.detachDomListeners(textarea);
-		}
-		this.getPopoverDomRef()?.removeEventListener("mousedown", this.keepFocus);
-		this.inputListener = null;
-		this.changeListener = null;
-		this.focusinListener = null;
-		this.clickListener = null;
-		this.focusoutListener = null;
+		this.keyboardSupport.closeForFocusLoss();
+		// a value that was typed on the on-screen keyboard alone never made
+		// the textarea dirty, so the browser fires no change of its own when
+		// the focus leaves - this is that change
+		this.commitChange();
 	}
 }
