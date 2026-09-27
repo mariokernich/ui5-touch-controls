@@ -7,45 +7,111 @@ import Image from "sap/m/Image";
 import Control from "sap/ui/core/Control";
 import { ISized, SizeMode, sizeClass } from "./library";
 
+/** a control that shows an image or an icon font glyph - an Icon or an Image */
+type IconControl = Control & { getSrc(): string };
+
 /**
+ * A button for touch devices, and the one every other control of this library
+ * is built from.
+ *
+ * Its height, font and icon follow the library's central <code>size</code>
+ * property. It fires <code>press</code> the moment the finger comes off the
+ * screen, for every pointer on its own - so two thumbs typing on a keyboard of
+ * these buttons lose no key - and it can be pressed with <kbd>Enter</kbd> and
+ * <kbd>Space</kbd> like any native button.
+ *
  * @namespace ui5.touch.controls
  */
 export default class Button extends Control implements ISized {
-	private pressListener: (() => void) | null = null;
-	private releaseListener: (() => void) | null = null;
-	private cancelListener: (() => void) | null = null;
+	/**
+	 * The DOM element the pointer listeners are attached to. The element is
+	 * patched and kept across renderings, so the listeners only move when the
+	 * element itself was replaced.
+	 */
+	private listenedDom: HTMLElement | null = null;
+
+	/**
+	 * The pointers that went down on this button and have not come up yet. A
+	 * release only presses the button if it belongs to one of them - a pointer
+	 * that went down elsewhere and was released over the button did not press
+	 * it.
+	 */
+	private readonly downPointers = new Set<number>();
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
+			/**
+			 * The text of the button.
+			 */
 			text: { type: "string", group: "Misc", defaultValue: "" },
+			/**
+			 * The type of the button, as in <code>sap.m.Button</code>.
+			 */
 			type: {
 				type: "sap.m.ButtonType",
 				group: "Appearance",
 				defaultValue: ButtonType.Default,
 			},
+			/**
+			 * Indicates whether the user can press the button.
+			 */
 			enabled: { type: "boolean", group: "Behavior", defaultValue: true },
+			/**
+			 * The icon of the button: an icon font URI such as
+			 * <code>sap-icon://add</code>, or the URL of an image.
+			 */
 			icon: { type: "sap.ui.core.URI", group: "Appearance", defaultValue: "" },
+			/**
+			 * Whether the icon stands before the text or after it.
+			 */
 			iconFirst: { type: "boolean", group: "Appearance", defaultValue: true },
+			/**
+			 * Has no effect: the padding of the button follows its
+			 * <code>size</code>.
+			 *
+			 * @deprecated As of version 1.3.2 - the padding comes from the size
+			 * ladder of the stylesheet and cannot be set per button.
+			 */
 			sidePadding: {
 				type: "sap.ui.core.CSSSize",
 				group: "Appearance",
 				defaultValue: "20px",
+				deprecated: true,
 			},
+			/**
+			 * Width of the button. Without it the button is as wide as its
+			 * content.
+			 */
 			width: {
 				type: "sap.ui.core.CSSSize",
 				group: "Appearance",
 				defaultValue: null,
 			},
+			/**
+			 * Touch size of the button.
+			 */
 			size: {
 				type: "ui5.touch.controls.SizeMode",
 				group: "Appearance",
 				defaultValue: SizeMode.M,
 			},
 		},
+		aggregations: {
+			/**
+			 * The control that draws the icon. It is made once per icon and
+			 * kept here, so it is destroyed together with the button.
+			 */
+			_icon: {
+				type: "sap.ui.core.Control",
+				multiple: false,
+				visibility: "hidden",
+			},
+		},
 		events: {
 			/**
-			 * Fired when the user clicks or taps on the control.
+			 * Fired when the user clicks or taps on the control, or presses it
+			 * with <kbd>Enter</kbd> or <kbd>Space</kbd>.
 			 */
 			press: {},
 		},
@@ -63,157 +129,195 @@ export default class Button extends Control implements ISized {
 			const id = control.getId();
 			const text = control.getText();
 			const enabled = control.getEnabled();
-			const type = control.getType();
-			const icon = control.getIcon();
+			const icon = control.getAggregation("_icon") as Control | null;
+			const tooltip = control.getTooltip_AsString();
 
-			// START: BUTTON
 			rm.openStart("button", control);
-			rm.class(`sizedButton`);
-			rm.class(`sizedButton${type}`);
+			// not a submit button, should the button end up inside a form
+			rm.attr("type", "button");
+			rm.class("sizedButton");
+			rm.class(`sizedButton${control.getType()}`);
 			rm.class(sizeClass(control.getSize()));
-
-			if (!control.getEnabled()) {
-				rm.attr("disabled", "disabled");
-				rm.class("sapMBtnDisabled");
-			}
-
-			if (control.getWidth()) {
-				rm.style("width", control.getWidth());
-			}
-
-			//rm.style("background-color", control.getButtonColor(type));
-
-			const iconControl = IconPool.createControlByURI(
-				{
-					src: icon,
-				},
-				Image,
-			);
 
 			if (!enabled) {
 				rm.attr("disabled", "disabled");
+				rm.class("sapMBtnDisabled");
 			}
-
+			if (control.getWidth()) {
+				rm.style("width", control.getWidth());
+			}
+			if (tooltip) {
+				rm.attr("title", tooltip);
+				// a button that shows nothing but an icon is named by its
+				// tooltip, or it has no name at all
+				if (!text) {
+					rm.attr("aria-label", tooltip);
+				}
+			}
 			rm.openEnd();
 
-			// START: SPAN-INNER
 			rm.openStart("span", id + "-inner");
-
 			if (enabled) {
 				rm.class("sapMFocusable");
 			}
 			rm.class("sizedButtonInner");
-
-			// close inner button tag
 			rm.openEnd();
 
-			if (icon && control.getIconFirst() === true) {
-				// START: SPAN-IMG
+			/** the icon, on the side of the text it was asked for */
+			const renderIcon = (side: "Left" | "Right") => {
 				rm.openStart("span", id + "-img");
 				rm.class("sizedButtonIcon");
-
-				if (control.getText()) {
-					rm.class("sizedButtonIconLeft");
+				if (text) {
+					rm.class(`sizedButtonIcon${side}`);
 				}
-
 				rm.openEnd();
-				rm.renderControl(iconControl);
-
-				// END: SPAN-IMG
+				rm.renderControl(icon as Control);
 				rm.close("span");
+			};
+
+			if (icon && control.getIconFirst()) {
+				renderIcon("Left");
 			}
 
-			// START: SPAN-CONTENT
 			rm.openStart("span", id + "-content");
 			rm.class("sizedButtonContent");
 			rm.openEnd();
 			rm.text(text);
-
-			// END: SPAN-CONTENT
 			rm.close("span");
 
-			if (icon && control.getIconFirst() === false) {
-				rm.openStart("span", id + "-img");
-				rm.class("sizedButtonIcon");
-
-				if (control.getText()) {
-					rm.class("sizedButtonIconRight");
-				}
-
-				rm.openEnd();
-				rm.renderControl(iconControl);
-				rm.close("span");
+			if (icon && !control.getIconFirst()) {
+				renderIcon("Right");
 			}
 
-			// END: SPAN-INNER
 			rm.close("span");
-
-			// END: BUTTON
 			rm.close("button");
 		},
 	};
 
+	/**
+	 * The background color of a button type in the current theme.
+	 *
+	 * @deprecated As of version 1.3.2 - the colors of a button come from its
+	 * stylesheet, and this reads the theme parameter synchronously.
+	 */
 	getButtonColor(type: ButtonType) {
 		return Parameters.get(`sapButton_${type}_Background`) as string;
 	}
 
+	onBeforeRendering(): void {
+		this.updateIconControl();
+	}
+
+	/**
+	 * Brings the control that draws the icon in line with the icon property.
+	 * It is only made anew when the icon changes, not on every rendering.
+	 */
+	private updateIconControl(): void {
+		const src = this.getIcon();
+		const current = this.getAggregation("_icon") as IconControl | null;
+
+		if (current && current.getSrc() === src) {
+			return;
+		}
+
+		this.destroyAggregation("_icon", true);
+
+		if (!src) {
+			return;
+		}
+
+		// an icon font URI becomes a sap.ui.core.Icon, anything else an Image.
+		// The typings only know the src of the settings; the id is taken over
+		// as well, the way sap.m.Button hands one in.
+		const created = IconPool.createControlByURI(
+			{ id: `${this.getId()}-icon`, src: src } as { src: string },
+			Image,
+		) as Control | undefined;
+
+		if (created) {
+			this.setAggregation("_icon", created, true);
+		}
+	}
+
 	onAfterRendering(): void {
-		const dom = this.getDomRef() as HTMLButtonElement | null;
+		const dom = this.getDomRef() as HTMLElement | null;
+
+		if (dom === this.listenedDom) {
+			return;
+		}
+
+		this.detachPointerListeners();
 
 		if (dom) {
-			// With renderer apiVersion 2 the DOM element is patched and reused
-			// on re-rendering, so previously attached listeners must be removed
-			// first - otherwise they accumulate and press fires multiple times.
-			this.detachDomListeners(dom);
-
-			this.pressListener = () => {
-				dom.classList.add("sizedButtonActive");
-			};
-			this.releaseListener = () => {
-				dom.classList.remove("sizedButtonActive");
-				this.firePress();
-			};
-			this.cancelListener = () => {
-				dom.classList.remove("sizedButtonActive");
-			};
-
-			// Pointer events unify mouse, touch and pen input, so each
-			// tap/click produces exactly one pointerdown/pointerup pair.
-			// Using mouse + touch listeners in parallel would fire press
-			// twice on mobile (touchend followed by the synthesized
-			// compatibility mouseup).
-			dom.addEventListener("pointerdown", this.pressListener);
-			dom.addEventListener("pointerup", this.releaseListener);
-			dom.addEventListener("pointerleave", this.cancelListener);
-			dom.addEventListener("pointercancel", this.cancelListener);
+			// Pointer events unify mouse, touch and pen input and come once per
+			// finger, which is what a keyboard of these buttons needs: a second
+			// thumb that comes down before the first one is up still types
+			dom.addEventListener("pointerdown", this.onPointerDown);
+			dom.addEventListener("pointerup", this.onPointerUp);
+			dom.addEventListener("pointerleave", this.onPointerCancel);
+			dom.addEventListener("pointercancel", this.onPointerCancel);
+			this.listenedDom = dom;
 		}
 	}
 
-	private detachDomListeners(dom: HTMLElement): void {
-		if (this.pressListener) {
-			dom.removeEventListener("pointerdown", this.pressListener);
-		}
-		if (this.releaseListener) {
-			dom.removeEventListener("pointerup", this.releaseListener);
-		}
-		if (this.cancelListener) {
-			dom.removeEventListener("pointerleave", this.cancelListener);
-			dom.removeEventListener("pointercancel", this.cancelListener);
-		}
-		this.pressListener = null;
-		this.releaseListener = null;
-		this.cancelListener = null;
+	exit(): void {
+		this.detachPointerListeners();
 	}
 
-	onBeforeRendering() {}
+	private detachPointerListeners(): void {
+		const dom = this.listenedDom;
 
-	exit(): void | undefined {
-		const dom = this.getDomRef();
 		if (dom) {
-			this.detachDomListeners(dom as HTMLElement);
+			dom.removeEventListener("pointerdown", this.onPointerDown);
+			dom.removeEventListener("pointerup", this.onPointerUp);
+			dom.removeEventListener("pointerleave", this.onPointerCancel);
+			dom.removeEventListener("pointercancel", this.onPointerCancel);
 		}
-		this.pressListener = null;
-		this.releaseListener = null;
-		this.cancelListener = null;
+		this.listenedDom = null;
+		this.downPointers.clear();
+	}
+
+	private readonly onPointerDown = (event: PointerEvent): void => {
+		// the secondary mouse buttons open menus, they do not press
+		if (!this.getEnabled() || (event.pointerType === "mouse" && event.button !== 0)) {
+			return;
+		}
+
+		this.downPointers.add(event.pointerId);
+		this.listenedDom?.classList.add("sizedButtonActive");
+	};
+
+	private readonly onPointerUp = (event: PointerEvent): void => {
+		if (!this.downPointers.delete(event.pointerId)) {
+			return;
+		}
+
+		if (this.downPointers.size === 0) {
+			this.listenedDom?.classList.remove("sizedButtonActive");
+		}
+		if (this.getEnabled()) {
+			this.firePress();
+		}
+	};
+
+	private readonly onPointerCancel = (event: PointerEvent): void => {
+		this.downPointers.delete(event.pointerId);
+
+		if (this.downPointers.size === 0) {
+			this.listenedDom?.classList.remove("sizedButtonActive");
+		}
+	};
+
+	/**
+	 * A native button turns <kbd>Enter</kbd> and <kbd>Space</kbd> into a
+	 * click of its own, with the timing a user of a keyboard expects - so the
+	 * keyboard is served from here. Such a click has no pointer behind it and
+	 * says so with a <code>detail</code> of 0; a click that follows a pointer
+	 * has already pressed the button on the way up.
+	 */
+	onclick(event: MouseEvent): void {
+		if (!event.detail && this.getEnabled()) {
+			this.firePress();
+		}
 	}
 }
