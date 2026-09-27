@@ -1,18 +1,13 @@
-import ResponsivePopover from "sap/m/ResponsivePopover";
+import type ResponsivePopover from "sap/m/ResponsivePopover";
 import Device from "sap/ui/Device";
-import Title from "sap/m/Title";
-import ToolbarSpacer from "sap/m/ToolbarSpacer";
-import VBox from "sap/m/VBox";
-import { FlexRendertype, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import type Item from "sap/ui/core/Item";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { TitleLevel, ValueState } from "sap/ui/core/library";
-import Button from "./Button";
-import Toolbar from "./Toolbar";
-import { fitDialogBars } from "./fitDialogBars";
+import { ValueState } from "sap/ui/core/library";
+import { getText } from "./i18n";
 import { ISized, SizeMode, sizeClass } from "./library";
+import { createPickerList, createPickerPopover, setPickerHeader } from "./picker";
 
 /**
  * A simplified variant of <code>sap.m.Select</code> for touch devices.
@@ -47,6 +42,7 @@ import { ISized, SizeMode, sizeClass } from "./library";
  * @namespace ui5.touch.controls
  */
 export default class Select extends Control implements ISized {
+	/** whether the list is open, which the field shows as well */
 	private expanded = false;
 
 	static readonly metadata: MetadataOptions = {
@@ -96,8 +92,8 @@ export default class Select extends Control implements ISized {
 			/**
 			 * The heading over the list on a phone, where the list takes the
 			 * whole screen and the field it belongs to is behind it. An empty
-			 * title falls back to <code>Select</code>, the way
-			 * <code>sap.m.Select</code> does.
+			 * title falls back to <code>Select</code> in the language the
+			 * application runs in, the way <code>sap.m.Select</code> does.
 			 *
 			 * Nothing is shown of it on a larger screen: there the list is a
 			 * popover on the field and needs no heading to say what it is.
@@ -223,12 +219,24 @@ export default class Select extends Control implements ISized {
 		const popover = this.getPopover();
 
 		popover.destroyContent();
-		popover.addContent(this.createList());
+		popover.addContent(
+			createPickerList(this.getItems(), {
+				size: this.getSize(),
+				selectedItem: this.getSelectedItem(),
+				select: (item) => {
+					this.selectItem(item);
+				},
+			}),
+		);
 
 		if (Device.system.phone) {
-			// the header is built anew every time, so it carries the size the
-			// control has now
-			popover.setCustomHeader(this.createPickerHeader());
+			// built anew every time, so it carries the size the control has now
+			setPickerHeader(
+				popover,
+				this.getPickerTitle() || getText("PICKER_TITLE"),
+				getText("SELECT_CANCEL"),
+				this.getSize(),
+			);
 		} else {
 			// the list should be at least as wide as the field, like in sap.m -
 			// on a phone the picker takes the screen and there is nothing to
@@ -236,69 +244,8 @@ export default class Select extends Control implements ISized {
 			popover.setContentWidth(`${dom.offsetWidth}px`);
 		}
 
-		this.expanded = true;
-		dom.setAttribute("aria-expanded", "true");
-		dom.classList.add("sizedSelectExpanded");
-
+		this.setExpanded(true);
 		popover.openBy(this);
-	}
-
-	/**
-	 * The bar over a phone picker: what it is, and the way out of it.
-	 *
-	 * A picker that fills the screen cannot be left by tapping beside it, and
-	 * the field it belongs to is behind it - so it says what is being picked
-	 * and brings its own Cancel, both the way <code>sap.m.Select</code> does.
-	 */
-	private createPickerHeader(): Toolbar {
-		return new Toolbar({
-			content: [
-				new Title({
-					text: this.getPickerTitle() || "Select",
-					level: TitleLevel.H2,
-				}),
-				new ToolbarSpacer(),
-				new Button({
-					text: "Cancel",
-					size: this.getSize(),
-					press: () => {
-						this.getPopover().close();
-					},
-				}),
-			],
-		});
-	}
-
-	/**
-	 * Builds the list of the popover: one of the library's buttons per item, so
-	 * the rows carry the size of the control.
-	 */
-	private createList(): VBox {
-		const size = this.getSize();
-		const selectedItem = this.getSelectedItem();
-
-		return new VBox({
-			// without Bare the flex box would wrap every row in a div of its
-			// own, which the styling of the list would have to work around
-			renderType: FlexRendertype.Bare,
-			items: this.getItems().map((item) => {
-				const button = new Button({
-					text: item.getText(),
-					size: size,
-					width: "100%",
-					press: () => {
-						this.selectItem(item);
-					},
-				});
-
-				button.addStyleClass("sizedPickerItem");
-				if (item === selectedItem) {
-					button.addStyleClass("sizedPickerItemSelected");
-				}
-
-				return button;
-			}),
-		}).addStyleClass("sizedPickerList");
 	}
 
 	private selectItem(item: Item): void {
@@ -313,35 +260,27 @@ export default class Select extends Control implements ISized {
 	}
 
 	private getPopover(): ResponsivePopover {
-		let popover = this.getAggregation("_popover") as ResponsivePopover | null;
-
-		if (!popover) {
-			popover = new ResponsivePopover(this.getId() + "-popover", {
-				// a phone gets a dialog over the whole screen, like sap.m does,
-				// and that one is closed by a bar of its own
-				showHeader: Device.system.phone,
-				showArrow: false,
-				placement: PlacementType.VerticalPreferredBottom,
-				afterOpen: () => {
-					fitDialogBars(this.getPopover());
-				},
+		return (
+			(this.getAggregation("_popover") as ResponsivePopover | null) ??
+			createPickerPopover(this, {
+				styleClass: "sizedSelectPopover",
 				afterClose: () => {
-					this.onPopoverClosed();
+					this.setExpanded(false);
 				},
-			});
-			popover.addStyleClass("sizedSelectPopover");
-			this.setAggregation("_popover", popover, true);
-		}
-
-		return popover;
+			})
+		);
 	}
 
-	private onPopoverClosed(): void {
-		this.expanded = false;
+	/**
+	 * Shows whether the list is open, without a re-rendering. The renderer
+	 * reads the same state, so a rendering while the list is open keeps it.
+	 */
+	private setExpanded(expanded: boolean): void {
+		this.expanded = expanded;
 
 		const dom = this.getDomRef();
-		dom?.setAttribute("aria-expanded", "false");
-		dom?.classList.remove("sizedSelectExpanded");
+		dom?.setAttribute("aria-expanded", `${expanded}`);
+		dom?.classList.toggle("sizedSelectExpanded", expanded);
 	}
 
 	static renderer = {
@@ -366,16 +305,17 @@ export default class Select extends Control implements ISized {
 				rm.class("sizedSelectState");
 				rm.class(`sizedSelect${valueState}`);
 			}
+			if (control.expanded) {
+				rm.class("sizedSelectExpanded");
+			}
 
-			// like sap.m: enough room for the arrow, one letter and the
-			// ellipsis, so the field never collapses
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
 			}
 
 			rm.attr("role", "combobox");
 			rm.attr("aria-haspopup", "listbox");
-			rm.attr("aria-expanded", "false");
+			rm.attr("aria-expanded", `${control.expanded}`);
 			if (!enabled) {
 				rm.attr("aria-disabled", "true");
 			} else if (!editable) {

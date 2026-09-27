@@ -1,22 +1,19 @@
-import ResponsivePopover from "sap/m/ResponsivePopover";
+import type ResponsivePopover from "sap/m/ResponsivePopover";
 import Device from "sap/ui/Device";
 import Text from "sap/m/Text";
-import Title from "sap/m/Title";
-import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import VBox from "sap/m/VBox";
-import { FlexRendertype, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
 import type Item from "sap/ui/core/Item";
 import type ListItem from "sap/ui/core/ListItem";
 import RenderManager from "sap/ui/core/RenderManager";
 import { getText } from "./i18n";
 import { MetadataOptions } from "sap/ui/core/Element";
-import { TitleLevel, ValueState } from "sap/ui/core/library";
-import Button from "./Button";
+import { ValueState } from "sap/ui/core/library";
+import type Button from "./Button";
 import Input from "./Input";
 import Toolbar from "./Toolbar";
-import { fitDialogBars } from "./fitDialogBars";
 import { ISized, SizeMode, sizeClass } from "./library";
+import { createPickerList, createPickerPopover, setPickerHeader } from "./picker";
 
 /**
  * A simplified variant of <code>sap.m.ComboBox</code> for touch devices.
@@ -52,10 +49,14 @@ import { ISized, SizeMode, sizeClass } from "./library";
  * @namespace ui5.touch.controls
  */
 export default class ComboBox extends Control implements ISized {
+	/** whether the list is open, which the field shows as well */
 	private expanded = false;
-	private valueOnOpen = "";
-	private inputListener: ((event: globalThis.Event) => void) | null = null;
-	private changeListener: ((event: globalThis.Event) => void) | null = null;
+	// Written by init and by setValue, which the constructor of the base class
+	// calls - that is, before the field declarations of this class are
+	// applied. Declared, it is a type and nothing else, so nothing is written
+	// over what was put there.
+	/** the value the last change event was fired for, see commitChange */
+	private declare lastChangeValue: string;
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
@@ -119,8 +120,8 @@ export default class ComboBox extends Control implements ISized {
 			/**
 			 * The heading over the list on a phone, where the list takes the
 			 * whole screen and the field it belongs to is behind it. An empty
-			 * title falls back to <code>Select</code>, the way
-			 * <code>sap.m.ComboBox</code> does.
+			 * title falls back to <code>Select</code> in the language the
+			 * application runs in, the way <code>sap.m.ComboBox</code> does.
 			 *
 			 * Nothing is shown of it on a larger screen: there the list is a
 			 * popover on the field and needs no heading to say what it is.
@@ -199,6 +200,10 @@ export default class ComboBox extends Control implements ISized {
 		super(id, settings);
 	}
 
+	init(): void {
+		this.lastChangeValue = "";
+	}
+
 	/**
 	 * Returns the item whose text equals the current value, or
 	 * <code>null</code> when the value is free text.
@@ -215,16 +220,25 @@ export default class ComboBox extends Control implements ISized {
 	/**
 	 * Keeps the native input in sync without a re-rendering, so the caret and
 	 * the focus survive a value change.
+	 *
+	 * A value set from the outside is not a change of the user: it fires no
+	 * <code>change</code>, now or when the focus leaves.
 	 */
 	setValue(value: string): this {
+		this.applyValue(value);
+		this.lastChangeValue = this.getValue();
+
+		return this;
+	}
+
+	/** Takes over a value without re-rendering the field. */
+	private applyValue(value: string): void {
 		this.setProperty("value", value, true);
 
 		const input = this.getInnerInput();
-		if (input && input.value !== value) {
-			input.value = value;
+		if (input && input.value !== this.getValue()) {
+			input.value = this.getValue();
 		}
-
-		return this;
 	}
 
 	/**
@@ -269,54 +283,44 @@ export default class ComboBox extends Control implements ISized {
 	}
 
 	private getInnerInput(): HTMLInputElement | null {
-		return this.getDomRef()?.querySelector("input") ?? null;
+		return this.getDomRef("inner") as HTMLInputElement | null;
+	}
+
+	/**
+	 * The inner input element is what the user types into, so it is also what
+	 * gets the focus.
+	 */
+	getFocusDomRef(): Element | null {
+		return this.getInnerInput() ?? super.getFocusDomRef();
+	}
+
+	/**
+	 * A label points at the native input, so a tap on the label puts the
+	 * caret into the field.
+	 */
+	getIdForLabel(): string {
+		return this.getId() + "-inner";
 	}
 
 	private isInteractive(): boolean {
 		return this.getEnabled() && this.getEditable();
 	}
 
-	onAfterRendering(): void {
+	oninput(): void {
 		const input = this.getInnerInput();
 
 		if (!input) {
 			return;
 		}
 
-		// with renderer apiVersion 2 the DOM element is patched and reused, so
-		// previously attached listeners have to go first
-		this.detachDomListeners(input);
-
-		this.inputListener = () => {
-			this.setProperty("value", input.value, true);
-			this.setProperty("selectedKey", this.getSelectedItem()?.getKey() ?? "", true);
-			this.openPicker();
-		};
-		this.changeListener = () => {
-			this.setProperty("value", input.value, true);
-			this.fireChangeEvent();
-		};
-
-		input.addEventListener("input", this.inputListener);
-		input.addEventListener("change", this.changeListener);
+		this.setProperty("value", input.value, true);
+		this.setProperty("selectedKey", this.getSelectedItem()?.getKey() ?? "", true);
+		this.openPicker();
 	}
 
-	private detachDomListeners(input: HTMLInputElement): void {
-		if (this.inputListener) {
-			input.removeEventListener("input", this.inputListener);
-		}
-		if (this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
-		}
-		this.inputListener = null;
-		this.changeListener = null;
-	}
-
-	exit(): void {
-		const input = this.getInnerInput();
-		if (input) {
-			this.detachDomListeners(input);
-		}
+	/** the browser's change: Enter, or the focus leaving after typing */
+	onchange(): void {
+		this.commitChange();
 	}
 
 	/**
@@ -343,7 +347,9 @@ export default class ComboBox extends Control implements ISized {
 		if (this.expanded) {
 			this.getPopover().close();
 		}
-		this.fireChangeEvent();
+		// the browser fires its change after this; commitChange lets only one
+		// of the two through
+		this.commitChange();
 	}
 
 	onsapdown(): void {
@@ -352,12 +358,24 @@ export default class ComboBox extends Control implements ISized {
 		}
 	}
 
-	private fireChangeEvent(): void {
+	/**
+	 * Fires <code>change</code> if the value differs from the one the last
+	 * change was fired for. The browser, the Enter key and the picker of a
+	 * phone all end up here, and one edit is reported once.
+	 */
+	private commitChange(): void {
+		const value = this.getValue();
+
+		if (value === this.lastChangeValue) {
+			return;
+		}
+
 		const item = this.getSelectedItem();
 
+		this.lastChangeValue = value;
 		this.setProperty("selectedKey", item?.getKey() ?? "", true);
 		this.fireChange({
-			value: this.getValue(),
+			value: value,
 			selectedKey: item?.getKey() ?? "",
 			selectedItem: item ?? undefined,
 		});
@@ -394,20 +412,27 @@ export default class ComboBox extends Control implements ISized {
 			popover.setContentWidth(`${dom.offsetWidth}px`);
 		}
 
-		if (!this.expanded) {
-			if (Device.system.phone) {
-				// built anew for every opening, so both carry the size the
-				// control has now and the field starts on its current value
-				popover.setCustomHeader(this.createPickerHeader());
-				popover.setSubHeader(this.createPickerFilter());
-			}
-
-			this.expanded = true;
-			this.valueOnOpen = this.getValue();
-			dom.setAttribute("aria-expanded", "true");
-			dom.classList.add("sizedComboBoxExpanded");
-			popover.openBy(this);
+		if (this.expanded) {
+			return;
 		}
+
+		if (Device.system.phone) {
+			// built anew for every opening, so both carry the size the control
+			// has now and the field starts on its current value. It says OK
+			// rather than Cancel because what is typed into the field below is
+			// taken over as it is typed - there is nothing left to undo by then.
+			setPickerHeader(
+				popover,
+				this.getPickerTitle() || getText("PICKER_TITLE"),
+				getText("COMBOBOX_OK"),
+				this.getSize(),
+			);
+			popover.destroySubHeader();
+			popover.setSubHeader(this.createPickerFilter());
+		}
+
+		this.setExpanded(true);
+		popover.openBy(this);
 	}
 
 	/**
@@ -418,35 +443,6 @@ export default class ComboBox extends Control implements ISized {
 
 		popover.destroyContent();
 		popover.addContent(this.createList(this.getFilteredItems(showAll)));
-	}
-
-	/**
-	 * The bar over a phone picker: what it is, and the way out of it.
-	 *
-	 * A picker that fills the screen cannot be left by tapping beside it, and
-	 * the field it belongs to is behind it - so it says what is being picked
-	 * and brings its own way back, both the way <code>sap.m.ComboBox</code>
-	 * does. It says OK rather than Cancel because what is typed into the field
-	 * below is taken over as it is typed - there is nothing left to undo by
-	 * then.
-	 */
-	private createPickerHeader(): Toolbar {
-		return new Toolbar({
-			content: [
-				new Title({
-					text: this.getPickerTitle() || "Select",
-					level: TitleLevel.H2,
-				}),
-				new ToolbarSpacer(),
-				new Button({
-					text: "OK",
-					size: this.getSize(),
-					press: () => {
-						this.getPopover().close();
-					},
-				}),
-			],
-		});
 	}
 
 	/**
@@ -465,7 +461,10 @@ export default class ComboBox extends Control implements ISized {
 					size: this.getSize(),
 					width: "100%",
 					liveChange: (event) => {
-						this.setValue(event.getParameter("value") ?? "");
+						// what is typed here is the user's, so it is not taken
+						// over as a value set from the outside - the change it
+						// stands for is reported when the picker closes
+						this.applyValue(event.getParameter("value") ?? "");
 						this.setProperty(
 							"selectedKey",
 							this.getSelectedItem()?.getKey() ?? "",
@@ -512,60 +511,45 @@ export default class ComboBox extends Control implements ISized {
 	}
 
 	private createList(items: Item[]): VBox {
-		const size = this.getSize();
-		const selectedItem = this.getSelectedItem();
-
 		if (items.length === 0) {
 			return new VBox({
 				items: [
 					new Text({
 						text: getText("COMBOBOX_NO_MATCHING_ENTRY"),
 						width: "100%",
-					}).addStyleClass(
-						"sizedPickerNoData sapUiSmallMargin",
-					),
+					}).addStyleClass("sizedPickerNoData sapUiSmallMargin"),
 				],
 			});
 		}
 
-		return new VBox({
-			// without Bare the flex box would wrap every row in a div of its own
-			renderType: FlexRendertype.Bare,
-			items: items.map((item) => {
-				const button = new Button({
-					text: item.getText(),
-					size: size,
-					width: "100%",
-					press: () => {
-						this.selectItem(item);
-					},
-				});
-
-				button.addStyleClass("sizedPickerItem");
-				if (item === selectedItem) {
-					button.addStyleClass("sizedPickerItemSelected");
-				}
+		return createPickerList(items, {
+			size: this.getSize(),
+			selectedItem: this.getSelectedItem(),
+			select: (item) => {
+				this.selectItem(item);
+			},
+			decorate: (button, item) => {
 				this.addSecondaryValue(button, item);
-
-				return button;
-			}),
-		}).addStyleClass("sizedPickerList");
+			},
+		});
 	}
 
 	private selectItem(item: Item): void {
-		this.setValue(item.getText());
+		this.applyValue(item.getText());
 		this.setProperty("selectedKey", item.getKey(), true);
-		// the picker has just handed the value over, so closing it has nothing
-		// left to report
-		this.valueOnOpen = item.getText();
 		this.getPopover().close();
 
 		this.fireSelectionChange({ selectedItem: item, selectedKey: item.getKey() });
-		this.fireChange({
-			value: item.getText(),
-			selectedKey: item.getKey(),
-			selectedItem: item,
-		});
+		// the item that was picked is the one reported, not the first one with
+		// the same text
+		if (this.getValue() !== this.lastChangeValue) {
+			this.lastChangeValue = this.getValue();
+			this.fireChange({
+				value: this.getValue(),
+				selectedKey: item.getKey(),
+				selectedItem: item,
+			});
+		}
 
 		// on a phone the focus would bring up the keyboard of the device over
 		// the list the user has just picked from
@@ -575,48 +559,41 @@ export default class ComboBox extends Control implements ISized {
 	}
 
 	private getPopover(): ResponsivePopover {
-		let popover = this.getAggregation("_popover") as ResponsivePopover | null;
-
-		if (!popover) {
-			const phone = Device.system.phone;
-
-			popover = new ResponsivePopover(this.getId() + "-popover", {
-				// a phone gets a dialog over the whole screen, like sap.m does,
-				// with a bar of its own to type in and to leave by
-				showHeader: phone,
-				showArrow: false,
-				placement: PlacementType.VerticalPreferredBottom,
+		return (
+			(this.getAggregation("_popover") as ResponsivePopover | null) ??
+			createPickerPopover(this, {
+				styleClass: "sizedComboBoxPopover",
 				// the field keeps the focus, so the user can go on typing while
 				// the list is open - on a phone it is behind the picker, which
 				// brings a field of its own instead
-				initialFocus: phone ? undefined : this,
-				afterOpen: () => {
-					fitDialogBars(this.getPopover());
-				},
+				initialFocus: Device.system.phone ? undefined : this,
 				afterClose: () => {
 					this.onPopoverClosed();
 				},
-			});
-			popover.addStyleClass("sizedComboBoxPopover");
-			this.setAggregation("_popover", popover, true);
-		}
-
-		return popover;
+			})
+		);
 	}
 
 	private onPopoverClosed(): void {
-		this.expanded = false;
-
-		const dom = this.getDomRef();
-		dom?.setAttribute("aria-expanded", "false");
-		dom?.classList.remove("sizedComboBoxExpanded");
+		this.setExpanded(false);
 
 		// what was typed into the picker of a phone never reaches the field
 		// itself, so the change it stands for is reported from here
-		if (Device.system.phone && this.getValue() !== this.valueOnOpen) {
-			this.valueOnOpen = this.getValue();
-			this.fireChangeEvent();
+		if (Device.system.phone) {
+			this.commitChange();
 		}
+	}
+
+	/**
+	 * Shows whether the list is open, without a re-rendering. The renderer
+	 * reads the same state, so a rendering while the list is open keeps it.
+	 */
+	private setExpanded(expanded: boolean): void {
+		this.expanded = expanded;
+
+		const dom = this.getDomRef();
+		dom?.setAttribute("aria-expanded", `${expanded}`);
+		dom?.classList.toggle("sizedComboBoxExpanded", expanded);
 	}
 
 	static renderer = {
@@ -640,6 +617,9 @@ export default class ComboBox extends Control implements ISized {
 				rm.class("sizedComboBoxState");
 				rm.class(`sizedComboBox${valueState}`);
 			}
+			if (control.expanded) {
+				rm.class("sizedComboBoxExpanded");
+			}
 
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
@@ -647,16 +627,16 @@ export default class ComboBox extends Control implements ISized {
 
 			rm.attr("role", "combobox");
 			rm.attr("aria-haspopup", "listbox");
-			rm.attr("aria-expanded", "false");
+			rm.attr("aria-expanded", `${control.expanded}`);
 			rm.openEnd();
 
 			rm.voidStart("input", control.getId() + "-inner");
 			rm.class("sizedComboBoxInner");
 			rm.attr("type", "text");
 			rm.attr("autocomplete", "off");
-			if (control.getValue()) {
-				rm.attr("value", control.getValue());
-			}
+			// always written, an empty one included: patching an input puts
+			// the value attribute into what the field shows
+			rm.attr("value", control.getValue());
 			if (control.getPlaceholder()) {
 				rm.attr("placeholder", control.getPlaceholder());
 			}
