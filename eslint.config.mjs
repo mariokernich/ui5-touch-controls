@@ -44,6 +44,18 @@ export default tseslint.config(
 		},
 	},
 	{
+		// QUnit waits for a test that returns a promise - an async test is
+		// what the unit tests of the popovers and dialogs are - while its
+		// typings still say the callback returns nothing
+		files: ["test/unit/**/*.ts"],
+		rules: {
+			"@typescript-eslint/no-misused-promises": [
+				"error",
+				{ checksVoidReturn: { arguments: false } },
+			],
+		},
+	},
+	{
 		// global ignores (standalone object applies to all configs)
 		ignores: ["**/*.gen.d.ts"],
 	},

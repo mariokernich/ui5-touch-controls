@@ -128,7 +128,9 @@ jobs:
           path: ~/.ui5/framework
           key: ui5-framework-${{ matrix.ui5.version || 'default' }}
 
-      - name: Run the UI tests
-        run: npm run test:ui
+      # the unit tests (test/unit) and the UI tests (e2e) - both run in the
+      # browser, on the UI5 release of this job
+      - name: Run the unit and UI tests
+        run: npm test
         env:
           UI5_VERSION: ${{ matrix.ui5.version }}

@@ -18,9 +18,12 @@ importers:
       '@openui5/types':
         specifier: 1.151.0
         version: 1.151.0
+      '@types/qunit':
+        specifier: 2.5.4
+        version: 2.5.4
       '@ui5/cli':
         specifier: 4.0.62
-        version: 4.0.62
+        version: 4.0.62(supports-color@8.1.1)
       '@ui5/ts-interface-generator':
         specifier: ^0.11.1
         version: 0.11.1(typescript@6.0.3)
@@ -1642,6 +1645,7 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   '@zip.js/zip.js@2.8.36':
     resolution: {integrity: sha512-3CT63BXqYh781nZhNVOktg71oM1496BZhBHDjP5aOZTDmsL2nLkldbLDJFatFJt00j94TFnsZu2pWNijL4Eorw==}
@@ -6158,13 +6162,13 @@ snapshots:
       workerpool: 10.0.3
       xml2js: 0.6.2
 
-  '@ui5/cli@4.0.62':
+  '@ui5/cli@4.0.62(supports-color@8.1.1)':
     dependencies:
       '@ui5/builder': 4.3.1
       '@ui5/fs': 4.0.6
       '@ui5/logger': 4.0.2
       '@ui5/project': 4.0.17(@ui5/builder@4.3.1)
-      '@ui5/server': 4.0.15
+      '@ui5/server': 4.0.15(supports-color@8.1.1)
       chalk: 5.6.2
       data-with-position: 0.5.0
       import-local: 3.2.0
@@ -6222,12 +6226,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ui5/server@4.0.15':
+  '@ui5/server@4.0.15(supports-color@8.1.1)':
     dependencies:
       '@ui5/builder': 4.3.0
       '@ui5/fs': 4.0.6
       '@ui5/logger': 4.0.2
-      body-parser: 2.3.0
+      body-parser: 2.3.0(supports-color@8.1.1)
       compression: 1.8.1
       cors: 2.8.6
       devcert-sanscache: 0.5.1
@@ -6240,8 +6244,8 @@ snapshots:
       parseurl: 1.3.3
       portscanner: 2.2.0
       replacestream: 4.0.3
-      router: 2.2.0
-      spdy: 4.0.2
+      router: 2.2.0(supports-color@8.1.1)
+      spdy: 4.0.2(supports-color@8.1.1)
       yesno: 0.4.0
     transitivePeerDependencies:
       - supports-color
@@ -6672,7 +6676,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  body-parser@2.3.0:
+  body-parser@2.3.0(supports-color@8.1.1):
     dependencies:
       bytes: 3.1.2
       content-type: 2.0.0
@@ -8865,7 +8869,7 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.62.4
       fsevents: 2.3.3
 
-  router@2.2.0:
+  router@2.2.0(supports-color@8.1.1):
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
       depd: 2.0.0
@@ -9045,7 +9049,7 @@ snapshots:
 
   spdx-license-ids@3.0.23: {}
 
-  spdy-transport@3.0.0:
+  spdy-transport@3.0.0(supports-color@8.1.1):
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
       detect-node: 2.1.0
@@ -9056,13 +9060,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  spdy@4.0.2:
+  spdy@4.0.2(supports-color@8.1.1):
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
       handle-thing: 2.0.1
       http-deceiver: 1.2.7
       select-hose: 2.0.0
-      spdy-transport: 3.0.0
+      spdy-transport: 3.0.0(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
