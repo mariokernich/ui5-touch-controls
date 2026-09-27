@@ -348,6 +348,11 @@ QUnit.test("picking marks the entry where it is, and change waits for the popove
 	const [hours] = columns(timePicker);
 	const column = hours[0].getDomRef()?.parentElement as HTMLElement;
 
+	// the popover says it is open while it is still opening - on older
+	// releases the column has no height then and cannot be scrolled. It is
+	// laid out once the selection has been scrolled into view.
+	await waitFor(() => column.scrollTop > 0, "the popover did not finish opening");
+
 	column.scrollTop = 200;
 	hours[19].firePress();
 	render();
