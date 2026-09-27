@@ -12,6 +12,7 @@ import LocaleData from "sap/ui/core/LocaleData";
 import Localization from "sap/base/i18n/Localization";
 import Button from "./Button";
 import Text from "./Text";
+import { getText } from "./i18n";
 import { ISized, SizeMode, sizeClass } from "./library";
 
 /** the two things the calendar of the popover can show */
@@ -52,7 +53,6 @@ export default class DatePicker extends Control implements ISized {
 	private view: CalendarView = "days";
 	/** first day of the month the calendar currently shows */
 	private displayedMonth = DatePicker.startOfDay(new Date());
-	private changeListener: ((event: globalThis.Event) => void) | null = null;
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
@@ -262,7 +262,23 @@ export default class DatePicker extends Control implements ISized {
 	}
 
 	private getInnerInput(): HTMLInputElement | null {
-		return this.getDomRef()?.querySelector("input") ?? null;
+		return this.getDomRef("inner") as HTMLInputElement | null;
+	}
+
+	/**
+	 * The inner input element is what the user types into, so it is also what
+	 * gets the focus.
+	 */
+	getFocusDomRef(): Element | null {
+		return this.getInnerInput() ?? super.getFocusDomRef();
+	}
+
+	/**
+	 * A label points at the native input, so a tap on the label puts the
+	 * caret into the field.
+	 */
+	getIdForLabel(): string {
+		return this.getId() + "-inner";
 	}
 
 	private isInteractive(): boolean {
@@ -280,32 +296,13 @@ export default class DatePicker extends Control implements ISized {
 		return !(max && date > DatePicker.startOfDay(max));
 	}
 
-	onAfterRendering(): void {
+	/** the browser's change: Enter, or the focus leaving after typing */
+	onchange(): void {
 		const input = this.getInnerInput();
 
-		if (!input) {
-			return;
-		}
-
-		// with renderer apiVersion 2 the DOM element is patched and reused, so
-		// a previously attached listener has to go first
-		if (this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
-		}
-
-		this.changeListener = () => {
+		if (input) {
 			this.applyTypedValue(input.value);
-		};
-		input.addEventListener("change", this.changeListener);
-	}
-
-	exit(): void {
-		const input = this.getInnerInput();
-
-		if (input && this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
 		}
-		this.changeListener = null;
 	}
 
 	/**
@@ -391,10 +388,7 @@ export default class DatePicker extends Control implements ISized {
 		const popover = this.getPopover();
 		this.renderCalendar();
 
-		this.expanded = true;
-		dom.setAttribute("aria-expanded", "true");
-		dom.classList.add("sizedDatePickerExpanded");
-
+		this.setExpanded(true);
 		popover.openBy(this);
 	}
 
@@ -422,6 +416,7 @@ export default class DatePicker extends Control implements ISized {
 
 		const previous = new Button({
 			icon: "sap-icon://slim-arrow-left",
+			tooltip: getText("DATEPICKER_PREVIOUS"),
 			size: size,
 			press: () => {
 				this.shiftDisplayed(-1);
@@ -441,6 +436,7 @@ export default class DatePicker extends Control implements ISized {
 
 		const next = new Button({
 			icon: "sap-icon://slim-arrow-right",
+			tooltip: getText("DATEPICKER_NEXT"),
 			size: size,
 			press: () => {
 				this.shiftDisplayed(1);
@@ -461,7 +457,10 @@ export default class DatePicker extends Control implements ISized {
 		const today = DatePicker.startOfDay(new Date());
 		const selected = this.getDateValue() as Date | null;
 
-		const title = DateFormat.getDateInstance({ pattern: "MMMM yyyy" }).format(
+		// month and year in the order and the grammatical form of the
+		// language - a fixed pattern would read "9月 2026" in Japanese and put
+		// the Russian month into the genitive
+		const title = DateFormat.getDateInstance({ format: "yMMMM" }).format(
 			this.displayedMonth,
 		);
 
@@ -596,11 +595,20 @@ export default class DatePicker extends Control implements ISized {
 	}
 
 	private onPopoverClosed(): void {
-		this.expanded = false;
+		this.setExpanded(false);
+	}
+
+	/**
+	 * Shows whether the calendar is open, without a re-rendering. The renderer
+	 * reads the same state, so a rendering while the calendar is open keeps
+	 * it.
+	 */
+	private setExpanded(expanded: boolean): void {
+		this.expanded = expanded;
 
 		const dom = this.getDomRef();
-		dom?.setAttribute("aria-expanded", "false");
-		dom?.classList.remove("sizedDatePickerExpanded");
+		dom?.setAttribute("aria-expanded", `${expanded}`);
+		dom?.classList.toggle("sizedDatePickerExpanded", expanded);
 	}
 
 	static renderer = {
@@ -624,6 +632,9 @@ export default class DatePicker extends Control implements ISized {
 				rm.class("sizedDatePickerState");
 				rm.class(`sizedDatePicker${valueState}`);
 			}
+			if (control.expanded) {
+				rm.class("sizedDatePickerExpanded");
+			}
 
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
@@ -631,7 +642,7 @@ export default class DatePicker extends Control implements ISized {
 
 			rm.attr("role", "combobox");
 			rm.attr("aria-haspopup", "grid");
-			rm.attr("aria-expanded", "false");
+			rm.attr("aria-expanded", `${control.expanded}`);
 			rm.openEnd();
 
 			rm.voidStart("input", control.getId() + "-inner");
@@ -639,10 +650,9 @@ export default class DatePicker extends Control implements ISized {
 			rm.attr("type", "text");
 			rm.attr("autocomplete", "off");
 
-			const text = control.getDisplayValue();
-			if (text) {
-				rm.attr("value", text);
-			}
+			// always written, an empty one included: patching an input puts
+			// the value attribute into what the field shows
+			rm.attr("value", control.getDisplayValue());
 			if (control.getPlaceholder()) {
 				rm.attr("placeholder", control.getPlaceholder());
 			}

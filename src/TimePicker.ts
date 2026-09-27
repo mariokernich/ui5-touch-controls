@@ -9,7 +9,17 @@ import { ValueState } from "sap/ui/core/library";
 import DateFormat from "sap/ui/core/format/DateFormat";
 import Button from "./Button";
 import Text from "./Text";
+import { getText } from "./i18n";
 import { ISized, SizeMode, sizeClass } from "./library";
+
+/** one entry of a column of the popover: the value, and the button for it */
+interface ColumnEntry {
+	value: number;
+	button: Button;
+}
+
+/** the class that marks the entry of a column that is picked */
+const SELECTED = "sizedTimePickerItemSelected";
 
 /**
  * A simplified variant of <code>sap.m.TimePicker</code> for touch devices.
@@ -39,7 +49,10 @@ export default class TimePicker extends Control implements ISized {
 	private expanded = false;
 	/** the value when the popover was opened, to fire change only on a change */
 	private valueOnOpen = "";
-	private changeListener: ((event: globalThis.Event) => void) | null = null;
+	/** the entries of the hours column of the open popover */
+	private hourEntries: ColumnEntry[] = [];
+	/** the entries of the minutes column of the open popover */
+	private minuteEntries: ColumnEntry[] = [];
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
@@ -225,39 +238,36 @@ export default class TimePicker extends Control implements ISized {
 	}
 
 	private getInnerInput(): HTMLInputElement | null {
-		return this.getDomRef()?.querySelector("input") ?? null;
+		return this.getDomRef("inner") as HTMLInputElement | null;
+	}
+
+	/**
+	 * The inner input element is what the user types into, so it is also what
+	 * gets the focus.
+	 */
+	getFocusDomRef(): Element | null {
+		return this.getInnerInput() ?? super.getFocusDomRef();
+	}
+
+	/**
+	 * A label points at the native input, so a tap on the label puts the
+	 * caret into the field.
+	 */
+	getIdForLabel(): string {
+		return this.getId() + "-inner";
 	}
 
 	private isInteractive(): boolean {
 		return this.getEnabled() && this.getEditable();
 	}
 
-	onAfterRendering(): void {
+	/** the browser's change: Enter, or the focus leaving after typing */
+	onchange(): void {
 		const input = this.getInnerInput();
 
-		if (!input) {
-			return;
-		}
-
-		// with renderer apiVersion 2 the DOM element is patched and reused, so
-		// a previously attached listener has to go first
-		if (this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
-		}
-
-		this.changeListener = () => {
+		if (input) {
 			this.applyTypedValue(input.value);
-		};
-		input.addEventListener("change", this.changeListener);
-	}
-
-	exit(): void {
-		const input = this.getInnerInput();
-
-		if (input && this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
 		}
-		this.changeListener = null;
 	}
 
 	/**
@@ -348,25 +358,16 @@ export default class TimePicker extends Control implements ISized {
 		this.valueOnOpen = this.getValue();
 
 		const popover = this.getPopover();
-		this.renderColumns();
-
-		this.expanded = true;
-		dom.setAttribute("aria-expanded", "true");
-		dom.classList.add("sizedTimePickerExpanded");
-
-		popover.openBy(this);
-	}
-
-	private renderColumns(): void {
-		const popover = this.getPopover();
 
 		popover.destroyContent();
 		popover.addContent(this.createColumns());
+
+		this.setExpanded(true);
+		popover.openBy(this);
 	}
 
 	private createColumns(): VBox {
 		const size = this.getSize();
-		const picked = this.getPickedTime();
 		const step = Math.max(1, this.getMinutesStep());
 
 		const hours: number[] = [];
@@ -379,48 +380,35 @@ export default class TimePicker extends Control implements ISized {
 			minutes.push(minute);
 		}
 
-		const createColumn = (
+		const createEntries = (
 			values: number[],
-			selected: number,
 			apply: (value: number) => void,
-		): VBox =>
+		): ColumnEntry[] =>
+			values.map((value) => ({
+				value: value,
+				button: new Button({
+					text: `${value}`.padStart(2, "0"),
+					size: size,
+					width: "100%",
+					press: () => {
+						apply(value);
+					},
+				}).addStyleClass("sizedTimePickerItem"),
+			}));
+
+		const createColumn = (entries: ColumnEntry[]): VBox =>
 			new VBox({
 				renderType: FlexRendertype.Bare,
-				items: values.map((value) => {
-					const button = new Button({
-						text: `${value}`.padStart(2, "0"),
-						size: size,
-						width: "100%",
-						press: () => {
-							apply(value);
-						},
-					});
-
-					button.addStyleClass("sizedTimePickerItem");
-					if (value === selected) {
-						button.addStyleClass("sizedTimePickerItemSelected");
-					}
-
-					return button;
-				}),
+				items: entries.map((entry) => entry.button),
 			}).addStyleClass("sizedTimePickerColumn");
 
-		const columns = new HBox({
-			renderType: FlexRendertype.Bare,
-			items: [
-				createColumn(hours, picked.getHours(), (hour) => {
-					this.pick(hour, this.getPickedTime().getMinutes());
-				}),
-				createColumn(
-					minutes,
-					// with a step the picked minute may sit between two entries
-					Math.round(picked.getMinutes() / step) * step,
-					(minute) => {
-						this.pick(this.getPickedTime().getHours(), minute);
-					},
-				),
-			],
-		}).addStyleClass("sizedTimePickerColumns");
+		this.hourEntries = createEntries(hours, (hour) => {
+			this.pick(hour, this.getPickedTime().getMinutes());
+		});
+		this.minuteEntries = createEntries(minutes, (minute) => {
+			this.pick(this.getPickedTime().getHours(), minute);
+		});
+		this.markSelection();
 
 		return new VBox({
 			renderType: FlexRendertype.Bare,
@@ -428,40 +416,73 @@ export default class TimePicker extends Control implements ISized {
 				new HBox({
 					renderType: FlexRendertype.Bare,
 					items: [
-						new Text({ text: "Hours", size: size }).addStyleClass(
-							"sizedTimePickerHeader",
-						),
-						new Text({ text: "Minutes", size: size }).addStyleClass(
-							"sizedTimePickerHeader",
-						),
+						new Text({
+							text: getText("TIMEPICKER_HOURS"),
+							size: size,
+						}).addStyleClass("sizedTimePickerHeader"),
+						new Text({
+							text: getText("TIMEPICKER_MINUTES"),
+							size: size,
+						}).addStyleClass("sizedTimePickerHeader"),
 					],
 				}).addStyleClass("sizedTimePickerHeaders"),
-				columns,
+				new HBox({
+					renderType: FlexRendertype.Bare,
+					items: [
+						createColumn(this.hourEntries),
+						createColumn(this.minuteEntries),
+					],
+				}).addStyleClass("sizedTimePickerColumns"),
 			],
 		}).addStyleClass("sizedTimePickerClock");
 	}
 
 	/**
-	 * Takes over the picked hour and minute. The columns are rebuilt so the
-	 * selection follows, the change event waits for the popover to close.
+	 * Marks the entries of the time that is picked. With a step the picked
+	 * minute may sit between two entries, and the nearest one is marked.
+	 *
+	 * Only the style classes change, the columns are not rendered again - so
+	 * they stay where the user scrolled them to.
+	 */
+	private markSelection(): void {
+		const picked = this.getPickedTime();
+		const minute = picked.getMinutes();
+		const nearest = this.minuteEntries.reduce<ColumnEntry | undefined>(
+			(best, entry) =>
+				!best || Math.abs(entry.value - minute) < Math.abs(best.value - minute)
+					? entry
+					: best,
+			undefined,
+		);
+
+		for (const entry of this.hourEntries) {
+			entry.button.toggleStyleClass(SELECTED, entry.value === picked.getHours());
+		}
+		for (const entry of this.minuteEntries) {
+			entry.button.toggleStyleClass(SELECTED, entry === nearest);
+		}
+	}
+
+	/**
+	 * Takes over the picked hour and minute. The change event waits for the
+	 * popover to close.
 	 */
 	private pick(hours: number, minutes: number): void {
 		const date = this.getPickedTime();
 		date.setHours(hours, minutes, 0, 0);
 
 		this.setDateValue(date);
-		this.renderColumns();
-		this.scrollToSelection();
+		this.markSelection();
 	}
 
 	/** brings the selected entry of both columns into view */
 	private scrollToSelection(): void {
-		for (const column of document.querySelectorAll<HTMLElement>(
-			`#${this.getId()}-popover .sizedTimePickerColumn`,
-		)) {
-			const selected = column.querySelector<HTMLElement>(
-				".sizedTimePickerItemSelected",
-			);
+		const popover = this.getPopover().getDomRef();
+
+		for (const column of popover?.querySelectorAll<HTMLElement>(
+			".sizedTimePickerColumn",
+		) ?? []) {
+			const selected = column.querySelector<HTMLElement>(`.${SELECTED}`);
 
 			if (selected) {
 				column.scrollTop =
@@ -495,11 +516,9 @@ export default class TimePicker extends Control implements ISized {
 	}
 
 	private onPopoverClosed(): void {
-		this.expanded = false;
-
-		const dom = this.getDomRef();
-		dom?.setAttribute("aria-expanded", "false");
-		dom?.classList.remove("sizedTimePickerExpanded");
+		this.setExpanded(false);
+		this.hourEntries = [];
+		this.minuteEntries = [];
 
 		if (this.getValue() !== this.valueOnOpen) {
 			this.fireChange({
@@ -508,6 +527,18 @@ export default class TimePicker extends Control implements ISized {
 				valid: true,
 			});
 		}
+	}
+
+	/**
+	 * Shows whether the columns are open, without a re-rendering. The renderer
+	 * reads the same state, so a rendering while they are open keeps it.
+	 */
+	private setExpanded(expanded: boolean): void {
+		this.expanded = expanded;
+
+		const dom = this.getDomRef();
+		dom?.setAttribute("aria-expanded", `${expanded}`);
+		dom?.classList.toggle("sizedTimePickerExpanded", expanded);
 	}
 
 	static renderer = {
@@ -531,6 +562,9 @@ export default class TimePicker extends Control implements ISized {
 				rm.class("sizedTimePickerState");
 				rm.class(`sizedTimePicker${valueState}`);
 			}
+			if (control.expanded) {
+				rm.class("sizedTimePickerExpanded");
+			}
 
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());
@@ -538,7 +572,7 @@ export default class TimePicker extends Control implements ISized {
 
 			rm.attr("role", "combobox");
 			rm.attr("aria-haspopup", "listbox");
-			rm.attr("aria-expanded", "false");
+			rm.attr("aria-expanded", `${control.expanded}`);
 			rm.openEnd();
 
 			rm.voidStart("input", control.getId() + "-inner");
@@ -546,10 +580,9 @@ export default class TimePicker extends Control implements ISized {
 			rm.attr("type", "text");
 			rm.attr("autocomplete", "off");
 
-			const text = control.getDisplayValue();
-			if (text) {
-				rm.attr("value", text);
-			}
+			// always written, an empty one included: patching an input puts
+			// the value attribute into what the field shows
+			rm.attr("value", control.getDisplayValue());
 			if (control.getPlaceholder()) {
 				rm.attr("placeholder", control.getPlaceholder());
 			}
