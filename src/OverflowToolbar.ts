@@ -13,6 +13,7 @@ import {
 } from "sap/m/library";
 import type OverflowToolbarLayoutData from "sap/m/OverflowToolbarLayoutData";
 import Button from "./Button";
+import { attachTextChange, getText } from "./i18n";
 import { ISized, SizeMode } from "./library";
 
 /**
@@ -97,6 +98,8 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 
 	private popoverOpen = false;
 	private resizeHandlerId: string | null = null;
+	/** ends the callback that follows the language, see getOverflowButton */
+	private detachTextChange: (() => void) | null = null;
 	private lastAvailableWidth = -1;
 	private layoutRuns = 0;
 
@@ -183,10 +186,9 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 
 	onBeforeRendering(): void {
 		const button = this.getOverflowButton();
-		const size = this.getSize();
 
-		button.setSize(size);
-		button.setSidePadding("0px");
+		button.setSize(this.getSize());
+		button.setTooltip(getText("OVERFLOWTOOLBAR_MORE"));
 	}
 
 	onAfterRendering(event: jQuery.Event): void {
@@ -207,6 +209,8 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 			ResizeHandler.deregister(this.resizeHandlerId);
 			this.resizeHandlerId = null;
 		}
+		this.detachTextChange?.();
+		this.detachTextChange = null;
 	}
 
 	/**
@@ -233,13 +237,18 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 			button = new Button(this.getId() + "-overflowButton", {
 				icon: "sap-icon://overflow",
 				type: ButtonType.Transparent,
-				sidePadding: "0px",
 				press: () => {
 					this.openOverflow();
 				},
 			});
 			button.addStyleClass("sizedOverflowToolbarButton");
 			this.setAggregation("_overflowButton", button, true);
+
+			// the tooltip of the button is the library's and follows the
+			// language, see onBeforeRendering
+			this.detachTextChange = attachTextChange(() => {
+				this.invalidate();
+			});
 		}
 
 		return button;
