@@ -39,7 +39,9 @@ declare module "./SegmentedButton" {
         items?: SegmentedButtonItem[] | SegmentedButtonItem | AggregationBindingInfo | `{${string}}`;
 
         /**
-         * Fired when the user selects a segment.
+         * Fired when the user selects another segment. A press on the
+        segment that is already selected only fires the
+        <code>press</code> of its item.
          */
         selectionChange?: (event: SegmentedButton$SelectionChangeEvent) => void;
     }
@@ -134,29 +136,39 @@ declare module "./SegmentedButton" {
         // event: selectionChange
 
         /**
-         * Fired when the user selects a segment.
+         * Fired when the user selects another segment. A press on the
+        segment that is already selected only fires the
+        <code>press</code> of its item.
          */
         attachSelectionChange(fn: (event: SegmentedButton$SelectionChangeEvent) => void, listener?: object): this;
 
         /**
-         * Fired when the user selects a segment.
+         * Fired when the user selects another segment. A press on the
+        segment that is already selected only fires the
+        <code>press</code> of its item.
          */
         attachSelectionChange<CustomDataType extends object>(data: CustomDataType, fn: (event: SegmentedButton$SelectionChangeEvent, data: CustomDataType) => void, listener?: object): this;
 
         /**
-         * Fired when the user selects a segment.
+         * Fired when the user selects another segment. A press on the
+        segment that is already selected only fires the
+        <code>press</code> of its item.
          */
         detachSelectionChange(fn: (event: SegmentedButton$SelectionChangeEvent) => void, listener?: object): this;
 
         /**
-         * Fired when the user selects a segment.
+         * Fired when the user selects another segment. A press on the
+        segment that is already selected only fires the
+        <code>press</code> of its item.
          */
         fireSelectionChange(parameters?: SegmentedButton$SelectionChangeEventParameters): this;
     }
 
     /**
      * Interface describing the parameters of SegmentedButton's 'selectionChange' event.
-     * Fired when the user selects a segment.
+     * Fired when the user selects another segment. A press on the
+    segment that is already selected only fires the
+    <code>press</code> of its item.
      */
     export interface SegmentedButton$SelectionChangeEventParameters {
         item?: SegmentedButtonItem;
@@ -165,7 +177,9 @@ declare module "./SegmentedButton" {
 
     /**
      * Type describing the SegmentedButton's 'selectionChange' event.
-     * Fired when the user selects a segment.
+     * Fired when the user selects another segment. A press on the
+    segment that is already selected only fires the
+    <code>press</code> of its item.
      */
     export type SegmentedButton$SelectionChangeEvent = Event<SegmentedButton$SelectionChangeEventParameters>;
 }
