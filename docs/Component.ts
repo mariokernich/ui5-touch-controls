@@ -70,9 +70,9 @@ export default class Component extends UIComponent {
 			logoMark: getLogoMarkUrl(),
 			// set from the viewport width by the App controller
 			sideExpanded: false,
-			// the page whose keyboard is docked, if any - see
+			// the pages whose keyboard is docked, by their key - see
 			// BaseController.followDockedKeyboard
-			dockedOn: "",
+			docked: {},
 			language: getLanguageKey(),
 			version: this.getLibraryVersion(),
 			isPhone: Device.system.phone,
@@ -98,11 +98,6 @@ export default class Component extends UIComponent {
 			}),
 			"pages",
 		);
-
-		// used to collapse the side navigation on phones and tablets
-		const device = new JSONModel(Device);
-		device.setDefaultBindingMode("OneWay");
-		this.setModel(device, "device");
 
 		this.getRouter().initialize();
 	}

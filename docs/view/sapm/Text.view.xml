@@ -129,7 +129,6 @@
 									<Input
 										value="{json>/color}"
 										placeholder="{i18n>phColor}"
-										valueLiveUpdate="true"
 										width="200px" />
 									<Button
 										icon="sap-icon://color-fill"

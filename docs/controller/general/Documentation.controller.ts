@@ -16,18 +16,22 @@ import BaseController from "../BaseController";
  */
 export default class Documentation extends BaseController {
 	public onInit(): void {
-		this.getView()?.setModel(
-			new JSONModel({
-				ported: this.describe(portedControls),
-				new: this.describe(newControls),
-				classes: this.describe(classControls),
-				themes: themes.map((theme) => ({
-					...theme,
-					note: this.getText(theme.noteKey),
-				})),
-			}),
-			"docs",
-		);
+		// the tables carry resolved sentences, so they are filled again when
+		// the language changes
+		this.fillOnLanguageChange(() => {
+			this.getView()?.setModel(
+				new JSONModel({
+					ported: this.describe(portedControls),
+					new: this.describe(newControls),
+					classes: this.describe(classControls),
+					themes: themes.map((theme) => ({
+						...theme,
+						note: this.getText(theme.noteKey),
+					})),
+				}),
+				"docs",
+			);
+		});
 
 		this.setSnippets({
 			sizes: [
@@ -60,7 +64,7 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 <tc:CustomKeyboard
 	value="{/code}"
 	size="XL"
-	layout="A B C, D E F, {bksp} {space} {enter}"
+	layout="A B C, D E F, \\{bksp\\} \\{space\\} \\{enter\\}"
 	enter=".onEnter" />
 `,
 				},
@@ -119,13 +123,5 @@ if (control.isA<ISized>("ui5.touch.controls.ISized")) {
 			.getBindingContext("docs")
 			?.getObject() as ControlDoc;
 		this.getRouter().navTo(control.name);
-	}
-
-	public onSetupPress(): void {
-		this.getRouter().navTo("Setup");
-	}
-
-	public onButtonPress(): void {
-		this.getRouter().navTo("Button");
 	}
 }

@@ -2,7 +2,6 @@ import type Button from "sap/m/Button";
 import MessageToast from "sap/m/MessageToast";
 import type ResponsivePopover from "sap/m/ResponsivePopover";
 import type Event from "sap/ui/base/Event";
-import Fragment from "sap/ui/core/Fragment";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type { ColorPicker$ChangeEvent } from "sap/ui/unified/ColorPicker";
 import { SizeMode } from "ui5/touch/controls/library";
@@ -15,7 +14,12 @@ import BaseController from "../BaseController";
  */
 export default class Text extends BaseController {
 	private model!: JSONModel;
-	private colorPicker?: ResponsivePopover;
+	/**
+	 * The colour picker, as the promise of it: kept from the first press on,
+	 * so a second press before it has loaded opens the same picker instead of
+	 * loading another one with the same ids.
+	 */
+	private colorPicker?: Promise<ResponsivePopover>;
 
 	public onInit(): void {
 		this.setControlIntro("Text");
@@ -49,14 +53,13 @@ export default class Text extends BaseController {
 	public async onColorPress(event: Event<object, Button>): Promise<void> {
 		const source = event.getSource();
 
-		this.colorPicker ??= (await Fragment.load({
-			id: this.getView()?.getId(),
+		// prefixed with the id of the view and a dependent of it, like the
+		// view's own content
+		this.colorPicker ??= this.loadFragment({
 			name: "ui5.touch.controls.demo.view.ColorPicker",
-			controller: this,
-		})) as ResponsivePopover;
-		this.getView()?.addDependent(this.colorPicker);
+		}) as Promise<ResponsivePopover>;
 
-		this.colorPicker.openBy(source);
+		(await this.colorPicker).openBy(source);
 	}
 
 	public onColorChange(event: ColorPicker$ChangeEvent): void {

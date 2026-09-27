@@ -9,10 +9,13 @@ export function isDarkTheme(theme: string): boolean {
 /**
  * Returns the logo matching the given theme. The URL is built from the
  * resource root of the demo, so it keeps working whatever the current hash is.
+ *
+ * The logo stands on the background of a page, which is light in Fiori 3 as
+ * well - only its shell bar is dark, and that one shows the icon tile alone.
  */
 export function getLogoUrl(theme: string): string {
 	return sap.ui.require.toUrl(
-		`ui5/touch/controls/demo/img/logo${isDarkTheme(theme) || theme === "sap_fiori_3" ? "-dark" : ""}.svg`,
+		`ui5/touch/controls/demo/img/logo${isDarkTheme(theme) ? "-dark" : ""}.svg`,
 	);
 }
 

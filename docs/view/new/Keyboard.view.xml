@@ -262,7 +262,7 @@
 								</HBox>
 								<HBox alignItems="Center">
 									<Text
-										text="{i188>lblExtraKeys}"
+										text="{i18n>lblExtraKeys}"
 										width="130px"
 									/>
 									<Input
@@ -292,7 +292,6 @@
 									<Input
 										value="{json>/width}"
 										placeholder="{i18n>phWidth}"
-										valueLiveUpdate="true"
 										width="150px"
 									/>
 								</HBox>

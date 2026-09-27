@@ -37,15 +37,28 @@ export default class CodeBlock extends Control {
 			new Button({
 				icon: "sap-icon://copy",
 				type: "Transparent",
+				// a button with nothing but an icon is named by its tooltip
+				tooltip: "{i18n>copyCode}",
 				press: () => void this.onCopy(),
 			}).addStyleClass("ui5tcCodeBlockCopy"),
 		);
 	}
 
 	private async onCopy() {
-		const text = this.getText();
+		const copied = await this.copy(this.getText());
+		const model = this.getModel("i18n") as ResourceModel | undefined;
+		const key = copied ? "copied" : "copyFailed";
+
+		MessageToast.show((model?.getProperty(key) as string | undefined) ?? key);
+	}
+
+	/**
+	 * Puts the text on the clipboard and says whether that worked.
+	 */
+	private async copy(text: string): Promise<boolean> {
 		try {
 			await navigator.clipboard.writeText(text);
+			return true;
 		} catch {
 			// the async clipboard API needs a focused, secure document - fall
 			// back to the selection based way when it refuses
@@ -55,11 +68,10 @@ export default class CodeBlock extends Control {
 			helper.style.opacity = "0";
 			document.body.appendChild(helper);
 			helper.select();
-			document.execCommand("copy");
+			const copied = document.execCommand("copy");
 			helper.remove();
+			return copied;
 		}
-		const model = this.getModel("i18n") as ResourceModel | undefined;
-		MessageToast.show((model?.getProperty("copied") as string) ?? "Copied");
 	}
 
 	onAfterRendering() {

@@ -33,8 +33,6 @@ export default class BarcodeInput extends BaseController {
 				value: "",
 				scanTimeout: 40,
 				minLength: 3,
-				prefix: "",
-				suffix: "",
 				clearOnScan: true,
 				size: SizeMode.L,
 				enabled: true,
@@ -76,9 +74,17 @@ onScan(event: BarcodeInput$ScanEvent): void {
 	this.getModel().callFunction("/bookPallet", { urlParameters: { code } });
 }
 
-onManualEntry(event: BarcodeInput$ChangeEvent): void {
+async onManualEntry(event: BarcodeInput$ChangeEvent): Promise<void> {
+	const code = event.getParameter("value");
+
 	// typed by hand - worth a confirmation before it is booked
-	QuickDialog.confirm({ text: \`Book \${event.getParameter("value")}?\`, size: SizeMode.XL });
+	try {
+		if (await QuickDialog.confirm({ message: \`Book \${code}?\`, buttonSize: SizeMode.XL })) {
+			this.getModel().callFunction("/bookPallet", { urlParameters: { code } });
+		}
+	} catch {
+		// dismissed with Escape - nothing is booked
+	}
 }
 `,
 				},

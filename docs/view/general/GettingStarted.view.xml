@@ -162,6 +162,7 @@
 							<f:content>
 								<control:CodeBlock
 									text="{example>/comparison/0/code}"
+									language="{example>/comparison/0/language}"
 									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
 								/>
 							</f:content>
@@ -190,6 +191,7 @@
 							<f:content>
 								<control:CodeBlock
 									text="{example>/comparison/1/code}"
+									language="{example>/comparison/1/language}"
 									class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
 								/>
 							</f:content>

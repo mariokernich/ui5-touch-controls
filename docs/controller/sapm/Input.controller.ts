@@ -2,6 +2,7 @@ import type { Input$LiveChangeEvent } from "ui5/touch/controls/Input";
 import { KeyboardMode, SizeMode } from "ui5/touch/controls/library";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import BaseController from "../BaseController";
+import { keyboardModeDocs } from "../../model/keyboardModes";
 
 /**
  * Controller of the Input page.
@@ -24,11 +25,14 @@ export default class Input extends BaseController {
 				valueState: "None",
 				showKeyboard: false,
 				keyboardMode: KeyboardMode.English,
+				keyboardModes: keyboardModeDocs,
 				keyboardDocked: false,
 			},
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+		// the keyboard of the field is docked when it is shown and docked
+		this.followDockedKeyboard("Input", this.model, ["/showKeyboard", "/keyboardDocked"]);
 
 		this.setExample(`
 <mvc:View

@@ -20,7 +20,7 @@
 			</Select>
 		</VBox>
 		<footer>
-			<tc:Toolbar size="{json>/size}">
+			<tc:Toolbar>
 				<tc:Button
 					text="{i18n>btnCloseDialog}"
 					type="Emphasized"

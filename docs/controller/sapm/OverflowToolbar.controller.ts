@@ -2,7 +2,6 @@ import type Dialog from "sap/m/Dialog";
 import MessageToast from "sap/m/MessageToast";
 import type { Slider$LiveChangeEvent } from "sap/m/Slider";
 import type Event from "sap/ui/base/Event";
-import Fragment from "sap/ui/core/Fragment";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type SizedButton from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
@@ -15,7 +14,12 @@ import BaseController from "../BaseController";
  */
 export default class OverflowToolbar extends BaseController {
 	private model!: JSONModel;
-	private dialog?: Dialog;
+	/**
+	 * The dialog, as the promise of it: kept from the first press on, so a
+	 * second press before it has loaded opens the same dialog instead of
+	 * loading another one with the same ids.
+	 */
+	private dialog?: Promise<Dialog>;
 
 	public onInit(): void {
 		this.setControlIntro("OverflowToolbar");
@@ -106,18 +110,17 @@ export default class OverflowToolbar extends BaseController {
 	 * Opens the dialog whose footer is a touch OverflowToolbar.
 	 */
 	public async onOpenDialog(): Promise<void> {
-		this.dialog ??= (await Fragment.load({
-			id: this.getView()?.getId(),
+		// prefixed with the id of the view and a dependent of it, like the
+		// view's own content
+		this.dialog ??= this.loadFragment({
 			name: "ui5.touch.controls.demo.view.OverflowDialog",
-			controller: this,
-		})) as Dialog;
-		this.getView()?.addDependent(this.dialog);
+		}) as Promise<Dialog>;
 
-		this.dialog.open();
+		(await this.dialog).open();
 	}
 
-	public onCloseDialog(): void {
-		this.dialog?.close();
+	public async onCloseDialog(): Promise<void> {
+		(await this.dialog)?.close();
 	}
 
 	public onWidthChange(event: Slider$LiveChangeEvent): void {

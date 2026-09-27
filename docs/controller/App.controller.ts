@@ -31,6 +31,8 @@ export default class App extends BaseController {
 	private wide = false;
 	/** the pages of the demo as the search in the header sees them */
 	private searchIndex: ReturnType<typeof buildSearchIndex> = [];
+	/** the page that is shown, so its texts can be written again */
+	private selected: { index: number; key: string } | null = null;
 
 	public onInit(): void {
 		this.model = this.getOwnerComponent()?.getModel("app") as JSONModel;
@@ -39,6 +41,12 @@ export default class App extends BaseController {
 		// again whenever the language changes
 		this.fillOnLanguageChange(() => {
 			this.searchIndex = buildSearchIndex((key) => this.getText(key));
+
+			// the previous/next buttons, the title of the window and the issue
+			// link name the page in the language that is set
+			if (this.selected) {
+				this.select(this.selected.index, this.selected.key);
+			}
 		});
 
 		this.getRouter().attachRouteMatched((event) => {
@@ -95,6 +103,8 @@ export default class App extends BaseController {
 	 * @param key the route name, used as the key of the navigation item
 	 */
 	private select(index: number, key: string): void {
+		this.selected = { index: index, key: key };
+
 		const previous = index > 0 ? allPages[index - 1] : null;
 		const next =
 			index >= 0 && index < allPages.length - 1 ? allPages[index + 1] : null;
@@ -161,6 +171,13 @@ export default class App extends BaseController {
 			| undefined;
 		if (key) {
 			this.getRouter().navTo(key);
+		}
+
+		// where the window is too narrow for the navigation beside the
+		// content, it lies over the content - and has done its job once a
+		// page is picked
+		if (!this.wide) {
+			this.model.setProperty("/sideExpanded", false);
 		}
 	}
 

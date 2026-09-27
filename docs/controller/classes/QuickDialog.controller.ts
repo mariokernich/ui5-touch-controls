@@ -1,5 +1,5 @@
 import type Event from "sap/ui/base/Event";
-import type { ValueState } from "sap/ui/core/library";
+import { ValueState } from "sap/ui/core/library";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import type SizedButton from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
@@ -84,18 +84,25 @@ export default class QuickDialog extends BaseController {
 				state: "None",
 				toolbarSpacer: false,
 				lastResult: "—",
-				showButtons: this.describe(showButtons),
-				otherButtons: this.describe(otherButtons),
-				customButtons: this.describe(customButtons),
+				showButtons: [],
+				otherButtons: [],
+				customButtons: [],
 			},
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+		// the descriptions of the buttons follow the language; the rest of the
+		// model is the playground and keeps what was typed
+		this.fillOnLanguageChange(() => {
+			this.model.setProperty("/showButtons", this.describe(showButtons));
+			this.model.setProperty("/otherButtons", this.describe(otherButtons));
+			this.model.setProperty("/customButtons", this.describe(customButtons));
+		});
 
 		this.setSnippets({
 			main: [
 				{
-					title: this.getText("exampleQdShow"),
+					titleKey: "exampleQdShow",
 					language: "typescript",
 					code: `
 import { SizeMode } from "ui5/touch/controls/library";
@@ -118,7 +125,7 @@ if (action === MessageAction.Delete) {
 `,
 				},
 				{
-					title: this.getText("exampleQdConfirm"),
+					titleKey: "exampleQdConfirm",
 					language: "typescript",
 					code: `
 // confirm resolves with a boolean instead of an action - Yes and Ok are
@@ -136,7 +143,7 @@ if (confirmed) {
 `,
 				},
 				{
-					title: this.getText("exampleQdInput"),
+					titleKey: "exampleQdInput",
 					language: "typescript",
 					code: `
 // input puts a tc:Input into the dialog and resolves with the action and
@@ -160,7 +167,7 @@ if (result.action === "Rename") {
 `,
 				},
 				{
-					title: this.getText("exampleQdSelect"),
+					titleKey: "exampleQdSelect",
 					language: "typescript",
 					code: `
 // select puts a tc:ComboBox into the dialog - its list rows are as tall as
@@ -170,11 +177,11 @@ const result = await QuickDialog.select({
 	title: "Theme",
 	label: "Choose a theme",
 	placeholder: "Choose an item…",
-	selectedKey: "horizon",
+	selectedKey: "sap_horizon",
 	items: [
-		{ key: "horizon", text: "Horizon", additionalText: "light" },
-		{ key: "horizon_dark", text: "Horizon Dark", additionalText: "dark" },
-		{ key: "fiori_3", text: "Fiori 3" },
+		{ key: "sap_horizon", text: "Horizon", additionalText: "light" },
+		{ key: "sap_horizon_dark", text: "Horizon Dark", additionalText: "dark" },
+		{ key: "sap_fiori_3", text: "Fiori 3" },
 	],
 	actions: ["Apply", "Reset"],
 	emphasizedAction: "Apply",
@@ -188,7 +195,7 @@ if (result.action === "Apply") {
 `,
 				},
 				{
-					title: this.getText("exampleQdMessages"),
+					titleKey: "exampleQdMessages",
 					language: "typescript",
 					code: `
 // error and information are show with a state, an icon and a fitting
@@ -220,7 +227,7 @@ await QuickDialog.details({
 `,
 				},
 				{
-					title: this.getText("exampleQdCustom"),
+					titleKey: "exampleQdCustom",
 					language: "typescript",
 					code: `
 // An action is either a MessageAction, which the library names in the
@@ -247,7 +254,7 @@ switch (action) {
 `,
 				},
 				{
-					title: this.getText("exampleQdEscape"),
+					titleKey: "exampleQdEscape",
 					language: "typescript",
 					code: `
 // Escape closes the dialog without an action, and the promise is rejected
@@ -271,7 +278,7 @@ try {
 `,
 				},
 				{
-					title: this.getText("exampleQdOptions"),
+					titleKey: "exampleQdOptions",
 					language: "typescript",
 					code: `
 // Every method takes the same set of options beside its own. buttonSize is
@@ -434,9 +441,14 @@ await QuickDialog.show({
 	 * The options every dialog is opened with, taken from the playground.
 	 */
 	private getBaseOptions() {
+		const state = this.model.getProperty("/state") as ValueState;
+
 		return {
 			title: this.model.getProperty("/title") as string,
-			state: this.model.getProperty("/state") as ValueState,
+			// None is what the playground starts with, and what error() and
+			// information() would take as an explicit choice - they bring
+			// a state of their own when none is given
+			state: state === ValueState.None ? undefined : state,
 			buttonSize: this.model.getProperty("/size") as SizeMode,
 			toolbarSpacer: this.model.getProperty("/toolbarSpacer") as boolean,
 		};

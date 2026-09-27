@@ -28,7 +28,7 @@
 		justifyContent="SpaceBetween"
 		alignItems="Center"
 		class="touchControlsFooter"
-		visible="{= ${app>/dockedOn} !== ${app>/currentKey} }">
+		visible="{= !${app>/docked}[${app>/currentKey}] }">
 		<!-- who built it, under which licence, with what -->
 		<FlexBox
 			renderType="Bare"

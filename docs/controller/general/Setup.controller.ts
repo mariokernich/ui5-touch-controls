@@ -102,12 +102,4 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 			],
 		});
 	}
-
-	public onGettingStartedPress(): void {
-		this.getRouter().navTo("GettingStarted");
-	}
-
-	public onDocumentationPress(): void {
-		this.getRouter().navTo("Documentation");
-	}
 }

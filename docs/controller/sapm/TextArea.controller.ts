@@ -2,6 +2,7 @@ import type { TextArea$LiveChangeEvent } from "ui5/touch/controls/TextArea";
 import { KeyboardMode, SizeMode } from "ui5/touch/controls/library";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import BaseController from "../BaseController";
+import { keyboardModeDocs } from "../../model/keyboardModes";
 
 /**
  * Controller of the TextArea page.
@@ -26,11 +27,14 @@ export default class TextArea extends BaseController {
 				valueState: "None",
 				showKeyboard: false,
 				keyboardMode: KeyboardMode.English,
+				keyboardModes: keyboardModeDocs,
 				keyboardDocked: false,
 			},
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+		// the keyboard of the field is docked when it is shown and docked
+		this.followDockedKeyboard("TextArea", this.model, ["/showKeyboard", "/keyboardDocked"]);
 
 		this.setExample(`
 <mvc:View

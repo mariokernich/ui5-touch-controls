@@ -146,16 +146,13 @@
 								</HBox>
 								<HBox alignItems="Center">
 									<Text text="{i18n>lblMode}" width="100px" />
+									<!-- every arrangement the Keyboard brings along, from the same
+									     list as its own page -->
 									<Select
 										selectedKey="{json>/keyboardMode}"
-										enabled="{json>/showKeyboard}">
-										<core:Item key="English" text="English" />
-										<core:Item key="German" text="German" />
-										<core:Item key="French" text="French" />
-										<core:Item key="Spanish" text="Spanish" />
-										<core:Item key="Ukrainian" text="Ukrainian" />
-										<core:Item key="Russian" text="Russian" />
-										<core:Item key="Hindi" text="Hindi" />
+										enabled="{json>/showKeyboard}"
+										items="{json>/keyboardModes}">
+										<core:Item key="{json>mode}" text="{json>mode}" />
 									</Select>
 								</HBox>
 								<Text text="{i18n>inputKeyboardHint}" class="sapUiTinyMarginTop" />
