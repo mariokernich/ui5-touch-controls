@@ -26,8 +26,8 @@
 		"README.md",
 		"ui5.yaml",
 		"tsconfig.json",
-		"dist/**/*.d.ts",
-		"dist/**/*.d.ts.map",
+		"dist/index.d.ts",
+		"dist/resources",
 		"src"
 	],
 	"scripts": {
