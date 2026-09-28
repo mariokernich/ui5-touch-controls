@@ -155,6 +155,49 @@ describe("the controls react", () => {
 	});
 });
 
+describe("a disabled container", () => {
+	// the test page reports every reaction of what is in these containers as
+	// an error of the page - see mustNotReact in test/cases.ts
+
+	it("lets no click and no key through to what is in a Toolbar", async () => {
+		const toolbar = await $(".touchTestDisabled.sizedToolbar:not(.sizedOverflowToolbar)");
+
+		// the keys are to go nowhere, not into a field an earlier test left
+		// the focus in
+		await browser.execute(() => {
+			document.activeElement?.blur();
+		});
+
+		// the Input is clicked as a whole: where its disabled native field is,
+		// the browser hands a click to the control around it - which is also
+		// where the finger of a user lands
+		for (const part of [".sizedButton", ".sizedCheckBox", ".sizedSwitch", ".sizedInput"]) {
+			await (await toolbar.$(part)).click();
+		}
+		await browser.keys(["1", "2", "3"]);
+
+		expect(await (await toolbar.$(".sizedCheckBox")).getAttribute("aria-checked")).toBe("false");
+		expect(await (await toolbar.$("input")).getValue()).toBe("");
+		await expectNoPageErrors();
+	});
+
+	it("keeps the overflow area of an OverflowToolbar closed", async () => {
+		const toolbar = await $(".touchTestDisabled.sizedOverflowToolbar");
+
+		// what is left in the bar, and the button with the three dots
+		for (const button of await toolbar.$$(".sizedButton")) {
+			if (await button.isDisplayed()) {
+				await button.click();
+			}
+		}
+		// the time a popover takes to open, had it been told to
+		await browser.pause(500);
+
+		expect(await (await $(".sizedOverflowToolbarPopover")).isDisplayed()).toBe(false);
+		await expectNoPageErrors();
+	});
+});
+
 describe("the sizes come through", () => {
 	// what the test page shows of the ladder, from small to large
 	const sizes = ["M", "XL", "3XL"];

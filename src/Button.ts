@@ -5,6 +5,7 @@ import RenderManager from "sap/ui/core/RenderManager";
 import Parameters from "sap/ui/core/theming/Parameters";
 import Image from "sap/m/Image";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import { ISized, SizeMode, sizeClass } from "./library";
 
 /** a control that shows an image or an icon font glyph - an Icon or an Image */
@@ -321,3 +322,7 @@ export default class Button extends Control implements ISized {
 		}
 	}
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(Button.prototype);

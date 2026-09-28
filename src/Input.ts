@@ -1,6 +1,7 @@
 import type Popover from "sap/m/Popover";
 import { InputType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import RenderManager from "sap/ui/core/RenderManager";
@@ -392,3 +393,7 @@ export default class Input extends Control implements ISized {
 		this.commitChange();
 	}
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(Input.prototype);

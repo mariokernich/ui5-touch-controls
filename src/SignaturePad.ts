@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { attachTextChange, getText } from "./i18n";
 import ResizeHandler from "sap/ui/core/ResizeHandler";
@@ -491,3 +492,7 @@ export default class SignaturePad extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(SignaturePad.prototype);

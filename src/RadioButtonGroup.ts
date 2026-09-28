@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -117,7 +118,11 @@ export default class RadioButtonGroup extends Control implements ISized {
 
 	onBeforeRendering(): void {
 		const size = this.getSize();
-		const enabled = this.getEnabled();
+		// the group's own setting only: a disabled container around the group
+		// reaches the buttons through getEnabled, and written into them it
+		// would outlast the container being enabled again until the next
+		// rendering
+		const enabled = this.getProperty("enabled") as boolean;
 		const editable = this.getEditable();
 		const valueState = this.getValueState();
 		const selectedIndex = this.getSelectedIndex();
@@ -174,3 +179,7 @@ export default class RadioButtonGroup extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(RadioButtonGroup.prototype);

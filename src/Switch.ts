@@ -1,5 +1,6 @@
 import { SwitchType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { attachTextChange, getText } from "./i18n";
 import { MetadataOptions } from "sap/ui/core/Element";
@@ -244,3 +245,7 @@ export default class Switch extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(Switch.prototype);

@@ -1,5 +1,6 @@
 import type Popover from "sap/m/Popover";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -412,3 +413,7 @@ export default class TextArea extends Control implements ISized {
 		this.commitChange();
 	}
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(TextArea.prototype);

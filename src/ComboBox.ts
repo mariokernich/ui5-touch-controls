@@ -3,6 +3,7 @@ import Device from "sap/ui/Device";
 import Text from "sap/m/Text";
 import VBox from "sap/m/VBox";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import type Item from "sap/ui/core/Item";
 import type ListItem from "sap/ui/core/ListItem";
 import RenderManager from "sap/ui/core/RenderManager";
@@ -658,3 +659,7 @@ export default class ComboBox extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(ComboBox.prototype);

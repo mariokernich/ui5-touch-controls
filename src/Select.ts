@@ -1,6 +1,7 @@
 import type ResponsivePopover from "sap/m/ResponsivePopover";
 import Device from "sap/ui/Device";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import type Item from "sap/ui/core/Item";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
@@ -341,3 +342,7 @@ export default class Select extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(Select.prototype);

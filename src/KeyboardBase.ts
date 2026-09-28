@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
@@ -967,3 +968,7 @@ export default class KeyboardBase extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(KeyboardBase.prototype);

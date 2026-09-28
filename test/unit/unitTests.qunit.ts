@@ -16,4 +16,5 @@ import "./fields.qunit";
 import "./Keyboard.qunit";
 import "./SignaturePad.qunit";
 import "./toolbars.qunit";
+import "./disabled.qunit";
 import "./QuickDialog.qunit";

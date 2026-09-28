@@ -3,6 +3,7 @@ import Popover from "sap/m/Popover";
 import VBox from "sap/m/VBox";
 import { FlexRendertype, PlacementType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -674,3 +675,7 @@ export default class DatePicker extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(DatePicker.prototype);

@@ -38,7 +38,7 @@ export const releases: Release[] = [
 		version: "1.4.0",
 		date: "2026-09-28",
 		summary:
-			"A review of every control - leaks, keyboard use, focus and the language of the app - unit tests, and icons of the demo's own.",
+			"A review of every control - leaks, keyboard use, focus, the disabled state and the language of the app - unit tests, and icons of the demo's own.",
 		groups: [
 			{
 				kind: "Added",
@@ -57,6 +57,8 @@ export const releases: Release[] = [
 			{
 				kind: "Fixed",
 				items: [
+					"A disabled [Button] could still be pressed with a mouse, a finger or a pen, and so could the buttons other controls are made of - the keys of a disabled keyboard, say, or the segments of a disabled [SegmentedButton].",
+					"Every control of the library that can be disabled is disabled along with a container around it, the way the controls of sap.m are: what was in a disabled [Toolbar], [OverflowToolbar] or `sap.m.Toolbar` could still be tapped, pressed and typed into, and a disabled [OverflowToolbar] still opened its overflow area.",
 					"A [Button] with an icon made a new icon control every time it rendered and never destroyed one. It makes one per icon now, can be pressed with Enter and Space like a native button, and is pressed neither by the secondary mouse button nor by a release that did not start on it.",
 					"`setValue` on an [Input] or a [TextArea] the user has typed into puts the new value on the screen - the field went on showing what was typed, most visibly when it was cleared after a submit.",
 					"A tap from an [Input] or a [TextArea] with an on-screen keyboard into another field leaves the focus in that field: the closing keyboard pulled it back and opened again. What the keyboard typed into an [Input] is reported as `change` when the focus leaves, as it already was for a [TextArea].",
@@ -88,6 +90,7 @@ export const releases: Release[] = [
 				kind: "Tests",
 				items: [
 					"Unit tests in `test/unit`, one QUnit module per control, run in the browser by the UI5 test starter - and in CI on every supported UI5 release, together with the UI tests.",
+					"Every control is tried disabled - on its own and in a disabled [Toolbar], [OverflowToolbar] and `sap.m.Toolbar` - with a tap, its keys and the focus, and then enabled again; a control added to the library without such a try fails the tests. The UI tests click through a disabled toolbar in the browser.",
 				],
 			},
 		],
