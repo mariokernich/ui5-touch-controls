@@ -7,7 +7,10 @@
 	xmlns:f="sap.f"
 	xmlns:cards="sap.f.cards"
 	xmlns:tc="ui5.touch.controls"
-	core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
+	core:require="{
+		formatMessage: 'sap/base/strings/formatMessage',
+		FloatType: 'sap/ui/model/type/Float'
+	}"
 	height="100%">
 	<f:DynamicPage
 		headerExpanded="true"
@@ -115,16 +118,30 @@
 									type="XML" />
 								<HBox alignItems="Center">
 									<Text text="{i18n>lblMin}" width="100px" />
+									<!-- typed, so the model gets a number: the limits of both
+									     step inputs are floats, and a float property turns a
+									     string down -->
 									<Input
-										value="{json>/min}"
+										value="{
+											path: 'json>/min',
+											type: 'FloatType',
+											formatOptions: { groupingEnabled: false, decimalSeparator: '.' }
+										}"
 										type="Number"
 										valueLiveUpdate="true"
 										width="100px" />
 								</HBox>
 								<HBox alignItems="Center">
 									<Text text="{i18n>lblMax}" width="100px" />
+									<!-- typed, so the model gets a number: the limits of both
+									     step inputs are floats, and a float property turns a
+									     string down -->
 									<Input
-										value="{json>/max}"
+										value="{
+											path: 'json>/max',
+											type: 'FloatType',
+											formatOptions: { groupingEnabled: false, decimalSeparator: '.' }
+										}"
 										type="Number"
 										valueLiveUpdate="true"
 										width="100px" />

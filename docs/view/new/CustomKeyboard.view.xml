@@ -209,7 +209,6 @@
                                     <Input
                                         value="{json>/width}"
                                         placeholder="{i18n>phWidth}"
-                                        valueLiveUpdate="true"
                                         width="150px"
                                     />
                                 </HBox>

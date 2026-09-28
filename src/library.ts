@@ -7,6 +7,7 @@ import IconPool from "sap/ui/core/IconPool";
 
 // library dependencies must also be imported here
 import "sap/ui/core/library";
+import "sap/m/library";
 
 import {
 	ICON_FONT_COLLECTION,
@@ -19,7 +20,8 @@ import {
  */
 
 /**
- * Available modes for the Button control.
+ * The touch sizes of the controls, from <code>S</code> to <code>6XL</code>.
+ * <code>M</code> is the size of the <code>sap.m</code> original.
  *
  * @enum {string}
  * @namespace ui5.touch.controls
@@ -187,6 +189,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 	dependencies: [
 		// keep in sync with the ui5.yaml and .library files
 		"sap.ui.core",
+		"sap.m",
 	],
 	types: [
 		"ui5.touch.controls.SizeMode",

@@ -96,8 +96,14 @@ export default class Changelog extends BaseController {
 
 				// a bare "#/..." is resolved against the origin, not against the
 				// page, and would land on the root of the server - so the link
-				// carries the path it is written on
-				const href = `${window.location.pathname}#/${hash}`;
+				// carries the path it is written on, and the query with it: the
+				// theme and the language of the demo can be set there, and a
+				// link that dropped them would reload the demo without them
+				const { pathname, search } = window.location;
+				const href = this.escape(`${pathname}${search}#/${hash}`).replace(
+					/"/g,
+					"&quot;",
+				);
 				return `<a href="${href}" target="_self">${name}</a>`;
 			});
 	}

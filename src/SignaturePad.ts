@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { attachTextChange, getText } from "./i18n";
 import ResizeHandler from "sap/ui/core/ResizeHandler";
@@ -159,6 +160,8 @@ export default class SignaturePad extends Control implements ISized {
 		this.libraryPlaceholder = getText("SIGNATUREPAD_PLACEHOLDER");
 		this.setProperty("placeholder", this.libraryPlaceholder, true);
 		this.detachTextChange = attachTextChange(() => {
+			// the tooltip of the clear button is read while rendering
+			this.invalidate();
 			// only the hint of the library follows the language. Where the
 			// placeholder reads anything else, the application wrote it, and
 			// what it should say is not for the library to decide.
@@ -258,6 +261,7 @@ export default class SignaturePad extends Control implements ISized {
 
 		button.setSize(this.getSize());
 		button.setEnabled(this.getEnabled());
+		button.setTooltip(getText("SIGNATUREPAD_CLEAR"));
 
 		return button;
 	}
@@ -334,6 +338,11 @@ export default class SignaturePad extends Control implements ISized {
 	}
 
 	private onPointerDown(event: PointerEvent, canvas: HTMLCanvasElement): void {
+		// the secondary mouse buttons open menus, they do not draw
+		if (event.pointerType === "mouse" && event.button !== 0) {
+			return;
+		}
+
 		// the pointer keeps sending to the canvas even when it leaves it, and
 		// the browser must not scroll the page while a signature is drawn
 		canvas.setPointerCapture(event.pointerId);
@@ -453,9 +462,13 @@ export default class SignaturePad extends Control implements ISized {
 			rm.style("width", control.getWidth());
 			rm.openEnd();
 
-			rm.voidStart("canvas", control.getId() + "-canvas");
+			// a canvas is no void element: without its end tag, a rendering
+			// into a string would put everything after it inside it, where
+			// the browser does not show it
+			rm.openStart("canvas", control.getId() + "-canvas");
 			rm.class("sizedSignaturePadCanvas");
-			rm.voidEnd();
+			rm.openEnd();
+			rm.close("canvas");
 
 			// baseline and hint, both only decoration above the canvas
 			rm.openStart("span", control.getId() + "-line");
@@ -479,3 +492,7 @@ export default class SignaturePad extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(SignaturePad.prototype);

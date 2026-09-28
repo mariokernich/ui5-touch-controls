@@ -1,9 +1,11 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ButtonType, InputType } from "sap/m/library";
 import Button from "./Button";
 import Input from "./Input";
+import { attachTextChange, getText } from "./i18n";
 import { ISized, SizeMode } from "./library";
 
 /**
@@ -16,6 +18,13 @@ import { ISized, SizeMode } from "./library";
  * @namespace ui5.touch.controls
  */
 export default class StepInput extends Control implements ISized {
+	// Written by init, which UI5 calls from the constructor of the base class
+	// - that is, before the field declarations of this class are applied.
+	// Declared, it is a type and nothing else, so nothing is written over what
+	// init put there.
+	/** ends the callback that follows the language */
+	private declare detachTextChange: () => void;
+
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
 		properties: {
@@ -142,6 +151,16 @@ export default class StepInput extends Control implements ISized {
 			}),
 			true,
 		);
+
+		// the tooltips of the two buttons are the library's and follow the
+		// language, see onBeforeRendering
+		this.detachTextChange = attachTextChange(() => {
+			this.invalidate();
+		});
+	}
+
+	exit(): void {
+		this.detachTextChange();
 	}
 
 	private getMinusButton(): Button {
@@ -214,8 +233,9 @@ export default class StepInput extends Control implements ISized {
 			this.setProperty("value", clamped);
 			this.fireChange({ value: clamped });
 		} else {
-			// re-render to reset an out-of-range or invalid input value
-			this.invalidate();
+			// what was typed was out of range or no number at all, and the
+			// value stays as it was - so does the field
+			this.getInput().setValue(`${this.getNumericValue()}`);
 		}
 	}
 
@@ -226,10 +246,10 @@ export default class StepInput extends Control implements ISized {
 		const buttonType = this.getButtonType();
 
 		const minusButton = this.getMinusButton();
+		minusButton.setTooltip(getText("STEPINPUT_DECREASE"));
 		minusButton.setSize(size);
 		minusButton.setType(buttonType);
 		minusButton.setEnabled(enabled && value > this.getNumericMin());
-		minusButton.setSidePadding("0px");
 
 		const input = this.getInput();
 		input.setSize(size);
@@ -238,10 +258,10 @@ export default class StepInput extends Control implements ISized {
 		input.setValue(`${value}`);
 
 		const plusButton = this.getPlusButton();
+		plusButton.setTooltip(getText("STEPINPUT_INCREASE"));
 		plusButton.setSize(size);
 		plusButton.setType(buttonType);
 		plusButton.setEnabled(enabled && value < this.getNumericMax());
-		plusButton.setSidePadding("0px");
 	}
 
 	static renderer = {
@@ -259,3 +279,7 @@ export default class StepInput extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(StepInput.prototype);

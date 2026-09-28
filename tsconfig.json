@@ -12,7 +12,8 @@
         "strictPropertyInitialization": true,
         "rootDir": "./",
         "types": [
-            "@openui5/types"
+            "@openui5/types",
+            "qunit"
         ],
         "paths": {
             "ui5/touch/controls/*": ["./src/*"]

@@ -16,119 +16,123 @@ export default class KeyboardBase extends BaseController {
 	public onInit(): void {
 		this.setControlIntro("KeyboardBase");
 
-		this.getView()?.setModel(
-			new JSONModel({
-				// the three keyboards built on this class, in the order of the
-				// navigation
-				subclasses: [
-					{
-						key: "Keyboard",
-						name: "ui5.touch.controls.Keyboard",
-						text: this.getText("subKeyboard"),
-						icon: "sap-icon://demo/keyboard",
-					},
-					{
-						key: "NumberPad",
-						name: "ui5.touch.controls.NumberPad",
-						text: this.getText("subNumberPad"),
-						icon: "sap-icon://demo/number-pad",
-					},
-					{
-						key: "CustomKeyboard",
-						name: "ui5.touch.controls.CustomKeyboard",
-						text: this.getText("subCustomKeyboard"),
-						icon: "sap-icon://demo/custom-keyboard",
-					},
-				],
-				// what the class itself brings - the properties every keyboard
-				// of this library has, whatever its keys are
-				properties: [
-					{
-						name: "value",
-						type: "string",
-						default: '""',
-						text: this.getText("propValue"),
-					},
-					{
-						name: "emphasizedKeys",
-						type: "string[]",
-						default: "[]",
-						text: this.getText("propEmphasizedKeys"),
-					},
-					{
-						name: "maxLength",
-						type: "int",
-						default: "0",
-						text: this.getText("propMaxLength"),
-					},
-					{
-						name: "enabled",
-						type: "boolean",
-						default: "true",
-						text: this.getText("propEnabled"),
-					},
-					{
-						name: "hardwareKeys",
-						type: "boolean",
-						default: "false",
-						text: this.getText("propHardwareKeys"),
-					},
-					{
-						name: "size",
-						type: "ui5.touch.controls.SizeMode",
-						default: "M",
-						text: this.getText("propSize"),
-					},
-					{
-						name: "width",
-						type: "sap.ui.core.CSSSize",
-						default: "-",
-						text: this.getText("propWidth"),
-					},
-					{
-						name: "docked",
-						type: "boolean",
-						default: "false",
-						text: this.getText("propDocked"),
-					},
-				],
-				events: [
-					{
-						name: "change",
-						parameters: "value",
-						text: this.getText("evtChange"),
-					},
-					{
-						name: "keyPress",
-						parameters: "key",
-						text: this.getText("evtKeyPress"),
-					},
-					{
-						name: "enter",
-						parameters: "value",
-						text: this.getText("evtEnter"),
-					},
-					{
-						name: "escape",
-						parameters: "value",
-						text: this.getText("evtEscape"),
-					},
-				],
-				// the same table the CustomKeyboard page shows, because the
-				// keys are handled here and therefore mean the same on all three
-				specialKeys: [
-					{ key: "{bksp}", meaning: this.getText("keyBksp") },
-					{ key: "{enter}", meaning: this.getText("keyEnter") },
-					{ key: "{space}", meaning: this.getText("keySpace") },
-					{ key: "{shift}", meaning: this.getText("keyShift") },
-					{ key: "{lock}", meaning: this.getText("keyLock") },
-					{ key: "{tab}", meaning: this.getText("keyTab") },
-					{ key: "{esc}", meaning: this.getText("keyEsc") },
-					{ key: "{name}", meaning: this.getText("keySet") },
-				],
-			}),
-			"json",
-		);
+		// nothing on this page is typed in, so the model is built anew when
+		// the language changes - its texts are resolved here
+		this.fillOnLanguageChange(() => {
+			this.getView()?.setModel(
+				new JSONModel({
+					// the three keyboards built on this class, in the order of the
+					// navigation
+					subclasses: [
+						{
+							key: "Keyboard",
+							name: "ui5.touch.controls.Keyboard",
+							text: this.getText("subKeyboard"),
+							icon: "sap-icon://demo/keyboard",
+						},
+						{
+							key: "NumberPad",
+							name: "ui5.touch.controls.NumberPad",
+							text: this.getText("subNumberPad"),
+							icon: "sap-icon://demo/number-pad",
+						},
+						{
+							key: "CustomKeyboard",
+							name: "ui5.touch.controls.CustomKeyboard",
+							text: this.getText("subCustomKeyboard"),
+							icon: "sap-icon://demo/custom-keyboard",
+						},
+					],
+					// what the class itself brings - the properties every keyboard
+					// of this library has, whatever its keys are
+					properties: [
+						{
+							name: "value",
+							type: "string",
+							default: '""',
+							text: this.getText("propValue"),
+						},
+						{
+							name: "emphasizedKeys",
+							type: "string[]",
+							default: "[]",
+							text: this.getText("propEmphasizedKeys"),
+						},
+						{
+							name: "maxLength",
+							type: "int",
+							default: "0",
+							text: this.getText("propMaxLength"),
+						},
+						{
+							name: "enabled",
+							type: "boolean",
+							default: "true",
+							text: this.getText("propEnabled"),
+						},
+						{
+							name: "hardwareKeys",
+							type: "boolean",
+							default: "false",
+							text: this.getText("propHardwareKeys"),
+						},
+						{
+							name: "size",
+							type: "ui5.touch.controls.SizeMode",
+							default: "M",
+							text: this.getText("propSize"),
+						},
+						{
+							name: "width",
+							type: "sap.ui.core.CSSSize",
+							default: "-",
+							text: this.getText("propWidth"),
+						},
+						{
+							name: "docked",
+							type: "boolean",
+							default: "false",
+							text: this.getText("propDocked"),
+						},
+					],
+					events: [
+						{
+							name: "change",
+							parameters: "value",
+							text: this.getText("evtChange"),
+						},
+						{
+							name: "keyPress",
+							parameters: "key",
+							text: this.getText("evtKeyPress"),
+						},
+						{
+							name: "enter",
+							parameters: "value",
+							text: this.getText("evtEnter"),
+						},
+						{
+							name: "escape",
+							parameters: "value",
+							text: this.getText("evtEscape"),
+						},
+					],
+					// the same table the CustomKeyboard page shows, because the
+					// keys are handled here and therefore mean the same on all three
+					specialKeys: [
+						{ key: "{bksp}", meaning: this.getText("keyBksp") },
+						{ key: "{enter}", meaning: this.getText("keyEnter") },
+						{ key: "{space}", meaning: this.getText("keySpace") },
+						{ key: "{shift}", meaning: this.getText("keyShift") },
+						{ key: "{lock}", meaning: this.getText("keyLock") },
+						{ key: "{tab}", meaning: this.getText("keyTab") },
+						{ key: "{esc}", meaning: this.getText("keyEsc") },
+						{ key: "{name}", meaning: this.getText("keySet") },
+					],
+				}),
+				"json",
+			);
+		});
 
 		// the one snippet that is about the base class rather than about one
 		// of the three: the aggregation of a field takes any of them
@@ -146,7 +150,7 @@ export default class KeyboardBase extends BaseController {
 </tc:Input>
 			`,
 			"xml",
-			this.getText("exampleBaseField"),
+			"exampleBaseField",
 		);
 	}
 

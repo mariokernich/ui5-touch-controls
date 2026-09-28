@@ -1,8 +1,10 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import { ButtonType } from "sap/m/library";
 import Button from "./Button";
+import { attachTextChange, getText } from "./i18n";
 import { ISized, SizeMode } from "./library";
 
 /**
@@ -131,6 +133,13 @@ export default class KeyboardBase extends Control implements ISized {
 	 * Pending hardware key press animation timers, keyed by button index.
 	 */
 	private keyAnimationTimers = new Map<number, ReturnType<typeof setTimeout>>();
+
+	// Written by init, which UI5 calls from the constructor of the base class
+	// - that is, before the field declarations of this class are applied.
+	// Declared, it is a type and nothing else, so nothing is written over what
+	// init put there.
+	/** ends the callback that follows the language */
+	private declare detachTextChange: () => void;
 
 	static readonly metadata: MetadataOptions = {
 		"abstract": true,
@@ -290,6 +299,14 @@ export default class KeyboardBase extends Control implements ISized {
 		super(id, settings);
 	}
 
+	init(): void {
+		// the space bar says what the library calls it in the language the
+		// application runs in, so the keys are built again when that changes
+		this.detachTextChange = attachTextChange(() => {
+			this.invalidate();
+		});
+	}
+
 	private getButtons(): Button[] {
 		return (this.getAggregation("_buttons") as Button[]) ?? [];
 	}
@@ -372,16 +389,34 @@ export default class KeyboardBase extends Control implements ISized {
 		for (let i = 0; i < buttons.length; i++) {
 			const key = this.layoutKeys[i];
 
-			if (key === "{shift}" || key === "{lock}") {
-				const on = key === "{shift}" ? this.shiftActive : this.capsActive;
-				buttons[i].setType(
-					on || this.isEmphasizedKey(key)
-						? ButtonType.Emphasized
-						: ButtonType.Default,
-				);
-			} else if (this.isShiftableKey(key)) {
+			if (this.isShiftableKey(key)) {
 				buttons[i].setText(upperCase ? this.upper(key) : key);
 			}
+		}
+
+		this.updateKeyTypes();
+	}
+
+	/**
+	 * Emphasizes the keys that are named in
+	 * {@link #getEmphasizedKeys emphasizedKeys} and the modifiers that are on,
+	 * and draws all others plainly. Asked on every rendering, so a change of
+	 * the property shows without the keys being built anew.
+	 */
+	private updateKeyTypes(): void {
+		const buttons = this.getButtons();
+
+		for (let i = 0; i < buttons.length; i++) {
+			const key = this.normalizeKey(this.layoutKeys[i]);
+			const modifierOn =
+				(key === "{shift}" && this.shiftActive) ||
+				(key === "{lock}" && this.capsActive);
+
+			buttons[i].setType(
+				modifierOn || this.isEmphasizedKey(key)
+					? ButtonType.Emphasized
+					: ButtonType.Default,
+			);
 		}
 	}
 
@@ -538,6 +573,12 @@ export default class KeyboardBase extends Control implements ISized {
 
 		const key = event.key;
 
+		if (key === "Escape") {
+			this.animateKeyButton("{esc}");
+			this.fireKeyPress({ key: "{esc}" });
+			this.fireEscape({ value: this.getValue() });
+			return;
+		}
 		if (key === "Enter") {
 			this.animateKeyButton("{enter}");
 			this.fireKeyPress({ key: "{enter}" });
@@ -562,12 +603,38 @@ export default class KeyboardBase extends Control implements ISized {
 			return;
 		}
 		if (key.length === 1 && this.layoutKeySet.has(this.lower(key))) {
+			const char = this.getHardwareChar(key);
+
 			this.animateKeyButton(key);
-			this.fireKeyPress({ key });
-			this.insertChar(key);
+			this.fireKeyPress({ key: char });
+			this.insertChar(char);
 			this.setShiftActive(false);
 			event.preventDefault();
 		}
+	}
+
+	/**
+	 * What a key of a real keyboard writes here.
+	 *
+	 * The case of a letter is the real keyboard's to decide - its shift key is
+	 * held or it is not. A keyboard that writes one case only has no say in it
+	 * though: one that shows nothing but capitals, and no key to change that,
+	 * writes a capital however the letter came in.
+	 */
+	private getHardwareChar(key: string): string {
+		const hasCaseSwitch = this.layoutKeys.some((layoutKey) =>
+			["{shift}", "{lock}"].includes(this.normalizeKey(layoutKey)),
+		);
+
+		if (hasCaseSwitch || this.layoutKeys.includes(key)) {
+			return key;
+		}
+
+		const lower = this.lower(key);
+
+		return (
+			this.layoutKeys.find((layoutKey) => this.lower(layoutKey) === lower) ?? key
+		);
 	}
 
 	/**
@@ -579,10 +646,6 @@ export default class KeyboardBase extends Control implements ISized {
 				this.handleKeyPress(key);
 			},
 		});
-
-		if (this.isEmphasizedKey(key)) {
-			button.setType(ButtonType.Emphasized);
-		}
 
 		// what was said about this key in the display aggregation comes first:
 		// it is there to overrule the sign the keyboard would pick
@@ -616,7 +679,7 @@ export default class KeyboardBase extends Control implements ISized {
 				button.setText("esc");
 				break;
 			case "{space}":
-				button.setText("Space");
+				button.setText(getText("KEYBOARD_SPACE"));
 				button.addStyleClass("touchKeyboardSpaceKey");
 				break;
 			default: {
@@ -705,8 +768,8 @@ export default class KeyboardBase extends Control implements ISized {
 	 * under the name the control knows it by, so that <code>{ent}</code>,
 	 * <code>ent</code> and <code>enter</code> all mean the same key.
 	 *
-	 * The braces are optional on purpose. UI5 reads a string that begins with
-	 * one as a binding, so a key could not be written as
+	 * The braces are optional on purpose. UI5 reads a brace in an attribute of
+	 * a view as the start of a binding, so a key could not be written as
 	 * <code>key="{numbers}"</code> in a view without escaping it.
 	 */
 	protected plainKeyName(key: string): string {
@@ -784,7 +847,13 @@ export default class KeyboardBase extends Control implements ISized {
 	 */
 	private buildButtons(): void {
 		const layout = this.getEffectiveLayout();
-		const signature = `${layout.join("\n")}\u0000${this.getKeySignature()}`;
+		// the text of the space bar comes from the library and follows the
+		// language, so it belongs to what the keys are built from
+		const signature = [
+			layout.join("\n"),
+			this.getKeySignature(),
+			getText("KEYBOARD_SPACE"),
+		].join("\u0000");
 
 		if (signature === this.builtLayoutSignature) {
 			return;
@@ -822,8 +891,9 @@ export default class KeyboardBase extends Control implements ISized {
 		for (const button of this.getButtons()) {
 			button.setSize(size);
 			button.setEnabled(enabled);
-			button.setSidePadding("0px");
 		}
+
+		this.updateKeyTypes();
 	}
 
 	/**
@@ -842,6 +912,7 @@ export default class KeyboardBase extends Control implements ISized {
 
 	exit(): void {
 		this.clearKeyAnimations();
+		this.detachTextChange();
 	}
 
 	/**
@@ -897,3 +968,7 @@ export default class KeyboardBase extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(KeyboardBase.prototype);

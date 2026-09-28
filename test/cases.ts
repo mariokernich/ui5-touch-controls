@@ -3,6 +3,7 @@ import { ValueState } from "sap/ui/core/library";
 import Item from "sap/ui/core/Item";
 import ListItem from "sap/ui/core/ListItem";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
+import VBox from "sap/m/VBox";
 import { ButtonType, SwitchType } from "sap/m/library";
 import BarcodeInput from "ui5/touch/controls/BarcodeInput";
 import Button from "ui5/touch/controls/Button";
@@ -67,6 +68,19 @@ function perSize<T extends Control>(build: (size: SizeMode) => T): Control[] {
  */
 function ignoreDismissed(): void {
 	// nothing to do
+}
+
+/**
+ * For what is in a disabled container: whatever it reports is a reaction it
+ * must not have had. That goes among the errors of the page, which the UI
+ * tests check after they have clicked it.
+ */
+function mustNotReact(what: string): () => void {
+	return () => {
+		(window as unknown as { touchTestErrors?: string[] }).touchTestErrors?.push(
+			`${what} reacted, although its container is disabled`,
+		);
+	};
 }
 
 /**
@@ -484,6 +498,20 @@ export const cases: Record<string, () => TestRow[]> = {
 					}),
 			),
 		},
+		{
+			caption: "disabled, and with it what is in it",
+			controls: [
+				new Toolbar({
+					enabled: false,
+					content: [
+						new Button({ text: "Save", press: mustNotReact("the Button") }),
+						new CheckBox({ text: "Agree", select: mustNotReact("the CheckBox") }),
+						new Switch({ change: mustNotReact("the Switch") }),
+						new Input({ width: "8rem", liveChange: mustNotReact("the Input") }),
+					],
+				}).addStyleClass("touchTestDisabled"),
+			],
+		},
 	],
 
 	OverflowToolbar: () => [
@@ -512,6 +540,27 @@ export const cases: Record<string, () => TestRow[]> = {
 						new Button({ text: "New", size: SizeMode.L }),
 						new Button({ text: "Edit", size: SizeMode.L }),
 						new Button({ text: "Delete", size: SizeMode.L }),
+					],
+				}),
+			],
+		},
+		{
+			caption: "disabled, and too narrow",
+			controls: [
+				// the box is what makes it narrow: the toolbar takes the width
+				// it is given
+				new VBox({
+					width: "10rem",
+					items: [
+						new OverflowToolbar({
+							enabled: false,
+							size: SizeMode.L,
+							content: [
+								new Button({ text: "New", size: SizeMode.L, press: mustNotReact("New") }),
+								new Button({ text: "Edit", size: SizeMode.L, press: mustNotReact("Edit") }),
+								new Button({ text: "Delete", size: SizeMode.L, press: mustNotReact("Delete") }),
+							],
+						}).addStyleClass("touchTestDisabled"),
 					],
 				}),
 			],

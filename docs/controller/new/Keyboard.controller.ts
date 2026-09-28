@@ -55,7 +55,7 @@ export default class Keyboard extends BaseController {
 		this.setSnippets({
 			main: [
 				{
-					title: this.getText("exampleKeyboardBasic"),
+					titleKey: "exampleKeyboardBasic",
 					code: `
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
@@ -71,7 +71,7 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleKeyboardNumbers"),
+					titleKey: "exampleKeyboardNumbers",
 					code: `
 <!-- a row of digits over the letters, the way a keyboard of keys has it -->
 <tc:Keyboard mode="English" displayNumbers="Always" size="XL" />
@@ -87,7 +87,7 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleKeyboardCase"),
+					titleKey: "exampleKeyboardCase",
 					code: `
 <!-- a material number is capitals, so the keyboard writes them and has
      neither a shift key nor a caps lock: there is nothing to switch -->
@@ -104,7 +104,7 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleKeyboardKeys"),
+					titleKey: "exampleKeyboardKeys",
 					code: `
 <!-- a set of brackets, signs and currencies behind a key of its own,
      an {esc} key, and an Enter key that says what it does -->
@@ -121,7 +121,7 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleKeyboardExtra"),
+					titleKey: "exampleKeyboardExtra",
 					code: `
 <!-- an address field: the at sign and the dot stand beside the space bar
      rather than behind a switch, and everything is written in lower case -->
@@ -144,7 +144,7 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleKeyboardField"),
+					titleKey: "exampleKeyboardField",
 					code: `
 <!-- on a field: the keyboard opens in a popover while the field has the
      focus and types into it -->
@@ -156,7 +156,7 @@ export default class Keyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleController"),
+					titleKey: "exampleController",
 					language: "javascript",
 					code: `
 onChange(event) {

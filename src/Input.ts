@@ -1,12 +1,12 @@
-import Popover from "sap/m/Popover";
-import { centerKeyboardPopover } from "./centerKeyboardPopover";
-import { InputType, PlacementType } from "sap/m/library";
+import type Popover from "sap/m/Popover";
+import { InputType } from "sap/m/library";
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
 import RenderManager from "sap/ui/core/RenderManager";
+import FieldKeyboard from "./FieldKeyboard";
 import { ISized, SizeMode, sizeClass } from "./library";
-import type KeyboardBase from "./KeyboardBase";
 
 /**
  * A sized input control optimized for touch devices.
@@ -19,15 +19,14 @@ import type KeyboardBase from "./KeyboardBase";
  * @namespace ui5.touch.controls
  */
 export default class Input extends Control implements ISized {
-	private inputListener: ((event: globalThis.Event) => void) | null = null;
-	private changeListener: ((event: globalThis.Event) => void) | null = null;
-	private keydownListener: ((event: KeyboardEvent) => void) | null = null;
-	private focusinListener: ((event: FocusEvent) => void) | null = null;
-	private clickListener: ((event: MouseEvent) => void) | null = null;
-	private focusoutListener: ((event: FocusEvent) => void) | null = null;
-
-	/** the keyboards whose events are already connected to this field */
-	private readonly wiredKeyboards = new WeakSet<KeyboardBase>();
+	// Written by init, which UI5 calls from the constructor of the base class
+	// - that is, before the field declarations of this class are applied.
+	// Declared, they are types and nothing else, so nothing is written over
+	// what init put there.
+	/** the popover with the on-screen keyboard, and what goes with it */
+	private declare keyboardSupport: FieldKeyboard;
+	/** the value the last change event was fired for, see commitChange */
+	private declare lastChangeValue: string;
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
@@ -211,10 +210,11 @@ export default class Input extends Control implements ISized {
 			rm.voidStart("input", id + "-inner");
 			rm.class("sizedInputInner");
 			rm.attr("type", control.getType().toLowerCase());
+			// always written, an empty one included: patching an input puts
+			// the value attribute into what the field shows, and a field the
+			// user has typed into would otherwise keep showing what was typed
+			rm.attr("value", control.getValue());
 
-			if (control.getValue()) {
-				rm.attr("value", control.getValue());
-			}
 			if (control.getPlaceholder()) {
 				rm.attr("placeholder", control.getPlaceholder());
 			}
@@ -237,11 +237,66 @@ export default class Input extends Control implements ISized {
 		},
 	};
 
+	init(): void {
+		this.lastChangeValue = "";
+		this.keyboardSupport = new FieldKeyboard(this, {
+			change: (value) => {
+				this.applyUserValue(value);
+				this.fireLiveChange({ value: value });
+			},
+			// the keyboard stays open - the field still has the focus, and that
+			// is what decides whether the keyboard is shown
+			enter: () => {
+				this.commitChange();
+				this.fireSubmit({ value: this.getValue() });
+			},
+		});
+	}
+
+	/**
+	 * Keeps the native input in step without a re-rendering, so the caret and
+	 * the focus survive a value change - and a field the user has typed into
+	 * shows the new value, too.
+	 *
+	 * A value set from the outside is not a change of the user: it fires no
+	 * <code>change</code>, now or when the focus leaves.
+	 */
+	setValue(value: string): this {
+		this.applyUserValue(value);
+		this.lastChangeValue = this.getValue();
+
+		return this;
+	}
+
+	/** Takes over a value without re-rendering the field. */
+	private applyUserValue(value: string): void {
+		this.setProperty("value", value, true);
+
+		const input = this.getInnerInput();
+		if (input && input.value !== this.getValue()) {
+			input.value = this.getValue();
+		}
+	}
+
+	/**
+	 * Fires <code>change</code> if the value differs from the one the last
+	 * change was fired for. The browser, the Enter key and the focus leaving
+	 * the field all end up here, and one edit is reported once.
+	 */
+	private commitChange(): void {
+		const value = this.getValue();
+
+		if (value !== this.lastChangeValue) {
+			this.lastChangeValue = value;
+			this.fireChange({ value: value });
+		}
+	}
+
 	/**
 	 * Returns the inner native input element.
 	 */
 	private getInnerInput(): HTMLInputElement | null {
-		return this.getDomRef()?.querySelector("input") ?? null;
+		return this.getDomRef("inner") as HTMLInputElement | null;
 	}
 
 	/**
@@ -253,247 +308,92 @@ export default class Input extends Control implements ISized {
 		return this.getInnerInput() ?? super.getFocusDomRef();
 	}
 
+	/**
+	 * A label points at the native input, so a tap on the label puts the
+	 * caret into the field.
+	 */
+	getIdForLabel(): string {
+		return this.getId() + "-inner";
+	}
+
+	/**
+	 * The popover of the keyboard puts the focus back into the field when it
+	 * closes. When it closes because the focus has just left the field, the
+	 * field declines - the focus stays wherever the user put it, see
+	 * {@link FieldKeyboard#closeForFocusLoss}.
+	 */
+	applyFocusInfo(focusInfo: { preventScroll?: boolean }): this {
+		if (this.keyboardSupport.isClosingForFocusLoss()) {
+			return this;
+		}
+
+		return super.applyFocusInfo(focusInfo);
+	}
+
+	/**
+	 * The forwarding target of the <code>keyboard</code> aggregation, see
+	 * {@link FieldKeyboard#getPopover}.
+	 */
+	private getKeyboardPopover(): Popover {
+		return this.keyboardSupport.getPopover();
+	}
 
 	onBeforeRendering(): void {
 		// e.g. when showKeyboard is switched off while the popover is
 		// still open
-		if (!this.canShowKeyboard()) {
-			this.closeKeyboard();
+		if (!this.keyboardSupport.canShow()) {
+			this.keyboardSupport.close();
 		}
 	}
 
-	onAfterRendering(): void {
+	oninput(): void {
 		const input = this.getInnerInput();
 
 		if (input) {
-			// With renderer apiVersion 2 the DOM element is patched and reused
-			// on re-rendering, so previously attached listeners must be removed
-			// first - otherwise they accumulate and events fire multiple times.
-			this.detachDomListeners(input);
-
-			this.inputListener = () => {
-				this.setProperty("value", input.value, true);
-				this.fireLiveChange({ value: input.value });
-			};
-			this.changeListener = () => {
-				this.setProperty("value", input.value, true);
-				this.fireChange({ value: input.value });
-			};
-			this.keydownListener = (event: KeyboardEvent) => {
-				if (event.key === "Enter") {
-					this.setProperty("value", input.value, true);
-					this.fireSubmit({ value: input.value });
-				}
-			};
-			this.focusinListener = () => {
-				this.openKeyboard();
-			};
-			// tapping the field brings the keyboard back when it was dismissed
-			// while the field kept the focus, e.g. with the Escape key
-			this.clickListener = () => {
-				this.openKeyboard();
-			};
-			this.focusoutListener = (event: FocusEvent) => {
-				// the focus can move into the popover itself, e.g. by tabbing
-				// onto a key - that is not leaving the field
-				const target = event.relatedTarget as Node | null;
-				if (target && this.getPopoverDomRef()?.contains(target)) {
-					return;
-				}
-				this.closeKeyboard();
-			};
-
-			input.addEventListener("input", this.inputListener);
-			input.addEventListener("change", this.changeListener);
-			input.addEventListener("keydown", this.keydownListener);
-			input.addEventListener("focusin", this.focusinListener);
-			input.addEventListener("click", this.clickListener);
-			input.addEventListener("focusout", this.focusoutListener);
+			this.setProperty("value", input.value, true);
+			this.fireLiveChange({ value: input.value });
 		}
 	}
 
-	private detachDomListeners(input: HTMLInputElement): void {
-		if (this.inputListener) {
-			input.removeEventListener("input", this.inputListener);
-		}
-		if (this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
-		}
-		if (this.keydownListener) {
-			input.removeEventListener("keydown", this.keydownListener);
-		}
-		if (this.focusinListener) {
-			input.removeEventListener("focusin", this.focusinListener);
-		}
-		if (this.clickListener) {
-			input.removeEventListener("click", this.clickListener);
-		}
-		if (this.focusoutListener) {
-			input.removeEventListener("focusout", this.focusoutListener);
-		}
-		this.inputListener = null;
-		this.changeListener = null;
-		this.keydownListener = null;
-		this.focusinListener = null;
-		this.clickListener = null;
-		this.focusoutListener = null;
+	/** the browser's change: Enter, or the focus leaving after typing */
+	onchange(): void {
+		this.commitChange();
+	}
+
+	onsapenter(): void {
+		// the browser fires its change after this; commitChange lets only one
+		// of the two through, and the order is the one of sap.m
+		this.commitChange();
+		this.fireSubmit({ value: this.getValue() });
+	}
+
+	onfocusin(): void {
+		this.keyboardSupport.open();
 	}
 
 	/**
-	 * Returns the popover carrying the virtual keyboard, creating it on first
-	 * access.
-	 *
-	 * This is the forwarding target of the <code>keyboard</code>
-	 * aggregation, so it is also called while the settings of the constructor
-	 * are applied.
+	 * Tapping the field brings the keyboard back when it was dismissed while
+	 * the field kept the focus, e.g. with the Escape key.
 	 */
-	private getKeyboardPopover(): Popover {
-		let popover = this.getAggregation("_popover") as Popover | null;
-
-		if (!popover) {
-			popover = new Popover(this.getId() + "-keyboardPopover", {
-				showHeader: false,
-				showArrow: false,
-				placement: PlacementType.VerticalPreferredBottom,
-				// the field keeps the focus while the keyboard is open, so the
-				// popover must not pull it onto one of the keys
-				initialFocus: this,
-			});
-			popover.addStyleClass("sizedKeyboardPopover");
-			popover.attachAfterOpen(() => {
-				this.getPopoverDomRef()?.addEventListener(
-					"mousedown",
-					this.keepFocus,
-				);
-				// a docked keyboard is placed by the stylesheet, so it is left
-				// alone here
-				const opened = this.getAggregation("_popover") as Popover | null;
-				if (opened && !this.getKeyboard()?.getDocked()) {
-					centerKeyboardPopover(this, opened);
-				}
-			});
-			popover.attachBeforeClose(() => {
-				this.getPopoverDomRef()?.removeEventListener(
-					"mousedown",
-					this.keepFocus,
-				);
-			});
-			this.setAggregation("_popover", popover, true);
-		}
-
-		return popover;
+	ontap(): void {
+		this.keyboardSupport.open();
 	}
 
-	private getPopoverDomRef(): HTMLElement | null {
-		const popover = this.getAggregation("_popover") as Popover | null;
-		return (popover?.getDomRef() as HTMLElement | null) ?? null;
-	}
-
-	/**
-	 * Pressing a key must not take the focus away from the field - otherwise
-	 * the popover would close on the very first key.
-	 */
-	private readonly keepFocus = (event: MouseEvent): void => {
-		event.preventDefault();
-	};
-
-	/**
-	 * Whether there is a keyboard to show and the field is in a state in which
-	 * the user can type at all.
-	 */
-	private canShowKeyboard(): boolean {
-		return (
-			this.getShowKeyboard() &&
-			this.getEnabled() &&
-			this.getEditable() &&
-			this.getKeyboard() !== null
-		);
-	}
-
-	/**
-	 * Opens the keyboard popover below the field.
-	 */
-	private openKeyboard(): void {
-		if (!this.canShowKeyboard()) {
+	onfocusout(event: FocusEvent): void {
+		// the focus can move into the popover itself, e.g. by tabbing onto a
+		// key - that is not leaving the field
+		if (this.keyboardSupport.contains(event.relatedTarget as Node | null)) {
 			return;
 		}
 
-		const keyboard = this.getKeyboard();
-		const popover = this.getKeyboardPopover();
-
-		if (!keyboard || popover.isOpen()) {
-			return;
-		}
-
-		this.wireKeyboard(keyboard);
-		// the keyboard types into this field, so it starts from its value and
-		// respects its limit
-		keyboard.setValue(this.getValue());
-		keyboard.setMaxLength(this.getMaxLength());
-		// a docked keyboard belongs at the bottom edge of the screen rather
-		// than at the field, and the popover is the element UI5 places - so it
-		// is the one that carries the docking. Asked every time, because the
-		// property can change between two openings.
-		popover.toggleStyleClass("sizedKeyboardPopoverDocked", keyboard.getDocked());
-
-		popover.openBy(this);
-	}
-
-	private closeKeyboard(): void {
-		const popover = this.getAggregation("_popover") as Popover | null;
-		if (popover?.isOpen()) {
-			popover.close();
-		}
-	}
-
-	/**
-	 * Connects a keyboard to this field. Every keyboard is only connected once,
-	 * however often the popover is opened.
-	 */
-	private wireKeyboard(keyboard: KeyboardBase): void {
-		if (this.wiredKeyboards.has(keyboard)) {
-			return;
-		}
-		this.wiredKeyboards.add(keyboard);
-
-		keyboard.attachChange((event) => {
-			this.applyKeyboardValue(event.getParameter("value") ?? "");
-			this.fireLiveChange({ value: this.getValue() });
-		});
-
-		// the keyboard stays open - the field still has the focus, and that is
-		// what decides whether the keyboard is shown
-		keyboard.attachEnter(() => {
-			this.fireChange({ value: this.getValue() });
-			this.fireSubmit({ value: this.getValue() });
-		});
-	}
-
-	/**
-	 * Writes a value coming from the keyboard into the field. The DOM is
-	 * updated directly and the property change is suppressed, so the field is
-	 * not re-rendered while the user is typing.
-	 */
-	private applyKeyboardValue(value: string): void {
-		this.setProperty("value", value, true);
-
-		const input = this.getInnerInput();
-		if (input) {
-			input.value = value;
-		}
-	}
-
-	exit(): void | undefined {
-		const input = this.getInnerInput();
-		if (input) {
-			this.detachDomListeners(input);
-		}
-		this.getPopoverDomRef()?.removeEventListener("mousedown", this.keepFocus);
-		this.inputListener = null;
-		this.changeListener = null;
-		this.keydownListener = null;
-		this.focusinListener = null;
-		this.clickListener = null;
-		this.focusoutListener = null;
+		this.keyboardSupport.closeForFocusLoss();
+		// what was typed on the on-screen keyboard alone never made the field
+		// dirty in the eyes of the browser, which therefore fires no change of
+		// its own - this is that change
+		this.commitChange();
 	}
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(Input.prototype);

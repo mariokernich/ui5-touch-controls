@@ -104,7 +104,7 @@
 				</HBox>
 				<Page title="{i18n>toolbarPageTitle}" showFooter="true" class="touchControlsDemoPage sapUiSmallMarginBottom">
 					<footer>
-						<tc:Toolbar size="{json>/size}">
+						<tc:Toolbar>
 							<tc:Button
 								text="{i18n>btnOpenSampleDialog}"
 								type="Emphasized"

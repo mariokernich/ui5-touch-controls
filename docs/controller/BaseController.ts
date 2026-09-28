@@ -22,6 +22,11 @@ export interface Snippet {
 	language?: string;
 	/** card title; without one the view falls back to a translated default */
 	title?: string;
+	/**
+	 * the i18n key of the card title - resolved again when the language
+	 * changes, which a title that was resolved by the caller is not
+	 */
+	titleKey?: string;
 }
 
 /**
@@ -39,7 +44,7 @@ export default abstract class BaseController extends Controller {
 	private fills: (() => void)[] = [];
 
 	/** what {@link followDockedKeyboard} listens on, so it can be taken back */
-	private dockedBinding?: PropertyBinding;
+	private dockedBindings: PropertyBinding[] = [];
 
 	/**
 	 * Returns the router of the component.
@@ -104,8 +109,10 @@ export default abstract class BaseController extends Controller {
 		this.languageBinding = undefined;
 		this.fills = [];
 
-		this.dockedBinding?.destroy();
-		this.dockedBinding = undefined;
+		this.dockedBindings.forEach((binding) => {
+			binding.destroy();
+		});
+		this.dockedBindings = [];
 	}
 
 	/**
@@ -141,6 +148,19 @@ export default abstract class BaseController extends Controller {
 			doc.extendsClass.replace("ui5.touch.controls.", ""),
 		);
 
+		// the sentences are resolved here, so they are resolved again when the
+		// language changes - otherwise the head of the page would stay in the
+		// language it was first opened in
+		this.fillOnLanguageChange(() => {
+			this.fillControlIntro(doc, extendsDoc);
+		});
+	}
+
+	/** Puts the facts and sentences of a control into the control model. */
+	private fillControlIntro(
+		doc: NonNullable<ReturnType<typeof getControlDoc>>,
+		extendsDoc: ReturnType<typeof getControlDoc>,
+	): void {
 		this.getView()?.setModel(
 			new JSONModel({
 				...doc,
@@ -220,22 +240,24 @@ export default abstract class BaseController extends Controller {
 	 * footer is not there to be argued with - which is also what a phone does
 	 * with its own bottom bar when its keyboard comes up.
 	 *
-	 * What is written down is the page that has one, not a yes or no: the
+	 * What is written down is a yes or no per page, not a single page: the
 	 * footer belongs to the shell and outlives the page, and a page that is
-	 * navigated away from is not destroyed - the NavContainer keeps it, so
-	 * there is no moment at which it could take back a yes. The footer compares
-	 * the note with the page that is open (see the Footer fragment), which
-	 * needs no taking back and is right again the moment the visitor comes
-	 * back to a page whose keyboard is still docked.
+	 * navigated away from is not destroyed - the NavContainer keeps it, with
+	 * its keyboard still docked. A single note would be overwritten by the next
+	 * page that says no - its first opening does - and the footer would be
+	 * back over the keyboard the moment the visitor returns. The footer looks
+	 * up the page that is open (see the Footer fragment), which is right again
+	 * the moment the visitor comes back.
 	 *
 	 * @param key the key of the page, which is also its route name
 	 * @param model the model of the page
-	 * @param path the property that says whether the keyboard is docked
+	 * @param paths the properties that together say whether the keyboard is
+	 *   docked - all of them have to be set
 	 */
 	protected followDockedKeyboard(
 		key: string,
 		model: JSONModel,
-		path = "/docked",
+		paths: string | string[] = "/docked",
 	): void {
 		const app = this.getOwnerComponent()?.getModel("app") as
 			| JSONModel
@@ -245,12 +267,25 @@ export default abstract class BaseController extends Controller {
 			return;
 		}
 
+		const all = Array.isArray(paths) ? paths : [paths];
+
 		const tell = () => {
-			app.setProperty("/dockedOn", model.getProperty(path) ? key : "");
+			const docked = all.every((path) => Boolean(model.getProperty(path)));
+
+			// a new object rather than a changed one: the binding of the
+			// footer compares the old value with the new, and an object that
+			// was changed in place is the same object before and after
+			app.setProperty("/docked", {
+				...(app.getProperty("/docked") as Record<string, boolean>),
+				[key]: docked,
+			});
 		};
 
-		this.dockedBinding = model.bindProperty(path);
-		this.dockedBinding.attachChange(tell);
+		this.dockedBindings = all.map((path) => {
+			const binding = model.bindProperty(path);
+			binding.attachChange(tell);
+			return binding;
+		});
 		tell();
 	}
 
@@ -266,6 +301,14 @@ export default abstract class BaseController extends Controller {
 	 * @param groups the snippet groups by key, a plain string is treated as XML
 	 */
 	protected setSnippets(groups: Record<string, (Snippet | string)[]>): void {
+		// the titles that are given as keys are resolved here, and again when
+		// the language changes
+		this.fillOnLanguageChange(() => {
+			this.fillSnippets(groups);
+		});
+	}
+
+	private fillSnippets(groups: Record<string, (Snippet | string)[]>): void {
 		const data: Record<string, unknown[]> = {};
 
 		for (const [key, snippets] of Object.entries(groups)) {
@@ -286,9 +329,10 @@ export default abstract class BaseController extends Controller {
 					code: code,
 					language: language,
 					// an empty title means "use the default", which the view derives
-					// from the language - resolving it here would freeze it in the
-					// language that was active when the page was built
-					title: normalized.title ?? "",
+					// from the language
+					title: normalized.titleKey
+						? this.getText(normalized.titleKey)
+						: (normalized.title ?? ""),
 				};
 			});
 		}
@@ -302,12 +346,12 @@ export default abstract class BaseController extends Controller {
 	 *
 	 * @param code the snippet to display
 	 * @param language the highlight.js language, defaults to "xml"
-	 * @param title card title, defaults to the one the view derives from the
-	 *   language
+	 * @param titleKey the i18n key of the card title, defaults to the title
+	 *   the view derives from the language
 	 */
-	protected setExample(code: string, language = "xml", title?: string): void {
+	protected setExample(code: string, language = "xml", titleKey?: string): void {
 		this.setSnippets({
-			main: [{ code: code, language: language, title: title }],
+			main: [{ code: code, language: language, titleKey: titleKey }],
 		});
 	}
 

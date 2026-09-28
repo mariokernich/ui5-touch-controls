@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ISized, SizeMode, sizeClass } from "./library";
@@ -78,8 +79,9 @@ export default class Link extends Control implements ISized {
 		},
 		events: {
 			/**
-			 * Fired when the user clicks or taps on the link. A link with an
-			 * <code>href</code> is followed by the browser afterwards.
+			 * Fired when the user clicks or taps on the link, or presses
+			 * <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+			 * followed by the browser afterwards.
 			 */
 			press: {},
 		},
@@ -98,11 +100,12 @@ export default class Link extends Control implements ISized {
 	}
 
 	/**
-	 * A link without an <code>href</code> is not activated by the browser on
-	 * Enter, so the key is handled here.
+	 * Enter presses the link like a tap does. A link with an
+	 * <code>href</code> is followed by the browser afterwards - the click the
+	 * browser makes of the key is no tap, so there is nothing to fire twice.
 	 */
 	onsapenter(): void {
-		if (this.getEnabled() && !this.getHref()) {
+		if (this.getEnabled()) {
 			this.firePress();
 		}
 	}
@@ -159,3 +162,7 @@ export default class Link extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(Link.prototype);

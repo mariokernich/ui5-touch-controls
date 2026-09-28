@@ -20,7 +20,7 @@ export default class Setup extends BaseController {
 					code: `
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.3.1"
+		"ui5.touch.controls": "^1.4.0"
 	}
 }
 `,
@@ -101,13 +101,5 @@ const button = new Button({ text: "Confirm", size: SizeMode.XL });
 				},
 			],
 		});
-	}
-
-	public onGettingStartedPress(): void {
-		this.getRouter().navTo("GettingStarted");
-	}
-
-	public onDocumentationPress(): void {
-		this.getRouter().navTo("Documentation");
 	}
 }

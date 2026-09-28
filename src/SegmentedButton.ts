@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import Button from "./Button";
@@ -77,7 +78,9 @@ export default class SegmentedButton extends Control implements ISized {
 		},
 		events: {
 			/**
-			 * Fired when the user selects a segment.
+			 * Fired when the user selects another segment. A press on the
+			 * segment that is already selected only fires the
+			 * <code>press</code> of its item.
 			 */
 			selectionChange: {
 				parameters: {
@@ -207,11 +210,17 @@ export default class SegmentedButton extends Control implements ISized {
 			return;
 		}
 
+		// the item hears about every press, the control only about a press
+		// that changed the selection - like in sap.m
+		item.firePress();
+
 		if (item.getKey() !== this.getSelectedKey()) {
 			this.setSelectedKey(item.getKey());
+			this.fireSelectionChange({ item: item, key: item.getKey() });
 		}
-
-		item.firePress();
-		this.fireSelectionChange({ item: item, key: item.getKey() });
 	}
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(SegmentedButton.prototype);

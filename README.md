@@ -192,8 +192,10 @@ For anything the other two do not cover. `layout` is a list of rows, keys separa
 <tc:CustomKeyboard
 	value="{/article}"
 	size="XL"
-	layout="A B C D, E F G H, {bksp} {space} {enter}" />
+	layout="A B C D, E F G H, \{bksp\} \{space\} \{enter\}" />
 ```
+
+In a view the braces of a special key are escaped with a backslash, `\{bksp\}`: UI5 reads a brace in an attribute as the start of a binding, and an unescaped layout would silently leave the keyboard with its default keys. In code they are written as they are.
 
 `{tab}`, `{shift}`, `{lock}`, `{space}`, `{bksp}`, `{esc}` and `{enter}` are the special keys; every other key inserts its own label into the value. `{shift}` writes the next letter in upper case and then falls away, `{lock}` is the caps lock and stays on until it is pressed again — and shift while the lock is on writes lower case, the way it does on a keyboard of keys.
 
@@ -208,24 +210,24 @@ A keyboard of keys has more on it than fits under ten fingers at once. A keyboar
 			name="default"
 			rows="q w e r t y u i o p,
 			      a s d f g h j k l,
-			      {shift} z x c v b n m {backspace},
-			      {numbers} {space} {ent}" />
+			      \{shift\} z x c v b n m \{backspace\},
+			      \{numbers\} \{space\} \{ent\}" />
 		<tc:KeyboardLayout
 			name="shift"
 			rows="Q W E R T Y U I O P,
 			      A S D F G H J K L,
-			      {shift} Z X C V B N M {backspace},
-			      {numbers} {space} {ent}" />
+			      \{shift\} Z X C V B N M \{backspace\},
+			      \{numbers\} \{space\} \{ent\}" />
 		<tc:KeyboardLayout
 			name="numbers"
-			rows="1 2 3, 4 5 6, 7 8 9, {abc} 0 {backspace}" />
+			rows="1 2 3, 4 5 6, 7 8 9, \{abc\} 0 \{backspace\}" />
 	</tc:layouts>
 </tc:CustomKeyboard>
 ```
 
 **A key named after a set switches to it**, so the switching is part of the layout and needs no code around it. A key that names the set it is already on leads back out of it, to whatever was there before — which is what makes the `{shift}` inside the set of capitals come back. The keyboard starts with the set called `default`, or with the first one when there is none by that name, and the value carries on across a switch: what was typed on the letters is still there on the digits.
 
-The keys the control knows keep their own sign — `{shift}` is the key with the arrow whether it switches a set or not, `{bksp}` and `{enter}` are their icons, `{space}` says Space. The names that are conventional for a set have a text of their own as well: `{numbers}` reads 123, `{abc}` reads ABC, `{symbols}` reads #+=, `{accents}` reads áàâ and `{emojis}` is a face. A key that is none of these says what it is written as.
+The keys the control knows keep their own sign — `{shift}` is the key with the arrow whether it switches a set or not, `{bksp}` and `{enter}` are their icons, `{space}` says Space in the language of the application. The names that are conventional for a set have a text of their own as well: `{numbers}` reads 123, `{abc}` reads ABC, `{symbols}` reads #+=, `{accents}` reads áàâ and `{emojis}` is a face. A key that is none of these says what it is written as.
 
 A layout written elsewhere can usually be used as it stands: `{backspace}`, `{ent}`, `{escape}` and `{capslock}` mean the same as `{bksp}`, `{enter}`, `{esc}` and `{lock}`, and `{abc}` leads back to `default` unless a set of that name exists.
 
@@ -244,7 +246,7 @@ Every key the control knows comes with a sign of its own, and one it does not kn
 </tc:CustomKeyboard>
 ```
 
-It works on any key — a special one, a letter, a digit — and in every set of the keyboard. Note that the braces are left out: UI5 reads a string that begins with one as a binding, so `key="{numbers}"` would have to be escaped in a view. Both spellings mean the same key, and so do the other names of one: `ent` and `enter` are the same key.
+It works on any key — a special one, a letter, a digit — and in every set of the keyboard. Note that the braces are left out: UI5 reads a brace in an attribute as the start of a binding, so `key="{numbers}"` would have to be escaped in a view. Both spellings mean the same key, and so do the other names of one: `ent` and `enter` are the same key.
 
 The `layout` property is the short form of the same thing for a keyboard that only ever shows one set; a keyboard with `layouts` does not look at it.
 
@@ -266,7 +268,7 @@ The braces are left out here too, for the same reason as in `display`. A modifie
 <tc:CustomKeyboard
 	value="{/code}"
 	size="XL"
-	layout="1 2 3, 4 5 6, 7 8 9, {esc} 0 {enter}"
+	layout="1 2 3, 4 5 6, 7 8 9, \{esc\} 0 \{enter\}"
 	escape=".onEscape"
 	enter=".onEnter" />
 ```
@@ -369,7 +371,7 @@ npm install ui5.touch.controls
 ```json
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.3.1"
+		"ui5.touch.controls": "^1.4.0"
 	}
 }
 ```
@@ -588,7 +590,7 @@ dialog.setFooter(
 );
 ```
 
-For plain message-box style dialogs you do not have to build this yourself — `QuickDialog` already creates its footer this way, sized through its `size` option.
+For plain message-box style dialogs you do not have to build this yourself — `QuickDialog` already creates its footer this way, sized through its `buttonSize` option.
 
 ## Development
 
@@ -618,6 +620,17 @@ npm run start:test:1.120    # and 1.124, 1.130, 1.140
 
 `#Button` in the hash — or `?control=Button` — narrows the page to a single control; without either, every control is shown, one section after the other. Switching by hash rebuilds the page without reloading it. The cases are built in `test/cases.ts`.
 
+### Unit tests
+
+`test/unit` holds the unit tests: one QUnit module per control or group of controls, written in TypeScript and run in the browser by the [UI5 test starter](https://sdk.openui5.org/topic/032be2cb2e1d4115af20862673bedcdb), so the controls are rendered, tapped and typed into the way a user does it. Every bug that was fixed comes with a test that would have caught it.
+
+```sh
+npm run start:unit     # open the test suite in the browser
+npm run test:unit      # run it headless, on the version pinned in ui5-test.yaml
+```
+
+A single module can be picked from the QUnit toolbar of the open suite. `test/unit/helpers.ts` has what the modules share: placing a control and cleaning up after it, and the taps, keys and pointers a user causes.
+
 ### UI tests
 
 The same page is what the UI tests run against. They are written with [wdi5](https://ui5-community.github.io/wdi5/) (WebdriverIO plus the UI5 service), so the controls are addressed through the UI5 control tree and read back through their own getters:
@@ -625,11 +638,12 @@ The same page is what the UI tests run against. They are written with [wdi5](htt
 ```sh
 npm run test:ui                        # the version pinned in ui5-test.yaml
 UI5_VERSION=1.116.0 npm run test:ui    # any other release
+npm test                               # the unit tests and the UI tests together
 ```
 
 `wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
 
-The GitHub workflow `ci.yml` runs the suite on every supported UI5 release in parallel, next to the type check, the lint run and the build. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
+The GitHub workflow `ci.yml` runs the unit tests and the UI tests on every supported UI5 release in parallel, next to the type check, the lint run and the build. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
 
 The badges at the top of this file show one job of that workflow each, on `main`. They are looked up by the name of the job — `Types`, `Lint`, `Build`, `UI tests on UI5 1.116` — and the name has to match exactly, so renaming a job means changing its badge with it.
 
@@ -644,6 +658,9 @@ The badges at the top of this file show one job of that workflow each, on `main`
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:demo` | Build of library and demo with preload bundles (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
+| `npm run start:unit` | Open the QUnit test suite in the browser |
+| `npm test` | Run the unit tests and the UI tests headless (`UI5_VERSION` picks the release) |
+| `npm run test:unit` | Run the QUnit unit tests headless |
 | `npm run test:ui` | Run the wdi5 UI tests against the test page (`UI5_VERSION` picks the release) |
 | `npm run check:ts` | TypeScript type check (`tsc --noEmit`) |
 | `npm run check:lint` | ESLint check for `src`, `docs`, `test`, `e2e`, `scripts` and `wdio.conf.js` |
@@ -657,7 +674,8 @@ src/                  Library sources (controls, library.ts, themes)
 src/themes/           Base + theme-specific LESS files
 docs/                 Demo application (Component, manifest, views, controllers)
 test/                 Plain test page (one section per control)
-e2e/                  wdi5 UI tests that run against the test page
+test/unit/            QUnit unit tests, one module per control
+e2e/                  wdi5 UI tests, and the spec that runs the unit tests headless
 scripts/              Build helper scripts
 ui5.yaml              UI5 tooling config (library build)
 ui5-docs.yaml         UI5 tooling config (dev server / demo application)

@@ -61,8 +61,9 @@ declare module "./Link" {
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
 
         /**
-         * Fired when the user clicks or taps on the link. A link with an
-        <code>href</code> is followed by the browser afterwards.
+         * Fired when the user clicks or taps on the link, or presses
+        <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+        followed by the browser afterwards.
          */
         press?: (event: Link$PressEvent) => void;
     }
@@ -186,34 +187,39 @@ declare module "./Link" {
         // event: press
 
         /**
-         * Fired when the user clicks or taps on the link. A link with an
-        <code>href</code> is followed by the browser afterwards.
+         * Fired when the user clicks or taps on the link, or presses
+        <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+        followed by the browser afterwards.
          */
         attachPress(fn: (event: Link$PressEvent) => void, listener?: object): this;
 
         /**
-         * Fired when the user clicks or taps on the link. A link with an
-        <code>href</code> is followed by the browser afterwards.
+         * Fired when the user clicks or taps on the link, or presses
+        <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+        followed by the browser afterwards.
          */
         attachPress<CustomDataType extends object>(data: CustomDataType, fn: (event: Link$PressEvent, data: CustomDataType) => void, listener?: object): this;
 
         /**
-         * Fired when the user clicks or taps on the link. A link with an
-        <code>href</code> is followed by the browser afterwards.
+         * Fired when the user clicks or taps on the link, or presses
+        <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+        followed by the browser afterwards.
          */
         detachPress(fn: (event: Link$PressEvent) => void, listener?: object): this;
 
         /**
-         * Fired when the user clicks or taps on the link. A link with an
-        <code>href</code> is followed by the browser afterwards.
+         * Fired when the user clicks or taps on the link, or presses
+        <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+        followed by the browser afterwards.
          */
         firePress(parameters?: Link$PressEventParameters): this;
     }
 
     /**
      * Interface describing the parameters of Link's 'press' event.
-     * Fired when the user clicks or taps on the link. A link with an
-    <code>href</code> is followed by the browser afterwards.
+     * Fired when the user clicks or taps on the link, or presses
+    <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+    followed by the browser afterwards.
      */
     // eslint-disable-next-line
     export interface Link$PressEventParameters {
@@ -221,8 +227,9 @@ declare module "./Link" {
 
     /**
      * Type describing the Link's 'press' event.
-     * Fired when the user clicks or taps on the link. A link with an
-    <code>href</code> is followed by the browser afterwards.
+     * Fired when the user clicks or taps on the link, or presses
+    <kbd>Enter</kbd> on it. A link with an <code>href</code> is
+    followed by the browser afterwards.
      */
     export type Link$PressEvent = Event<Link$PressEventParameters>;
 }

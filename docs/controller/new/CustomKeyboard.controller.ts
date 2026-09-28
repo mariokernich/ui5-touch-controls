@@ -39,45 +39,52 @@ export default class CustomKeyboard extends BaseController {
 				docked: false,
 				width: "",
 				lastEvent: "-",
-				specialKeys: [
-					{ key: "{bksp}", meaning: this.getText("keyBksp") },
-					{ key: "{enter}", meaning: this.getText("keyEnter") },
-					{ key: "{space}", meaning: this.getText("keySpace") },
-					{ key: "{shift}", meaning: this.getText("keyShift") },
-					{ key: "{lock}", meaning: this.getText("keyLock") },
-					{ key: "{tab}", meaning: this.getText("keyTab") },
-					{ key: "{esc}", meaning: this.getText("keyEsc") },
-					{ key: "{name}", meaning: this.getText("keySet") },
-				],
+				specialKeys: [],
 			},
 			true,
 		);
 		this.getView()?.setModel(this.model, "json");
+		// the meanings of the special keys follow the language; the rest of
+		// the model is the playground and keeps what was typed
+		this.fillOnLanguageChange(() => {
+			this.model.setProperty("/specialKeys", [
+				{ key: "{bksp}", meaning: this.getText("keyBksp") },
+				{ key: "{enter}", meaning: this.getText("keyEnter") },
+				{ key: "{space}", meaning: this.getText("keySpace") },
+				{ key: "{shift}", meaning: this.getText("keyShift") },
+				{ key: "{lock}", meaning: this.getText("keyLock") },
+				{ key: "{tab}", meaning: this.getText("keyTab") },
+				{ key: "{esc}", meaning: this.getText("keyEsc") },
+				{ key: "{name}", meaning: this.getText("keySet") },
+			]);
+		});
 		this.followDockedKeyboard("CustomKeyboard", this.model);
 		this.applyLayout();
 
 		this.setSnippets({
 			main: [
 				{
-					title: this.getText("exampleCustomRows"),
+					titleKey: "exampleCustomRows",
 					code: `
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:tc="ui5.touch.controls">
-	<!-- one set of keys: rows separated by commas, keys by spaces -->
+	<!-- one set of keys: rows separated by commas, keys by spaces. The
+	     braces of a special key are escaped - unescaped, UI5 would read
+	     them as a binding -->
 	<tc:CustomKeyboard
 		value="{/plate}"
 		size="XL"
 		layout="A B C D E F G H I J,
 		        K L M N O P Q R S T,
 		        U V W X Y Z,
-		        {bksp} {space} {enter}"
+		        \\{bksp\\} \\{space\\} \\{enter\\}"
 		change=".onChange" />
 </mvc:View>
 `,
 				},
 				{
-					title: this.getText("exampleCustomSets"),
+					titleKey: "exampleCustomSets",
 					code: `
 <!-- more than one set: a key written as the name of a set switches to it,
      and a key that names the set it is already on leads back out of it -->
@@ -87,27 +94,28 @@ export default class CustomKeyboard extends BaseController {
 			name="default"
 			rows="q w e r t y u i o p,
 			      a s d f g h j k l,
-			      {shift} z x c v b n m {bksp},
-			      {numbers} {space} {enter}" />
+			      \\{shift\\} z x c v b n m \\{bksp\\},
+			      \\{numbers\\} \\{space\\} \\{enter\\}" />
 		<tc:KeyboardLayout
 			name="shift"
 			rows="Q W E R T Y U I O P,
 			      A S D F G H J K L,
-			      {shift} Z X C V B N M {bksp},
-			      {numbers} {space} {enter}" />
+			      \\{shift\\} Z X C V B N M \\{bksp\\},
+			      \\{numbers\\} \\{space\\} \\{enter\\}" />
 		<tc:KeyboardLayout
 			name="numbers"
-			rows="1 2 3, 4 5 6, 7 8 9, {abc} 0 {bksp}" />
+			rows="1 2 3, 4 5 6, 7 8 9, \\{abc\\} 0 \\{bksp\\}" />
 	</tc:layouts>
 </tc:CustomKeyboard>
 `,
 				},
 				{
-					title: this.getText("exampleCustomDisplay"),
+					titleKey: "exampleCustomDisplay",
 					code: `
 <!-- display says what a single key reads. The braces are left out: UI5
-     reads a string that begins with one as a binding -->
-<tc:CustomKeyboard value="{/text}" size="XL" layout="1 2 3, {numbers} 0 {ent}">
+     reads a brace in an attribute as the start of a binding, which is also
+     why the ones in layout are escaped -->
+<tc:CustomKeyboard value="{/text}" size="XL" layout="1 2 3, \\{numbers\\} 0 \\{ent\\}">
 	<tc:display>
 		<tc:KeyboardKey key="numbers" text="?123" />
 		<tc:KeyboardKey key="ent" text="Weiter" />
@@ -117,7 +125,7 @@ export default class CustomKeyboard extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleController"),
+					titleKey: "exampleController",
 					language: "javascript",
 					code: `
 // the rows are an array, so a text field cannot be bound to them directly

@@ -5,10 +5,12 @@
 	<version>${version}</version>
 	<copyright>${copyright}</copyright>
 	<title>ui5.touch.controls</title>
-	<documentation>Some description about ui5.touch.controls</documentation>
+	<documentation>Standard UI5 controls, rebuilt for touch - plus the ones sap.m is missing</documentation>
 	<dependencies>
 		<dependency>
 			<libraryName>sap.ui.core</libraryName>
+		</dependency>
+		<dependency>
 			<libraryName>sap.m</libraryName>
 		</dependency>
 	</dependencies>

@@ -1,5 +1,6 @@
 import type { CheckBox$SelectEvent } from "sap/m/CheckBox";
 import MessageToast from "sap/m/MessageToast";
+import type { SegmentedButton$SelectionChangeEvent as StandardSelectionChangeEvent } from "sap/m/SegmentedButton";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { SizeMode } from "ui5/touch/controls/library";
 import type { SegmentedButton$SelectionChangeEvent } from "ui5/touch/controls/SegmentedButton";
@@ -71,10 +72,10 @@ export default class SegmentedButton extends BaseController {
 	}
 
 	/**
-	 * Opens the page of the OverflowToolbar, the control that lets a control
-	 * of this library live in the bar of a page or a dialog.
+	 * The sap.m original beside it says the same, so the two can be compared
+	 * by what they report as well as by how they look.
 	 */
-	public onNavToOverflowToolbar(): void {
-		this.getRouter().navTo("OverflowToolbar");
+	public onStandardSelectionChange(event: StandardSelectionChangeEvent): void {
+		MessageToast.show(`sap.m: ${event.getParameter("item")?.getKey() ?? ""}`);
 	}
 }

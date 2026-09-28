@@ -68,8 +68,8 @@ declare module "./ComboBox" {
         /**
          * The heading over the list on a phone, where the list takes the
         whole screen and the field it belongs to is behind it. An empty
-        title falls back to <code>Select</code>, the way
-        <code>sap.m.ComboBox</code> does.
+        title falls back to <code>Select</code> in the language the
+        application runs in, the way <code>sap.m.ComboBox</code> does.
         
         Nothing is shown of it on a larger screen: there the list is a
         popover on the field and needs no heading to say what it is.
@@ -223,8 +223,8 @@ declare module "./ComboBox" {
         /**
          * The heading over the list on a phone, where the list takes the
         whole screen and the field it belongs to is behind it. An empty
-        title falls back to <code>Select</code>, the way
-        <code>sap.m.ComboBox</code> does.
+        title falls back to <code>Select</code> in the language the
+        application runs in, the way <code>sap.m.ComboBox</code> does.
         
         Nothing is shown of it on a larger screen: there the list is a
         popover on the field and needs no heading to say what it is.
@@ -234,8 +234,8 @@ declare module "./ComboBox" {
         /**
          * The heading over the list on a phone, where the list takes the
         whole screen and the field it belongs to is behind it. An empty
-        title falls back to <code>Select</code>, the way
-        <code>sap.m.ComboBox</code> does.
+        title falls back to <code>Select</code> in the language the
+        application runs in, the way <code>sap.m.ComboBox</code> does.
         
         Nothing is shown of it on a larger screen: there the list is a
         popover on the field and needs no heading to say what it is.

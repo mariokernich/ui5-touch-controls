@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import EnabledPropagator from "sap/ui/core/EnabledPropagator";
 import RenderManager from "sap/ui/core/RenderManager";
 import { MetadataOptions } from "sap/ui/core/Element";
 import { ValueState } from "sap/ui/core/library";
@@ -29,9 +30,12 @@ export default class BarcodeInput extends Control implements ISized {
 	private lastKeyTime = 0;
 	/** number of characters of the current burst */
 	private burstLength = 0;
-	private keydownListener: ((event: KeyboardEvent) => void) | null = null;
-	private inputListener: ((event: globalThis.Event) => void) | null = null;
-	private changeListener: ((event: globalThis.Event) => void) | null = null;
+	// Written by init and by setValue, which the constructor of the base class
+	// calls - that is, before the field declarations of this class are
+	// applied. Declared, it is a type and nothing else, so nothing is written
+	// over what was put there.
+	/** the value the last change event was fired for, see commitChange */
+	private declare lastChangeValue: string;
 
 	static readonly metadata: MetadataOptions = {
 		interfaces: ["ui5.touch.controls.ISized"],
@@ -152,72 +156,68 @@ export default class BarcodeInput extends Control implements ISized {
 		super(id, settings);
 	}
 
+	init(): void {
+		this.lastChangeValue = "";
+	}
+
 	/**
 	 * Keeps the native input in sync without a re-rendering, so the caret and
 	 * the focus survive a value change - which matters here, because the field
 	 * usually keeps the focus while one code after the other is scanned.
+	 *
+	 * A value set from the outside is not a change of the user: it fires no
+	 * <code>change</code>, now or when the focus leaves.
 	 */
 	setValue(value: string): this {
 		this.setProperty("value", value, true);
+		this.lastChangeValue = this.getValue();
 
 		const input = this.getInnerInput();
-		if (input && input.value !== value) {
-			input.value = value;
+		if (input && input.value !== this.getValue()) {
+			input.value = this.getValue();
 		}
 
 		return this;
 	}
 
-	/**
-	 * Puts the focus into the field, so the next scan lands here. Worth calling
-	 * after a dialog closes.
-	 */
-	focus(): void {
-		this.getInnerInput()?.focus();
-	}
-
 	private getInnerInput(): HTMLInputElement | null {
-		return this.getDomRef()?.querySelector("input") ?? null;
+		return this.getDomRef("inner") as HTMLInputElement | null;
 	}
 
-	onAfterRendering(): void {
-		const input = this.getInnerInput();
+	/**
+	 * The inner input is what a scanner types into, so it is what gets the
+	 * focus - <code>focus()</code> puts it there, which is worth calling after
+	 * a dialog closes, so the next scan lands here.
+	 */
+	getFocusDomRef(): Element | null {
+		return this.getInnerInput() ?? super.getFocusDomRef();
+	}
 
-		if (!input) {
-			return;
-		}
-
-		// with renderer apiVersion 2 the DOM element is patched and reused, so
-		// previously attached listeners have to go first
-		this.detachDomListeners(input);
-
-		this.keydownListener = (event: KeyboardEvent) => {
-			this.onKeyDown(event, input);
-		};
-		this.inputListener = () => {
-			this.setProperty("value", input.value, true);
-			this.fireLiveChange({ value: input.value });
-		};
-		this.changeListener = () => {
-			this.setProperty("value", input.value, true);
-			this.fireChange({ value: input.value });
-		};
-
-		input.addEventListener("keydown", this.keydownListener);
-		input.addEventListener("input", this.inputListener);
-		input.addEventListener("change", this.changeListener);
+	/**
+	 * A label points at the native input, so a tap on the label puts the
+	 * caret into the field.
+	 */
+	getIdForLabel(): string {
+		return this.getId() + "-inner";
 	}
 
 	/**
 	 * Counts the characters of the current burst and decides on Enter whether
 	 * what arrived came from a scanner.
 	 */
-	private onKeyDown(event: KeyboardEvent, input: HTMLInputElement): void {
+	onkeydown(event: KeyboardEvent): void {
+		const input = this.getInnerInput();
+
+		if (!input) {
+			return;
+		}
+
 		const now = performance.now();
 		const gap = now - this.lastKeyTime;
 		const timeout = this.getScanTimeout();
+		const key = event.key ?? "";
 
-		if (event.key === "Enter") {
+		if (key === "Enter") {
 			const scanned = this.burstLength >= this.getMinLength() && gap <= timeout;
 
 			this.lastKeyTime = 0;
@@ -229,8 +229,12 @@ export default class BarcodeInput extends Control implements ISized {
 			if (scanned) {
 				this.handleScan(input);
 			} else {
+				// Enter is how a code typed by hand is handed over, so it is
+				// reported every time - the same code entered a second time
+				// included
 				this.setProperty("value", input.value, true);
-				this.fireChange({ value: input.value });
+				this.lastChangeValue = this.getValue();
+				this.fireChange({ value: this.getValue() });
 			}
 
 			return;
@@ -238,9 +242,46 @@ export default class BarcodeInput extends Control implements ISized {
 
 		// a burst is a maximal run of single characters whose gaps all stay
 		// below the timeout - a person always breaks it after the first key
-		if (event.key.length === 1) {
+		if (key.length === 1) {
 			this.burstLength = gap <= timeout ? this.burstLength + 1 : 1;
 			this.lastKeyTime = now;
+		}
+	}
+
+	oninput(): void {
+		const input = this.getInnerInput();
+
+		if (input) {
+			this.setProperty("value", input.value, true);
+			this.fireLiveChange({ value: input.value });
+		}
+	}
+
+	/**
+	 * The browser's change, when the focus leaves after typing. Enter was
+	 * handled on its own and kept from reaching the browser, which therefore
+	 * still sees the field as changed - a value Enter has already reported is
+	 * not reported again.
+	 */
+	onchange(): void {
+		const input = this.getInnerInput();
+
+		if (input) {
+			this.setProperty("value", input.value, true);
+		}
+		this.commitChange();
+	}
+
+	/**
+	 * Fires <code>change</code> if the value differs from the one the last
+	 * change was fired for.
+	 */
+	private commitChange(): void {
+		const value = this.getValue();
+
+		if (value !== this.lastChangeValue) {
+			this.lastChangeValue = value;
+			this.fireChange({ value: value });
 		}
 	}
 
@@ -259,29 +300,6 @@ export default class BarcodeInput extends Control implements ISized {
 
 		this.setValue(this.getClearOnScan() ? "" : value);
 		this.fireScan({ value, rawValue });
-	}
-
-	private detachDomListeners(input: HTMLInputElement): void {
-		if (this.keydownListener) {
-			input.removeEventListener("keydown", this.keydownListener);
-		}
-		if (this.inputListener) {
-			input.removeEventListener("input", this.inputListener);
-		}
-		if (this.changeListener) {
-			input.removeEventListener("change", this.changeListener);
-		}
-		this.keydownListener = null;
-		this.inputListener = null;
-		this.changeListener = null;
-	}
-
-	exit(): void {
-		const input = this.getInnerInput();
-
-		if (input) {
-			this.detachDomListeners(input);
-		}
 	}
 
 	/** a tap on the icon puts the focus into the field */
@@ -324,9 +342,9 @@ export default class BarcodeInput extends Control implements ISized {
 			rm.class("sizedBarcodeInputInner");
 			rm.attr("type", "text");
 			rm.attr("autocomplete", "off");
-			if (control.getValue()) {
-				rm.attr("value", control.getValue());
-			}
+			// always written, an empty one included: patching an input puts
+			// the value attribute into what the field shows
+			rm.attr("value", control.getValue());
 			if (control.getPlaceholder()) {
 				rm.attr("placeholder", control.getPlaceholder());
 			}
@@ -346,3 +364,7 @@ export default class BarcodeInput extends Control implements ISized {
 		},
 	};
 }
+
+// disabled along with a disabled container - a Toolbar, say - like the
+// controls of sap.m: getEnabled answers for the nearest ancestor as well
+EnabledPropagator.call(BarcodeInput.prototype);

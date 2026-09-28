@@ -48,7 +48,7 @@ export default class NumberPad extends BaseController {
 		this.setSnippets({
 			main: [
 				{
-					title: this.getText("examplePadBasic"),
+					titleKey: "examplePadBasic",
 					code: `
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
@@ -63,7 +63,7 @@ export default class NumberPad extends BaseController {
 `,
 				},
 				{
-					title: this.getText("examplePadModes"),
+					titleKey: "examplePadModes",
 					code: `
 <!-- the pad of a computer, 7 8 9 on top -->
 <tc:NumberPad mode="Simple" size="XL" />
@@ -76,7 +76,7 @@ export default class NumberPad extends BaseController {
 `,
 				},
 				{
-					title: this.getText("examplePadDecimal"),
+					titleKey: "examplePadDecimal",
 					code: `
 <!-- a weight may be negative and has decimals. The separator is the one
      of the current language unless another one is named -->
@@ -92,7 +92,7 @@ export default class NumberPad extends BaseController {
 `,
 				},
 				{
-					title: this.getText("examplePadPassword"),
+					titleKey: "examplePadPassword",
 					code: `
 <!-- a code of digits and signs: the set of signs is behind a key of its
      own, and the pad keeps its three columns -->
@@ -107,7 +107,7 @@ export default class NumberPad extends BaseController {
 `,
 				},
 				{
-					title: this.getText("exampleKeyboardField"),
+					titleKey: "exampleKeyboardField",
 					code: `
 <!-- on a field: the pad opens in a popover while the field has the focus -->
 <tc:Input value="{/quantity}" size="XL" showKeyboard="true">

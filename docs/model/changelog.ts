@@ -35,13 +35,45 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
-		version: "1.3.2",
-		date: "",
-		summary: "Icons of the demo's own, and a docked keyboard that keeps the bottom edge to itself.",
+		version: "1.4.0",
+		date: "2026-09-28",
+		summary:
+			"A review of every control - leaks, keyboard use, focus, the disabled state and the language of the app - unit tests, and icons of the demo's own.",
 		groups: [
+			{
+				kind: "Added",
+				items: [
+					"[Button] renders its `tooltip`, and a button that shows nothing but an icon is named by it - for the pointer and for a screen reader.",
+					"The buttons that show nothing but an icon carry tooltips in the language of the application: the minus and the plus of [StepInput], the arrows of the calendar of [DatePicker], the clear button of [SignaturePad] and the overflow button of [OverflowToolbar].",
+					"[Input], [TextArea], [ComboBox], [DatePicker], [TimePicker] and [BarcodeInput] hand the focus and a label to their native field: `focus()` puts the caret there, and a `sap.m.Label` with `labelFor` points at it.",
+				],
+			},
+			{
+				kind: "Changed",
+				items: [
+					"`sidePadding` of [Button] never had an effect and is deprecated, and so is `getButtonColor`.",
+				],
+			},
 			{
 				kind: "Fixed",
 				items: [
+					"A disabled [Button] could still be pressed with a mouse, a finger or a pen, and so could the buttons other controls are made of - the keys of a disabled keyboard, say, or the segments of a disabled [SegmentedButton].",
+					"Every control of the library that can be disabled is disabled along with a container around it, the way the controls of sap.m are: what was in a disabled [Toolbar], [OverflowToolbar] or `sap.m.Toolbar` could still be tapped, pressed and typed into, and a disabled [OverflowToolbar] still opened its overflow area.",
+					"A [Button] with an icon made a new icon control every time it rendered and never destroyed one. It makes one per icon now, can be pressed with Enter and Space like a native button, and is pressed neither by the secondary mouse button nor by a release that did not start on it.",
+					"`setValue` on an [Input] or a [TextArea] the user has typed into puts the new value on the screen - the field went on showing what was typed, most visibly when it was cleared after a submit.",
+					"A tap from an [Input] or a [TextArea] with an on-screen keyboard into another field leaves the focus in that field: the closing keyboard pulled it back and opened again. What the keyboard typed into an [Input] is reported as `change` when the focus leaves, as it already was for a [TextArea].",
+					"A [ComboBox] and a [BarcodeInput] report a change once - Enter and the change of the browser after it came through twice.",
+					"The line, the hint and the clear button of a [SignaturePad] rendered by a container of the older, string based kind stood inside its canvas, where the browser does not show them.",
+					"Picking an hour or a minute of a [TimePicker] leaves the columns where they are scrolled to instead of throwing them back to the top, the picked entries are scrolled into view whatever the id of the control, and the minute nearest to the time is marked where the step skips it.",
+					"The month over the calendar of a [DatePicker] is written the way the language writes it: the year first in Japanese and Chinese, the month in the nominative in Russian and Ukrainian.",
+					"A [SegmentedButton] fires `selectionChange` only when the selection changes; the `press` of the item still comes on every press.",
+					"Escape of a real keyboard fires `escape` on a [Keyboard], [NumberPad] or [CustomKeyboard] as documented, `emphasizedKeys` shows a change made after the first rendering, and a keyboard that writes one case only writes it for the letters of a real keyboard too.",
+					"Enter on a [Link] with an `href` fires `press` before the browser follows it, the way a tap does.",
+					"[QuickDialog] destroys its dialog once it has closed - every dialog it opened stayed in memory. Enter in the field of `input` chooses the emphasized action rather than an `Ok` that need not be among the actions, `select` shows the `additionalText` of its items, `details` says its message once instead of in the header as well, a second tap on an action changes nothing, and `buttonSize` is optional.",
+					"The picker of a [Select] or a [ComboBox] on a phone no longer leaves its bars behind on every opening, says whether it is open after a rendering, and an item that is not enabled cannot be picked.",
+					"What the controls wrote in English whatever the language - the title and the buttons of a picker on a phone, the headings of the [TimePicker], the space bar of a keyboard - comes from the bundle of the library now, in every language it is translated into. The bundle has an English file of its own, so an application no longer logs an error about its fallback language.",
+					"The library declares its dependency on `sap.m`, and the npm package carries the built library in `dist/resources` - the folder the setup with `ui5-middleware-servestatic` points at held type declarations only.",
+					"The examples of a layout in a view escape the braces of the special keys, `\\{bksp\\}` - written as they were, UI5 read them as a binding and the keyboard kept its default keys.",
 					"A docked [Keyboard], [NumberPad] or [CustomKeyboard] no longer shares the bottom edge of the screen with the footer of the demo: the footer steps aside while one is docked, the way a phone puts its own bottom bar away when its keyboard comes up. The two were ranked against each other by a z-index before, which held on a computer and did not on a phone.",
 				],
 			},
@@ -49,6 +81,16 @@ export const releases: Release[] = [
 				kind: "Demo",
 				items: [
 					"The side navigation carries an icon of its own for every control and every class, drawn for the demo and shipped as an icon font of its own: a page is found by the shape of what it is about rather than by the nearest thing the standard icon font happened to have. The GitHub mark of the header comes out of the same font, in place of the stylesheet mask it was drawn with.",
+					"The head of a page, the tables of the documentation, the titles of the code cards and the previous and next buttons follow a change of language - they stayed in the language the page was first opened in.",
+					"The Min and Max of the [StepInput] page take effect, the sap.m original of the [SegmentedButton] page reports its selection again, the label of the extra keys of the [Keyboard] page is back, and the fields of the [Input] and [TextArea] pages offer every arrangement of the keyboard and put the footer away for a docked one.",
+					"The error and information dialogs of the [QuickDialog] page keep their own state, two quick taps open one dialog rather than two, a link of the changelog keeps the theme and the language of the address, and the side navigation of a narrow window closes once a page is picked.",
+				],
+			},
+			{
+				kind: "Tests",
+				items: [
+					"Unit tests in `test/unit`, one QUnit module per control, run in the browser by the UI5 test starter - and in CI on every supported UI5 release, together with the UI tests.",
+					"Every control is tried disabled - on its own and in a disabled [Toolbar], [OverflowToolbar] and `sap.m.Toolbar` - with a tap, its keys and the focus, and then enabled again; a control added to the library without such a try fails the tests. The UI tests click through a disabled toolbar in the browser.",
 				],
 			},
 		],
