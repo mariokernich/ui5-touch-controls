@@ -35,11 +35,25 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
-		version: "1.3.2",
-		date: "",
+		version: "1.4.0",
+		date: "2026-09-28",
 		summary:
 			"A review of every control - leaks, keyboard use, focus and the language of the app - unit tests, and icons of the demo's own.",
 		groups: [
+			{
+				kind: "Added",
+				items: [
+					"[Button] renders its `tooltip`, and a button that shows nothing but an icon is named by it - for the pointer and for a screen reader.",
+					"The buttons that show nothing but an icon carry tooltips in the language of the application: the minus and the plus of [StepInput], the arrows of the calendar of [DatePicker], the clear button of [SignaturePad] and the overflow button of [OverflowToolbar].",
+					"[Input], [TextArea], [ComboBox], [DatePicker], [TimePicker] and [BarcodeInput] hand the focus and a label to their native field: `focus()` puts the caret there, and a `sap.m.Label` with `labelFor` points at it.",
+				],
+			},
+			{
+				kind: "Changed",
+				items: [
+					"`sidePadding` of [Button] never had an effect and is deprecated, and so is `getButtonColor`.",
+				],
+			},
 			{
 				kind: "Fixed",
 				items: [
@@ -55,23 +69,10 @@ export const releases: Release[] = [
 					"Enter on a [Link] with an `href` fires `press` before the browser follows it, the way a tap does.",
 					"[QuickDialog] destroys its dialog once it has closed - every dialog it opened stayed in memory. Enter in the field of `input` chooses the emphasized action rather than an `Ok` that need not be among the actions, `select` shows the `additionalText` of its items, `details` says its message once instead of in the header as well, a second tap on an action changes nothing, and `buttonSize` is optional.",
 					"The picker of a [Select] or a [ComboBox] on a phone no longer leaves its bars behind on every opening, says whether it is open after a rendering, and an item that is not enabled cannot be picked.",
-					"What the controls wrote in English whatever the language - the title and the buttons of a picker on a phone, the headings of the [TimePicker], the space bar of a keyboard - comes from the bundle of the library now, in every language it is translated into. The buttons that show nothing but an icon in [StepInput], [DatePicker], [SignaturePad] and [OverflowToolbar] got tooltips the same way. The bundle has an English file of its own, so an application no longer logs an error about its fallback language.",
+					"What the controls wrote in English whatever the language - the title and the buttons of a picker on a phone, the headings of the [TimePicker], the space bar of a keyboard - comes from the bundle of the library now, in every language it is translated into. The bundle has an English file of its own, so an application no longer logs an error about its fallback language.",
 					"The library declares its dependency on `sap.m`, and the npm package carries the built library in `dist/resources` - the folder the setup with `ui5-middleware-servestatic` points at held type declarations only.",
 					"The examples of a layout in a view escape the braces of the special keys, `\\{bksp\\}` - written as they were, UI5 read them as a binding and the keyboard kept its default keys.",
 					"A docked [Keyboard], [NumberPad] or [CustomKeyboard] no longer shares the bottom edge of the screen with the footer of the demo: the footer steps aside while one is docked, the way a phone puts its own bottom bar away when its keyboard comes up. The two were ranked against each other by a z-index before, which held on a computer and did not on a phone.",
-				],
-			},
-			{
-				kind: "Changed",
-				items: [
-					"`sidePadding` of [Button] never had an effect and is deprecated, and so is `getButtonColor`.",
-					"[Input], [TextArea], [ComboBox], [DatePicker], [TimePicker] and [BarcodeInput] hand the focus and a label to their native field: `focus()` puts the caret there, and a `sap.m.Label` with `labelFor` points at it.",
-				],
-			},
-			{
-				kind: "Tests",
-				items: [
-					"Unit tests in `test/unit`, one QUnit module per control, run in the browser by the UI5 test starter - and in CI on every supported UI5 release, together with the UI tests.",
 				],
 			},
 			{
@@ -81,6 +82,12 @@ export const releases: Release[] = [
 					"The head of a page, the tables of the documentation, the titles of the code cards and the previous and next buttons follow a change of language - they stayed in the language the page was first opened in.",
 					"The Min and Max of the [StepInput] page take effect, the sap.m original of the [SegmentedButton] page reports its selection again, the label of the extra keys of the [Keyboard] page is back, and the fields of the [Input] and [TextArea] pages offer every arrangement of the keyboard and put the footer away for a docked one.",
 					"The error and information dialogs of the [QuickDialog] page keep their own state, two quick taps open one dialog rather than two, a link of the changelog keeps the theme and the language of the address, and the side navigation of a narrow window closes once a page is picked.",
+				],
+			},
+			{
+				kind: "Tests",
+				items: [
+					"Unit tests in `test/unit`, one QUnit module per control, run in the browser by the UI5 test starter - and in CI on every supported UI5 release, together with the UI tests.",
 				],
 			},
 		],

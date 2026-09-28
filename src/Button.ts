@@ -70,7 +70,7 @@ export default class Button extends Control implements ISized {
 			 * Has no effect: the padding of the button follows its
 			 * <code>size</code>.
 			 *
-			 * @deprecated As of version 1.3.2 - the padding comes from the size
+			 * @deprecated As of version 1.4.0 - the padding comes from the size
 			 * ladder of the stylesheet and cannot be set per button.
 			 */
 			sidePadding: {
@@ -197,7 +197,7 @@ export default class Button extends Control implements ISized {
 	/**
 	 * The background color of a button type in the current theme.
 	 *
-	 * @deprecated As of version 1.3.2 - the colors of a button come from its
+	 * @deprecated As of version 1.4.0 - the colors of a button come from its
 	 * stylesheet, and this reads the theme parameter synchronously.
 	 */
 	getButtonColor(type: ButtonType) {

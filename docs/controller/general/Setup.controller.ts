@@ -20,7 +20,7 @@ export default class Setup extends BaseController {
 					code: `
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.3.1"
+		"ui5.touch.controls": "^1.4.0"
 	}
 }
 `,

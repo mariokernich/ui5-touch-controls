@@ -43,7 +43,7 @@ declare module "./Button" {
          * Has no effect: the padding of the button follows its
         <code>size</code>.
          *
-         * @deprecated As of version 1.3.2 - the padding comes from the size
+         * @deprecated As of version 1.4.0 - the padding comes from the size
         ladder of the stylesheet and cannot be set per button.
          */
         sidePadding?: CSSSize | PropertyBindingInfo | `{${string}}`;
@@ -136,7 +136,7 @@ declare module "./Button" {
          * Has no effect: the padding of the button follows its
         <code>size</code>.
          *
-         * @deprecated As of version 1.3.2 - the padding comes from the size
+         * @deprecated As of version 1.4.0 - the padding comes from the size
         ladder of the stylesheet and cannot be set per button.
          */
         getSidePadding(): CSSSize;
@@ -145,7 +145,7 @@ declare module "./Button" {
          * Has no effect: the padding of the button follows its
         <code>size</code>.
          *
-         * @deprecated As of version 1.3.2 - the padding comes from the size
+         * @deprecated As of version 1.4.0 - the padding comes from the size
         ladder of the stylesheet and cannot be set per button.
          */
         setSidePadding(sidePadding: CSSSize): this;
