@@ -1,6 +1,6 @@
 {
 	"name": "ui5.touch.controls",
-	"version": "1.4.0",
+	"version": "1.5.0",
 	"description": "UI5 Library: ui5.touch.controls — Standard UI5 controls, rebuilt for touch — plus the ones sap.m is missing",
 	"author": "Mario Kernich",
 	"license": "Apache-2.0",

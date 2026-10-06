@@ -35,6 +35,21 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.5.0",
+		date: "2026-10-06",
+		summary: "Runs on UI5 1.108 and newer, and is built against UI5 1.153.",
+		groups: [
+			{
+				kind: "Changed",
+				items: [
+					"The oldest UI5 release the library runs on is 1.108 - it was 1.116. Where a release has `sap/base/i18n/Localization` and `sap/ui/core/Lib`, the library uses them; on an older one, the Core of UI5 stands in.",
+					"On UI5 before 1.110, where `sap.m.Dialog` has no `footer`, [QuickDialog] puts its actions at the end of the content of the dialog. They work the same and only scroll with the content.",
+					"The library is built against UI5 1.153.0, the newest release.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.4.0",
 		date: "2026-09-28",
 		summary:
