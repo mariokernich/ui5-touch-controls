@@ -7,7 +7,7 @@
  * pointed at every supported release:
  *
  *     npm run test:ui                       # the version pinned in ui5-test.yaml
- *     UI5_VERSION=1.116.0 npm run test:ui   # the oldest supported release
+ *     UI5_VERSION=1.108.51 npm run test:ui  # the oldest supported release
  *
  * The dev server is started here rather than in the workflow, so a local run
  * and a CI run go through the same steps.

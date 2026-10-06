@@ -1,4 +1,3 @@
-import Localization from "sap/base/i18n/Localization";
 import Properties from "sap/base/util/Properties";
 import DataType from "sap/ui/base/DataType";
 import { attachTextChange, getText } from "ui5/touch/controls/i18n";
@@ -10,7 +9,7 @@ import {
 	SizeMode,
 	sizeClass,
 } from "ui5/touch/controls/library";
-import { cleanUp } from "./helpers";
+import { cleanUp, setLanguage } from "./helpers";
 
 QUnit.module("library", {
 	afterEach: cleanUp,
@@ -117,13 +116,13 @@ QUnit.test("the texts follow the language, and the listeners hear of it", (asser
 		calls++;
 	});
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 
 	assert.strictEqual(calls, 1, "the listener was called");
 	assert.strictEqual(getText("SWITCH_ON"), "AN", "the text is German now");
 
 	detach();
-	Localization.setLanguage("en");
+	setLanguage("en");
 
 	assert.strictEqual(calls, 1, "a detached listener is not called again");
 	assert.strictEqual(getText("SWITCH_ON"), "ON", "and English again");

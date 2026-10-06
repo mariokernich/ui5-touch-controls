@@ -1,6 +1,7 @@
 import type Control from "sap/ui/core/Control";
 import type EventProvider from "sap/ui/base/EventProvider";
-import Localization from "sap/base/i18n/Localization";
+import Core from "sap/ui/core/Core";
+import { getLanguage } from "ui5/touch/controls/compat";
 
 /**
  * What the unit tests have in common: putting a control on the page and
@@ -50,8 +51,30 @@ export function cleanUp(): void {
 		control.destroy();
 	});
 
-	if (Localization.getLanguage() !== "en") {
-		Localization.setLanguage("en");
+	if (getLanguage() !== "en") {
+		setLanguage("en");
+	}
+}
+
+/**
+ * Switches the language of the page. sap/base/i18n/Localization does this
+ * from UI5 1.116 on; on older releases the configuration of the Core does.
+ */
+export function setLanguage(language: string): void {
+	const localization = sap.ui.require("sap/base/i18n/Localization") as
+		| { setLanguage(language: string): void }
+		| undefined;
+
+	if (localization) {
+		localization.setLanguage(language);
+	} else {
+		(
+			Core as unknown as {
+				getConfiguration(): { setLanguage(language: string): void };
+			}
+		)
+			.getConfiguration()
+			.setLanguage(language);
 	}
 }
 

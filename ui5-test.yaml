@@ -15,7 +15,7 @@ framework:
   name: OpenUI5
   # the version the start:test scripts override; the pages themselves use
   # nothing that is newer than the oldest supported release
-  version: 1.151.0
+  version: 1.153.0
   libraries:
     - name: sap.m
     - name: sap.ui.core

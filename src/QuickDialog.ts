@@ -12,6 +12,7 @@ import Button from "./Button";
 import ComboBox from "./ComboBox";
 import Input from "./Input";
 import OverflowToolbar from "./OverflowToolbar";
+import { dialogHasFooter } from "./compat";
 import { getText } from "./i18n";
 import { SizeMode } from "./library";
 
@@ -325,7 +326,16 @@ export default class QuickDialog extends ManagedObject {
 				resolve(result);
 			};
 
-			dialog.setFooter(QuickDialog.createFooter(options, choose));
+			const footer = QuickDialog.createFooter(options, choose);
+			if (dialogHasFooter(dialog)) {
+				dialog.setFooter(footer);
+			} else {
+				// UI5 before 1.110: the dialog has no footer aggregation, and
+				// its buttons aggregation would squeeze touch-sized buttons
+				// into a bar of the standard height - the toolbar goes at the
+				// end of the content instead
+				dialog.addContent(footer.addStyleClass("sizedQuickDialogContentFooter"));
+			}
 			dialog.setEscapeHandler(() => {
 				if (settled) {
 					return;

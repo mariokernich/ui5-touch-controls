@@ -1,4 +1,3 @@
-import Localization from "sap/base/i18n/Localization";
 import { SwitchType } from "sap/m/library";
 import { ValueState } from "sap/ui/core/library";
 import type Button from "ui5/touch/controls/Button";
@@ -9,7 +8,7 @@ import SegmentedButton from "ui5/touch/controls/SegmentedButton";
 import SegmentedButtonItem from "ui5/touch/controls/SegmentedButtonItem";
 import Switch from "ui5/touch/controls/Switch";
 import { SizeMode } from "ui5/touch/controls/library";
-import { cleanUp, EventLog, keydown, keyup, place, render, tap } from "./helpers";
+import { cleanUp, EventLog, keydown, keyup, place, render, setLanguage, tap } from "./helpers";
 
 function dom(control: { getDomRef(): Element | null }): HTMLElement {
 	return control.getDomRef() as HTMLElement;
@@ -134,7 +133,7 @@ QUnit.test("it says on and off in the language of the app, unless told otherwise
 	assert.strictEqual(label("on"), "ON");
 	assert.strictEqual(label("off"), "OFF");
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 	render();
 
 	assert.strictEqual(label("on"), "AN", "it follows the language");

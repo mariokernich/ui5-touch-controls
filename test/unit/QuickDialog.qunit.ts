@@ -1,4 +1,3 @@
-import Localization from "sap/base/i18n/Localization";
 import type Dialog from "sap/m/Dialog";
 import type Link from "sap/m/Link";
 import type Text from "sap/m/Text";
@@ -12,7 +11,7 @@ import type Input from "ui5/touch/controls/Input";
 import type OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
 import QuickDialog, { MessageAction } from "ui5/touch/controls/QuickDialog";
 import { SizeMode } from "ui5/touch/controls/library";
-import { cleanUp, keydown, waitFor } from "./helpers";
+import { cleanUp, keydown, setLanguage, waitFor } from "./helpers";
 
 /** the dialogs there are, open or not */
 function dialogs(): Dialog[] {
@@ -35,8 +34,20 @@ async function openDialog(): Promise<Dialog> {
 	return dialog as Dialog;
 }
 
+/**
+ * The toolbar of actions: the footer of the dialog, or the end of its content
+ * on UI5 before 1.110, where a dialog has no footer.
+ */
+function footer(dialog: Dialog): OverflowToolbar {
+	return (
+		typeof dialog.getFooter === "function"
+			? dialog.getFooter()
+			: dialog.getContent()[dialog.getContent().length - 1]
+	) as OverflowToolbar;
+}
+
 function buttons(dialog: Dialog): Button[] {
-	return (dialog.getFooter() as OverflowToolbar)
+	return footer(dialog)
 		.getContent()
 		.filter((control) => control.isA("ui5.touch.controls.Button")) as Button[];
 }
@@ -101,7 +112,7 @@ QUnit.test("Escape rejects, and the dialog goes all the same", async (assert) =>
 });
 
 QUnit.test("the ready-made actions are named in the language of the app, own ones as written", async (assert) => {
-	Localization.setLanguage("de");
+	setLanguage("de");
 	const result = QuickDialog.show({
 		message: "Speichern?",
 		actions: [MessageAction.Yes, MessageAction.No, "Later"],
@@ -114,7 +125,7 @@ QUnit.test("the ready-made actions are named in the language of the app, own one
 		["Ja", "Nein", "Later"],
 	);
 	assert.strictEqual(
-		(dialog.getFooter() as OverflowToolbar).getContent().length,
+		footer(dialog).getContent().length,
 		5,
 		"a spacer between every two of them",
 	);
