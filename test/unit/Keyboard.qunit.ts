@@ -1,4 +1,3 @@
-import Localization from "sap/base/i18n/Localization";
 import { ButtonType } from "sap/m/library";
 import type Button from "ui5/touch/controls/Button";
 import CustomKeyboard from "ui5/touch/controls/CustomKeyboard";
@@ -13,7 +12,7 @@ import {
 	NumberKeys,
 	SizeMode,
 } from "ui5/touch/controls/library";
-import { cleanUp, EventLog, keydown, place, render } from "./helpers";
+import { cleanUp, EventLog, keydown, place, render, setLanguage } from "./helpers";
 
 function keys(keyboard: KeyboardBase): Button[] {
 	return keyboard.getAggregation("_buttons") as Button[];
@@ -200,7 +199,7 @@ QUnit.test("the space bar says what the library calls it in the language of the 
 
 	assert.strictEqual(keys(keyboard)[0].getText(), "Space");
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 	render();
 
 	assert.strictEqual(keys(keyboard)[0].getText(), "Leerzeichen");

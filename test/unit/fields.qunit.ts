@@ -1,7 +1,6 @@
 import type HBox from "sap/m/HBox";
 import type Popover from "sap/m/Popover";
 import type VBox from "sap/m/VBox";
-import Localization from "sap/base/i18n/Localization";
 import DateFormat from "sap/ui/core/format/DateFormat";
 import BarcodeInput from "ui5/touch/controls/BarcodeInput";
 import type Button from "ui5/touch/controls/Button";
@@ -11,7 +10,18 @@ import StepInput from "ui5/touch/controls/StepInput";
 import type Text from "ui5/touch/controls/Text";
 import TimePicker from "ui5/touch/controls/TimePicker";
 import { SizeMode } from "ui5/touch/controls/library";
-import { cleanUp, commit, EventLog, keydown, place, render, tap, type, waitFor } from "./helpers";
+import {
+	cleanUp,
+	commit,
+	EventLog,
+	keydown,
+	place,
+	render,
+	setLanguage,
+	tap,
+	type,
+	waitFor,
+} from "./helpers";
 
 function popoverOf(control: DatePicker | TimePicker): Popover {
 	return control.getAggregation("_popover") as Popover;
@@ -119,7 +129,7 @@ QUnit.test("the buttons carry the size and the tooltips of the library", (assert
 	assert.strictEqual(minus.getTooltip_AsString(), "Decrease");
 	assert.strictEqual(plus.getTooltip_AsString(), "Increase");
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 	render();
 
 	assert.strictEqual(plus.getTooltip_AsString(), "Vergrößern", "in the language of the app");
@@ -221,7 +231,7 @@ QUnit.test("the calendar opens on the month of the date, and a day picks it", as
 });
 
 QUnit.test("the heading names the month the way the language does", async (assert) => {
-	Localization.setLanguage("ja");
+	setLanguage("ja");
 	const datePicker = place(new DatePicker({ value: "2026-09-27" }));
 
 	tap(datePicker.getDomRef("icon") as HTMLElement);

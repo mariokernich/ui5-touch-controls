@@ -203,17 +203,25 @@ describe("the sizes come through", () => {
 	const sizes = ["M", "XL", "3XL"];
 
 	it("a Button grows with its size property", async () => {
-		const heights = {};
+		const measured = [];
 
-		for (const button of await controlsOfType("Button")) {
-			const size = await button.getSize();
+		// One lookup per size, not one getter call per button: every call
+		// waits for UI5 to settle first, the page has a couple of hundred
+		// buttons, and on UI5 1.108 that wait alone is over a second - its
+		// RecordReplay counts the promise it waits with as pending work.
+		for (const size of sizes) {
+			const [button] = await browser.allControls({
+				selector: {
+					controlType: "ui5.touch.controls.Button",
+					properties: { size },
+				},
+			});
 
-			if (sizes.includes(size) && !(size in heights)) {
-				heights[size] = (await (await button.getWebElement()).getSize()).height;
-			}
+			measured.push(
+				button ? (await (await button.getWebElement()).getSize()).height : 0,
+			);
 		}
 
-		const measured = sizes.map((size) => heights[size]);
 		if (measured.some((height) => !height)) {
 			throw new Error(`not every size was on the page: ${measured.join(", ")}`);
 		}

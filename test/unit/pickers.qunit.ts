@@ -1,7 +1,6 @@
 import Text from "sap/m/Text";
 import type ResponsivePopover from "sap/m/ResponsivePopover";
 import type VBox from "sap/m/VBox";
-import Localization from "sap/base/i18n/Localization";
 import type Control from "sap/ui/core/Control";
 import Item from "sap/ui/core/Item";
 import ListItem from "sap/ui/core/ListItem";
@@ -19,6 +18,7 @@ import {
 	keydown,
 	place,
 	render,
+	setLanguage,
 	tap,
 	type,
 	waitFor,
@@ -203,7 +203,7 @@ QUnit.test("on a phone the list brings a bar with a title and a way back, made a
 		cancel.firePress();
 		await closed(select);
 
-		Localization.setLanguage("de");
+		setLanguage("de");
 		select.setPickerTitle("");
 		tap(select.getDomRef() as HTMLElement);
 		await opened(select);

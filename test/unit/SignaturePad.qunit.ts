@@ -1,9 +1,8 @@
-import Localization from "sap/base/i18n/Localization";
 import Control from "sap/ui/core/Control";
 import type RenderManager from "sap/ui/core/RenderManager";
 import type Button from "ui5/touch/controls/Button";
 import SignaturePad from "ui5/touch/controls/SignaturePad";
-import { cleanUp, EventLog, place, pointer, render } from "./helpers";
+import { cleanUp, EventLog, place, pointer, render, setLanguage } from "./helpers";
 
 /**
  * A container with a renderer of the old, string-based kind - the kind that
@@ -134,7 +133,7 @@ QUnit.test("the hint and the tooltip of the clear button are the library's, in t
 	assert.strictEqual(hint(), "Sign here");
 	assert.strictEqual(clear.getTooltip_AsString(), "Clear");
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 	render();
 
 	assert.strictEqual(hint(), "Hier unterschreiben");
@@ -145,7 +144,7 @@ QUnit.test("a hint of the application stays as it was written", (assert) => {
 	const custom = place(new SignaturePad({ placeholder: "Driver" }));
 	const none = place(new SignaturePad({ placeholder: "" }));
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 	render();
 
 	assert.strictEqual(custom.getDomRef("placeholder")?.textContent, "Driver");

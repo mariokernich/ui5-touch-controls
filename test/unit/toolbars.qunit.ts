@@ -1,4 +1,3 @@
-import Localization from "sap/base/i18n/Localization";
 import OverflowToolbarLayoutData from "sap/m/OverflowToolbarLayoutData";
 import type Popover from "sap/m/Popover";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
@@ -8,7 +7,7 @@ import type Control from "sap/ui/core/Control";
 import Button from "ui5/touch/controls/Button";
 import OverflowToolbar from "ui5/touch/controls/OverflowToolbar";
 import Toolbar from "ui5/touch/controls/Toolbar";
-import { cleanUp, place, render, waitFor } from "./helpers";
+import { cleanUp, place, render, setLanguage, waitFor } from "./helpers";
 
 QUnit.module("Toolbar", {
 	afterEach: cleanUp,
@@ -126,7 +125,7 @@ QUnit.test("the overflow area shows the same controls and gives them back in the
 QUnit.test("the tooltip of the overflow button follows the language", async (assert) => {
 	const toolbar = await toolbarIn("300px", [wide("a"), wide("b"), wide("c"), wide("d")]);
 
-	Localization.setLanguage("de");
+	setLanguage("de");
 	render();
 
 	assert.strictEqual(overflowButton(toolbar).getTooltip_AsString(), "Zusätzliche Optionen");
