@@ -49,3 +49,13 @@
 	width: 100%;
 	margin: 0.25rem 0;
 }
+
+/* the actions of a QuickDialog on UI5 before 1.110: sap.m.Dialog has no
+   footer aggregation there, so the toolbar sits at the end of the content and
+   leaves out the bar look a toolbar has in the middle of a page */
+.sizedOverflowToolbar.sizedQuickDialogContentFooter {
+	margin-top: 1rem;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+}

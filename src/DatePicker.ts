@@ -10,7 +10,7 @@ import { ValueState } from "sap/ui/core/library";
 import DateFormat from "sap/ui/core/format/DateFormat";
 import Locale from "sap/ui/core/Locale";
 import LocaleData from "sap/ui/core/LocaleData";
-import Localization from "sap/base/i18n/Localization";
+import { getLanguage } from "./compat";
 import Button from "./Button";
 import Text from "./Text";
 import { getText } from "./i18n";
@@ -205,7 +205,7 @@ export default class DatePicker extends Control implements ISized {
 	}
 
 	private static getLocaleData(): LocaleData {
-		return LocaleData.getInstance(new Locale(Localization.getLanguage()));
+		return LocaleData.getInstance(new Locale(getLanguage()));
 	}
 
 	private getValueFormatter(): DateFormat {

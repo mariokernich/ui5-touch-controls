@@ -1,6 +1,5 @@
-import Localization from "sap/base/i18n/Localization";
 import type ResourceBundle from "sap/base/i18n/ResourceBundle";
-import Lib from "sap/ui/core/Lib";
+import { attachLanguageChange, getLibraryResourceBundle } from "./compat";
 
 /** the name of this library, which is where its bundle is looked for */
 const LIBRARY = "ui5.touch.controls";
@@ -19,7 +18,7 @@ const listeners = new Set<() => void>();
 // that is told, because UI5 does not render a control again just because the
 // language changed - it renders what a binding tells it to, and a text of the
 // library is not bound to anything.
-Localization.attachChange(() => {
+attachLanguageChange(() => {
 	bundle = undefined;
 	listeners.forEach((listener) => {
 		listener();
@@ -36,8 +35,8 @@ Localization.attachChange(() => {
  *
  * The bundle comes from the library rather than from a file of its own, so a
  * built library serves it out of its preload instead of fetching it. The
- * method for that is documented as being there from UI5 1.118 on; measured
- * against 1.116, the oldest release this library supports, it is there too.
+ * method for that is sap/ui/core/Lib where UI5 has it, and the Core where it
+ * does not (see ./compat).
  *
  * Where there is no text for a key, the key is what comes back - that is what
  * a resource bundle does, and it means a control never renders nothing.
@@ -46,7 +45,7 @@ Localization.attachChange(() => {
  * @param args values for the placeholders of the text
  */
 export function getText(key: string, args?: (string | number)[]): string {
-	bundle ??= Lib.getResourceBundleFor(LIBRARY);
+	bundle ??= getLibraryResourceBundle(LIBRARY);
 
 	return bundle?.getText(key, args) ?? key;
 }

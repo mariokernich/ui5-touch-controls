@@ -2,7 +2,7 @@ import { MetadataOptions } from "sap/ui/core/Element";
 import RenderManager from "sap/ui/core/RenderManager";
 import Locale from "sap/ui/core/Locale";
 import LocaleData from "sap/ui/core/LocaleData";
-import Localization from "sap/base/i18n/Localization";
+import { getLanguage } from "./compat";
 import KeyboardBase, { LayoutSet } from "./KeyboardBase";
 import { buildNumberPadSets } from "./keyboardLayouts";
 import { NumberPadMode } from "./library";
@@ -129,7 +129,7 @@ export default class NumberPad extends KeyboardBase {
 		return (
 			this.getDecimalSeparator() ||
 			LocaleData.getInstance(
-				new Locale(Localization.getLanguage()),
+				new Locale(getLanguage()),
 			).getNumberSymbol("decimal")
 		);
 	}

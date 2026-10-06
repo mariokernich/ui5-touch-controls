@@ -2,13 +2,13 @@
  * ${copyright}
  */
 
-import Lib from "sap/ui/core/Lib";
 import IconPool from "sap/ui/core/IconPool";
 
 // library dependencies must also be imported here
 import "sap/ui/core/library";
 import "sap/m/library";
 
+import { initLibrary } from "./compat";
 import {
 	ICON_FONT_COLLECTION,
 	ICON_FONT_FAMILY,
@@ -183,7 +183,7 @@ export interface ISized {
 }
 
 // delegate further initialization of this library to the Core
-const thisLib: { [key: string]: unknown } = Lib.init({
+const thisLib: { [key: string]: unknown } = initLibrary({
 	name: "ui5.touch.controls",
 	version: "${version}",
 	dependencies: [
@@ -230,7 +230,7 @@ const thisLib: { [key: string]: unknown } = Lib.init({
 		"ui5.touch.controls.SegmentedButtonItem",
 	],
 	noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
-}) as { [key: string]: unknown };
+});
 
 thisLib.SizeMode = SizeMode;
 thisLib.KeyboardMode = KeyboardMode;
