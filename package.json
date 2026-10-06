@@ -57,7 +57,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
-		"@openui5/types": "1.151.0",
+		"@openui5/types": "1.153.0",
 		"@types/qunit": "2.5.4",
 		"@ui5/cli": "4.0.62",
 		"@ui5/ts-interface-generator": "^0.11.1",

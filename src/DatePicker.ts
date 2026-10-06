@@ -19,6 +19,14 @@ import { ISized, SizeMode, sizeClass } from "./library";
 /** the two things the calendar of the popover can show */
 type CalendarView = "days" | "months";
 
+/** the names of the formats a locale defines, as DateFormat knows them */
+const DATE_STYLES = ["short", "medium", "long", "full"] as const;
+
+/** Whether a format is the name of one of the formats of the locale. */
+function isDateStyle(format: string): format is (typeof DATE_STYLES)[number] {
+	return (DATE_STYLES as readonly string[]).includes(format);
+}
+
 /**
  * A simplified variant of <code>sap.m.DatePicker</code> for touch devices.
  *
@@ -197,7 +205,7 @@ export default class DatePicker extends Control implements ISized {
 	 * as a pattern - the same rule sap.m.DatePicker applies.
 	 */
 	private static getFormatter(format: string): DateFormat {
-		if (["short", "medium", "long", "full"].includes(format)) {
+		if (isDateStyle(format)) {
 			return DateFormat.getDateInstance({ style: format });
 		}
 

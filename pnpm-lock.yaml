@@ -16,8 +16,8 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))
       '@openui5/types':
-        specifier: 1.151.0
-        version: 1.151.0
+        specifier: 1.153.0
+        version: 1.153.0
       '@types/qunit':
         specifier: 2.5.4
         version: 2.5.4
@@ -1091,8 +1091,8 @@ packages:
     resolution: {integrity: sha512-aoNSbxtkePXUlbZB+anS1LqsJdctG5n3UVhfU47+CDdwMi6uNTBMF9gPcQRnqghQd2FGzcwwIFBruFMxjhBewg==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  '@openui5/types@1.151.0':
-    resolution: {integrity: sha512-6l+V5W8RlmfHcZiHu7lMvME/pbZQ9vnNxif81a3KissRkiLrumCx623saQblTqsyxUmeHSPOsJdVPN+ZrW1DoA==}
+  '@openui5/types@1.153.0':
+    resolution: {integrity: sha512-KYBShLyF+HAjluWMyfoD18nhLzbZqgd72TfC01CEKvZW1tmvl1DeCsdrOrKCEUgSeiicm+fexPi0DPuPz0xZOQ==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -5713,7 +5713,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@openui5/types@1.151.0':
+  '@openui5/types@1.153.0':
     dependencies:
       '@types/jquery': 3.5.13
       '@types/qunit': 2.5.4
