@@ -10,7 +10,12 @@
    an undefined variable fails the build outright, which is what UI5 1.124 and
    1.130 do here.
 
-   So this one gets a value up front. It is set before the theme is imported,
+   Nor does it work where the value of the theme has to win on every release
+   that has the parameter: up to UI5 1.120 the themes do not put their
+   parameters into library.css as custom properties, so var() would always
+   fall back there.
+
+   So these get a value up front. They are set before the theme is imported,
    so a theme that knows the parameter overwrites it and only a theme that does
    not is left with what stands here.
    =========================================================================== */
@@ -19,3 +24,10 @@
    segmented button is. Zero means the classic joined look, which is what the
    themes without this parameter drew - see SegmentedButton.less. */
 @sapButton_Segment_BorderCornerRadius: 0;
+
+/* Introduced with UI5 1.108: the underline of a link, at rest, under the mouse
+   and while pressed. UI5 1.102 does not have them yet; the values are those of
+   the base theme, the way a link looked before - see Link.less. */
+@sapLink_TextDecoration: none;
+@sapLink_Hover_TextDecoration: underline;
+@sapLink_Active_TextDecoration: underline;
