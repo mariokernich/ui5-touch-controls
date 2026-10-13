@@ -83,7 +83,7 @@
 }
 
 .sizedDatePickerHeader > .sizedButton,
-.sizedDatePickerHeader > .sizedButton:hover:not(.sizedButtonActive) {
+.sizedDatePickerHeader > .sizedButton:hover:not(.sizedButtonActive):where(:enabled) {
 	margin: 0;
 	border: none;
 	background-color: transparent;
@@ -91,7 +91,7 @@
 	border-radius: @sapElement_BorderCornerRadius;
 }
 
-.sizedDatePickerHeader > .sizedButton:hover:not(.sizedButtonActive) {
+.sizedDatePickerHeader > .sizedButton:hover:not(.sizedButtonActive):where(:enabled) {
 	background-color: @sapList_Hover_Background;
 }
 
@@ -127,8 +127,8 @@
 	border-radius: @sapElement_BorderCornerRadius;
 }
 
-.sizedDatePickerGrid > .sizedButton:hover:not(.sizedButtonActive),
-.sizedDatePickerMonthGrid > .sizedButton:hover:not(.sizedButtonActive) {
+.sizedDatePickerGrid > .sizedButton:hover:not(.sizedButtonActive):where(:enabled),
+.sizedDatePickerMonthGrid > .sizedButton:hover:not(.sizedButtonActive):where(:enabled) {
 	border: none;
 	background-color: @sapList_Hover_Background;
 	color: @sapList_TextColor;
@@ -147,9 +147,9 @@
 }
 
 .sizedDatePickerGrid > .sizedButton.sizedDatePickerDaySelected,
-.sizedDatePickerGrid > .sizedButton.sizedDatePickerDaySelected:hover,
+.sizedDatePickerGrid > .sizedButton.sizedDatePickerDaySelected:hover:where(:enabled),
 .sizedDatePickerMonthGrid > .sizedButton.sizedDatePickerDaySelected,
-.sizedDatePickerMonthGrid > .sizedButton.sizedDatePickerDaySelected:hover {
+.sizedDatePickerMonthGrid > .sizedButton.sizedDatePickerDaySelected:hover:where(:enabled) {
 	background-color: @sapSelectedColor;
 	/* @sapContent_Selected_TextColor is the selection color itself in Horizon,
 	   so the contrast color is the one that stays readable on the fill */

@@ -23,7 +23,7 @@
 	color: @sapButton_Lite_TextColor;
 }
 
-.sizedToolbar .sizedButtonGhost:hover:not(.sizedButtonActive) {
+.sizedToolbar .sizedButtonGhost:hover:not(.sizedButtonActive):where(:enabled) {
 	background-color: fade(@sapButton_Lite_TextColor, 20);
 	border: 1px solid fade(@sapButton_Lite_TextColor, 50);
 	color: @sapButton_Lite_TextColor;

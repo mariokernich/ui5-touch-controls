@@ -103,7 +103,7 @@
 }
 
 .sizedSegmentedButton
-	> .sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive) {
+	> .sizedButton.sizedSegmentedButtonSelected:hover:not(.sizedButtonActive):where(:enabled) {
 	background-color: @sapButton_Selected_Hover_Background;
 	border-color: @sapButton_Selected_Hover_BorderColor;
 	color: @sapButton_Selected_TextColor;

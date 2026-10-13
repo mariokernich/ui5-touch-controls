@@ -34,7 +34,10 @@ QUnit.test("a disabled button is a disabled native button", (assert) => {
 	const dom = place(new Button({ text: "Save", enabled: false })).getDomRef() as HTMLButtonElement;
 
 	assert.ok(dom.disabled);
-	assert.ok(dom.classList.contains("sapMBtnDisabled"));
+	assert.notOk(
+		dom.classList.contains("sapMBtnDisabled"),
+		"no sap.m class - in a bar it would replace the text color of the type",
+	);
 });
 
 QUnit.test("the icon stands before or after the text", (assert) => {

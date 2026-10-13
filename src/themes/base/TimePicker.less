@@ -98,7 +98,7 @@
 
 /* the entries are the library's buttons, turned into plain rows */
 .sizedTimePickerColumn > .sizedButton.sizedTimePickerItem,
-.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem:hover {
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem:hover:where(:enabled) {
 	display: block;
 	margin: 0;
 	border: none;
@@ -108,12 +108,12 @@
 	color: @sapList_TextColor;
 }
 
-.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem:hover {
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItem:hover:where(:enabled) {
 	background-color: @sapList_Hover_Background;
 }
 
 .sizedTimePickerColumn > .sizedButton.sizedTimePickerItemSelected,
-.sizedTimePickerColumn > .sizedButton.sizedTimePickerItemSelected:hover {
+.sizedTimePickerColumn > .sizedButton.sizedTimePickerItemSelected:hover:where(:enabled) {
 	background-color: @sapSelectedColor;
 	color: @sapContent_ContrastTextColor;
 }

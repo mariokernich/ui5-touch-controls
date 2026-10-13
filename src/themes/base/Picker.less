@@ -11,7 +11,7 @@
 }
 
 .sizedPickerList > .sizedButton.sizedPickerItem,
-.sizedPickerList > .sizedButton.sizedPickerItem:hover {
+.sizedPickerList > .sizedButton.sizedPickerItem:hover:where(:enabled) {
 	display: block;
 	margin: 0;
 	border: none;
@@ -37,17 +37,17 @@
 	border-bottom-right-radius: @sapPopover_BorderCornerRadius;
 }
 
-.sizedPickerList > .sizedButton.sizedPickerItem:hover {
+.sizedPickerList > .sizedButton.sizedPickerItem:hover:where(:enabled) {
 	background-color: @sapList_Hover_Background;
 }
 
 .sizedPickerList > .sizedButton.sizedPickerItemSelected,
-.sizedPickerList > .sizedButton.sizedPickerItemSelected:hover {
+.sizedPickerList > .sizedButton.sizedPickerItemSelected:hover:where(:enabled) {
 	background-color: @sapList_SelectionBackgroundColor;
 	color: @sapList_TextColor;
 }
 
-.sizedPickerList > .sizedButton.sizedPickerItemSelected:hover {
+.sizedPickerList > .sizedButton.sizedPickerItemSelected:hover:where(:enabled) {
 	background-color: @sapList_Hover_SelectionBackground;
 }
 
