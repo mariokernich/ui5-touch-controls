@@ -356,9 +356,11 @@ Stroke width, placeholder and clear button follow the `size` property, and the p
 
 - UI5 version **1.102 or higher** (OpenUI5 or SAPUI5)
 
-1.102 is the oldest release the library runs on, and the test page and the unit tests are checked against it. Where a release has the newer API — `sap/base/i18n/Localization` from 1.116 on, `sap/ui/core/Lib` from 1.118 on — the library uses it; on an older one, the Core of UI5 stands in (`src/compat.ts`). The Core methods are deprecated in current releases, which is why they are only the fallback and never run where the newer API is there.
+1.102 is the oldest release the library runs on, and the test page, the unit tests and the UI tests are checked against it. Where a release has the newer API — `sap/base/i18n/Localization` from 1.116 on, `sap/ui/core/Lib` from 1.118 on — the library uses it; on an older one, the Core of UI5 stands in (`src/compat.ts`). The Core methods are deprecated in current releases, which is why they are only the fallback and never run where the newer API is there.
 
 One thing looks different before 1.110: `sap.m.Dialog` has no `footer` aggregation there, so `QuickDialog` puts its actions at the end of the content of the dialog instead of into its footer. They work the same, they only scroll with the content.
+
+And one before 1.108: the themes do not tell yet whether a link is underlined — at rest, under the mouse, while pressed. `Link` then follows the base theme: no underline at rest, one under the mouse and while pressed (`src/themes/base/Compat.less`). From 1.108 on, the theme decides, as before.
 
 ## Installation
 
