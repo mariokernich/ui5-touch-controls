@@ -35,6 +35,20 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.5.1",
+		date: "2026-10-13",
+		summary: "A disabled button keeps the colors of its type, in a bar as well.",
+		groups: [
+			{
+				kind: "Fixed",
+				items: [
+					"A disabled [Button] in a bar - e.g. an [OverflowToolbar] in the footer of a page - keeps the text color of its type. With `sap_fiori_3`, the text of e.g. a disabled `Success` button was grey-blue instead of white.",
+					"A disabled [Button] keeps its look under the mouse; before, the hover colors were shown on it.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.5.0",
 		date: "2026-10-06",
 		summary: "Runs on UI5 1.108 and newer, and is built against UI5 1.153.",
