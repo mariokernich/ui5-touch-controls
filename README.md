@@ -13,6 +13,7 @@
 
 <p align="center">
 <strong>UI tests</strong><br>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.102" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.102&label=UI5%201.102"></a>
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.108" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.108&label=UI5%201.108"></a>
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.116" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.116&label=UI5%201.116"></a>
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.120" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.120&label=UI5%201.120"></a>
@@ -353,9 +354,9 @@ Stroke width, placeholder and clear button follow the `size` property, and the p
 
 ## Requirements
 
-- UI5 version **1.108 or higher** (OpenUI5 or SAPUI5)
+- UI5 version **1.102 or higher** (OpenUI5 or SAPUI5)
 
-1.108 is the oldest release the library runs on, and the test page and the unit tests are checked against it. Where a release has the newer API — `sap/base/i18n/Localization` from 1.116 on, `sap/ui/core/Lib` from 1.118 on — the library uses it; on an older one, the Core of UI5 stands in (`src/compat.ts`). The Core methods are deprecated in current releases, which is why they are only the fallback and never run where the newer API is there.
+1.102 is the oldest release the library runs on, and the test page and the unit tests are checked against it. Where a release has the newer API — `sap/base/i18n/Localization` from 1.116 on, `sap/ui/core/Lib` from 1.118 on — the library uses it; on an older one, the Core of UI5 stands in (`src/compat.ts`). The Core methods are deprecated in current releases, which is why they are only the fallback and never run where the newer API is there.
 
 One thing looks different before 1.110: `sap.m.Dialog` has no `footer` aggregation there, so `QuickDialog` puts its actions at the end of the content of the dialog instead of into its footer. They work the same, they only scroll with the content.
 
@@ -617,8 +618,8 @@ This starts the dev server (`ui5 serve` with `ui5-docs.yaml`) and opens the demo
 
 ```sh
 npm run start:test          # latest
-npm run start:test:1.108    # the oldest supported release
-npm run start:test:1.116    # and 1.120, 1.124, 1.130, 1.140
+npm run start:test:1.102    # the oldest supported release
+npm run start:test:1.108    # and 1.116, 1.120, 1.124, 1.130, 1.140
 ```
 
 `#Button` in the hash — or `?control=Button` — narrows the page to a single control; without either, every control is shown, one section after the other. Switching by hash rebuilds the page without reloading it. The cases are built in `test/cases.ts`.
@@ -656,8 +657,8 @@ The badges at the top of this file show one job of that workflow each, on `main`
 | --- | --- |
 | `npm run start` | Start the local dev server with livereload and open the demo application |
 | `npm run start:test` | Open the plain test page on the latest UI5 |
-| `npm run start:test:1.108` | Same page on UI5 1.108, the oldest supported release |
-| `npm run start:test:1.116` | Same page on UI5 1.116 (`:1.120`, `:1.124`, `:1.130` and `:1.140` for the other supported versions) |
+| `npm run start:test:1.102` | Same page on UI5 1.102, the oldest supported release |
+| `npm run start:test:1.108` | Same page on UI5 1.108 (`:1.116`, `:1.120`, `:1.124`, `:1.130` and `:1.140` for the other supported versions) |
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:demo` | Build of library and demo with preload bundles (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |
