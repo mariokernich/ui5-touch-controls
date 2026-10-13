@@ -42,14 +42,61 @@
 				height: 100%;
 			}
 
+			/* Layout only. The colors come from the theme through the sap.m
+			   controls - a custom property such as var(--sapGroup_...) is no
+			   help here, as up to UI5 1.120 the themes do not put them into
+			   their stylesheet, and the page has to look the same from 1.102
+			   on. Where a line is needed, a grey at low opacity works on a
+			   light and on a dark theme alike. */
+
+			.touchTestContent {
+				max-width: 90rem;
+				margin: 0 auto;
+				padding: 1rem;
+				box-sizing: border-box;
+			}
+
+			.touchTestGroup {
+				margin-bottom: 1.5rem;
+			}
+
+			.touchTestGroupTitle {
+				margin: 0.5rem 0 0.75rem;
+			}
+
+			.touchTestCard {
+				margin-bottom: 1rem;
+			}
+
+			/* a row of a card: the caption in a column of its own, the
+			   controls next to it, a hairline between the rows */
 			.touchTestRow {
-				gap: 0.75rem;
-				margin-bottom: 0.5rem;
+				display: grid !important;
+				grid-template-columns: 10rem minmax(0, 1fr);
+				column-gap: 1rem;
+				align-items: center;
+				padding: 0.5rem 0;
+			}
+
+			.touchTestRow + .touchTestRow {
+				border-top: 1px solid rgba(128, 128, 128, 0.25);
 			}
 
 			.touchTestCaption {
 				opacity: 0.7;
-				font-size: 0.75rem;
+				font-size: 0.875rem;
+			}
+
+			.touchTestControls {
+				gap: 0.75rem;
+			}
+
+			/* on a narrow screen the caption goes above the controls */
+			@media (max-width: 600px) {
+				.touchTestRow {
+					grid-template-columns: minmax(0, 1fr);
+					row-gap: 0.25rem;
+				}
 			}
 		</style>
 	</head>

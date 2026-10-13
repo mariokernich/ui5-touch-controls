@@ -614,7 +614,7 @@ This starts the dev server (`ui5 serve` with `ui5-docs.yaml`) and opens the demo
 
 ### Test pages
 
-`test/` holds a single plain page that shows every control — no descriptions, no navigation, no models, nothing but the controls, so a broken render is the library's doing and not the demo's. It exists to see the controls on the older UI5 versions the library supports:
+`test/` holds a single plain page that shows every control, grouped, each in a card with a row per case — no descriptions, no models, no routing, so a broken render is the library's doing and not the demo's. Its look comes from sap.m controls and the theme, so it is the same on every UI5 version the library supports, which is what it exists for:
 
 ```sh
 npm run start:test          # latest
@@ -622,7 +622,7 @@ npm run start:test:1.102    # the oldest supported release
 npm run start:test:1.108    # and 1.116, 1.120, 1.124, 1.130, 1.140
 ```
 
-`#Button` in the hash — or `?control=Button` — narrows the page to a single control; without either, every control is shown, one section after the other. Switching by hash rebuilds the page without reloading it. The cases are built in `test/cases.ts`.
+`#Button` in the hash — or `?control=Button`, or the menu on top — narrows the page to a single control; without either, every control is shown, group after group. Switching by hash rebuilds the page without reloading it. The menu next to it switches the theme and keeps it in the address (`?sap-ui-theme=`). The cases are built in `test/cases.ts`, the groups in `test/groups.ts`.
 
 ### Unit tests
 
