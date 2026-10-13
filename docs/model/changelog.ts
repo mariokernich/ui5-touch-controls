@@ -35,10 +35,17 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
-		version: "1.5.1",
+		version: "1.6.0",
 		date: "2026-10-13",
-		summary: "A disabled button keeps the colors of its type, in a bar as well.",
+		summary:
+			"Runs on UI5 1.102 and newer, and a disabled button keeps the colors of its type, in a bar as well.",
 		groups: [
+			{
+				kind: "Changed",
+				items: [
+					"The oldest UI5 release the library runs on is 1.102 - it was 1.108. The underline of a [Link] there is that of the base theme, as the themes of 1.102 do not set it yet.",
+				],
+			},
 			{
 				kind: "Fixed",
 				items: [
