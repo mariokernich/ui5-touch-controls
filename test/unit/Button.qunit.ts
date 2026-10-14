@@ -241,6 +241,24 @@ function looks(box: HTMLElement, text: HTMLElement): Record<string, string> {
 	};
 }
 
+/**
+ * What sap.m gets wrong under the mouse on a release, by release and type, so
+ * the library does not follow it there: sap.m 1.130 reads the hover
+ * background of Neutral from --apButton_Neutral_Hover_Background, a typo, and
+ * the button turns transparent.
+ */
+const SAP_M_HOVER_DEFECTS: Record<string, Partial<Record<ButtonType, string[]>>> = {
+	"1.130": { [ButtonType.Neutral]: ["background"] },
+};
+
+/** the looks without what sap.m gets wrong for this type on this release */
+function withoutDefects(looked: Record<string, string>, type: ButtonType): Record<string, string> {
+	const release = (sap.ui as unknown as { version: string }).version.split(".").slice(0, 2).join(".");
+	const skipped = SAP_M_HOVER_DEFECTS[release]?.[type] ?? [];
+
+	return Object.fromEntries(Object.entries(looked).filter(([key]) => !skipped.includes(key)));
+}
+
 // sap.m draws Unstyled as the button of the browser, which this library does
 // not copy
 Object.values(ButtonType)
@@ -260,8 +278,8 @@ Object.values(ButtonType)
 
 			assert.deepEqual(looks(dom, content), looks(inner, text), "at rest");
 			assert.deepEqual(
-				asIfHovered([dom, outer, inner], () => looks(dom, content)),
-				asIfHovered([dom, outer, inner], () => looks(inner, text)),
+				withoutDefects(asIfHovered([dom, outer, inner], () => looks(dom, content)), type),
+				withoutDefects(asIfHovered([dom, outer, inner], () => looks(inner, text)), type),
 				"under the mouse",
 			);
 		});

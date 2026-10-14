@@ -1,9 +1,17 @@
 @import "../base/library.source.less";
+
+/* markers for the early Horizon releases - see EarlyHorizon.less. They stand
+   right before the theme, so a release that has the parameter overwrites
+   them, and everything the theme derives from it gets its value; the other
+   themes never see them. */
+@sapField_HorizonNGEnabled: missing;
+@sapHoverColor: missing;
+
 @import "/resources/sap/ui/core/themes/sap_horizon_dark/base.less";
 @import "/resources/sap/ui/core/themes/sap_horizon_dark/global.less";
 
-/* how the first Horizon, that of UI5 1.102, draws a hovered button */
-@import "../base/FirstHorizon.less";
+/* how the early Horizon releases draw a hovered button */
+@import "../base/EarlyHorizon.less";
 
 /* see the note in sap_horizon: the Horizon defaults give Ghost the ordinary
    button look on a plain page - background, border, text colour, hover and
