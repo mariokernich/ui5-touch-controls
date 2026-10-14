@@ -61,6 +61,22 @@ async function firstOfType(name) {
 }
 
 /**
+ * The first control of a kind that can be worked with. The page also shows
+ * the controls disabled - on their own and in disabled containers - and a
+ * click on one of those must not do anything, which is what the tests of the
+ * disabled containers further down check.
+ */
+async function firstEnabledOfType(name) {
+	for (const control of await controlsOfType(name)) {
+		if (await control.getEnabled()) {
+			return control;
+		}
+	}
+
+	throw new Error(`no enabled ${name} on the page`);
+}
+
+/**
  * Whether what the library exports under this name is a control. Not
  * everything it ships is one - QuickDialog is a class that puts dialogs
  * together, and there is nothing of it on the page until one is opened.
@@ -109,7 +125,7 @@ describe("every control", () => {
 
 describe("the controls react", () => {
 	it("a CheckBox changes its selection when it is clicked", async () => {
-		const checkBox = await firstOfType("CheckBox");
+		const checkBox = await firstEnabledOfType("CheckBox");
 		const before = await checkBox.getSelected();
 
 		await (await checkBox.getWebElement()).click();
@@ -119,7 +135,7 @@ describe("the controls react", () => {
 	});
 
 	it("a Switch changes its state when it is clicked", async () => {
-		const swtch = await firstOfType("Switch");
+		const swtch = await firstEnabledOfType("Switch");
 		const before = await swtch.getState();
 
 		await (await swtch.getWebElement()).click();
@@ -129,7 +145,7 @@ describe("the controls react", () => {
 	});
 
 	it("an Input takes what is typed into it", async () => {
-		const input = await firstOfType("Input");
+		const input = await firstEnabledOfType("Input");
 		const field = await (await input.getWebElement()).$("input");
 
 		await field.click();
@@ -140,7 +156,7 @@ describe("the controls react", () => {
 	});
 
 	it("a Select opens its picker when it is clicked", async () => {
-		const select = await firstOfType("Select");
+		const select = await firstEnabledOfType("Select");
 
 		await (await select.getWebElement()).click();
 		await (await $(".sizedSelectPopover")).waitForDisplayed({

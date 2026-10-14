@@ -18,20 +18,24 @@ const catalogue = [
 	),
 ].map((match) => match[1]);
 
-/** What the page has in its header, once it has drawn something. */
-async function headerTitle() {
+/**
+ * What the control menu below the header shows, once the page has drawn its
+ * sections: "All controls", or the group and the name of the one control.
+ */
+async function chosenControl() {
 	await browser.waitUntil(
 		async () =>
 			Boolean(
 				await browser.execute(
-					() => document.querySelector(".sapMTitle")?.textContent,
+					() => document.querySelector("h2.sapMTitle")?.textContent,
 				),
 			),
 		{ timeout: 30000, timeoutMsg: "the test page did not finish rendering" },
 	);
 
 	return await browser.execute(
-		() => document.querySelector(".sapMTitle")?.textContent,
+		() =>
+			document.querySelector(".sapMPageSubHeader .sapMSltLabel")?.textContent,
 	);
 }
 
@@ -48,15 +52,17 @@ describe("one control at a time", () => {
 	it("shows every control when nothing is asked for", async () => {
 		await browser.url(PAGE);
 
-		expect(await headerTitle()).toBe("ui5.touch.controls - all controls");
-		expect(await sections()).toEqual(catalogue);
+		expect(await chosenControl()).toBe("All controls");
+		// the page shows them group after group, cases.ts lists them on its own
+		// order - every one of them is there, once
+		expect([...(await sections())].sort()).toEqual([...catalogue].sort());
 	});
 
 	it("shows the control named in the hash", async () => {
 		const name = catalogue[0];
 		await browser.url(`${PAGE}#${name}`);
 
-		expect(await headerTitle()).toBe(`ui5.touch.controls - ${name}`);
+		expect(await chosenControl()).toMatch(new RegExp(`: ${name}$`));
 		expect(await sections()).toEqual([name]);
 	});
 
@@ -72,7 +78,7 @@ describe("one control at a time", () => {
 			window.location.hash = name;
 		}, second);
 
-		expect(await headerTitle()).toBe(`ui5.touch.controls - ${second}`);
+		expect(await chosenControl()).toMatch(new RegExp(`: ${second}$`));
 		expect(await sections()).toEqual([second]);
 		expect(
 			await browser.execute(() => window.touchTestReloadMarker === true),
@@ -83,7 +89,7 @@ describe("one control at a time", () => {
 		const name = catalogue[1];
 		await browser.url(`${PAGE}?control=${name}`);
 
-		expect(await headerTitle()).toBe(`ui5.touch.controls - ${name}`);
+		expect(await chosenControl()).toMatch(new RegExp(`: ${name}$`));
 		expect(await sections()).toEqual([name]);
 	});
 });
