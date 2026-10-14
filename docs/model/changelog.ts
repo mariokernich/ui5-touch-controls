@@ -58,6 +58,13 @@ export const releases: Release[] = [
 					"[Toolbar] and [OverflowToolbar] follow the `style` they inherit from `sap.m.Toolbar`: `Clear` takes away the line below the bar. Both always drew it before.",
 				],
 			},
+			{
+				kind: "Tests",
+				items: [
+					"The test page shows the sap.m original next to every control that replaces one, with the same cases, so the two can be compared side by side; the UI tests check that every original is there.",
+					"A unit test compares the [Button] with the sap.m button of every type, at rest and under the mouse, on every supported UI5 release.",
+				],
+			},
 		],
 	},
 	{
