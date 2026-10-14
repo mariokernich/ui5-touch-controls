@@ -626,6 +626,8 @@ npm run start:test:1.108    # and 1.116, 1.120, 1.124, 1.130, 1.140
 
 `#Button` in the hash — or `?control=Button`, or the menu on top — narrows the page to a single control; without either, every control is shown, group after group. Switching by hash rebuilds the page without reloading it. The menu next to it switches the theme and keeps it in the address (`?sap-ui-theme=`). The cases are built in `test/cases.ts`, the groups in `test/groups.ts`.
 
+A control that replaces one of sap.m shows the original in the same card, below its own rows under the heading *sap.m*: the same cases, built from the sap.m control, so the two can be compared side by side. sap.m has no `size`, so the rows of sizes come down to one control there. The originals are built in `test/originals.ts`; their rows carry the class `touchTestOriginal`, and `window.touchTestOriginals` lists the controls that have them.
+
 ### Unit tests
 
 `test/unit` holds the unit tests: one QUnit module per control or group of controls, written in TypeScript and run in the browser by the [UI5 test starter](https://sdk.openui5.org/topic/032be2cb2e1d4115af20862673bedcdb), so the controls are rendered, tapped and typed into the way a user does it. Every bug that was fixed comes with a test that would have caught it.
@@ -647,7 +649,7 @@ UI5_VERSION=1.116.0 npm run test:ui    # any other release
 npm test                               # the unit tests and the UI tests together
 ```
 
-`wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
+`wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that every control the documentation names a sap.m original for shows it next to itself, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
 
 The GitHub workflow `ci.yml` runs the unit tests and the UI tests on every supported UI5 release in parallel, next to the type check, the lint run and the build. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
 

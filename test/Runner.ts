@@ -14,6 +14,7 @@ import Core from "sap/ui/core/Core";
 import Item from "sap/ui/core/Item";
 import { cases, caseNames, type TestRow } from "./cases";
 import { groupedCases, type CaseGroup } from "./groups";
+import { originals } from "./originals";
 
 /** the page that is on screen, kept so it can be thrown away and rebuilt */
 let page: Page | undefined;
@@ -50,6 +51,9 @@ export function run(): void {
 	// their own, so a control that is added to cases.ts is tested by itself
 	(window as unknown as { touchTestCases: string[] }).touchTestCases =
 		caseNames;
+	// the controls whose card shows the sap.m original as well
+	(window as unknown as { touchTestOriginals: string[] }).touchTestOriginals =
+		caseNames.filter((name) => name in originals);
 
 	window.addEventListener("hashchange", render);
 	render();
@@ -154,14 +158,30 @@ function groupSection(group: CaseGroup): Control {
 
 /**
  * A card for one control: its name - an H2, which is what the UI tests look
- * for - and a row for each of its cases.
+ * for - and a row for each of its cases. A control that replaces one of sap.m
+ * shows the original below, under a heading of its own, so the two can be
+ * compared; its rows carry touchTestOriginal for the UI tests.
  */
 function card(name: string): Control {
+	const original = originals[name];
+
 	return new Panel({
 		headerToolbar: new Toolbar({
 			content: [new Title({ text: name, level: "H2" })],
 		}),
-		content: cases[name]().map(row),
+		content: [
+			...cases[name]().map(row),
+			...(original
+				? [
+						new Title({ text: "sap.m", level: "H3", titleStyle: "H6" }).addStyleClass(
+							"touchTestOriginalTitle",
+						),
+						...original().map((testRow) =>
+							row(testRow).addStyleClass("touchTestOriginal"),
+						),
+					]
+				: []),
+		],
 	}).addStyleClass("touchTestCard");
 }
 
