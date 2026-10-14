@@ -1,9 +1,10 @@
+import SapMButton from "sap/m/Button";
 import { ButtonType } from "sap/m/library";
 import type Control from "sap/ui/core/Control";
 import Element from "sap/ui/core/Element";
 import Button from "ui5/touch/controls/Button";
 import { SizeMode } from "ui5/touch/controls/library";
-import { cleanUp, EventLog, place, pointer, render } from "./helpers";
+import { asIfHovered, cleanUp, EventLog, place, pointer, render } from "./helpers";
 
 /** the icon controls there are, wherever they came from */
 function countIconControls(): number {
@@ -34,7 +35,10 @@ QUnit.test("a disabled button is a disabled native button", (assert) => {
 	const dom = place(new Button({ text: "Save", enabled: false })).getDomRef() as HTMLButtonElement;
 
 	assert.ok(dom.disabled);
-	assert.ok(dom.classList.contains("sapMBtnDisabled"));
+	assert.notOk(
+		dom.classList.contains("sapMBtnDisabled"),
+		"no sap.m class - in a bar it would replace the text color of the type",
+	);
 });
 
 QUnit.test("the icon stands before or after the text", (assert) => {
@@ -224,3 +228,59 @@ QUnit.test("a tooltip names a button that shows nothing but an icon", (assert) =
 		"a button with a text is named by its text",
 	);
 });
+
+/** what a button looks like, read from its box and its text */
+function looks(box: HTMLElement, text: HTMLElement): Record<string, string> {
+	const boxStyle = window.getComputedStyle(box);
+
+	return {
+		background: boxStyle.backgroundColor,
+		border: boxStyle.borderColor,
+		shadow: boxStyle.boxShadow,
+		text: window.getComputedStyle(text).color,
+	};
+}
+
+/**
+ * What sap.m gets wrong under the mouse on a release, by release and type, so
+ * the library does not follow it there: sap.m 1.130 reads the hover
+ * background of Neutral from --apButton_Neutral_Hover_Background, a typo, and
+ * the button turns transparent.
+ */
+const SAP_M_HOVER_DEFECTS: Record<string, Partial<Record<ButtonType, string[]>>> = {
+	"1.130": { [ButtonType.Neutral]: ["background"] },
+};
+
+/** the looks without what sap.m gets wrong for this type on this release */
+function withoutDefects(looked: Record<string, string>, type: ButtonType): Record<string, string> {
+	const release = (sap.ui as unknown as { version: string }).version.split(".").slice(0, 2).join(".");
+	const skipped = SAP_M_HOVER_DEFECTS[release]?.[type] ?? [];
+
+	return Object.fromEntries(Object.entries(looked).filter(([key]) => !skipped.includes(key)));
+}
+
+// sap.m draws Unstyled as the button of the browser, which this library does
+// not copy
+Object.values(ButtonType)
+	.filter((type) => type !== ButtonType.Unstyled)
+	.forEach((type) => {
+		QUnit.test(`${type} looks like the sap.m button, at rest and under the mouse`, (assert) => {
+			const button = place(new Button({ text: type, type }));
+			const original = place(new SapMButton({ text: type, type }));
+			render();
+
+			const dom = button.getDomRef() as HTMLElement;
+			const content = button.getDomRef("content") as HTMLElement;
+			// sap.m styles the inner box, and hovers it through the outer one
+			const outer = original.getDomRef() as HTMLElement;
+			const inner = outer.querySelector(".sapMBtnInner") as HTMLElement;
+			const text = outer.querySelector(".sapMBtnContent") as HTMLElement;
+
+			assert.deepEqual(looks(dom, content), looks(inner, text), "at rest");
+			assert.deepEqual(
+				withoutDefects(asIfHovered([dom, outer, inner], () => looks(dom, content)), type),
+				withoutDefects(asIfHovered([dom, outer, inner], () => looks(inner, text)), type),
+				"under the mouse",
+			);
+		});
+	});

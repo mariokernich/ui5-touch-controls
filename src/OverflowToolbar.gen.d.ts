@@ -12,7 +12,8 @@ declare module "./OverflowToolbar" {
     interface $OverflowToolbarSettings extends $ToolbarSettings {
 
         /**
-         * Touch size of the overflow button.
+         * Touch size of the toolbar and its overflow button: the toolbar is
+        at least as tall as a button of this size.
          */
         size?: SizeMode | PropertyBindingInfo | `{${string}}`;
 
@@ -27,12 +28,14 @@ declare module "./OverflowToolbar" {
         // property: size
 
         /**
-         * Touch size of the overflow button.
+         * Touch size of the toolbar and its overflow button: the toolbar is
+        at least as tall as a button of this size.
          */
         getSize(): SizeMode;
 
         /**
-         * Touch size of the overflow button.
+         * Touch size of the toolbar and its overflow button: the toolbar is
+        at least as tall as a button of this size.
          */
         setSize(size: SizeMode): this;
 

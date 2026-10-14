@@ -35,6 +35,39 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.6.0",
+		date: "2026-10-14",
+		summary:
+			"Runs on UI5 1.102 and newer, a disabled button keeps the colors of its type, in a bar as well, and a tall toolbar of a page no longer covers its content.",
+		groups: [
+			{
+				kind: "Changed",
+				items: [
+					"The oldest UI5 release the library runs on is 1.102 - it was 1.108. The underline of a [Link] there is that of the base theme, as the themes of 1.102 do not set it yet.",
+					"The `size` of a [Toolbar] and an [OverflowToolbar] is the least height of the bar: it is at least as tall as a button of that size. On the [OverflowToolbar] it only sized the overflow button before.",
+				],
+			},
+			{
+				kind: "Fixed",
+				items: [
+					"A disabled [Button] in a bar - e.g. an [OverflowToolbar] in the footer of a page - keeps the text color of its type. With `sap_fiori_3`, the text of e.g. a disabled `Success` button was grey-blue instead of white.",
+					"A disabled [Button] keeps its look under the mouse; before, the hover colors were shown on it.",
+					"Under the mouse, a [Button] looks like the sap.m button in the early Horizon releases as well: the shadow of 1.102 and 1.116, and the text color of `Default`, `Back` and `Up` on 1.102.",
+					"A [Toolbar] or [OverflowToolbar] in the header or the footer of a `sap.m.Page` no longer covers the content of the page when it is taller than a toolbar of sap.m, e.g. with buttons of size `L` and up. The content starts below and ends above the bars as they are rendered, as in a `sap.m.Dialog`.",
+					"[Toolbar] has the `size` property of the [OverflowToolbar]; `size` on a [Toolbar] failed with `unknown setting 'size'` before.",
+					"[Toolbar] and [OverflowToolbar] follow the `style` they inherit from `sap.m.Toolbar`: `Clear` takes away the line below the bar. Both always drew it before.",
+				],
+			},
+			{
+				kind: "Tests",
+				items: [
+					"The test page shows the sap.m original next to every control that replaces one, with the same cases, so the two can be compared side by side; the UI tests check that every original is there.",
+					"A unit test compares the [Button] with the sap.m button of every type, at rest and under the mouse, on every supported UI5 release.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.5.0",
 		date: "2026-10-06",
 		summary: "Runs on UI5 1.108 and newer, and is built against UI5 1.153.",

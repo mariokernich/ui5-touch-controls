@@ -1,4 +1,6 @@
+import { SizeMode } from "ui5/touch/controls/library";
 import Control from "sap/ui/core/Control";
+import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { AggregationBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ToolbarSettings } from "sap/m/Toolbar";
 
@@ -10,12 +12,32 @@ declare module "./Toolbar" {
     interface $ToolbarSettings_1 extends $ToolbarSettings {
 
         /**
+         * Touch size of the toolbar: it is at least as tall as a button of
+        this size, so it keeps its height when its content changes.
+         */
+        size?: SizeMode | PropertyBindingInfo | `{${string}}`;
+
+        /**
          * The content of the toolbar.
          */
         content?: Control[] | Control | AggregationBindingInfo | `{${string}}`;
     }
 
     export default interface Toolbar {
+
+        // property: size
+
+        /**
+         * Touch size of the toolbar: it is at least as tall as a button of
+        this size, so it keeps its height when its content changes.
+         */
+        getSize(): SizeMode;
+
+        /**
+         * Touch size of the toolbar: it is at least as tall as a button of
+        this size, so it keeps its height when its content changes.
+         */
+        setSize(size: SizeMode): this;
 
         // aggregation: content
 

@@ -140,9 +140,12 @@ export default class Button extends Control implements ISized {
 			rm.class(`sizedButton${control.getType()}`);
 			rm.class(sizeClass(control.getSize()));
 
+			// No sap.m class for the disabled look: in a bar sap.m gives a
+			// disabled button a text color of its own (".sapMIBar-CTX
+			// .sapMBtnDisabled" in sap_fiori_3), which would replace the color
+			// of the button type. The look comes from Button.less instead.
 			if (!enabled) {
 				rm.attr("disabled", "disabled");
-				rm.class("sapMBtnDisabled");
 			}
 			if (control.getWidth()) {
 				rm.style("width", control.getWidth());

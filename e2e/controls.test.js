@@ -28,7 +28,22 @@ const catalogue = [
 	),
 ].map((match) => match[1]);
 
-/** Fails with what the page collected, if anything went wrong on it. */
+/**
+ * The sap.m control each control of the library replaces, read from the
+ * documentation of the demo: the controls the test page has to show the
+ * original of. A control that is new, or that replaces something else than
+ * sap.m, has no entry.
+ */
+const replaced = Object.fromEntries(
+	[
+		...readFileSync(
+			join(__dirname, "..", "docs", "model", "documentation.ts"),
+			"utf8",
+		).matchAll(/name: "(\w+)",\s*replaces: "(sap\.m\.\w+)/g),
+	].map((match) => [match[1], match[2]]),
+);
+
+
 async function expectNoPageErrors() {
 	const errors = await browser.execute(() => window.touchTestErrors ?? []);
 
@@ -58,6 +73,22 @@ async function firstOfType(name) {
 	}
 
 	return controls[0];
+}
+
+/**
+ * The first control of a kind that can be worked with. The page also shows
+ * the controls disabled - on their own and in disabled containers - and a
+ * click on one of those must not do anything, which is what the tests of the
+ * disabled containers further down check.
+ */
+async function firstEnabledOfType(name) {
+	for (const control of await controlsOfType(name)) {
+		if (await control.getEnabled()) {
+			return control;
+		}
+	}
+
+	throw new Error(`no enabled ${name} on the page`);
 }
 
 /**
@@ -109,7 +140,7 @@ describe("every control", () => {
 
 describe("the controls react", () => {
 	it("a CheckBox changes its selection when it is clicked", async () => {
-		const checkBox = await firstOfType("CheckBox");
+		const checkBox = await firstEnabledOfType("CheckBox");
 		const before = await checkBox.getSelected();
 
 		await (await checkBox.getWebElement()).click();
@@ -119,7 +150,7 @@ describe("the controls react", () => {
 	});
 
 	it("a Switch changes its state when it is clicked", async () => {
-		const swtch = await firstOfType("Switch");
+		const swtch = await firstEnabledOfType("Switch");
 		const before = await swtch.getState();
 
 		await (await swtch.getWebElement()).click();
@@ -129,7 +160,7 @@ describe("the controls react", () => {
 	});
 
 	it("an Input takes what is typed into it", async () => {
-		const input = await firstOfType("Input");
+		const input = await firstEnabledOfType("Input");
 		const field = await (await input.getWebElement()).$("input");
 
 		await field.click();
@@ -140,7 +171,7 @@ describe("the controls react", () => {
 	});
 
 	it("a Select opens its picker when it is clicked", async () => {
-		const select = await firstOfType("Select");
+		const select = await firstEnabledOfType("Select");
 
 		await (await select.getWebElement()).click();
 		await (await $(".sizedSelectPopover")).waitForDisplayed({
@@ -153,6 +184,73 @@ describe("the controls react", () => {
 		await browser.keys(["Escape"]);
 		await expectNoPageErrors();
 	});
+});
+
+describe("the sap.m originals", () => {
+	it("are on the page for every control that replaces one of sap.m", async () => {
+		const fromPage = await browser.execute(() => window.touchTestOriginals);
+		const expected = Object.keys(replaced).filter((name) =>
+			catalogue.includes(name),
+		);
+
+		expect([...fromPage].sort()).toEqual(expected.sort());
+	});
+
+	for (const [name, original] of Object.entries(replaced)) {
+		if (!catalogue.includes(name)) {
+			continue;
+		}
+
+		it(`shows ${original} in the card of ${name}`, async () => {
+			const found = await browser.execute(
+				(control, originalName) => {
+					const title = [...document.querySelectorAll("h2.sapMTitle")].find(
+						(element) => element.textContent === control,
+					);
+					const rows = [
+						...(title?.closest(".touchTestCard")?.querySelectorAll(
+							".touchTestOriginal",
+						) ?? []),
+					];
+					const byId = (id) => {
+						const Element = sap.ui.require("sap/ui/core/Element");
+						return Element?.getElementById
+							? Element.getElementById(id)
+							: sap.ui.getCore().byId(id);
+					};
+					// the controls of a row are the items of its box - each of
+					// them sits in a wrapper of the box in the DOM
+					const controls = rows
+						.map((row) => byId(row.querySelector(".touchTestControls").id))
+						.flatMap((box) => box.getItems());
+
+					// sap.m.MessageBox is no control - its dialogs are opened
+					// by the buttons of the row
+					const Control = sap.ui.require("sap/ui/core/Control");
+					const exported = sap.ui.require(originalName.replace(/\./g, "/"));
+					const type =
+						exported && exported.prototype instanceof Control
+							? originalName
+							: "sap.m.Button";
+
+					return {
+						rows: rows.length,
+						matching: controls.filter((item) => item.isA(type)).length,
+						library: controls.filter((item) =>
+							item.getMetadata().getName().startsWith("ui5.touch.controls."),
+						).length,
+					};
+				},
+				name,
+				original,
+			);
+
+			expect(found.rows).toBeGreaterThan(0);
+			expect(found.matching).toBeGreaterThan(0);
+			expect(found.library).toBe(0);
+			await expectNoPageErrors();
+		});
+	}
 });
 
 describe("a disabled container", () => {

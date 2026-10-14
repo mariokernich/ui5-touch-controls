@@ -26,7 +26,7 @@ interface LibApi {
 	getResourceBundleFor(name: string): ResourceBundle | undefined;
 }
 
-/** the parts of the Core of UI5 1.108 that stand in for the two above */
+/** the parts of the Core of UI5 1.102 that stand in for the two above */
 interface LegacyCore {
 	getConfiguration(): { getLanguage(): string };
 	attachLocalizationChanged(listener: () => void): void;

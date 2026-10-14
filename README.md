@@ -13,6 +13,7 @@
 
 <p align="center">
 <strong>UI tests</strong><br>
+<a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.102" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.102&label=UI5%201.102"></a>
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.108" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.108&label=UI5%201.108"></a>
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.116" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.116&label=UI5%201.116"></a>
 <a href="https://github.com/mariokernich/ui5-touch-controls/actions/workflows/ci.yml"><img alt="UI tests on UI5 1.120" src="https://img.shields.io/github/check-runs/mariokernich/ui5-touch-controls/main?nameFilter=UI%20tests%20on%20UI5%201.120&label=UI5%201.120"></a>
@@ -353,11 +354,13 @@ Stroke width, placeholder and clear button follow the `size` property, and the p
 
 ## Requirements
 
-- UI5 version **1.108 or higher** (OpenUI5 or SAPUI5)
+- UI5 version **1.102 or higher** (OpenUI5 or SAPUI5)
 
-1.108 is the oldest release the library runs on, and the test page and the unit tests are checked against it. Where a release has the newer API — `sap/base/i18n/Localization` from 1.116 on, `sap/ui/core/Lib` from 1.118 on — the library uses it; on an older one, the Core of UI5 stands in (`src/compat.ts`). The Core methods are deprecated in current releases, which is why they are only the fallback and never run where the newer API is there.
+1.102 is the oldest release the library runs on, and the test page, the unit tests and the UI tests are checked against it. Where a release has the newer API — `sap/base/i18n/Localization` from 1.116 on, `sap/ui/core/Lib` from 1.118 on — the library uses it; on an older one, the Core of UI5 stands in (`src/compat.ts`). The Core methods are deprecated in current releases, which is why they are only the fallback and never run where the newer API is there.
 
 One thing looks different before 1.110: `sap.m.Dialog` has no `footer` aggregation there, so `QuickDialog` puts its actions at the end of the content of the dialog instead of into its footer. They work the same, they only scroll with the content.
+
+And one before 1.108: the themes do not tell yet whether a link is underlined — at rest, under the mouse, while pressed. `Link` then follows the base theme: no underline at rest, one under the mouse and while pressed (`src/themes/base/Compat.less`). From 1.108 on, the theme decides, as before.
 
 ## Installation
 
@@ -374,7 +377,7 @@ npm install ui5.touch.controls
 ```json
 {
 	"dependencies": {
-		"ui5.touch.controls": "^1.5.0"
+		"ui5.touch.controls": "^1.6.0"
 	}
 }
 ```
@@ -613,15 +616,17 @@ This starts the dev server (`ui5 serve` with `ui5-docs.yaml`) and opens the demo
 
 ### Test pages
 
-`test/` holds a single plain page that shows every control — no descriptions, no navigation, no models, nothing but the controls, so a broken render is the library's doing and not the demo's. It exists to see the controls on the older UI5 versions the library supports:
+`test/` holds a single plain page that shows every control, grouped, each in a card with a row per case — no descriptions, no models, no routing, so a broken render is the library's doing and not the demo's. Its look comes from sap.m controls and the theme, so it is the same on every UI5 version the library supports, which is what it exists for:
 
 ```sh
 npm run start:test          # latest
-npm run start:test:1.108    # the oldest supported release
-npm run start:test:1.116    # and 1.120, 1.124, 1.130, 1.140
+npm run start:test:1.102    # the oldest supported release
+npm run start:test:1.108    # and 1.116, 1.120, 1.124, 1.130, 1.140
 ```
 
-`#Button` in the hash — or `?control=Button` — narrows the page to a single control; without either, every control is shown, one section after the other. Switching by hash rebuilds the page without reloading it. The cases are built in `test/cases.ts`.
+`#Button` in the hash — or `?control=Button`, or the menu on top — narrows the page to a single control; without either, every control is shown, group after group. Switching by hash rebuilds the page without reloading it. The menu next to it switches the theme and keeps it in the address (`?sap-ui-theme=`). The cases are built in `test/cases.ts`, the groups in `test/groups.ts`.
+
+A control that replaces one of sap.m shows the original in the same card, below its own rows under the heading *sap.m*: the same cases, built from the sap.m control, so the two can be compared side by side. sap.m has no `size`, so the rows of sizes come down to one control there. The originals are built in `test/originals.ts`; their rows carry the class `touchTestOriginal`, and `window.touchTestOriginals` lists the controls that have them.
 
 ### Unit tests
 
@@ -644,7 +649,7 @@ UI5_VERSION=1.116.0 npm run test:ui    # any other release
 npm test                               # the unit tests and the UI tests together
 ```
 
-`wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
+`wdio.conf.js` starts the dev server itself, so there is nothing to have running beforehand. The suite checks that every control of `test/cases.ts` is on the page, that every control the documentation names a sap.m original for shows it next to itself, that a CheckBox, a Switch, an Input and a Select still react, that a Button grows with its `size`, and that the page reports no error along the way.
 
 The GitHub workflow `ci.yml` runs the unit tests and the UI tests on every supported UI5 release in parallel, next to the type check, the lint run and the build. The matrix is not a second list: `scripts/ui5-versions.mjs` reads it from the `start:test*` scripts in `package.json`, so a release is added to CI by adding the script for it.
 
@@ -656,8 +661,8 @@ The badges at the top of this file show one job of that workflow each, on `main`
 | --- | --- |
 | `npm run start` | Start the local dev server with livereload and open the demo application |
 | `npm run start:test` | Open the plain test page on the latest UI5 |
-| `npm run start:test:1.108` | Same page on UI5 1.108, the oldest supported release |
-| `npm run start:test:1.116` | Same page on UI5 1.116 (`:1.120`, `:1.124`, `:1.130` and `:1.140` for the other supported versions) |
+| `npm run start:test:1.102` | Same page on UI5 1.102, the oldest supported release |
+| `npm run start:test:1.108` | Same page on UI5 1.108 (`:1.116`, `:1.120`, `:1.124`, `:1.130` and `:1.140` for the other supported versions) |
 | `npm run build` | Build the library into `dist/` |
 | `npm run build:demo` | Build of library and demo with preload bundles (used for the GitHub Pages deployment) |
 | `npm run build:ts-interfaces` | Generate the `*.gen.d.ts` TypeScript interfaces for the controls |

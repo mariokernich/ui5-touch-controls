@@ -1,0 +1,61 @@
+/* ===========================================================================
+   The look of a button under the mouse in the early Horizon releases.
+
+   sap.m drew a hovered button differently there than Button.less does, which
+   follows the current Horizon - and the early releases do not even agree
+   with each other:
+
+   - UI5 1.102 and 1.116 give it a soft shadow: a coloured one for Accept,
+     Reject and Attention, none for the filled types. 1.108 and every release
+     from 1.120 on have none.
+   - UI5 1.102 alone colours the text of a Default button with the Lite text
+     colour and that of Back and Up with the hover text colour.
+
+   Each look comes with a theme parameter its releases lack, and the two
+   Horizon defaults put a marker in its place before they import their theme,
+   which a release with the parameter overwrites:
+   - @sapField_HorizonNGEnabled: defined by 1.108 and from 1.120 on, not by
+     1.102 and 1.116 - the releases with the shadow.
+   - @sapHoverColor: defined from 1.108 on - only 1.102 lacks it.
+
+   Only those two themes import this file, after their theme. The selectors
+   are those of Button.less, so the rules here win by coming later, not by
+   being stronger.
+   =========================================================================== */
+
+& when (@sapField_HorizonNGEnabled = missing) {
+	.sizedButton:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Interaction_Shadow;
+	}
+
+	.sizedButtonAccept:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Positive_Shadow;
+	}
+
+	.sizedButtonReject:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Negative_Shadow;
+	}
+
+	.sizedButtonAttention:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Critical_Shadow;
+	}
+
+	.sizedButtonEmphasized:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonSuccess:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonNegative:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonNeutral:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonCritical:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: none;
+	}
+}
+
+& when (@sapHoverColor = missing) {
+	.sizedButtonDefault:hover:not(.sizedButtonActive):where(:enabled) {
+		color: @sapButton_Lite_TextColor;
+	}
+
+	.sizedButtonBack:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonUp:hover:not(.sizedButtonActive):where(:enabled) {
+		color: @sapButton_Hover_TextColor;
+	}
+}
