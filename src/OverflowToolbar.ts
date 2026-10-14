@@ -4,6 +4,7 @@ import Popover from "sap/m/Popover";
 import RenderManager from "sap/ui/core/RenderManager";
 import ResizeHandler from "sap/ui/core/ResizeHandler";
 import { fitDialogBars } from "./fitDialogBars";
+import { fitPageBars } from "./fitPageBars";
 import Device from "sap/ui/Device";
 import { MetadataOptions } from "sap/ui/core/Element";
 import {
@@ -14,7 +15,7 @@ import {
 import type OverflowToolbarLayoutData from "sap/m/OverflowToolbarLayoutData";
 import Button from "./Button";
 import { attachTextChange, getText } from "./i18n";
-import { ISized, SizeMode } from "./library";
+import { ISized, SizeMode, sizeClass } from "./library";
 
 /**
  * A simplified variant of <code>sap.m.OverflowToolbar</code> for touch devices.
@@ -112,7 +113,8 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 		defaultAggregation: "content",
 		properties: {
 			/**
-			 * Touch size of the overflow button.
+			 * Touch size of the toolbar and its overflow button: the toolbar is
+			 * at least as tall as a button of this size.
 			 */
 			size: {
 				type: "ui5.touch.controls.SizeMode",
@@ -158,12 +160,15 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 		apiVersion: 2,
 		render(rm: RenderManager, control: OverflowToolbar) {
 			rm.openStart("div", control);
-			rm.class("sapMTBStandard");
+			// Standard draws a line below the toolbar, Clear does not - the
+			// same classes sap.m.Toolbar renders for its style
+			rm.class("sapMTB" + control.getStyle());
 			rm.class("sapMTBNewFlex");
 			rm.class("sapMOTB");
 			rm.class("sapMIBar");
 			rm.class("sizedToolbar");
 			rm.class("sizedOverflowToolbar");
+			rm.class(sizeClass(control.getSize()));
 			rm.openEnd();
 
 			control.getContent().forEach(function (oControl) {
@@ -202,6 +207,7 @@ export default class OverflowToolbar extends ToolbarBase implements ISized {
 
 		this.doLayout();
 		fitDialogBars(this);
+		fitPageBars(this);
 	}
 
 	exit(): void | undefined {

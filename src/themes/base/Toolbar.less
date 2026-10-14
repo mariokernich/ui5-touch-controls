@@ -9,6 +9,9 @@
 	   (sapMBarChild), the same as with the original toolbar. */
 	display: flex;
 	align-items: center;
+	/* as tall as a button of the size the toolbar is given, at the least -
+	   taller content makes it grow */
+	min-height: var(--sized-height);
 }
 
 /* A Ghost button is the outlined one meant to sit on a picture or a coloured
