@@ -249,3 +249,57 @@ export class EventLog {
 		this.entries.length = 0;
 	}
 }
+
+/** the class that stands in for :hover, see asIfHovered */
+const HOVERED = "touchTestHovered";
+
+/** whether the hover rules of the page have been copied for HOVERED yet */
+let hoverRulesCopied = false;
+
+/**
+ * Runs the given function while the elements look as if the mouse were on
+ * them, and gives back what it returns.
+ *
+ * A test cannot move the mouse, and :hover cannot be set from script. Every
+ * rule of the page that asks for :hover is therefore copied once, with a class
+ * in its place, and that class is put on the elements for as long as the
+ * function runs - so it reads the very styles the themes and the library give
+ * a hovered element.
+ */
+export function asIfHovered<T>(elements: HTMLElement[], read: () => T): T {
+	if (!hoverRulesCopied) {
+		for (const sheet of Array.from(document.styleSheets)) {
+			let rules: CSSRule[];
+			try {
+				rules = Array.from(sheet.cssRules);
+			} catch {
+				// a stylesheet of another origin cannot be read, and none of
+				// those styles a control
+				continue;
+			}
+
+			for (const rule of rules) {
+				if (rule instanceof CSSStyleRule && rule.selectorText.includes(":hover")) {
+					try {
+						sheet.insertRule(
+							rule.cssText.split(":hover").join(`.${HOVERED}`),
+							sheet.cssRules.length,
+						);
+					} catch {
+						// a rule that hovers a pseudo element - a scrollbar
+						// thumb, say - cannot take a class after it, and
+						// styles nothing a test looks at
+					}
+				}
+			}
+		}
+		hoverRulesCopied = true;
+	}
+
+	elements.forEach((element) => element.classList.add(HOVERED));
+	try {
+		return read();
+	} finally {
+		elements.forEach((element) => element.classList.remove(HOVERED));
+	}
+}

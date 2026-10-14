@@ -52,6 +52,7 @@ export const releases: Release[] = [
 				items: [
 					"A disabled [Button] in a bar - e.g. an [OverflowToolbar] in the footer of a page - keeps the text color of its type. With `sap_fiori_3`, the text of e.g. a disabled `Success` button was grey-blue instead of white.",
 					"A disabled [Button] keeps its look under the mouse; before, the hover colors were shown on it.",
+					"Under the mouse, a [Button] looks like the sap.m button in the Horizon of UI5 1.102 as well: the shadow, and the text color of `Default`, `Back` and `Up`.",
 					"A [Toolbar] or [OverflowToolbar] in the header or the footer of a `sap.m.Page` no longer covers the content of the page when it is taller than a toolbar of sap.m, e.g. with buttons of size `L` and up. The content starts below and ends above the bars as they are rendered, as in a `sap.m.Dialog`.",
 					"[Toolbar] has the `size` property of the [OverflowToolbar]; `size` on a [Toolbar] failed with `unknown setting 'size'` before.",
 					"[Toolbar] and [OverflowToolbar] follow the `style` they inherit from `sap.m.Toolbar`: `Clear` takes away the line below the bar. Both always drew it before.",

@@ -31,3 +31,11 @@
 @sapLink_TextDecoration: none;
 @sapLink_Hover_TextDecoration: underline;
 @sapLink_Active_TextDecoration: underline;
+
+/* Introduced with UI5 1.108, by the reworked Horizon: the two Horizon
+   defaults define it from then on, as 0, and nothing else does. Its value
+   says nothing - that it is there does: Horizon without it is the first one,
+   of UI5 1.102, whose buttons look different under the mouse. The marker
+   stands in for it so FirstHorizon.less can tell the two apart; a theme that
+   has the parameter overwrites it. */
+@sapField_HorizonNGEnabled: first-horizon;

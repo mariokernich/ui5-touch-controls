@@ -1,0 +1,51 @@
+/* ===========================================================================
+   The look of a button under the mouse in the first Horizon, the one of
+   UI5 1.102.
+
+   sap.m drew it differently there than in every Horizon after it: a hovered
+   button gets a soft shadow - a coloured one for Accept, Reject and
+   Attention, none for the filled types - the text of a Default button takes
+   the Lite text colour and that of Back and Up the hover text colour. The
+   reworked Horizon of 1.108 dropped all of it, and that is what Button.less
+   draws.
+
+   Only the two Horizon defaults import this file, after their theme, and only
+   the first Horizon lets the guard through - see the marker in Compat.less.
+   The selectors are those of Button.less, so the rules here win by coming
+   later, not by being stronger.
+   =========================================================================== */
+
+& when (@sapField_HorizonNGEnabled = first-horizon) {
+	.sizedButton:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Interaction_Shadow;
+	}
+
+	.sizedButtonDefault:hover:not(.sizedButtonActive):where(:enabled) {
+		color: @sapButton_Lite_TextColor;
+	}
+
+	.sizedButtonBack:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonUp:hover:not(.sizedButtonActive):where(:enabled) {
+		color: @sapButton_Hover_TextColor;
+	}
+
+	.sizedButtonAccept:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Positive_Shadow;
+	}
+
+	.sizedButtonReject:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Negative_Shadow;
+	}
+
+	.sizedButtonAttention:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: @sapContent_Critical_Shadow;
+	}
+
+	.sizedButtonEmphasized:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonSuccess:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonNegative:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonNeutral:hover:not(.sizedButtonActive):where(:enabled),
+	.sizedButtonCritical:hover:not(.sizedButtonActive):where(:enabled) {
+		box-shadow: none;
+	}
+}
