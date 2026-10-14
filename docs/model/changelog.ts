@@ -36,7 +36,7 @@ export interface Release {
 export const releases: Release[] = [
 	{
 		version: "1.6.0",
-		date: "2026-10-13",
+		date: "2026-10-14",
 		summary:
 			"Runs on UI5 1.102 and newer, a disabled button keeps the colors of its type, in a bar as well, and a tall toolbar of a page no longer covers its content.",
 		groups: [
