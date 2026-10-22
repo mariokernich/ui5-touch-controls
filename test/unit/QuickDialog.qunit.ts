@@ -254,3 +254,47 @@ QUnit.test("details says its message once, and keeps the rest behind a link", as
 	assert.strictEqual(await result, MessageAction.Ok);
 	await gone(dialog);
 });
+
+QUnit.test("the dialog ends with its buttons, with no empty strip below them", async (assert) => {
+	const result = QuickDialog.show({
+		title: "Publish",
+		message: "Publish the draft?",
+		actions: ["Publish", "Save Draft", MessageAction.Cancel],
+		buttonSize: SizeMode.XL,
+	});
+	const dialog = await openDialog();
+	const dom = dialog.getDomRef() as HTMLElement;
+
+	await waitFor(
+		() =>
+			(
+				dialog as unknown as { oPopup: { getOpenState(): string } }
+			).oPopup.getOpenState() === "OPEN",
+		"the dialog never finished opening",
+	);
+
+	const bottom = dom.getBoundingClientRect().bottom;
+	// UI5 before 1.110 has no footer: the buttons end the content there, and
+	// the padding of the content below them is the dialog's own
+	const bar = dom.querySelector(".sapMDialogFooter");
+
+	if (bar) {
+		assert.ok(
+			Math.abs(bottom - bar.getBoundingClientRect().bottom) < 1,
+			"the footer is the bottom of the dialog",
+		);
+	}
+	// a button that does not fit into a narrow dialog waits in the overflow
+	buttons(dialog)
+		.filter((button) => button.getDomRef())
+		.forEach((button) => {
+			assert.ok(
+				(button.getDomRef() as HTMLElement).getBoundingClientRect().bottom <= bottom,
+				`${button.getText()} is not cut off`,
+			);
+		});
+
+	buttons(dialog)[2].firePress();
+	assert.strictEqual(await result, MessageAction.Cancel);
+	await gone(dialog);
+});

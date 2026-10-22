@@ -35,6 +35,19 @@ export interface Release {
 /** newest first, the order the page shows them in */
 export const releases: Release[] = [
 	{
+		version: "1.6.1",
+		date: "2026-10-22",
+		summary: "A dialog no longer shows an empty strip below its buttons on UI5 1.153.",
+		groups: [
+			{
+				kind: "Fixed",
+				items: [
+					"A `sap.m.Dialog` with a [Toolbar] or [OverflowToolbar] in its footer - e.g. a [QuickDialog] - no longer ends with an empty strip as tall as the footer below its buttons on UI5 1.153, which showed as an extra border. UI5 1.153 keeps the footer of a dialog in the flow, so it no longer gets room reserved for it.",
+				],
+			},
+		],
+	},
+	{
 		version: "1.6.0",
 		date: "2026-10-14",
 		summary:
